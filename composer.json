@@ -1,12 +1,12 @@
 {
-  "name": "bengbeng/bb-framework",
+  "name": "bengbengsoft/beng-framework",
   "description": "bengbeng framework for yii2 ",
   "keywords": ["yii2", "framework", "bengbeng"],
   "type": "yii2-extension",
   "license": "MIT",
   "support": {
-    "issues": "https://github.com/hahastein/bb-framework/issues",
-    "source": "https://github.com/hahastein/bb-framework"
+    "issues": "https://github.com/hahastein/beng-framework/issues",
+    "source": "https://github.com/hahastein/beng-framework"
   },
   "authors": [
     {
