@@ -1,0 +1,39 @@
+{
+  "name": "bengbeng/bb-framework",
+  "description": "bengbeng framework for yii2 ",
+  "keywords": ["yii2", "framework", "bengbeng"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/hahastein/bb-framework/issues",
+    "source": "https://github.com/hahastein/bb-framework"
+  },
+  "authors": [
+    {
+      "name": "hahastein",
+      "email": "146119@qq.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "yiisoft/yii2": "*"
+  },
+  "require-dev": {
+    "yiisoft/yii2-codeception": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "bengbeng\\framework\\": ""
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-1.0.master": "1.0.x-dev",
+      "dev-master": "2.x-dev"
+    },
+    "asset-installer-paths": {
+      "npm-asset-library": "vendor/npm",
+      "bower-asset-library": "vendor/bower"
+    }
+  }
+}
