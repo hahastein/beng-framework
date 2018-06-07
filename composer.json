@@ -3,11 +3,8 @@
   "description": "bengbeng framework for yii2 ",
   "keywords": ["yii2", "framework", "bengbeng"],
   "type": "yii2-extension",
+  "minimum-stability": "dev",
   "license": "MIT",
-  "support": {
-    "issues": "https://github.com/hahastein/beng-framework/issues",
-    "source": "https://github.com/hahastein/beng-framework"
-  },
   "authors": [
     {
       "name": "hahastein",
@@ -20,16 +17,6 @@
   "autoload": {
     "psr-4": {
       "bengbeng\\framework\\": ""
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-1.0.master": "1.0.x-dev",
-      "dev-master": "2.x-dev"
-    },
-    "asset-installer-paths": {
-      "npm-asset-library": "vendor/npm",
-      "bower-asset-library": "vendor/bower"
     }
   }
 }
