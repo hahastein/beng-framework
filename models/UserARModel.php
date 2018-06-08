@@ -1,5 +1,5 @@
 <?php
-namespace bengbeng\framework;
+namespace bengbeng\framework\models;
 
 use Yii;
 use yii\base\NotSupportedException;
@@ -11,8 +11,17 @@ class UserARModel extends ActiveRecord{
         return '{{%user}}';
     }
 
+    public function rules()
+    {
+        return [
+            ['phone_num', 'required', 'message' => '填写手机号'],
+            ['userpass', 'required', 'when' => function($model){
+                return $model->login_type != 10?false:true;
+            },'message' => '请您填写密码'],
+        ];
+    }
+
     public function info($where = []){
         return self::find()->where($where)->one();
     }
-
 }
