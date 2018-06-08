@@ -16,7 +16,9 @@ class UserARModel extends ActiveRecord{
         return [
             ['phone_num', 'required', 'message' => '填写手机号'],
             ['userpass', 'required', 'when' => function($model){
-                return $model->login_type != 10?false:true;
+                if ($model->login_type != 10){
+                    return false;
+                }
             },'message' => '请您填写密码'],
         ];
     }
