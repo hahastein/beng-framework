@@ -49,7 +49,9 @@ class JsonController extends Controller{
         ];
         $array_record = 0;
         foreach ($result as $item){
-            if(is_array($item)){
+            if(is_object($item)) {
+                $returnContent['data'] = ArrayHelper::toArray($item);
+            }else if(is_array($item)){
                 if($array_record == 0){
                     $returnContent['data'] = $item;
                 }else{
