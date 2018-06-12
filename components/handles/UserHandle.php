@@ -7,6 +7,8 @@
  */
 
 namespace bengbeng\components\handle;
+
+use Yii;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
 use EasyWeChat\Foundation\Application;

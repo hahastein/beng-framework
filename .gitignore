@@ -10,5 +10,5 @@ themes/classic/views/
 nbproject
 /nbproject/private/
 Thumbs.db
-/vendor
+/vendor/*
 .DS_Store
