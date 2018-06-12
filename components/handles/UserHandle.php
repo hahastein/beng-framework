@@ -19,6 +19,10 @@ class UserHandle{
     const LOGIN_TYPE_SMS = 20;
     const LOGIN_TYPE_WEIXIN = 30;
 
+    const WXID_TYPE_UNIONID = 20;
+    const WXID_TYPE_OPENID = 10;
+
+
     /**
      * 验证手机账号是否存在
      * @param $mobile
@@ -32,23 +36,38 @@ class UserHandle{
 
     /**
      * 根据APP返回的CODE获取微信用户信息
-     * @param $code
-     * @return string
+     * @param $idType
+     * @param $isSave
+     * @return array
+     * @throws \yii\base\Exception
      */
-    public static function getWxUnionCode($code, $isSave = false){
+    public static function getWxUnionCode($idType = self::WXID_TYPE_UNIONID, $isSave = false){
+
         try {
+            $code = Yii::$app->request->get('code');
+            if(!isset($code)){
+                throw new AuthorizeFailedException("请传入用户CODE...");
+            }
+
             $wechatConfig = new Application(Yii::$app->params['WECHAT']);
             $wxUserInfo = $wechatConfig->oauth->user();
 
-            if(!isset($wxUserInfo){
-
+            if(!isset($wxUserInfo)){
+                throw new AuthorizeFailedException("插件初始化出现问题...");
             }
             if($isSave){
                 //如果设置出入，请增加存入流程
             }
 
-        }catch (AuthorizeFailedException $ex){
+            return [
+                'id' => $idType == self::WXID_TYPE_UNIONID?$wxUserInfo->getOriginal()['unionid']:$wxUserInfo->getId(),
+                'nickname' => $wxUserInfo->getNickname(),
+                'avatar' => $wxUserInfo->getAvatar(),
+                'sex' => $wxUserInfo->getOriginal()['sex']
+            ];
 
+        }catch (AuthorizeFailedException $ex){
+            throw new \yii\base\Exception($ex->getMessage());
         }
     }
 
