@@ -8,10 +8,10 @@
 
 namespace bengbeng\components\handle;
 
+use EasyWeChat\Factory;
 use Yii;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
-use EasyWeChat\Foundation\Application;
 use Overtrue\Socialite\AuthorizeFailedException;
 
 
@@ -38,8 +38,8 @@ class UserHandle{
 
     /**
      * 根据APP返回的CODE获取微信用户信息
-     * @param $idType
-     * @param $isSave
+     * @param int $idType
+     * @param bool $isSave
      * @return array
      * @throws \yii\base\Exception
      */
@@ -51,7 +51,8 @@ class UserHandle{
                 throw new AuthorizeFailedException("请传入用户CODE...");
             }
 
-            $wechatConfig = new Application(Yii::$app->params['WECHAT']);
+
+            $wechatConfig = Factory::officialAccount(Yii::$app->params['WECHAT']);
             $wxUserInfo = $wechatConfig->oauth->user();
 
             if(!isset($wxUserInfo)){
