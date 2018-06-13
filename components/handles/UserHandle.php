@@ -9,6 +9,7 @@
 namespace bengbeng\framework\components\handles;
 
 use EasyWeChat\Factory;
+use Overtrue\Socialite\AuthorizeFailedException;
 use Yii;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
@@ -46,7 +47,7 @@ class UserHandle{
         try {
             $code = Yii::$app->request->get('code');
             if(!isset($code)){
-                throw new \RuntimeException("请传入用户CODE...");
+                throw new \yii\base\Exception("请传入用户CODE...");
             }
 
 
@@ -54,7 +55,7 @@ class UserHandle{
             $wxUserInfo = $wechatConfig->oauth->user();
 
             if(!isset($wxUserInfo)){
-                throw new \RuntimeException("插件初始化出现问题...");
+                throw new \yii\base\Exception("插件初始化出现问题...");
             }
 
 //            if($isSave){
@@ -68,7 +69,7 @@ class UserHandle{
                 'sex' => $wxUserInfo->getOriginal()['sex']
             ];
 
-        }catch (\RuntimeException $ex){
+        }catch (AuthorizeFailedException $ex){
             throw new \yii\base\Exception($ex->getMessage());
         }
     }
