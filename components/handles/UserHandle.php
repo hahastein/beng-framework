@@ -50,7 +50,6 @@ class UserHandle{
                 throw new \yii\base\Exception("请传入用户CODE...");
             }
 
-
             $wechatConfig = Factory::officialAccount(Yii::$app->params['WECHAT']);
             $wxUserInfo = $wechatConfig->oauth->user();
 
@@ -69,7 +68,7 @@ class UserHandle{
                 'sex' => $wxUserInfo->getOriginal()['sex']
             ];
 
-        }catch (AuthorizeFailedException $ex){
+        }catch (\EasyWeChat\Kernel\Exceptions\Exception $ex){
             throw new \yii\base\Exception($ex->getMessage());
         }
     }
