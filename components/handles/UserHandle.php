@@ -9,7 +9,6 @@
 namespace bengbeng\framework\components\handles;
 
 use EasyWeChat\Factory;
-use http\Exception\RuntimeException;
 use Yii;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
@@ -68,7 +67,7 @@ class UserHandle{
                 'sex' => $wxUserInfo->getOriginal()['sex']
             ];
 
-        }catch (RuntimeException $ex){
+        }catch (\Exception $ex){
             throw new \yii\base\Exception($ex->getMessage());
         }
     }
