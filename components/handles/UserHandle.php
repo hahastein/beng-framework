@@ -12,8 +12,6 @@ use EasyWeChat\Factory;
 use Yii;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
-use Overtrue\Socialite\AuthorizeFailedException;
-
 
 class UserHandle{
 
