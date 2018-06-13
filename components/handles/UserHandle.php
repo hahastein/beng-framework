@@ -9,7 +9,7 @@
 namespace bengbeng\framework\components\handles;
 
 use EasyWeChat\Factory;
-use Overtrue\Socialite\AuthorizeFailedException;
+use http\Exception\RuntimeException;
 use Yii;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
@@ -68,7 +68,7 @@ class UserHandle{
                 'sex' => $wxUserInfo->getOriginal()['sex']
             ];
 
-        }catch (\yii\base\Exception $ex){
+        }catch (RuntimeException $ex){
             throw new \yii\base\Exception($ex->getMessage());
         }
     }
