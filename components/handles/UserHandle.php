@@ -48,7 +48,7 @@ class UserHandle{
         try {
             $code = Yii::$app->request->get('code');
             if(!isset($code)){
-                throw new AuthorizeFailedException("请传入用户CODE...");
+                throw new \RuntimeException("请传入用户CODE...");
             }
 
 
@@ -56,11 +56,12 @@ class UserHandle{
             $wxUserInfo = $wechatConfig->oauth->user();
 
             if(!isset($wxUserInfo)){
-                throw new AuthorizeFailedException("插件初始化出现问题...");
+                throw new \RuntimeException("插件初始化出现问题...");
             }
-            if($isSave){
+
+//            if($isSave){
                 //如果设置出入，请增加存入流程
-            }
+//            }
 
             return [
                 'id' => $idType == self::WXID_TYPE_UNIONID?$wxUserInfo->getOriginal()['unionid']:$wxUserInfo->getId(),
@@ -69,7 +70,7 @@ class UserHandle{
                 'sex' => $wxUserInfo->getOriginal()['sex']
             ];
 
-        }catch (AuthorizeFailedException $ex){
+        }catch (\RuntimeException $ex){
             throw new \yii\base\Exception($ex->getMessage());
         }
     }
