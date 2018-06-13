@@ -8,7 +8,6 @@ use yii\rest\Controller;
 use yii\filters\Cors;
 use yii\web\Response;
 use yii\filters\ContentNegotiator;
-use EasyWeChat\Factory;
 
 class JsonController extends Controller{
 
@@ -68,12 +67,6 @@ class JsonController extends Controller{
         return $returnContent;
     }
 
-    public function _checkLogin(){
-        //
-        //if(!Yii::$app->wechat->authorizeRequired()){
-        //    $openid = $this->_getOpenId();
-        //}
-    }
 
 }
 

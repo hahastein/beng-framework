@@ -6,7 +6,7 @@
  * Time: 18:04
  */
 
-namespace bengbeng\components\handle;
+namespace bengbeng\framework\components\handle;
 
 use EasyWeChat\Factory;
 use Yii;
