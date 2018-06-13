@@ -68,7 +68,7 @@ class UserHandle{
                 'sex' => $wxUserInfo->getOriginal()['sex']
             ];
 
-        }catch (\EasyWeChat\Kernel\Exceptions\Exception $ex){
+        }catch (\yii\base\Exception $ex){
             throw new \yii\base\Exception($ex->getMessage());
         }
     }
