@@ -62,7 +62,7 @@ class UserHandle{
     }
 
     public static function bind(){
-        
+        echo "user handle base";
     }
 
     /**
