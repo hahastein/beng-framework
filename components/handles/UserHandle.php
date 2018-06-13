@@ -19,9 +19,50 @@ class UserHandle{
     const LOGIN_TYPE_SMS = 20;
     const LOGIN_TYPE_WEIXIN = 30;
 
+    const LOGIN_TYPE_STEP_USER = 40;
+
     const WXID_TYPE_UNIONID = 20;
     const WXID_TYPE_OPENID = 10;
 
+    /**
+     * 登录
+     * @param $param
+     * @param int $loginType
+     * @return bool
+     */
+    public static function login($param, $loginType = self::LOGIN_TYPE_SMS){
+
+        $model = new UserARModel();
+
+        switch ($loginType){
+            case self::LOGIN_TYPE_ACCOUNT:
+
+                break;
+            case self::LOGIN_TYPE_WEIXIN:
+
+                break;
+            case self::LOGIN_TYPE_SMS:
+
+                break;
+            case self::LOGIN_TYPE_STEP_USER:
+
+                break;
+            default:
+
+                break;
+        }
+
+        $model->setAttributes($param);
+        if(!$model->validate()) {
+            $msg = current($model->getFirstErrors());
+            return false;
+        }
+
+        if (!self::isExistMobile($param['phone_num'])){
+            $msg = '您还不是我们的企业用户，请申请成为我们的企业用户。';
+            return false;
+        }
+    }
 
     /**
      * 验证手机账号是否存在
