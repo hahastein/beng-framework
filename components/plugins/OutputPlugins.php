@@ -18,6 +18,7 @@ class OutputPlugins extends Component{
         $content = '<pre style="display: block;padding: 9.5px;margin: 40px 0px 10px 0px;font-size: 13px;line-height: 1.42857;color: #333;word-break: break-all;word-wrap: break-word;background-color: #F5F5F5;border: 1px solid #CCC;border-radius: 4px;">'.print_r($output_content,true).'</pre>';
         \Yii::$app->response->content = $content;
         \Yii::$app->state = 0;
+        \Yii::$app->getResponse()->send();
         exit(0);
     }
 }
