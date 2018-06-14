@@ -10,7 +10,6 @@ class OutputPlugins extends Component{
     /**
      * 输出测试数据到页面
      * @param string $output_content
-     * @throws \yii\base\ExitException
      */
     public function outHtml($output_content = self::DEFAULT_OUTPUT_CONTENT){
         \Yii::$app->response->headers->add("Content-type","text/html;charset=utf-8");
