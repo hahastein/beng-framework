@@ -29,10 +29,18 @@ class UserHandle{
      * @param $param
      * @param int $loginType
      * @return bool
+     * @throws \Exception
      */
     public static function login($param, $loginType = self::LOGIN_TYPE_SMS){
 
         $model = new UserARModel();
+
+        $model->setAttributes($param);
+        if(!$model->validate()) {
+            throw new \Exception( current($userModel->getFirstErrors()));
+        }
+
+
 
         switch ($loginType){
             case self::LOGIN_TYPE_ACCOUNT:
@@ -49,11 +57,7 @@ class UserHandle{
                 break;
         }
 
-        $model->setAttributes($param);
-        if(!$model->validate()) {
-            $msg = current($model->getFirstErrors());
-            return false;
-        }
+
 
         if (!self::isExistMobile($param['phone_num'])){
             $msg = '您还不是我们的企业用户，请申请成为我们的企业用户。';
