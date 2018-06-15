@@ -14,12 +14,24 @@ class UserARModel extends ActiveRecord{
     public function rules()
     {
         return [
-            ['phone_num', 'required', 'message' => '填写手机号'],
-            ['userpass', 'required', 'when' => function($model){
-                return $model->login_type != 10?false:true;
-            },'message' => '请您填写密码'],
+            ['phone_num', 'filter', 'filter'=> 'trim', 'on'=> ['pass', 'sms']],
+            ['phone_num', 'required', 'on'=> ['pass', 'sms'], 'message' => '填写手机号'],
+            [['phone_num'],'match','pattern'=>'/^[1][358][0-9]{9}$/','on'=> ['pass', 'sms'], 'message' => '手机号格式错误'],
+            ['userpass', 'filter', 'filter'=> 'trim', 'on'=> ['account', 'pass']],
+            ['userpass', 'required', 'on'=> ['account', 'pass'], 'message' => '请您填写密码'],
+            ['userpass', 'string', 'min' => 6, 'max' => 64, 'on'=> ['account', 'pass'], 'message' => '密码位数不足'],
         ];
     }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['account'] = ['username', 'userpass'];
+        $scenarios['pass'] = ['phone_num','userpass'];
+        $scenarios['sms'] = ['phone_num'];
+        return $scenarios;
+    }
+
 
     public function info($where = []){
         return self::find()->where($where)->one();

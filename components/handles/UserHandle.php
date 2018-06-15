@@ -15,9 +15,10 @@ use yii\db\Exception;
 
 class UserHandle{
 
-    const LOGIN_TYPE_ACCOUNT = 10;
-    const LOGIN_TYPE_SMS = 20;
+    const LOGIN_TYPE_MOBILE_PASS = 10;
+    const LOGIN_TYPE_MOBILE_SMS = 20;
     const LOGIN_TYPE_WEIXIN = 30;
+    const LOGIN_TYPE_ACCOUNT = 40;
 
     const BIND_TYPE_USER = 10;
 
@@ -31,25 +32,23 @@ class UserHandle{
      * @return bool
      * @throws \Exception
      */
-    public static function login($param, $loginType = self::LOGIN_TYPE_SMS){
+    public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS){
 
         $model = new UserARModel();
 
-        $model->setAttributes($param);
-        if(!$model->validate()) {
-            throw new \Exception(current($model->getFirstErrors()));
-        }
-
-
-
         switch ($loginType){
             case self::LOGIN_TYPE_ACCOUNT:
-
+                $model->setScenario('account');
                 break;
             case self::LOGIN_TYPE_WEIXIN:
 
                 break;
-            case self::LOGIN_TYPE_SMS:
+            case self::LOGIN_TYPE_MOBILE_PASS:
+                $model->setScenario('pass');
+
+                break;
+            case self::LOGIN_TYPE_MOBILE_SMS:
+                $model->setScenario('sms');
 
                 break;
             default:
@@ -57,11 +56,13 @@ class UserHandle{
                 break;
         }
 
-
+        $model->setAttributes($param);
+        if(!$model->validate()) {
+            throw new \Exception(current($model->getFirstErrors()));
+        }
 
         if (!self::isExistMobile($param['phone_num'])){
-            $msg = '您还不是我们的企业用户，请申请成为我们的企业用户。';
-            return false;
+            throw new \Exception('您还不是我们的企业用户，请申请成为我们的企业用户。');
         }
     }
 
