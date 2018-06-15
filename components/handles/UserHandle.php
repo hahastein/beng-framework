@@ -37,7 +37,7 @@ class UserHandle{
 
         $model->setAttributes($param);
         if(!$model->validate()) {
-            throw new \Exception( current($userModel->getFirstErrors()));
+            throw new \Exception(current($model->getFirstErrors()));
         }
 
 
