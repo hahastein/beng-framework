@@ -26,15 +26,15 @@ class UserHandle{
     const WXID_TYPE_OPENID = 10;
 
     /**
-     * 登录
-     * @param $param
+     * 登录入口
+     * @param array $param
      * @param int $loginType
-     * @return bool
      * @throws \Exception
      */
     public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS){
 
         $model = new UserARModel();
+        self::validateParamData($model, $param);
 
         switch ($loginType){
             case self::LOGIN_TYPE_ACCOUNT:
@@ -55,19 +55,32 @@ class UserHandle{
 
                 break;
         }
-
-        $model->setAttributes($param);
-        if(!$model->validate()) {
-            throw new \Exception(current($model->getFirstErrors()));
-        }
-
-        if (!self::isExistMobile($param['phone_num'])){
-            throw new \Exception('您还不是我们的企业用户，请申请成为我们的企业用户。');
-        }
     }
 
     public static function bind(){
         echo "user handle base";
+    }
+
+    /**
+     * @param $loginType
+     */
+    private function setValidateScenario($loginType){
+        $loginType == self::LOGIN_TYPE_MOBILE_SMS?$model->setScenario('sms');
+    }
+
+    /**
+     * 验证数据完整性
+     * @param UserARModel $model
+     * @param array $param
+     * @return bool true|false
+     * @throws \Exception
+     */
+    public static function validateParamData($model, $param){
+        $model->setAttributes($param);
+        if(!$model->validate()) {
+            throw new \Exception(current($model->getFirstErrors()));
+        }
+        return true;
     }
 
     /**

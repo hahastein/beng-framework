@@ -16,7 +16,7 @@ class UserARModel extends ActiveRecord{
         return [
             ['phone_num', 'filter', 'filter'=> 'trim', 'on'=> ['pass', 'sms']],
             ['phone_num', 'required', 'on'=> ['pass', 'sms'], 'message' => '填写手机号'],
-            [['phone_num'],'match','pattern'=>'/^[1][358][0-9]{9}$/','on'=> ['pass', 'sms'], 'message' => '手机号格式错误'],
+            [['phone_num'],'match','pattern'=>'/^[1][356789][0-9]{9}$/','on'=> ['pass', 'sms'], 'message' => '手机号格式错误'],
             ['userpass', 'filter', 'filter'=> 'trim', 'on'=> ['account', 'pass']],
             ['userpass', 'required', 'on'=> ['account', 'pass'], 'message' => '请您填写密码'],
             ['userpass', 'string', 'min' => 6, 'max' => 64, 'on'=> ['account', 'pass'], 'message' => '密码位数不足'],
