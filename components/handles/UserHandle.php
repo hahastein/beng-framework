@@ -34,21 +34,20 @@ class UserHandle{
     public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS){
 
         $model = new UserARModel();
+        self::setValidateScenario($model, $loginType);
         self::validateParamData($model, $param);
 
         switch ($loginType){
             case self::LOGIN_TYPE_ACCOUNT:
-                $model->setScenario('account');
+
                 break;
             case self::LOGIN_TYPE_WEIXIN:
 
                 break;
             case self::LOGIN_TYPE_MOBILE_PASS:
-                $model->setScenario('pass');
 
                 break;
             case self::LOGIN_TYPE_MOBILE_SMS:
-                $model->setScenario('sms');
 
                 break;
             default:
@@ -62,10 +61,13 @@ class UserHandle{
     }
 
     /**
-     * @param $loginType
+     * @param UserARModel $model
+     * @param int $loginType
      */
-    private function setValidateScenario($loginType){
-        $loginType == self::LOGIN_TYPE_MOBILE_SMS?$model->setScenario('sms');
+    private static function setValidateScenario($model,$loginType){
+        if($loginType == self::LOGIN_TYPE_MOBILE_SMS)$model->setScenario('sms');
+        if($loginType == self::LOGIN_TYPE_MOBILE_PASS)$model->setScenario('pass');
+        if($loginType == self::LOGIN_TYPE_ACCOUNT)$model->setScenario('account');
     }
 
     /**
