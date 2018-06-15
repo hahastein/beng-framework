@@ -5,6 +5,18 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 
+/**
+ * User Model
+ *
+ * @property integer $user_id
+ * @property integer $phone_num
+ * @property integer $login_type
+ * @property string $username
+ * @property string $userpass
+ * @property string nickname
+ * @package bengbeng\framework\models
+ */
+
 class UserARModel extends ActiveRecord{
 
     public static function tableName(){
