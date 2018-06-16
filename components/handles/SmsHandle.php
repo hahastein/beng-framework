@@ -97,6 +97,7 @@ class SmsHandle
      * @param $content
      * @param $smsConfig
      * @param \Closure $closure
+     * @return mixed
      */
     private static function YunPianSend($phone_num, $content, $smsConfig, \Closure $closure){
         if($smsConfig['https']){
