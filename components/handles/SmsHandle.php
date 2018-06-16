@@ -48,7 +48,20 @@ class SmsHandle
             return [400,'A呀,报错了'];
         }
 
-        $yunpian = YunpianClient::create('7c57761c85f5bacde151e7362c4031d7');
+        $yunpian = YunpianClient::create('7c57761c85f5bacde151e7362c4031d7',[
+            'http.conn.timeout' => '10',
+            'http.so.timeout' => '30',
+            'http.charset' => 'utf-8',
+            'yp.version' => 'v2',
+            'yp.user.host' => 'http://sms.yunpian.com',
+            'yp.sign.host' => 'http://sms.yunpian.com',
+            'yp.tpl.host' => 'http://sms.yunpian.com',
+            'yp.sms.host' => 'http://sms.yunpian.com',
+            'yp.voice.host' => 'http://voice.yunpian.com',
+            'yp.flow.host' => 'http://flow.yunpian.com',
+            'yp.call.host' => 'http://call.yunpian.com',
+            'yp.vsms.host' => 'http://vsms.yunpian.com'
+        ]);
         $yunpian_send = $yunpian->sms()->single_send([
             YunpianClient::MOBILE => $phone_num,
             YunpianClient::TEXT => $content
