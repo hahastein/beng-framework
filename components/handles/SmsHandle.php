@@ -123,13 +123,12 @@ class SmsHandle
                 YunpianClient::TEXT => $content
             ]);
             if($yunpian_send->isSucc()){
-                call_user_func($closure,true,"发送成功");
+                return call_user_func($closure,true,"发送成功");
             }else{
-                call_user_func($closure,false,$yunpian_send);
-
+                return call_user_func($closure,false,$yunpian_send);
             }
         }catch (\Exception $ex){
-            call_user_func($closure, false, $ex->getMessage());
+            return call_user_func($closure, false, $ex->getMessage());
         }
 
     }
