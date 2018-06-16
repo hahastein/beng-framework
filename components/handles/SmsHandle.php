@@ -53,7 +53,7 @@ class SmsHandle
         if($yunpian_send->isSucc()){
             return [200,'发送成功'];
         }else{
-            return [400,'发送失败'];
+            return [400,'发送失败',$yunpian_send->data()];
         }
 
     }
