@@ -55,6 +55,12 @@ class SmsHandle
         $content = sprintf(self::$sms_content, $send_title, $send_code);
 
         $model = new SmsARModel();
+
+        $model->setAttributes(['phone_num' => $phone_num]);
+        if(!$model->validate()) {
+            throw new Exception(current($model->getFirstErrors()));
+        }
+
         $smsInfo = $model->info([
             'phone_num' => $phone_num,
             'sms_type' => self::SMS_TYPE_LOGIN

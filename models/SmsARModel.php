@@ -27,6 +27,15 @@ class SmsARModel extends ActiveRecord{
         return '{{%user_sms}}';
     }
 
+    public function rules()
+    {
+        return [
+            ['phone_num', 'filter', 'filter'=> 'trim'],
+            ['phone_num', 'required', 'message' => '填写手机号'],
+            [['phone_num'],'match','pattern'=>'/^[1][356789][0-9]{9}$/', 'message' => '手机号格式错误']
+        ];
+    }
+
     /**
      * 获取信息
      * @param bool $where
