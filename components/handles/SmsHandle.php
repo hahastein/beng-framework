@@ -21,6 +21,11 @@ class SmsHandle
 
     public static function send($phone_num, $sms_type = self::SMS_TYPE_LOGIN){
 
+        $smsConfig = \Yii::$app->params['smsConfig'];
+        if(!isset($smsConfig)){
+            return [400,'没有找到发送短信的配置'];
+        }
+
         $send_code = sprintf("%06d", rand(0,999999));
         $send_title = "竹迹脉金所";
 
@@ -48,7 +53,22 @@ class SmsHandle
             return [400,'A呀,报错了'];
         }
 
-        $yunpian = YunpianClient::create('7c57761c85f5bacde151e7362c4031d7',[
+        if($smsConfig['use'] == 'YunPian'){
+            return self::YunPianSend($phone_num, $content, $smsConfig);
+        }else{
+            return [400,'请配置发送短信的类型。'];
+        }
+    }
+
+    /**
+     * 云片发送
+     * @param integer $phone_num    手机号
+     * @param string $content       发送内容
+     * @param array $smsConfig      配置文件
+     * @return array
+     */
+    private static function YunPianSend($phone_num, $content, $smsConfig){
+        $no_https_ini = [
             'http.conn.timeout' => '10',
             'http.so.timeout' => '30',
             'http.charset' => 'utf-8',
@@ -61,7 +81,11 @@ class SmsHandle
             'yp.flow.host' => 'http://flow.yunpian.com',
             'yp.call.host' => 'http://call.yunpian.com',
             'yp.vsms.host' => 'http://vsms.yunpian.com'
-        ]);
+        ];
+        if(!$smsConfig['https']){
+            $no_https_ini = [];
+        }
+        $yunpian = YunpianClient::create($smsConfig['key'],$no_https_ini);
         $yunpian_send = $yunpian->sms()->single_send([
             YunpianClient::MOBILE => $phone_num,
             YunpianClient::TEXT => $content
@@ -69,9 +93,8 @@ class SmsHandle
         if($yunpian_send->isSucc()){
             return [200,'发送成功'];
         }else{
-            return [400,'发送失败',$yunpian_send->data()];
+            return [400,'发送失败'];
         }
-
     }
 
 }
