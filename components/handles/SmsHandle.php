@@ -22,6 +22,7 @@ class SmsHandle
     private static $sms_content = "【%s】您的验证码是%u";
 
     /**
+     * 发送验证码
      * @param $phone_num
      * @param int $sms_type
      * @return array
@@ -42,7 +43,37 @@ class SmsHandle
         }
     }
 
+    const SMS_STATUS_USE = 1;
+    const SMS_STATUS_NOUSE = 0;
+
     /**
+     * 更新验证码使用情况
+     * @param $phone_num
+     * @param $send_code
+     * @param int $status
+     * @return bool
+     */
+    public static function status($phone_num, $send_code, $status = self::SMS_STATUS_USE){
+
+        $model = new SmsARModel();
+        if($smsInfo = $model->info([
+            'phone_num' => $phone_num,
+            'is_use' => $status==self::SMS_STATUS_USE?self::SMS_STATUS_NOUSE:self::SMS_STATUS_USE,
+            'sms_number' => $send_code
+        ])){
+
+            $model->auto_id = $smsInfo->autoid;
+            $model->is_use = $status;
+            $model->lasttime = time();
+
+            return $model->save();
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 保存短信信息到数据库并发送
      * @param $smsConfig
      * @param $phone_num
      * @param $sms_type

@@ -17,6 +17,7 @@ use yii\db\ActiveRecord;
  * @property integer $sms_type      发送短信类型  1：登录验证
  * @property integer $sms_number
  * @property integer $addtime
+ * @property integer $lasttime
  * @property bool $is_use
  * @package bengbeng\framework\models
  */
@@ -47,6 +48,27 @@ class SmsARModel extends ActiveRecord{
         if($where)$query->where($where);
         $query->orderBy(['auto_id'=>$sort]);
         return $query->one();
+    }
+
+    /**
+     * 短信验证码是否存在
+     * @param $phone_num
+     * @param int $status
+     * @param bool $code
+     * @return bool
+     */
+    public function isExistCode($phone_num, $status = 0, $code = false){
+        $query = self::find();
+        $query->where([
+            'phone_num' => $phone_num,
+            'is_use' => $status
+        ]);
+
+        if($code){
+            $query->andWhere(['sms_number' => $code]);
+        }
+
+        return $query->exists();
     }
 
 }
