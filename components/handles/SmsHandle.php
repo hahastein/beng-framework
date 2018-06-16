@@ -62,11 +62,13 @@ class SmsHandle
             'sms_number' => $send_code
         ])){
 
-            $model->auto_id = $smsInfo->auto_id;
-            $model->is_use = $status;
-            $model->lasttime = time();
+            return $model->updateAll([
+                'is_use' => $status,
+                'lasttime' => time()
+            ], [
+                'auto_id' => $smsInfo->auto_id
+            ]);
 
-            return $model->save();
         }else{
             return false;
         }
