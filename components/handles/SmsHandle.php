@@ -70,7 +70,7 @@ class SmsHandle
                         $transaction->commit();
                         return [200, $message];
                     }else{
-                        \Yii::$app->B->outHtml($message);
+                        \Yii::$app->B->outHtml($message['msg']);
                         throw new Exception($message->msg);
                     }
                 });
