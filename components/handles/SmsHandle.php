@@ -126,7 +126,7 @@ class SmsHandle
             if($yunpian_send->isSucc()){
                 return call_user_func($closure,true,"发送成功");
             }else{
-                return call_user_func($closure,false,$yunpian_send);
+                return call_user_func($closure,false,$yunpian_send->msg());
             }
         }catch (\Exception $ex){
             return call_user_func($closure, false, $ex->getMessage());
