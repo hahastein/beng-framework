@@ -9,6 +9,7 @@
 namespace bengbeng\framework\components\handles;
 
 use bengbeng\framework\models\SmsARModel;
+use yii\db\Exception;
 use Yunpian\Sdk\YunpianClient;
 use Yunpian\Sdk\YunpianConf;
 
@@ -24,7 +25,6 @@ class SmsHandle
      * @param $phone_num
      * @param int $sms_type
      * @return array
-     * @throws \yii\db\Exception
      */
     public static function send($phone_num, $sms_type = self::SMS_TYPE_LOGIN){
 
@@ -59,7 +59,7 @@ class SmsHandle
             $model->addtime = time();
 
             if(!$model->save()){
-                throw new \Exception('发送异常。');
+                throw new Exception('发送异常。');
             }
 
             if($smsConfig['use'] == 'YunPian'){
@@ -67,12 +67,12 @@ class SmsHandle
                     $transaction->commit();
                     return [200, '发送成功'];
                 }else{
-                    throw new \Exception('发送失败，网络问题');
+                    throw new Exception('发送失败，网络问题');
                 }
             }else{
-                throw new \Exception('请配置发送短信的类型');
+                throw new Exception('请配置发送短信的类型');
             }
-        }catch (\Exception $ex){
+        }catch (Exception $ex){
             $transaction->rollback();
             return [400,$ex->getMessage()];
         }
@@ -84,10 +84,11 @@ class SmsHandle
      * @param $phone_num
      * @param $content
      * @param $smsConfig
+     * @param \Closure $closure
      * @return bool
      * @throws \Exception
      */
-    private static function YunPianSend($phone_num, $content, $smsConfig){
+    private static function YunPianSend($phone_num, $content, $smsConfig, \Closure $closure){
         if($smsConfig['https']){
             $yunpian = YunpianClient::create($smsConfig['key']);
         }else{
@@ -114,10 +115,11 @@ class SmsHandle
             if($yunpian_send->isSucc()){
                 return true;
             }else{
-                throw new \Exception('发送失败');
+                call_user_func($closure, $yunpian_send);
+
             }
         }catch (\Exception $ex){
-            throw new \Exception($ex->getMessage());
+            call_user_func($closure, $ex->getMessage());
         }
 
     }
