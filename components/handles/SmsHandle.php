@@ -27,7 +27,10 @@ class SmsHandle
         $content = sprintf(self::$sms_content, $send_title,$send_code);
 
         $model = new SmsARModel();
-        $smsInfo = $model->info();
+        $smsInfo = $model->info([
+            'phone_num' => $phone_num,
+            'sms_type' => self::SMS_TYPE_LOGIN
+        ]);
 
         if(!empty($smsInfo->addtime)){
             if ($smsInfo->addtime+60 > time()) {
