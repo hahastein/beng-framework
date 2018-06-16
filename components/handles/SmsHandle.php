@@ -9,6 +9,7 @@
 namespace bengbeng\framework\components\handles;
 
 use bengbeng\framework\models\SmsARModel;
+use Yunpian\Sdk\YunpianClient;
 
 class SmsHandle
 {
