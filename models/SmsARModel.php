@@ -31,13 +31,13 @@ class SmsARModel extends ActiveRecord{
      * 获取信息
      * @param bool $where
      * @param int $sort
-     * @return \yii\db\ActiveQuery
+     * @return array|null|ActiveRecord
      */
     public function info($where = false, $sort = SORT_DESC){
         $query = self::find();
         if($where)$query->where($where);
-        $query->orderBy(['auto_id'=>$sort])->one();
-        return $query;
+        $query->orderBy(['auto_id'=>$sort]);
+        return $query->one();
     }
 
 }

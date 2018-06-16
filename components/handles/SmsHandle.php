@@ -32,7 +32,7 @@ class SmsHandle
             'sms_type' => self::SMS_TYPE_LOGIN
         ]);
 
-        if(!empty($smsInfo->addtime)){
+        if(isset($smsInfo)){
             if ($smsInfo->addtime+60 > time()) {
                 return [400,'您操作太频繁了,稍后再试'];
             }
