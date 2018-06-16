@@ -25,6 +25,7 @@ class SmsHandle
      * @param $phone_num
      * @param int $sms_type
      * @return array
+     * @throws Exception
      */
     public static function send($phone_num, $sms_type = self::SMS_TYPE_LOGIN){
 
@@ -63,12 +64,23 @@ class SmsHandle
             }
 
             if($smsConfig['use'] == 'YunPian'){
-                if(self::YunPianSend($phone_num, $content, $smsConfig)){
-                    $transaction->commit();
-                    return [200, '发送成功'];
-                }else{
-                    throw new Exception('发送失败，网络问题');
-                }
+
+                self::YunPianSend($phone_num, $content, $smsConfig, function ($result, $message) use ($transaction){
+                    if($result){
+                        $transaction->commit();
+                        return [200, $message];
+                    }else{
+                        \Yii::$app->B->outHtml($message);
+                        throw new Exception($message);
+                    }
+                });
+
+
+//                if(self::YunPianSend($phone_num, $content, $smsConfig)){
+//                    return [200, '发送成功'];
+//                }else{
+//                    throw new Exception('发送失败，网络问题');
+//                }
             }else{
                 throw new Exception('请配置发送短信的类型');
             }
@@ -85,8 +97,6 @@ class SmsHandle
      * @param $content
      * @param $smsConfig
      * @param \Closure $closure
-     * @return bool
-     * @throws \Exception
      */
     private static function YunPianSend($phone_num, $content, $smsConfig, \Closure $closure){
         if($smsConfig['https']){
@@ -113,13 +123,13 @@ class SmsHandle
                 YunpianClient::TEXT => $content
             ]);
             if($yunpian_send->isSucc()){
-                return true;
+                call_user_func($closure,true,"发送成功");
             }else{
-                call_user_func($closure, $yunpian_send);
+                call_user_func($closure,false,$yunpian_send);
 
             }
         }catch (\Exception $ex){
-            call_user_func($closure, $ex->getMessage());
+            call_user_func($closure, false, $ex->getMessage());
         }
 
     }
