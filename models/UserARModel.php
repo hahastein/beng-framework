@@ -1,8 +1,6 @@
 <?php
 namespace bengbeng\framework\models;
 
-use Yii;
-use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 
 /**
@@ -13,7 +11,7 @@ use yii\db\ActiveRecord;
  * @property integer $login_type
  * @property string $username
  * @property string $userpass
- * @property string nickname
+ * @property string $nickname
  * @package bengbeng\framework\models
  */
 
