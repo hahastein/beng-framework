@@ -25,7 +25,6 @@ class SmsHandle
      * @param $phone_num
      * @param int $sms_type
      * @return array
-     * @throws Exception
      */
     public static function send($phone_num, $sms_type = self::SMS_TYPE_LOGIN){
 
@@ -35,9 +34,25 @@ class SmsHandle
         }
 
         $send_code = sprintf("%06d", rand(0,999999));
-        $send_title = "竹迹脉金所";
 
-        $content = sprintf(self::$sms_content, $send_title,$send_code);
+        try{
+            return self::saveAndSend($smsConfig, $phone_num, $sms_type, $send_code);
+        }catch (Exception $ex){
+            return [400,$ex->getMessage()];
+        }
+    }
+
+    /**
+     * @param $smsConfig
+     * @param $phone_num
+     * @param $sms_type
+     * @param $send_code
+     * @return array|mixed
+     * @throws Exception
+     */
+    private static function saveAndSend($smsConfig, $phone_num, $sms_type, $send_code){
+        $send_title = "竹迹脉金所";
+        $content = sprintf(self::$sms_content, $send_title, $send_code);
 
         $model = new SmsARModel();
         $smsInfo = $model->info([
@@ -50,6 +65,7 @@ class SmsHandle
                 return [400,'您操作太频繁了,稍后再试'];
             }
         }
+
 
         $transaction = \Yii::$app->db->beginTransaction();
         try{
@@ -65,7 +81,7 @@ class SmsHandle
 
             if($smsConfig['use'] == 'YunPian'){
 
-                self::YunPianSend($phone_num, $content, $smsConfig, function ($result, $message) use ($transaction){
+                return self::YunPianSend($phone_num, $content, $smsConfig, function ($result, $message) use ($transaction){
                     if($result){
                         $transaction->commit();
                         return [200, $message];
@@ -73,21 +89,13 @@ class SmsHandle
                         throw new Exception($message);
                     }
                 });
-
-
-//                if(self::YunPianSend($phone_num, $content, $smsConfig)){
-//                    return [200, '发送成功'];
-//                }else{
-//                    throw new Exception('发送失败，网络问题');
-//                }
             }else{
                 throw new Exception('请配置发送短信的类型');
             }
         }catch (Exception $ex){
             $transaction->rollback();
-            return [400,$ex->getMessage()];
+            throw $ex;
         }
-
     }
 
     /**
