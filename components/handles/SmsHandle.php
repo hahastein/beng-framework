@@ -10,6 +10,7 @@ namespace bengbeng\framework\components\handles;
 
 use bengbeng\framework\models\SmsARModel;
 use Yunpian\Sdk\YunpianClient;
+use Yunpian\Sdk\YunpianConf;
 
 class SmsHandle
 {
@@ -43,58 +44,76 @@ class SmsHandle
             }
         }
 
-        $model->phone_num = $phone_num;
-        $model->sms_content = $content;
-        $model->sms_type = $sms_type;
-        $model->sms_number = $send_code;
-        $model->addtime = time();
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            $model->phone_num = $phone_num;
+            $model->sms_content = $content;
+            $model->sms_type = $sms_type;
+            $model->sms_number = $send_code;
+            $model->addtime = time();
 
-        if(!$model->save()){
-            return [400,'A呀,报错了'];
+            if(!$model->save()){
+                throw new \Exception('发送异常。');
+            }
+
+            if($smsConfig['use'] == 'YunPian'){
+                if(self::YunPianSend($phone_num, $content, $smsConfig)){
+                    $transaction->commit();
+                    return [200, '发送成功'];
+                }else{
+                    throw new \Exception('发送失败，网络问题');
+                }
+            }else{
+                throw new \Exception('请配置发送短信的类型');
+            }
+        }catch (\Exception $ex){
+            $transaction->rollback();
+            return [400,$ex->getMessage()];
         }
 
-        if($smsConfig['use'] == 'YunPian'){
-            return self::YunPianSend($phone_num, $content, $smsConfig);
-        }else{
-            return [400,'请配置发送短信的类型。'];
-        }
     }
 
     /**
      * 云片发送
-     * @param integer $phone_num    手机号
-     * @param string $content       发送内容
-     * @param array $smsConfig      配置文件
-     * @return array
+     * @param $phone_num
+     * @param $content
+     * @param $smsConfig
+     * @return bool
+     * @throws \Exception
      */
     private static function YunPianSend($phone_num, $content, $smsConfig){
-        $no_https_ini = [
-            'http.conn.timeout' => '10',
-            'http.so.timeout' => '30',
-            'http.charset' => 'utf-8',
-            'yp.version' => 'v2',
-            'yp.user.host' => 'http://sms.yunpian.com',
-            'yp.sign.host' => 'http://sms.yunpian.com',
-            'yp.tpl.host' => 'http://sms.yunpian.com',
-            'yp.sms.host' => 'http://sms.yunpian.com',
-            'yp.voice.host' => 'http://voice.yunpian.com',
-            'yp.flow.host' => 'http://flow.yunpian.com',
-            'yp.call.host' => 'http://call.yunpian.com',
-            'yp.vsms.host' => 'http://vsms.yunpian.com'
-        ];
-        if(!$smsConfig['https']){
-            $no_https_ini = [];
-        }
-        $yunpian = YunpianClient::create($smsConfig['key'],$no_https_ini);
-        $yunpian_send = $yunpian->sms()->single_send([
-            YunpianClient::MOBILE => $phone_num,
-            YunpianClient::TEXT => $content
-        ]);
-        if($yunpian_send->isSucc()){
-            return [200,'发送成功'];
+        if($smsConfig['https']){
+            $yunpian = YunpianClient::create($smsConfig['key']);
         }else{
-            return [400,'发送失败'];
+            $yunpian = YunpianClient::create($smsConfig['key'],[
+                'http.conn.timeout' => '10',
+                'http.so.timeout' => '30',
+                'http.charset' => 'utf-8',
+                'yp.version' => 'v2',
+                'yp.user.host' => 'http://sms.yunpian.com',
+                'yp.sign.host' => 'http://sms.yunpian.com',
+                'yp.tpl.host' => 'http://sms.yunpian.com',
+                'yp.sms.host' => 'http://sms.yunpian.com',
+                'yp.voice.host' => 'http://voice.yunpian.com',
+                'yp.flow.host' => 'http://flow.yunpian.com',
+                'yp.call.host' => 'http://call.yunpian.com',
+                'yp.vsms.host' => 'http://vsms.yunpian.com'
+            ]);
         }
+        try{
+            $yunpian_send = $yunpian->sms()->single_send([
+                YunpianClient::MOBILE => $phone_num,
+                YunpianClient::TEXT => $content
+            ]);
+            if($yunpian_send->isSucc()){
+                return true;
+            }else{
+                throw new \Exception('发送失败');
+            }
+        }catch (\Exception $ex){
+            throw new \Exception($ex->getMessage());
+        }
+
     }
 
 }
