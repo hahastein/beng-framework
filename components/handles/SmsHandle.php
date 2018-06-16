@@ -20,6 +20,12 @@ class SmsHandle
 
     private static $sms_content = "【%s】您的验证码是%u";
 
+    /**
+     * @param $phone_num
+     * @param int $sms_type
+     * @return array
+     * @throws \yii\db\Exception
+     */
     public static function send($phone_num, $sms_type = self::SMS_TYPE_LOGIN){
 
         $smsConfig = \Yii::$app->params['smsConfig'];
