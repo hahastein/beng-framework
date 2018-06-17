@@ -27,41 +27,48 @@ class UserHandle{
 
     /**
      * 登录入口
-     * @param array $param
+     * @param $param
      * @param int $loginType
-     * @throws \Exception
+     * @return array
      */
     public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS){
 
-        $account = Yii::$app->request->post('account');
-        $pass = Yii::$app->request->post('pass');
+        $account = $param['account'];
+        $pass = $param['pass'];
 
-        $model = new UserARModel();
-        self::setValidateScenario($model, $loginType);
-        self::validateParamData($model, $param);
+        try{
+            $model = new UserARModel();
+            self::setValidateScenario($model, $loginType);
+            self::validateParamData($model, $param);
 
-        switch ($loginType){
-            case self::LOGIN_TYPE_ACCOUNT:
-                $userInfo = $model->findByUsername($account);
-                break;
-            case self::LOGIN_TYPE_WEIXIN:
-                $wxInfo = self::getWxUnionCode();
-                $userInfo = $model->findByWxunion($wxInfo['id']);
+            switch ($loginType){
+                case self::LOGIN_TYPE_ACCOUNT:
+                    $userInfo = $model->findByUsername($account);
+                    break;
+                case self::LOGIN_TYPE_WEIXIN:
+                    $wxInfo = self::getWxUnionCode();
+                    $userInfo = $model->findByWxunion($wxInfo['id']);
 
-                break;
-            case self::LOGIN_TYPE_MOBILE_PASS:
-            case self::LOGIN_TYPE_MOBILE_SMS:
-                $userInfo = $model->findByMobilenumber($account);
-                break;
-            default:
-                return [400, "无此类型的登录方式"];
+                    break;
+                case self::LOGIN_TYPE_MOBILE_PASS:
+                case self::LOGIN_TYPE_MOBILE_SMS:
+                    $userInfo = $model->findByMobilenumber($account);
+                    break;
+                default:
+                    throw new \Exception('无此类型的登录方式');
+            }
+
+            if(!$userInfo){
+                throw new \Exception('用户不存在');
+            }
+
+            \Yii::$app->B->outHtml($userInfo);
+            return [200, $userInfo];
+
+        }catch (\Exception $ex){
+            return [400, $ex->getMessage()];
         }
 
-        if(!$userInfo){
-            return [400, "用户不存在"];
-        }
-
-        \Yii::$app->B->outHtml($userInfo);
     }
 
     public static function bind(){
