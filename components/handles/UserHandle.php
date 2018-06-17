@@ -116,21 +116,21 @@ class UserHandle{
      * @param int $idType
      * @param bool $isSave
      * @return array
-     * @throws \yii\base\Exception
+     * @throws \Exception
      */
     public static function getWxUnionCode($idType = self::WXID_TYPE_UNIONID, $isSave = false){
 
         try {
             $code = Yii::$app->request->get('code');
             if(!isset($code)){
-                throw new \yii\base\Exception("请传入用户CODE...");
+                throw new \Exception("请传入用户CODE...");
             }
 
             $wechatConfig = Factory::officialAccount(Yii::$app->params['WECHAT']);
             $wxUserInfo = $wechatConfig->oauth->user();
 
             if(!isset($wxUserInfo)){
-                throw new \yii\base\Exception("插件初始化出现问题...");
+                throw new \Exception("插件初始化出现问题...");
             }
 
 //            if($isSave){
@@ -145,7 +145,7 @@ class UserHandle{
             ];
 
         }catch (\Exception $ex){
-            throw new \yii\base\Exception($ex->getMessage());
+            throw new \Exception($ex->getMessage());
         }
     }
 
