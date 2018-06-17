@@ -33,9 +33,6 @@ class UserHandle{
      */
     public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS){
 
-        $account = $param['account'];
-        $pass = $param['pass'];
-
         try{
             $model = new UserARModel();
             self::setValidateScenario($model, $loginType);
@@ -43,7 +40,7 @@ class UserHandle{
 
             switch ($loginType){
                 case self::LOGIN_TYPE_ACCOUNT:
-                    $userInfo = $model->findByUsername($account);
+                    $userInfo = $model->findByUsername($param['username']);
                     break;
                 case self::LOGIN_TYPE_WEIXIN:
                     $wxInfo = self::getWxUnionCode();
@@ -52,7 +49,7 @@ class UserHandle{
                     break;
                 case self::LOGIN_TYPE_MOBILE_PASS:
                 case self::LOGIN_TYPE_MOBILE_SMS:
-                    $userInfo = $model->findByMobilenumber($account);
+                    $userInfo = $model->findByMobilenumber($param['phone_num']);
                     break;
                 default:
                     throw new \Exception('无此类型的登录方式');
@@ -62,7 +59,6 @@ class UserHandle{
                 throw new \Exception('用户不存在');
             }
 
-            \Yii::$app->B->outHtml($userInfo);
             return [200, $userInfo];
 
         }catch (\Exception $ex){
