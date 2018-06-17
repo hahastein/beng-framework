@@ -33,27 +33,35 @@ class UserHandle{
      */
     public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS){
 
+        $account = Yii::$app->request->post('account');
+        $pass = Yii::$app->request->post('pass');
+
         $model = new UserARModel();
         self::setValidateScenario($model, $loginType);
         self::validateParamData($model, $param);
 
         switch ($loginType){
             case self::LOGIN_TYPE_ACCOUNT:
-
+                $userInfo = $model->findByUsername($account);
                 break;
             case self::LOGIN_TYPE_WEIXIN:
+                $wxInfo = self::getWxUnionCode();
+                $userInfo = $model->findByWxunion($wxInfo['id']);
 
                 break;
             case self::LOGIN_TYPE_MOBILE_PASS:
-
-                break;
             case self::LOGIN_TYPE_MOBILE_SMS:
-
+                $userInfo = $model->findByMobilenumber($account);
                 break;
             default:
-
-                break;
+                return [400, "无此类型的登录方式"];
         }
+
+        if(!$userInfo){
+            return [400, "用户不存在"];
+        }
+
+        \Yii::$app->B->outHtml($userInfo);
     }
 
     public static function bind(){

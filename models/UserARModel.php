@@ -42,6 +42,44 @@ class UserARModel extends ActiveRecord{
         return $scenarios;
     }
 
+    public function isByWxunion($code){
+        return self::find()->where([
+            'wx_unioncode' => $code
+        ])->exists();
+    }
+
+    /**
+     * 按微信openid获取用户信息
+     * @param $code
+     * @return array|UserARModel|null|ActiveRecord
+     */
+    public function findByWxunion($code){
+        return self::info([
+            'wx_unioncode' => $code
+        ]);
+    }
+
+    /**
+     * 按用户名获取用户信息
+     * @param $username
+     * @return array|UserARModel|null|ActiveRecord
+     */
+    public function findByUsername($username){
+        return self::info([
+            'username' => $username
+        ]);
+    }
+
+    /**
+     * 按手机号获取用户信息
+     * @param $phone_num
+     * @return array|UserARModel|null|ActiveRecord
+     */
+    public function findByMobilenumber($phone_num){
+        return self::info([
+            'phone_num' => $phone_num
+        ]);
+    }
 
     public function info($where = []){
         return self::find()->where($where)->one();
