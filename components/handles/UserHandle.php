@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\models\SmsARModel;
 use EasyWeChat\Factory;
 use Yii;
 use bengbeng\framework\models\UserARModel;
@@ -59,16 +60,47 @@ class UserHandle{
                 throw new \Exception('用户不存在');
             }
 
-            return [200, $userInfo];
-
+            if(self::validate($userInfo, $param, $loginType)){
+                return [200, $userInfo];
+            }else{
+                throw new \Exception('账号密码错误');
+            }
         }catch (\Exception $ex){
             return [400, $ex->getMessage()];
         }
 
     }
 
+    /**
+     * 验证登录
+     * @param UserARModel $userInfo
+     * @param array $param
+     * @param int $loginType
+     * @return bool
+     */
+    private static function validate($userInfo, $param, $loginType){
+        if($loginType == self::LOGIN_TYPE_MOBILE_PASS || $loginType == self::LOGIN_TYPE_ACCOUNT){
+            return Yii::$app->getSecurity()->validatePassword($param['userpass'], $userInfo->userpass);
+        }else if ($loginType == self::LOGIN_TYPE_MOBILE_SMS){
+            return self::validateSmsCode($param['phone_num'], $param['code']);
+        }else{
+            return false;
+        }
+    }
+
     public static function bind(){
         echo "user handle base";
+    }
+
+    /**
+     * 验证手机号验证码
+     * @param integer $phone_num
+     * @param string $code
+     * @return bool
+     */
+    private static function validateSmsCode($phone_num, $code){
+        $model = new SmsARModel();
+        return $model->isExistCode($phone_num, 0, $code);
     }
 
     /**
