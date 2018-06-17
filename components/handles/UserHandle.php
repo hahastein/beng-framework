@@ -42,65 +42,76 @@ class UserHandle{
             switch ($loginType){
                 case self::LOGIN_TYPE_ACCOUNT:
                     $userInfo = $model->findByUsername($param['username']);
+                    if(!self::validatePass($userInfo, $param['userpass'])){
+                        throw new \Exception('账号密码错误');
+                    }
                     break;
                 case self::LOGIN_TYPE_WEIXIN:
                     $wxInfo = self::getWxUnionCode();
                     $userInfo = $model->findByWxunion($wxInfo['id']);
-
+                    if(!self::validateWeixin($userInfo)){
+                        throw new \Exception('微信账号不存在');
+                    }
                     break;
                 case self::LOGIN_TYPE_MOBILE_PASS:
+                    $userInfo = $model->findByMobilenumber($param['phone_num']);
+                    if(!self::validatePass($userInfo, $param['userpass'])){
+                        throw new \Exception('手机密码错误');
+                    }
+                    break;
                 case self::LOGIN_TYPE_MOBILE_SMS:
                     $userInfo = $model->findByMobilenumber($param['phone_num']);
+                    if(!self::validateSmsCode($userInfo, $param['code'])){
+                        throw new \Exception('手机验证码错误');
+                    }
                     break;
                 default:
                     throw new \Exception('无此类型的登录方式');
             }
 
-            if(!$userInfo){
-                throw new \Exception('用户不存在');
-            }
+            return [200, $userInfo];
 
-            if(self::validate($userInfo, $param, $loginType)){
-                return [200, $userInfo];
-            }else{
-                throw new \Exception('账号密码错误');
-            }
         }catch (\Exception $ex){
             return [400, $ex->getMessage()];
         }
 
     }
 
-    /**
-     * 验证登录
-     * @param UserARModel $userInfo
-     * @param array $param
-     * @param int $loginType
-     * @return bool
-     */
-    private static function validate($userInfo, $param, $loginType){
-        if($loginType == self::LOGIN_TYPE_MOBILE_PASS || $loginType == self::LOGIN_TYPE_ACCOUNT){
-            return Yii::$app->getSecurity()->validatePassword($param['userpass'], $userInfo->userpass);
-        }else if ($loginType == self::LOGIN_TYPE_MOBILE_SMS){
-            return self::validateSmsCode($param['phone_num'], $param['code']);
-        }else{
-            return false;
-        }
-    }
-
     public static function bind(){
         echo "user handle base";
     }
 
+
+    //私有方法
+
     /**
-     * 验证手机号验证码
-     * @param integer $phone_num
+     * 验证微信登录
+     * @param UserARModel $userInfo
+     * @return bool
+     */
+    private static function validateWeixin($userInfo){
+        return $userInfo && true;
+    }
+
+    /**
+     * 验证密码登录
+     * @param UserARModel $userInfo
+     * @param string $userpass
+     * @return bool
+     */
+    private static function validatePass($userInfo, $userpass){
+        return $userInfo && Yii::$app->getSecurity()->validatePassword($userpass, $userInfo->userpass);
+    }
+
+    /**
+     * 验证手机验证码
+     * @param UserARModel $userInfo
      * @param string $code
      * @return bool
      */
-    private static function validateSmsCode($phone_num, $code){
+    private static function validateSmsCode($userInfo, $code){
         $model = new SmsARModel();
-        return $model->isExistCode($phone_num, 0, $code);
+        return $userInfo && $model->isExistCode($userInfo->phone_num, 0, $code);
     }
 
     /**
