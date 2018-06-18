@@ -26,6 +26,7 @@ use yii\db\ActiveRecord;
  * @property string $driver_uuid
  * @property integer $addtime
  * @property integer $lasttime
+ * @property string $auth_key
  * @package bengbeng\framework\models
  */
 
@@ -102,9 +103,25 @@ class UserARModel extends ActiveRecord{
     }
 
     /**
+     * @param $password
+     * @throws \yii\base\Exception
+     */
+    public function setPassword($password){
+        $this->userpass = \Yii::$app->security->generatePasswordHash($password);
+    }
+
+    /**
+     * @throws \yii\base\Exception
+     */
+    public function generateAuthKey(){
+        $this->auth_key = \Yii::$app->security->generateRandomString();
+    }
+
+    /**
      * 创建用户
      * @param $param
      * @return bool
+     * @throws \yii\base\Exception
      */
     public function create($param){
         $this->setScenario('wx');
@@ -115,6 +132,8 @@ class UserARModel extends ActiveRecord{
             $this->phone_bind = isset($param['phone_bind'])?1:0;
             if(isset($param['userpass']))$this->userpass = $param['userpass'];
             $this->username = isset($param['username'])?$param['username']:"新用户";
+            $this->userpass = isset($param['userpass'])?$this->setPassword($param['userpass']):"";
+            $this->auth_key = $this->generateAuthKey();
             $this->nickname = $param['nickname'];
             $this->user_sex = isset($param['sex']) && is_numeric($param['sex'])?$param['sex']:1;
             $this->driver_uuid = $param['driver_uuid'];
