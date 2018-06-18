@@ -44,6 +44,7 @@ class UserARModel extends ActiveRecord{
             ['userpass', 'filter', 'filter'=> 'trim', 'on'=> ['account', 'pass']],
             ['userpass', 'required', 'on'=> ['account', 'pass'], 'message' => '请您填写密码'],
             ['userpass', 'string', 'min' => 6, 'max' => 64, 'on'=> ['account', 'pass'], 'message' => '密码位数不足'],
+            ['wx_unioncode', 'required', 'on' => ['wx'], 'message' => '微信openid不能为空']
         ];
     }
 
@@ -53,6 +54,7 @@ class UserARModel extends ActiveRecord{
         $scenarios['account'] = ['username', 'userpass'];
         $scenarios['pass'] = ['phone_num','userpass'];
         $scenarios['sms'] = ['phone_num'];
+        $scenarios['wx'] = ['wx_unioncode'];
         return $scenarios;
     }
 
@@ -105,8 +107,13 @@ class UserARModel extends ActiveRecord{
      * @return bool
      */
     public function create($param){
+        $this->setScenario('wx');
         $this->setAttributes($param);
-        $this->addtime = time();
-        return self::save();
+        if($this->validate()){
+            $this->addtime = time();
+            return self::save();
+        }else{
+            return false;
+        }
     }
 }
