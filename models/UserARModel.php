@@ -6,12 +6,26 @@ use yii\db\ActiveRecord;
 /**
  * User Model
  *
- * @property integer $user_id
- * @property integer $phone_num
- * @property integer $login_type
- * @property string $username
- * @property string $userpass
- * @property string $nickname
+ * @property integer $user_id 用户ID
+ * @property integer $phone_num 用户手机号
+ * @property integer $login_type 用户登录类型
+ * @property string $username 用户名
+ * @property string $userpass 用户密码
+ * @property string $nickname 用户昵称
+ * @property bool $phone_bind 是否绑定手机
+ * @property string $wx_unioncode 微信第三方openid
+ * @property bool $wx_bind 是否绑定微信
+ * @property integer $industry_id 行业ID
+ * @property integer $jobs_id 职位ID
+ * @property integer $user_sex 用户性别
+ * @property string $avatar_head 用户头像
+ * @property integer $store_id 商户ID
+ * @property integer $level 用户级别
+ * @property float $balance 余额
+ * @property integer $driver_type
+ * @property string $driver_uuid
+ * @property integer $addtime
+ * @property integer $lasttime
  * @package bengbeng\framework\models
  */
 
@@ -83,5 +97,16 @@ class UserARModel extends ActiveRecord{
 
     public function info($where = []){
         return self::find()->where($where)->one();
+    }
+
+    /**
+     * 创建用户
+     * @param $param
+     * @return bool
+     */
+    public function create($param){
+        $this->setAttributes($param);
+        $this->addtime = time();
+        return self::save();
     }
 }
