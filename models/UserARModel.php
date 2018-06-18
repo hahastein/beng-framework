@@ -108,7 +108,7 @@ class UserARModel extends ActiveRecord{
      */
     public function create($param){
         $this->setScenario('wx');
-        $this->setAttributes($param);
+        $this->load($param);
         if($this->validate()){
             $this->addtime = time();
             return self::save();
