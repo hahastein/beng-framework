@@ -108,8 +108,13 @@ class UserARModel extends ActiveRecord{
      */
     public function create($param){
         $this->setScenario('wx');
-        $this->load($param);
+        $this->setAttributes($param);
         if($this->validate()){
+            $this->wx_bind = 1;
+            $this->username = isset($param['username'])?$param['username']:"新用户";
+            $this->nickname = $param['nickname'];
+            $this->user_sex = isset($param['sex']) && is_numeric($param['sex'])?$param['sex']:1;
+            $this->driver_uuid = $param['driver_uuid'];
             $this->addtime = time();
             return self::save();
         }else{
