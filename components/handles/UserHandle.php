@@ -41,24 +41,14 @@ class UserHandle{
 
             switch ($loginType){
                 case self::LOGIN_TYPE_ACCOUNT:
-                    if(!$userInfo = self::validatePass($model, $param)){
-                        throw new \Exception('账号密码错误');
-                    }
+                case self::LOGIN_TYPE_MOBILE_PASS:
+                    $userInfo = self::validatePass($model, $param);
                     break;
                 case self::LOGIN_TYPE_WEIXIN:
-                    if(!$userInfo = self::validateWeixin($model)){
-                        throw new \Exception('微信账号不存在');
-                    }
-                    break;
-                case self::LOGIN_TYPE_MOBILE_PASS:
-                    if(!$userInfo = self::validatePass($model, $param)){
-                        throw new \Exception('手机密码错误');
-                    }
+                    $userInfo = self::validateWeixin($model);
                     break;
                 case self::LOGIN_TYPE_MOBILE_SMS:
-                    if(!$userInfo = self::validateSmsCode($model, $param)){
-                        throw new \Exception('手机验证码错误');
-                    }
+                    $userInfo = self::validateSmsCode($model, $param);
                     break;
                 default:
                     throw new \Exception('无此类型的登录方式');
@@ -90,14 +80,14 @@ class UserHandle{
     /**
      * 验证微信登录
      * @param UserARModel $model
-     * @return bool
+     * @return array
      * @throws \Exception
      */
     private static function validateWeixin($model){
         try{
             $wxInfo = self::getWxUnionCode();
             $userInfo = $model->findByWxunion($wxInfo['id']);
-            return $userInfo && true;
+            return $userInfo;
         }catch (\Exception $ex){
             throw $ex;
         }
@@ -107,7 +97,8 @@ class UserHandle{
      * 验证密码登录
      * @param UserARModel $model
      * @param array $param
-     * @return bool
+     * @return array
+     * @throws \Exception
      */
     private static function validatePass($model, $param){
         if(isset($param['username'])) {
@@ -115,22 +106,29 @@ class UserHandle{
         }else if(isset($param['phone_num'])){
             $userInfo = $model->findByMobilenumber($param['phone_num']);
         }else{
-            $userInfo = false;
+            throw new \Exception('用户不存在或者密码错误');
         }
-        return $userInfo && Yii::$app->getSecurity()->validatePassword($param['userpass'], $userInfo->userpass);
+        if(!Yii::$app->getSecurity()->validatePassword($param['userpass'], $userInfo->userpass)){
+            throw new \Exception('用户密码错误');
+        }
+        return $userInfo;
     }
 
     /**
      * 验证手机验证码
      * @param UserARModel $model
      * @param array $param
-     * @return bool
+     * @return array
+     * @throws \Exception
      */
     private static function validateSmsCode($model, $param){
         $smsModel = new SmsARModel();
         $smsInfo = $smsModel->findByCode($param['phone_num'], $param['code']);
-        $userInfo = $model->findByMobilenumber($param['phone_num']);
-        return $smsInfo && $userInfo;
+        if(!$smsInfo)throw new \Exception('验证码错误');
+        if($smsInfo->addtime + 60 < time()){
+            throw new \Exception('验证码过时');
+        }
+        return $model->findByMobilenumber($param['phone_num']);
     }
 
     /**
