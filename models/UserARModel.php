@@ -110,7 +110,10 @@ class UserARModel extends ActiveRecord{
         $this->setScenario('wx');
         $this->setAttributes($param);
         if($this->validate()){
-            $this->wx_bind = 1;
+            $this->login_type = isset($param['login_type'])?$param['login_type']:20;
+            $this->wx_bind = isset($param['wx_unioncode'])?1:0;
+            $this->phone_bind = isset($param['phone_bind'])?1:0;
+            if(isset($param['userpass']))$this->userpass = $param['userpass'];
             $this->username = isset($param['username'])?$param['username']:"新用户";
             $this->nickname = $param['nickname'];
             $this->user_sex = isset($param['sex']) && is_numeric($param['sex'])?$param['sex']:1;
