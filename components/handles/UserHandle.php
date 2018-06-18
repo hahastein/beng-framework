@@ -41,27 +41,22 @@ class UserHandle{
 
             switch ($loginType){
                 case self::LOGIN_TYPE_ACCOUNT:
-                    $userInfo = $model->findByUsername($param['username']);
-                    if(!self::validatePass($userInfo, $param['userpass'])){
+                    if(!$userInfo = self::validatePass($model, $param)){
                         throw new \Exception('账号密码错误');
                     }
                     break;
                 case self::LOGIN_TYPE_WEIXIN:
-                    $wxInfo = self::getWxUnionCode();
-                    $userInfo = $model->findByWxunion($wxInfo['id']);
-                    if(!self::validateWeixin($userInfo)){
+                    if(!$userInfo = self::validateWeixin($model)){
                         throw new \Exception('微信账号不存在');
                     }
                     break;
                 case self::LOGIN_TYPE_MOBILE_PASS:
-                    $userInfo = $model->findByMobilenumber($param['phone_num']);
-                    if(!self::validatePass($userInfo, $param['userpass'])){
+                    if(!$userInfo = self::validatePass($model, $param)){
                         throw new \Exception('手机密码错误');
                     }
                     break;
                 case self::LOGIN_TYPE_MOBILE_SMS:
-                    $userInfo = $model->findByMobilenumber($param['phone_num']);
-                    if(!self::validateSmsCode($userInfo, $param['code'])){
+                    if(!$userInfo = self::validateSmsCode($model, $param)){
                         throw new \Exception('手机验证码错误');
                     }
                     break;
@@ -77,6 +72,14 @@ class UserHandle{
 
     }
 
+    public static function register(){
+
+    }
+
+    public static function autoRegister(){
+
+    }
+
     public static function bind(){
         echo "user handle base";
     }
@@ -86,32 +89,47 @@ class UserHandle{
 
     /**
      * 验证微信登录
-     * @param UserARModel $userInfo
+     * @param UserARModel $model
      * @return bool
+     * @throws \Exception
      */
-    private static function validateWeixin($userInfo){
-        return $userInfo && true;
+    private static function validateWeixin($model){
+        try{
+            $wxInfo = self::getWxUnionCode();
+            $userInfo = $model->findByWxunion($wxInfo['id']);
+            return $userInfo && true;
+        }catch (\Exception $ex){
+            throw $ex;
+        }
     }
 
     /**
      * 验证密码登录
-     * @param UserARModel $userInfo
-     * @param string $userpass
+     * @param UserARModel $model
+     * @param array $param
      * @return bool
      */
-    private static function validatePass($userInfo, $userpass){
-        return $userInfo && Yii::$app->getSecurity()->validatePassword($userpass, $userInfo->userpass);
+    private static function validatePass($model, $param){
+        if(isset($param['username'])) {
+            $userInfo = $model->findByUsername($param['username']);
+        }else if(isset($param['phone_num'])){
+            $userInfo = $model->findByMobilenumber($param['phone_num']);
+        }else{
+            $userInfo = false;
+        }
+        return $userInfo && Yii::$app->getSecurity()->validatePassword($param['userpass'], $userInfo->userpass);
     }
 
     /**
      * 验证手机验证码
-     * @param UserARModel $userInfo
-     * @param string $code
+     * @param UserARModel $model
+     * @param array $param
      * @return bool
      */
-    private static function validateSmsCode($userInfo, $code){
-        $model = new SmsARModel();
-        return $userInfo && $model->isExistCode($userInfo->phone_num, 0, $code);
+    private static function validateSmsCode($model, $param){
+        $userInfo = $model->findByMobilenumber($param['phone_num']);
+        $smsModel = new SmsARModel();
+        return $userInfo && $smsModel->isExistCode($userInfo->phone_num, 0, $param['code']);
     }
 
     /**
