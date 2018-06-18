@@ -132,8 +132,8 @@ class UserARModel extends ActiveRecord{
             $this->phone_bind = isset($param['phone_bind'])?1:0;
             if(isset($param['userpass']))$this->userpass = $param['userpass'];
             $this->username = isset($param['username'])?$param['username']:"新用户";
-            $this->userpass = isset($param['userpass'])?$this->setPassword($param['userpass']):"";
-            $this->auth_key = $this->generateAuthKey();
+            isset($param['userpass'])?$this->setPassword($param['userpass']):$this->userpass = "";
+            $this->generateAuthKey();
             $this->nickname = $param['nickname'];
             $this->user_sex = isset($param['sex']) && is_numeric($param['sex'])?$param['sex']:1;
             $this->driver_uuid = $param['driver_uuid'];
