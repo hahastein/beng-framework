@@ -51,6 +51,22 @@ class SmsARModel extends ActiveRecord{
     }
 
     /**
+     * 按验证码获取信息
+     * @param $phone_num
+     * @param $code
+     * @return array|SmsARModel|null|ActiveRecord
+     */
+    public function findByCode($phone_num, $code){
+        $query = self::find();
+        $query->where([
+            'phone_num' => $phone_num,
+            'is_use' => 0,
+            'sms_number' => $code
+        ]);
+        return $query->one();
+    }
+
+    /**
      * 短信验证码是否存在
      * @param $phone_num
      * @param int $status

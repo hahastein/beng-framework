@@ -127,9 +127,10 @@ class UserHandle{
      * @return bool
      */
     private static function validateSmsCode($model, $param){
-        $userInfo = $model->findByMobilenumber($param['phone_num']);
         $smsModel = new SmsARModel();
-        return $userInfo && $smsModel->isExistCode($userInfo->phone_num, 0, $param['code']);
+        $smsInfo = $smsModel->findByCode($param['phone_num'], $param['code']);
+        $userInfo = $model->findByMobilenumber($param['phone_num']);
+        return $smsInfo && $userInfo;
     }
 
     /**
