@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6054edb12d5bccb37e3e06ea51f82e52",
+    "content-hash": "e4e926eacefa4d36aea01703ac5c5632",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -1261,6 +1261,66 @@
             "time": "2017-12-19T00:31:44+00:00"
         },
         {
+            "name": "upyun/sdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/upyun/php-sdk.git",
+                "reference": "7c14ad67b16177e0c4e90af8474334ee12ddf192"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/upyun/php-sdk/7c14ad67b16177e0c4e90af8474334ee12ddf192.zip",
+                "reference": "7c14ad67b16177e0c4e90af8474334ee12ddf192",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "consolidation/robo": "^1.0",
+                "phpdocumentor/phpdocumentor": "^2.9",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Upyun\\": "src/Upyun/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "totoleo",
+                    "email": "totoleo@163.com"
+                },
+                {
+                    "name": "lfeng",
+                    "email": "bonevv@gmail.com"
+                },
+                {
+                    "name": "lvtongda",
+                    "email": "riyao.lyu@gmail.com"
+                },
+                {
+                    "name": "sabakugaara",
+                    "email": "senellise@gmail.com"
+                }
+            ],
+            "description": "UPYUN sdk for php",
+            "homepage": "https://github.com/upyun/php-sdk/",
+            "keywords": [
+                "sdk",
+                "upyun"
+            ],
+            "time": "2017-12-04T14:16:13+00:00"
+        },
+        {
             "name": "yiisoft/yii2",
             "version": "dev-master",
             "source": {
@@ -1465,7 +1525,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "upyun/sdk": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
