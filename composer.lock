@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4e926eacefa4d36aea01703ac5c5632",
+    "content-hash": "4b4f37ae16dcb08eb6be33cf4c05e601",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -497,6 +497,49 @@
                 "url"
             ],
             "time": "2018-06-08T08:55:26+00:00"
+        },
+        {
+            "name": "jpush/jpush",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jpush/jpush-api-php-client.git",
+                "reference": "aef95c05e05b9ec8e4ae5b6622feda00acc55db6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/jpush/jpush-api-php-client/aef95c05e05b9ec8e4ae5b6622feda00acc55db6.zip",
+                "reference": "aef95c05e05b9ec8e4ae5b6622feda00acc55db6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JPush\\": "src/JPush/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "JPush",
+                    "email": "support@jpush.cn",
+                    "homepage": "https://www.jpush.cn/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "JPush API PHP Client",
+            "homepage": "https://github.com/jpush/jpush-api-php-client",
+            "time": "2018-06-19T02:57:16+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1526,7 +1569,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "upyun/sdk": 20
+        "upyun/sdk": 20,
+        "jpush/jpush": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
