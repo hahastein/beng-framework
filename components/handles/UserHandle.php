@@ -55,10 +55,10 @@ class UserHandle{
             }
 
 //            return [200, $userInfo];
-            call_user_func($closure, 200, $userInfo);
+            return call_user_func($closure, 200, $userInfo);
 
         }catch (\Exception $ex){
-            call_user_func($closure, 400, $ex->getMessage());
+            return call_user_func($closure, 400, $ex->getMessage());
         }
 
     }
