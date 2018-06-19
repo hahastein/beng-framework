@@ -30,7 +30,8 @@ class UserHandle{
      * 登录入口
      * @param $param
      * @param int $loginType
-     * @return array
+     * @param \Closure $closure
+     * @return mixed
      */
     public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS, \Closure $closure){
 

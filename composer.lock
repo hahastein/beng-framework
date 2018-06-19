@@ -171,12 +171,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cebe/markdown.git",
-                "reference": "7b158880b9c128de39d1102dc26e68082d1c4aa9"
+                "reference": "530bc7dcbdfea5ad2da030110ee3ac07cc797f90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/cebe/markdown/7b158880b9c128de39d1102dc26e68082d1c4aa9.zip",
-                "reference": "7b158880b9c128de39d1102dc26e68082d1c4aa9",
+                "url": "https://files.phpcomposer.com/files/cebe/markdown/530bc7dcbdfea5ad2da030110ee3ac07cc797f90.zip",
+                "reference": "530bc7dcbdfea5ad2da030110ee3ac07cc797f90",
                 "shasum": ""
             },
             "require": {
@@ -223,7 +223,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2018-03-26T11:25:22+00:00"
+            "time": "2018-06-13T20:42:05+00:00"
         },
         {
             "name": "easywechat-composer/easywechat-composer",
@@ -322,12 +322,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "0773d442aa96baf19d7195f14ba6e9c2da11f8ed"
+                "reference": "b4e2ffb457f37d629a6ec9b72fd0d9c85f3dfe2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/guzzle/guzzle/0773d442aa96baf19d7195f14ba6e9c2da11f8ed.zip",
-                "reference": "0773d442aa96baf19d7195f14ba6e9c2da11f8ed",
+                "url": "https://files.phpcomposer.com/files/guzzle/guzzle/b4e2ffb457f37d629a6ec9b72fd0d9c85f3dfe2c.zip",
+                "reference": "b4e2ffb457f37d629a6ec9b72fd0d9c85f3dfe2c",
                 "shasum": ""
             },
             "require": {
@@ -379,7 +379,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-04-23T13:18:18+00:00"
+            "time": "2018-06-14T22:09:16+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -547,12 +547,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "120c434db947f91c3844ea9212ce34d08262335a"
+                "reference": "c465e1144536862e03f519cb3d65e924062cabfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/Seldaek/monolog/120c434db947f91c3844ea9212ce34d08262335a.zip",
-                "reference": "120c434db947f91c3844ea9212ce34d08262335a",
+                "url": "https://files.phpcomposer.com/files/Seldaek/monolog/c465e1144536862e03f519cb3d65e924062cabfb.zip",
+                "reference": "c465e1144536862e03f519cb3d65e924062cabfb",
                 "shasum": ""
             },
             "require": {
@@ -617,7 +617,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2018-06-11T15:30:42+00:00"
+            "time": "2018-06-19T07:22:34+00:00"
         },
         {
             "name": "overtrue/socialite",
@@ -1067,12 +1067,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "3ff076483e20ee3d1d1ed2f344c1ecae6c25f5e2"
+                "reference": "eb8addeeaddd4950836e03920fcfa7ebf1a061b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/symfony/cache/3ff076483e20ee3d1d1ed2f344c1ecae6c25f5e2.zip",
-                "reference": "3ff076483e20ee3d1d1ed2f344c1ecae6c25f5e2",
+                "url": "https://files.phpcomposer.com/files/symfony/cache/eb8addeeaddd4950836e03920fcfa7ebf1a061b0.zip",
+                "reference": "eb8addeeaddd4950836e03920fcfa7ebf1a061b0",
                 "shasum": ""
             },
             "require": {
@@ -1092,7 +1092,8 @@
                 "cache/integration-tests": "dev-master",
                 "doctrine/cache": "~1.6",
                 "doctrine/dbal": "~2.4",
-                "predis/predis": "~1.0"
+                "predis/predis": "~1.0",
+                "symfony/var-dumper": "^4.1.1"
             },
             "type": "library",
             "extra": {
@@ -1128,7 +1129,7 @@
                 "caching",
                 "psr6"
             ],
-            "time": "2018-06-11T12:32:29+00:00"
+            "time": "2018-06-18T15:28:27+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -1369,12 +1370,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "777c9a08c18939e969d8d33809a74632696ec944"
+                "reference": "a741165ee91603518286fc28d4ee273ae3a0ef60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/yiisoft/yii2-framework/777c9a08c18939e969d8d33809a74632696ec944.zip",
-                "reference": "777c9a08c18939e969d8d33809a74632696ec944",
+                "url": "https://files.phpcomposer.com/files/yiisoft/yii2-framework/a741165ee91603518286fc28d4ee273ae3a0ef60.zip",
+                "reference": "a741165ee91603518286fc28d4ee273ae3a0ef60",
                 "shasum": ""
             },
             "require": {
@@ -1461,7 +1462,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2018-06-03T13:30:53+00:00"
+            "time": "2018-06-14T17:23:10+00:00"
         },
         {
             "name": "yiisoft/yii2-composer",
