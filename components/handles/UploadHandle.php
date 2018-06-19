@@ -11,22 +11,55 @@ namespace bengbeng\framework\components\handles;
 class UploadHandle
 {
 
-    public function __construct()
-    {
+    const UPLOAD_TYPE_LOCAL = 1;
+    const UPLOAD_TYPE_UPYUN = 2;
 
+    private $uploadType;
+
+    public function __construct($type)
+    {
+        $this->uploadType = $type;
     }
 
+    public function save(){
 
-    public function __set($key, $value)
-    {
-        $this->$key = $value;
-    }
+        switch ($this->uploadType){
+            case self::UPLOAD_TYPE_LOCAL:
 
-    public function __get($key){
-        if (isset($key)){
-            return $this->$key;
-        }else {
-            return NULL;
+                $this->local();
+                break;
+            case self::UPLOAD_TYPE_UPYUN:
+
+                $this->upyun();
+                break;
+            default:
+
+                break;
         }
     }
+
+    private function local(){
+
+    }
+
+    /**
+     *
+     */
+    private function upyun(){
+
+    }
+
+
+//    public function __set($key, $value)
+//    {
+//        $this->$key = $value;
+//    }
+//
+//    public function __get($key){
+//        if (isset($key)){
+//            return $this->$key;
+//        }else {
+//            return NULL;
+//        }
+//    }
 }
