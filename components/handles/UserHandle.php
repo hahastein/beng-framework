@@ -32,7 +32,7 @@ class UserHandle{
      * @param int $loginType
      * @return array
      */
-    public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS){
+    public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS, \Closure $closure){
 
         try{
             $model = new UserARModel();
@@ -54,10 +54,11 @@ class UserHandle{
                     throw new \Exception('无此类型的登录方式');
             }
 
-            return [200, $userInfo];
+//            return [200, $userInfo];
+            call_user_func($closure, 200, $userInfo);
 
         }catch (\Exception $ex){
-            return [400, $ex->getMessage()];
+            call_user_func($closure, 400, $ex->getMessage());
         }
 
     }
