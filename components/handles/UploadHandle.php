@@ -8,6 +8,9 @@
 
 namespace bengbeng\framework\components\handles;
 
+use Upyun\Config;
+use Upyun\Upyun;
+
 class UploadHandle
 {
 
@@ -46,6 +49,19 @@ class UploadHandle
      *
      */
     private function upyun(){
+        $config = new Config(SERVICE, USER_NAME, PWD);
+        $client = new Upyun($config);
+
+        $params = [
+            'notify-url' => NOTIFY_URL,
+            'apps' => [
+                'name' => 'thumb',
+                'x-gmkerl-thumb' => '/format/png',
+                'save_as' => IMAGE_SAVE_AS,
+            ]
+        ];
+
+        $client->write($key, $fd, $params, true);
 
     }
 
