@@ -29,7 +29,7 @@ class UploadHandle
         'saveExt'       =>  '', //文件保存后缀，空则使用原后缀
         'replace'       =>  false, //存在同名是否覆盖
         'hash'          =>  true, //是否生成hash编码
-        'driver'        =>  '', // 文件上传驱动
+        'driver'        =>  self::UPLOAD_TYPE_LOCAL, // 文件上传驱动
         'driverConfig'  =>  array(), // 上传驱动配置
     );
 
@@ -40,7 +40,7 @@ class UploadHandle
 
     public function save(){
 
-        switch ($this->uploadType){
+        switch ($this->config['driver']){
             case self::UPLOAD_TYPE_LOCAL:
 
                 $this->local();
