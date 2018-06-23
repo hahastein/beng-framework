@@ -43,6 +43,8 @@ class UploadHandle
 
     public function save(){
 
+        \Yii::$app->B->outHtml($this->_files);
+
         switch ($this->config['driver']){
             case self::UPLOAD_TYPE_LOCAL:
 
