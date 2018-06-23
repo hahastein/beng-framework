@@ -122,7 +122,7 @@ class UploadHandle
 //            $this->uploader = new $class($config);
             $this->uploader = call_user_func($class, $config);
         }catch (\Exception $ex){
-            p("1");die;
+//            p("1");die;
             $this->uploader = false;
         }
     }
