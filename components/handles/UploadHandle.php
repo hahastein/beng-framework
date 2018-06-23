@@ -120,7 +120,7 @@ class UploadHandle
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
         try {
             $this->uploader = new $class($config);
-        }catch (\Exception $ex){
+        }catch (\ErrorException $ex){
             p("1");die;
             $this->uploader = false;
         }
