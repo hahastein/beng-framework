@@ -56,32 +56,40 @@ class UploadHandle
     }
 
     private function local(){
-
+        \Yii::$app->B->outHtml(self::_files());
     }
 
     /**
      *
      */
     private function upyun(){
-        $config = new Config(SERVICE, USER_NAME, PWD);
-        $client = new Upyun($config);
 
-        $params = [
-            'notify-url' => NOTIFY_URL,
-            'apps' => [
-                'name' => 'thumb',
-                'x-gmkerl-thumb' => '/format/png',
-                'save_as' => IMAGE_SAVE_AS,
-            ]
-        ];
+        try {
 
-        $client->write($key, $fd, $params, true);
+
+            $config = new Config(SERVICE, USER_NAME, PWD);
+            $client = new Upyun($config);
+
+            $params = [
+                'notify-url' => NOTIFY_URL,
+                'apps' => [
+                    'name' => 'thumb',
+                    'x-gmkerl-thumb' => '/format/png',
+                    'save_as' => IMAGE_SAVE_AS,
+                ]
+            ];
+
+            return $client->write($key, $fd, $this->config['driverConfig'], true);
+
+        }catch (\Exception $ex){
+            return false;
+        }
 
     }
 
     private static function _files(){
 
-        $file  = $_FILES;
+        return $_FILES;
     }
 
 //    public function __set($key, $value)
