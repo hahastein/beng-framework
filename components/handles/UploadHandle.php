@@ -76,7 +76,25 @@ class UploadHandle
             return false;
         }
 
-        return true;
+        $info = [];
+
+        foreach ($this->_files as $key => $file) {
+            $file['name']  = strip_tags($file['name']);
+
+            $file['savename'] = $this->getName();
+            $file['savepath'] = $this->savePath;
+
+
+            if ($this->uploader->save($file, false)) {
+                unset($file['error'], $file['tmp_name']);
+                $info[$key] = $file;
+            } else {
+                $this->error = $this->uploader->getError();
+                return false;
+            }
+        }
+
+        return $info;
 
 //        switch ($this->config['driver']){
 //            case self::UPLOAD_TYPE_LOCAL:
@@ -99,6 +117,10 @@ class UploadHandle
 
     public function getSuccess(){
         return $this->success_upload;
+    }
+
+    private function getName(){
+        return md5(uniqid(rand()));
     }
 
     private function setRootPath(){

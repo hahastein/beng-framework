@@ -71,7 +71,7 @@ class LocalDriver{
      * @return boolean          保存状态，true-成功，false-失败
      */
     public function save($file, $replace=true) {
-        $filename = $this->rootPath . $file['savepath'] . $file['savename'];
+        $filename = $this->rootPath .'/'. $file['savepath'] .'/'. $file['savename'];
 
         /* 不覆盖同名文件 */
         if (!$replace && is_file($filename)) {
