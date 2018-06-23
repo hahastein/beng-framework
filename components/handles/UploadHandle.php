@@ -83,7 +83,7 @@ class UploadHandle
             /* 获取上传文件后缀，允许上传无后缀文件 */
             $file['ext']    =   pathinfo($file['name'], PATHINFO_EXTENSION);
 
-            $file['savename'] = $this->getName();
+            $file['savename'] = $this->getName($file);
             $file['savepath'] = $this->savePath;
 
 
@@ -121,7 +121,7 @@ class UploadHandle
         return $this->success_upload;
     }
 
-    private function getName(){
+    private function getName($file){
         $newName = md5(uniqid(rand()));
         /* 文件保存后缀，支持强制更改文件后缀 */
         $ext = empty($this->config['saveExt']) ? $file['ext'] : $this->saveExt;
