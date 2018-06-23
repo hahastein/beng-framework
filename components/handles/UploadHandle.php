@@ -11,6 +11,7 @@ namespace bengbeng\framework\components\handles;
 use Upyun\Config;
 use Upyun\Upyun;
 use yii\base\ErrorException;
+use yii\base\UnknownClassException;
 
 class UploadHandle
 {
@@ -121,7 +122,7 @@ class UploadHandle
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
         try {
             $this->uploader = new $class($config);
-        }catch (ErrorException $ex){
+        }catch (UnknownClassException $ex){
             $this->uploader = false;
         }
     }
