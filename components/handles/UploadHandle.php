@@ -33,7 +33,7 @@ class UploadHandle
         'driverConfig'  =>  array(), // 上传驱动配置
     );
 
-    public function __construct($config)
+    public function __construct($config = [])
     {
         $this->config = array_merge($this->config, $config);
     }
