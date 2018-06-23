@@ -103,7 +103,7 @@ class UploadHandle
 
     private function setRootPath(){
         if(!isset($this->rootPath) || empty($this->rootPath)){
-            $this->rootPath = \Yii::getAlias('@res');
+            $this->config['rootPath'] = \Yii::getAlias('@res');
         }
     }
 
