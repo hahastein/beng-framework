@@ -118,11 +118,9 @@ class UploadHandle
         $driver = $this->config['driver'];
         $config = $this->config['driverConfig'];
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
-        try {
-//            $this->uploader = new $class($config);
-            $this->uploader = call_user_func($class, $config);
-        }catch (\Exception $ex){
-//            p("1");die;
+        if(class_exists($class)){
+            $this->uploader = new $class($config);
+        }else{
             $this->uploader = false;
         }
     }
