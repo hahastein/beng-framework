@@ -55,7 +55,7 @@ class LocalDriver{
             return false;
         } else {
             /* 检测目录是否可写 */
-            if (!is_writable($this->rootPath . $savepath)) {
+            if (!is_writable($this->rootPath .'/'. $savepath)) {
                 $this->error = '上传目录 ' . $savepath . ' 不可写！';
                 return false;
             } else {
