@@ -78,6 +78,8 @@ class UploadHandle
 
         $info = [];
 
+        p($this->_files);
+
         foreach ($this->_files as $key => $file) {
             $file['name']  = strip_tags($file['name']);
             /* 获取上传文件后缀，允许上传无后缀文件 */
