@@ -94,7 +94,7 @@ class LocalDriver{
      * @return boolean          创建状态，true-成功，false-失败
      */
     public function mkdir($savepath){
-        $dir = $this->rootPath . $savepath;
+        $dir = $this->rootPath .'/'. $savepath;
         if(is_dir($dir)){
             return true;
         }
