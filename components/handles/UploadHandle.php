@@ -48,12 +48,10 @@ class UploadHandle
     }
 
     public function save(){
-        if(!isset($_FILES) || is_array($_FILES)){
+        if(!isset($this->_files) || count($this->_files)==0){
             $this->error = '请选择上传的文件';
             return false;
         }
-
-        \Yii::$app->B->outHtml($this->_files);
 
         switch ($this->config['driver']){
             case self::UPLOAD_TYPE_LOCAL:
