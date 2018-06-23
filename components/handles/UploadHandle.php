@@ -56,7 +56,7 @@ class UploadHandle
     }
 
     private function local(){
-        \Yii::$app->B->outHtml(self::_files());
+        \Yii::$app->B->outHtml(self::loadFiles());
     }
 
     /**
@@ -87,9 +87,28 @@ class UploadHandle
 
     }
 
-    private static function _files(){
+    private static function loadFiles(){
 
-        return $_FILES;
+        $files = $_FILES;
+        $fileArray  = array();
+        $n          = 0;
+        foreach ($files as $key=>$file){
+            if(is_array($file['name'])) {
+                $keys       =   array_keys($file);
+                $count      =   count($file['name']);
+                for ($i=0; $i<$count; $i++) {
+                    $fileArray[$n]['key'] = $key;
+                    foreach ($keys as $_key){
+                        $fileArray[$n][$_key] = $file[$_key][$i];
+                    }
+                    $n++;
+                }
+            }else{
+                $fileArray = $files;
+                break;
+            }
+        }
+        return $fileArray;
     }
 
 //    public function __set($key, $value)
