@@ -61,7 +61,7 @@ class UploadHandle
         }
 
         if(!$this->uploader){
-            $this->error = "不存在上传驱动：{$this->config['driverConfig']['name']}";
+            $this->error = "不存在上传驱动：{$this->config['driver']}";
             return false;
         }
 
@@ -118,7 +118,11 @@ class UploadHandle
         $driver = $this->config['driver'];
         $config = $this->config['driverConfig'];
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
-        $this->uploader = new $class($config);
+        try {
+            $this->uploader = new $class($config);
+        }catch (\Exception $ex){
+            $this->uploader = false;
+        }
     }
 
     /**
