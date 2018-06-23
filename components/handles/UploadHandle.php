@@ -61,11 +61,17 @@ class UploadHandle
         }
 
         if(!$this->uploader){
-            $this->error = "不存在上传驱动：{$this->config['driver']}";
+            $this->error = "不存在上传驱动：{$this->driver}";
             return false;
         }
 
         if(!$this->uploader->checkRootPath($this->getRootPath())){
+            $this->error = $this->uploader->getError();
+            return false;
+        }
+
+        /* 检查上传目录 */
+        if(!$this->uploader->checkSavePath($this->savePath)){
             $this->error = $this->uploader->getError();
             return false;
         }
@@ -84,7 +90,7 @@ class UploadHandle
     }
 
     public function getRootPath(){
-        return isset($this->config['rootPath'])?$this->config['rootPath']:\Yii::getAlias('@res');
+        return isset($this->rootPath)?$this->rootPath:\Yii::getAlias('@res');
     }
 
     public function getError(){
@@ -96,8 +102,8 @@ class UploadHandle
     }
 
     private function setRootPath(){
-        if(!isset($this->config['rootPath']) || empty($this->config['rootPath'])){
-            $this->config['rootPath'] = \Yii::getAlias('@res');
+        if(!isset($this->rootPath) || empty($this->rootPath)){
+            $this->rootPath = \Yii::getAlias('@res');
         }
     }
 
@@ -115,8 +121,8 @@ class UploadHandle
      * @param array $config 驱动配置
      */
     private function setDriver(){
-        $driver = $this->config['driver'];
-        $config = $this->config['driverConfig'];
+        $driver = $this->driver;
+        $config = $this->driverConfig;
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
         if(class_exists($class)){
             $this->uploader = new $class($config);
@@ -164,7 +170,7 @@ class UploadHandle
     }
 
     private function checkMime($mime) {
-        return empty($this->config['mimes']) ? true : in_array(strtolower($mime), $this->config['mimes']);
+        return empty($this->mimes) ? true : in_array(strtolower($mime), $this->mimes);
     }
 
     private static function loadFiles(){
@@ -191,16 +197,8 @@ class UploadHandle
         return $fileArray;
     }
 
-//    public function __set($key, $value)
-//    {
-//        $this->$key = $value;
-//    }
-//
-//    public function __get($key){
-//        if (isset($key)){
-//            return $this->$key;
-//        }else {
-//            return NULL;
-//        }
-//    }
+    public function __get($name) {
+        return $this->config[$name];
+    }
+
 }
