@@ -14,8 +14,8 @@ use Upyun\Upyun;
 class UploadHandle
 {
 
-    const UPLOAD_TYPE_LOCAL = 1;
-    const UPLOAD_TYPE_UPYUN = 2;
+    const UPLOAD_TYPE_LOCAL = 'Local';
+    const UPLOAD_TYPE_UPYUN = 'Upyun';
 
     private $config = array(
         'mimes'         =>  array(), //允许上传的文件MiMe类型
@@ -30,22 +30,28 @@ class UploadHandle
         'replace'       =>  false, //存在同名是否覆盖
         'hash'          =>  true, //是否生成hash编码
         'driver'        =>  self::UPLOAD_TYPE_LOCAL, // 文件上传驱动
-        'driverConfig'  =>  array(), // 上传驱动配置
+        'driverConfig'  =>  [], // 上传驱动配置
     );
 
     private $_files;
+    private $uploader;
 
     /**
      * 错误信息
      * @var string
      */
     private $error = ''; //上传错误信息
+    private $success_upload = []; //成功上传后的信息
 
     public function __construct($config = [])
     {
         $this->config = array_merge($this->config, $config);
-        p($this->config);
+        //赋值默认rootpath
+        $this->setRootPath();
+        //加载所有上传的文件
         $this->_files = self::loadFiles();
+        //设置上传驱动模式
+        $this->setDriver();
     }
 
     public function save(){
@@ -54,23 +60,65 @@ class UploadHandle
             return false;
         }
 
-        switch ($this->config['driver']){
-            case self::UPLOAD_TYPE_LOCAL:
-                return $this->local();
-            case self::UPLOAD_TYPE_UPYUN:
-                return $this->upyun();
-            default:
-                $this->error = '没有此上传驱动';
-                return false;
+        if(!$this->uploader){
+            $this->error = "不存在上传驱动：{$this->config['driverConfig']['name']}";
+            return false;
         }
+
+        if(!$this->uploader->checkRootPath($this->getRootPath())){
+            $this->error = $this->uploader->getError();
+            return false;
+        }
+
+        return true;
+
+//        switch ($this->config['driver']){
+//            case self::UPLOAD_TYPE_LOCAL:
+//                return $this->local();
+//            case self::UPLOAD_TYPE_UPYUN:
+//                return $this->upyun();
+//            default:
+//                $this->error = '没有此上传驱动';
+//                return false;
+//        }
+    }
+
+    public function getRootPath(){
+        return isset($this->config['rootPath'])?$this->config['rootPath']:\Yii::getAlias('@res');
     }
 
     public function getError(){
         return $this->error;
     }
 
+    public function getSuccess(){
+        return $this->success_upload;
+    }
+
+    private function setRootPath(){
+        if(!isset($this->config['rootPath']) || empty($this->config['rootPath'])){
+            $this->config['rootPath'] = \Yii::getAlias('@res');
+        }
+    }
+
     private function local(){
+
+        foreach ($this->_files as $key => $file){
+
+        }
         return false;
+    }
+
+    /**
+     * 设置上传驱动
+     * @param string $driver 驱动名称
+     * @param array $config 驱动配置
+     */
+    private function setDriver(){
+        $driver = $this->config['driver'];
+        $config = $this->config['driverConfig'];
+        $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
+        $this->uploader = new $class($config);
     }
 
     /**
