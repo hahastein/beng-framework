@@ -35,6 +35,12 @@ class UploadHandle
 
     private $_files;
 
+    /**
+     * 错误信息
+     * @var string
+     */
+    private $error = ''; //上传错误信息
+
     public function __construct($config = [])
     {
         $this->config = array_merge($this->config, $config);
@@ -42,26 +48,30 @@ class UploadHandle
     }
 
     public function save(){
+        if(!isset($_FILES) || is_array($_FILES)){
+            $this->error = '请选择上传的文件';
+            return false;
+        }
 
         \Yii::$app->B->outHtml($this->_files);
 
         switch ($this->config['driver']){
             case self::UPLOAD_TYPE_LOCAL:
-
-                $this->local();
-                break;
+                return $this->local();
             case self::UPLOAD_TYPE_UPYUN:
-
-                $this->upyun();
-                break;
+                return $this->upyun();
             default:
-
-                break;
+                $this->error = '没有此上传驱动';
+                return false;
         }
     }
 
-    private function local(){
+    public function getError(){
+        return $this->error;
+    }
 
+    private function local(){
+        return false;
     }
 
     /**
@@ -90,6 +100,20 @@ class UploadHandle
             return false;
         }
 
+    }
+
+    private function check($file){
+        //检查文件类型
+        if(!$this->checkMime($file['type'])){
+            $this->error = '类型不匹配';
+            return false;
+        }
+
+        return true;
+    }
+
+    private function checkMime($mime) {
+        return empty($this->config['mimes']) ? true : in_array(strtolower($mime), $this->config['mimes']);
     }
 
     private static function loadFiles(){
