@@ -80,6 +80,8 @@ class UploadHandle
 
         foreach ($this->_files as $key => $file) {
             $file['name']  = strip_tags($file['name']);
+            /* 获取上传文件后缀，允许上传无后缀文件 */
+            $file['ext']    =   pathinfo($file['name'], PATHINFO_EXTENSION);
 
             $file['savename'] = $this->getName();
             $file['savepath'] = $this->savePath;
@@ -120,7 +122,11 @@ class UploadHandle
     }
 
     private function getName(){
-        return md5(uniqid(rand()));
+        $newName = md5(uniqid(rand()));
+        /* 文件保存后缀，支持强制更改文件后缀 */
+        $ext = empty($this->config['saveExt']) ? $file['ext'] : $this->saveExt;
+
+        return $newName .'.'. $ext;
     }
 
     private function setRootPath(){
