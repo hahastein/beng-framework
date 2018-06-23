@@ -33,9 +33,12 @@ class UploadHandle
         'driverConfig'  =>  array(), // 上传驱动配置
     );
 
+    private $_files;
+
     public function __construct($config = [])
     {
         $this->config = array_merge($this->config, $config);
+        $this->_files = self::loadFiles();
     }
 
     public function save(){
@@ -56,7 +59,7 @@ class UploadHandle
     }
 
     private function local(){
-        \Yii::$app->B->outHtml(self::loadFiles());
+
     }
 
     /**
