@@ -119,10 +119,10 @@ class UploadHandle
         $config = $this->config['driverConfig'];
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
         try {
-            p("0");
+            p("0");die;
             $this->uploader = new $class($config);
         }catch (\Exception $ex){
-            p("1");
+            p("1");die;
             $this->uploader = false;
         }
     }
