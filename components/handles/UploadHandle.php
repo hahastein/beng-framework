@@ -112,8 +112,8 @@ class UploadHandle
 
 
             if ($this->uploader->save($file, false)) {
-                Image::thumbnail($this->rootPath .'/'. $file['savepath'].'/'.$file['savename'], 100, 50)
-                    ->save($file['savepath'].'/thumbnail-'.$file['savename']);
+                Image::thumbnail('@res/'. $file['savepath'].'/'.$file['savename'], 100, 50)
+                    ->save('@res/'.$file['savepath'].'/thumbnail-'.$file['savename']);
 
                 unset($file['error'], $file['tmp_name']);
                 $info[$key] = $file;
