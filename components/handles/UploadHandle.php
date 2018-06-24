@@ -144,8 +144,7 @@ class UploadHandle
 
         if($this->subName){
             $subPath = $this->subName;
-            p($subPath);die;
-            $subPath = call_user_func_array($subPath['fun'], $subPath['param']);
+            $subPath = call_user_func_array($subPath['fun'], (array)$subPath['param']);
             if(empty($savePath)){
                 $savePath = $subPath;
             }else{
