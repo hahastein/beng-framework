@@ -17,6 +17,12 @@ class LocalDriver{
     private $rootPath;
 
     /**
+     * 上传文件子目录
+     * @var string
+     */
+    private $subPath;
+
+    /**
      * 本地上传错误信息
      * @var string
      */

@@ -11,6 +11,21 @@ namespace bengbeng\framework\components\handles;
 use Upyun\Config;
 use Upyun\Upyun;
 
+/**
+ * Class UploadHandle
+ * @property array mimes
+ * @property array exts
+ * @property array subName
+ * @property string rootPath
+ * @property string savePath
+ * @property string saveExt
+ * @property bool replace
+ * @property bool hash
+ * @property string driver
+ * @property array driverConfig
+ * @package bengbeng\framework\components\handles
+ */
+
 class UploadHandle
 {
 
@@ -18,19 +33,20 @@ class UploadHandle
     const UPLOAD_TYPE_UPYUN = 'Upyun';
 
     private $config = array(
-        'mimes'         =>  array(), //允许上传的文件MiMe类型
-        'maxSize'       =>  0, //上传的文件大小限制 (0-不做限制)
-        'exts'          =>  array(), //允许上传的文件后缀
-        'autoSub'       =>  true, //自动子目录保存文件
-        'subName'       =>  array('date', 'Y-m-d'), //子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
+        'mimes'         =>  [], //允许上传的文件mime类型
+        'exts'          =>  ['jpg', 'png'], //允许上传的文件后缀
+        'subName'       =>  ['fun' => 'date', 'param' => 'Ymd'], //子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
         'rootPath'      =>  '', //保存根路径
         'savePath'      =>  '', //保存路径
-        'saveName'      =>  array('uniqid', ''), //上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
+        'saveName'      =>  ['uniqid', ''], //上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
         'saveExt'       =>  '', //文件保存后缀，空则使用原后缀
         'replace'       =>  false, //存在同名是否覆盖
         'hash'          =>  true, //是否生成hash编码
         'driver'        =>  self::UPLOAD_TYPE_LOCAL, // 文件上传驱动
-        'driverConfig'  =>  [], // 上传驱动配置
+        'driverConfig'  =>  [
+            'maxSize' => 0, //上传的文件大小限制 (0-不做限制)
+
+        ], // 上传驱动配置
     );
 
     private $_files;
@@ -48,6 +64,7 @@ class UploadHandle
         $this->config = array_merge($this->config, $config);
         //赋值默认rootpath
         $this->setRootPath();
+        $this->setSubPath();
         //加载所有上传的文件
         $this->_files = self::loadFiles();
         //设置上传驱动模式
@@ -62,6 +79,11 @@ class UploadHandle
 
         if(!$this->uploader){
             $this->error = "不存在上传驱动：{$this->driver}";
+            return false;
+        }
+
+        if($this->subName && !class_exists($this->subName['fun'])){
+            $this->error = "不存在文件生成规则：{$this->subName['fun']}";
             return false;
         }
 
@@ -113,6 +135,26 @@ class UploadHandle
         return isset($this->rootPath)?$this->rootPath:\Yii::getAlias('@res');
     }
 
+    public function setSubPath(){
+        if($this->savePath){
+            $savePath = $this->savePath;
+        }else{
+            $savePath = '';
+        }
+
+        if($this->subName){
+            $subPath = $this->subName;
+            $subPath = call_user_func_array($subPath['fun'], $subPath['param']);
+            if(empty($savePath)){
+                $savePath = $subPath;
+            }else{
+                $savePath = $savePath .'/'. $subPath;
+            }
+        }
+
+        $this->config['savePath'] = $savePath;
+    }
+
     public function getError(){
         return $this->error;
     }
@@ -133,14 +175,6 @@ class UploadHandle
         if(!isset($this->rootPath) || empty($this->rootPath)){
             $this->config['rootPath'] = \Yii::getAlias('@res');
         }
-    }
-
-    private function local(){
-
-        foreach ($this->_files as $key => $file){
-
-        }
-        return false;
     }
 
     /**
