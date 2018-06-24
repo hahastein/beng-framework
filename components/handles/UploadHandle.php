@@ -10,6 +10,7 @@ namespace bengbeng\framework\components\handles;
 
 use Upyun\Config;
 use Upyun\Upyun;
+use yii\imagine\Image;
 
 /**
  * Class UploadHandle
@@ -45,6 +46,7 @@ class UploadHandle
         'driver'        =>  self::UPLOAD_TYPE_LOCAL, // 文件上传驱动
         'driverConfig'  =>  [
             'maxSize' => 0, //上传的文件大小限制 (0-不做限制)
+            'thumbnail' => true
 
         ], // 上传驱动配置
     );
@@ -110,6 +112,9 @@ class UploadHandle
 
 
             if ($this->uploader->save($file, false)) {
+                Image::thumbnail($file['tmp_name'], 100, 50)
+                    ->save($file['savepath'].'/thumbnail-'.$file['savename']);
+
                 unset($file['error'], $file['tmp_name']);
                 $info[$key] = $file;
             } else {
@@ -119,16 +124,6 @@ class UploadHandle
         }
 
         return $info;
-
-//        switch ($this->config['driver']){
-//            case self::UPLOAD_TYPE_LOCAL:
-//                return $this->local();
-//            case self::UPLOAD_TYPE_UPYUN:
-//                return $this->upyun();
-//            default:
-//                $this->error = '没有此上传驱动';
-//                return false;
-//        }
     }
 
     public function getRootPath(){
