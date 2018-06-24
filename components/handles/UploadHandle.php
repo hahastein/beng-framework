@@ -82,7 +82,7 @@ class UploadHandle
             return false;
         }
 
-        if($this->subName && !class_exists($this->subName['fun'])){
+        if($this->subName && !function_exists($this->subName['fun'])){
             $this->error = "不存在文件生成规则：{$this->subName['fun']}";
             return false;
         }
