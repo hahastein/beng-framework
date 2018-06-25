@@ -113,7 +113,7 @@ class UploadHandle
 
             if ($this->uploader->save($file, false)) {
                 Image::thumbnail('@res/'. $file['savepath'].'/'.$file['savename'], 100, 0)
-                    ->save('@res/'.$file['savepath'].'/thumbnail-'.$file['savename']);
+                    ->save(\Yii::getAlias('@res/').$file['savepath'].'/thumbnail-'.$file['savename']);
 
                 unset($file['error'], $file['tmp_name']);
                 $info[$key] = $file;
