@@ -109,7 +109,7 @@ class LocalDriver{
         }
         try {
             $path = \Yii::getAlias('@res/') . $file['savepath'] . '/thumbnail-' . $file['savename'];
-            if (Image::thumbnail($file['tmp_name'], $width, $height)->save($path)) {
+            if (Image::thumbnail('@res/' . $file['savepath'] . $file['savename'], $width, $height)->save($path)) {
                 return true;
             } else {
                 throw new \Exception('生成缩率图失败');
