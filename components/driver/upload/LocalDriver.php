@@ -8,6 +8,8 @@
 
 namespace bengbeng\framework\components\driver\upload;
 
+use yii\imagine\Image;
+
 class LocalDriver{
 
     /**
@@ -84,14 +86,43 @@ class LocalDriver{
             $this->error = '存在同名文件' . $file['savename'];
             return false;
         }
-
         /* 移动文件 */
         if (!move_uploaded_file($file['tmp_name'], $filename)) {
             $this->error = '文件上传保存错误！';
             return false;
         }
-
         return true;
+    }
+
+    /**
+     * 生成所缩略图
+     * @param $file
+     * @param bool $auto
+     * @param int $width
+     * @param int $height
+     * @return bool
+     */
+    public function thumbnail($file, $auto = true, $width=0, $height=0){
+        //计算自动大小
+        if($auto){
+            self::autoSize($width, $height);
+        }
+        try {
+            $path = \Yii::getAlias('@res/') . $file['savepath'] . '/thumbnail-' . $file['savename'];
+            if (Image::thumbnail($file['tmp_name'], $width, $height)->save($path)) {
+                return true;
+            } else {
+                throw new \Exception('生成缩率图失败');
+            }
+        }catch (\Exception $ex){
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+    private function autoSize(&$width, &$height){
+        $width=100;
+        $height=50;
     }
 
     /**
