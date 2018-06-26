@@ -111,7 +111,7 @@ class UploadHandle
 
 
             if ($this->uploader->save($file, false)) {
-                if($this->uploader->thumbnail()){
+                if($this->uploader->thumbnail($file)){
                     unset($file['error'], $file['tmp_name']);
                     $info[$key] = $file;
                 }
