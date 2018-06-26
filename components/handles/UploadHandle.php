@@ -240,11 +240,13 @@ class UploadHandle
                 $keys       =   array_keys($file);
                 $count      =   count($file['name']);
                 for ($i=0; $i<$count; $i++) {
-                    $fileArray[$n]['key'] = $key;
-                    foreach ($keys as $_key){
-                        $fileArray[$n][$_key] = $file[$_key][$i];
+                    if(!empty($file['name'][$i])) {
+                        $fileArray[$n]['key'] = $key;
+                        foreach ($keys as $_key) {
+                            $fileArray[$n][$_key] = $file[$_key][$i];
+                        }
+                        $n++;
                     }
-                    $n++;
                 }
             }else{
                 if(!empty($file['name'])) {
