@@ -105,7 +105,7 @@ class LocalDriver{
     public function thumbnail($file, $auto = true, $width=0, $height=0){
         //计算自动大小
         if($auto){
-            self::autoSize($width, $height);
+            self::autoSize($auto, $width, $height);
         }
         try {
             $path = \Yii::getAlias('@res/') . $file['savepath'] . '/thumbnail-' . $file['savename'];
@@ -120,7 +120,10 @@ class LocalDriver{
         }
     }
 
-    private function autoSize(&$width, &$height){
+    private function autoSize($auto, &$width, &$height){
+        if($auto){
+//            \Yii::$app->params['']
+        }
         $width=100;
         $height=50;
     }
