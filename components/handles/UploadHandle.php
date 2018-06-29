@@ -109,14 +109,15 @@ class UploadHandle
             $file['savename'] = $this->getName($file);
             $file['savepath'] = $this->savePath;
 
-
             if ($this->uploader->save($file, false)) {
-                if($this->uploader->thumbnail($file)){
-                    unset($file['error'], $file['tmp_name']);
-                    $info[$key] = $file;
+                if(isset(\Yii::$app->params['thumbnail'])) {
+                    if ($this->uploader->thumbnail($file)) {
+                        unset($file['error'], $file['tmp_name']);
+                        $info[$key] = $file;
+                    }
+                    $this->error = $this->uploader->getError();
+                    return false;
                 }
-                $this->error = $this->uploader->getError();
-                return false;
             } else {
                 $this->error = $this->uploader->getError();
                 return false;

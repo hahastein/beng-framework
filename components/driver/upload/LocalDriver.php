@@ -97,15 +97,15 @@ class LocalDriver{
     /**
      * 生成所缩略图
      * @param $file
-     * @param bool $auto
+     * @param int $zoom
      * @param int $width
      * @param int $height
      * @return bool
      */
-    public function thumbnail($file, $auto = true, $width=0, $height=0){
+    public function thumbnail($file, $zoom = 0, $width=0, $height=0){
         //计算自动大小
         if($auto){
-            self::autoSize($auto, $width, $height);
+            self::autoSize($file, $zoom, $width, $height);
         }
         try {
             $path = \Yii::getAlias('@res/') . $file['savepath'] . '/thumbnail-' . $file['savename'];
@@ -120,12 +120,34 @@ class LocalDriver{
         }
     }
 
-    private function autoSize($auto, &$width, &$height){
-        if($auto){
-//            \Yii::$app->params['']
+    private function autoSize($fileInfo, $zoom, &$width, &$height){
+        if($zoom == 0){
+            if(isset(\Yii::$app->params['uploadConfig']['thumbnail']['zoom'])){
+                $zoom = \Yii::$app->params['uploadConfig']['thumbnail']['zoom'];
+            }
         }
-        $width=100;
-        $height=50;
+
+        $width = $width>0?$width:\Yii::$app->params['uploadConfig']['thumbnail']['width'];
+        $height = $height>0?$height:\Yii::$app->params['uploadConfig']['thumbnail']['height'];
+
+        if($zoom >0){
+            $width = $fileInfo['width'] * 100 / $zoom;
+            $height = $fileInfo['height'] * 100 / $zoom;
+        }else if($height==0){
+            //按宽度自动设置
+            if($fileInfo['width']>0 && $fileInfo['height']>0) {
+                if ($fileInfo['width'] >= $width) {
+                    $height = ($fileInfo['height'] * $width) / $fileInfo['width'];
+                }
+            }
+        }else if($width==0){
+            //按高度自动设置
+            if($fileInfo['width']>0 && $fileInfo['height']>0) {
+                if ($fileInfo['height'] >= $height) {
+                    $width = ($fileInfo['width'] * $height) / $fileInfo['height'];
+                }
+            }
+        }
     }
 
     /**
