@@ -113,11 +113,12 @@ class UploadHandle
                 if(isset(\Yii::$app->params['thumbnail'])) {
                     if ($this->uploader->thumbnail($file)) {
                         unset($file['error'], $file['tmp_name']);
-                        $info[$key] = $file;
+
                     }
                     $this->error = $this->uploader->getError();
                     return false;
                 }
+                $info[$key] = $file;
             } else {
                 $this->error = $this->uploader->getError();
                 return false;
