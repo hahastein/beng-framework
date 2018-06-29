@@ -118,7 +118,7 @@ class UploadHandle
                     $this->error = $this->uploader->getError();
                     return false;
                 }
-                $info[$key] = $file;
+                $info[$key]['path'] = '/'.$file['savepath'].'/'.$file['savename'];
             } else {
                 $this->error = $this->uploader->getError();
                 return false;
