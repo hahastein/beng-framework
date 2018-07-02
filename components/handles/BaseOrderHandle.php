@@ -155,4 +155,12 @@ class BaseOrderHandle
     {
         $this->store_id = $store_id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrderSn()
+    {
+        return $this->orderSn;
+    }
 }
