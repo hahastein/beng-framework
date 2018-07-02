@@ -10,6 +10,11 @@ namespace bengbeng\framework\components\handles;
 use bengbeng\framework\models\OrderARModel;
 use yii\db\Exception;
 
+/**
+ * Class BaseOrderHandle
+ * @property int $user_id 用户ID
+ * @package bengbeng\framework\components\handles
+ */
 class BaseOrderHandle
 {
 
@@ -30,9 +35,9 @@ class BaseOrderHandle
     const STATUS_EXCEPTION = 5;
 
 
-    private $order_fields;
-    private $user_id;
-    private $store_id;
+    public $order_fields;
+    public $user_id;
+    public $store_id;
 
     private $orderSn;
     private $paySn;
