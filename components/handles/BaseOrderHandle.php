@@ -13,6 +13,23 @@ use yii\db\Exception;
 class BaseOrderHandle
 {
 
+    // 支付类型0线下1支付宝2微信3银联4苹果支付
+    const PAY_TYPE_NOPAY = -1;
+    const PAY_TYPE_OFFLINE = 0;
+    const PAY_TYPE_ALIPAY = 1;
+    const PAY_TYPE_WXPAY = 2;
+    const PAY_TYPE_UNIONPAY = 3;
+    const PAY_TYPE_APPLEPAY = 4;
+
+    //订单状态0未支付1已支付2退款中3退款完成4取消订单5异常订单
+    const STATUS_NOPAY = 0;
+    const STATUS_PAY_FINISH = 1;
+    const STATUS_REFUND = 2;
+    const STATUS_REFUND_FINISH = 3;
+    const STATUS_CANCEL = 4;
+    const STATUS_EXCEPTION = 5;
+
+
     private $order_fields;
     private $user_id;
     private $store_id;
@@ -35,6 +52,13 @@ class BaseOrderHandle
         try{
             $this->orderSn = self::makeOrderSn($this->user_id, $this->store_id);
             $this->paySn = self::makePaySn($this->user_id, $this->store_id);
+
+            $this->order_fields['order_sn'] = $this->orderSn;
+            $this->order_fields['order_pay_sn'] = $this->paySn;
+            $this->order_fields['user_id'] = $this->getUserId();
+            $this->order_fields['addtime'] = time();
+            $this->order_fields['pay_type'] = self::PAY_TYPE_NOPAY;
+            $this->order_fields['order_status'] = self::STATUS_NOPAY;
 
             $this->orderModel->setAttributes($this->order_fields, false);
             if($this->orderModel->save()){
@@ -83,7 +107,7 @@ class BaseOrderHandle
      */
     public function getOrderFields()
     {
-        return $this->order_fields;
+        return is_array($this->order_fields)?$this->order_fields:[];
     }
 
     /**
