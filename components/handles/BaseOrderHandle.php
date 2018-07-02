@@ -13,6 +13,7 @@ use yii\db\Exception;
 /**
  * Class BaseOrderHandle
  * @property int $user_id 用户ID
+ * @property array $order_fields 保存的参数
  * @package bengbeng\framework\components\handles
  */
 class BaseOrderHandle
