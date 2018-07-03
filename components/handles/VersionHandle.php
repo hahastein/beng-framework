@@ -38,6 +38,7 @@ class VersionHandle
     }
 
     public function getResource(){
+        p($this->version);die;
         foreach ($this->version as $item) {
             switch ($item->version_type) {
                 case self::VERSION_TYPE_API_TAG:
