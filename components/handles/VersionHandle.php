@@ -34,6 +34,9 @@ class VersionHandle
             $version = $this->model->findByAll();
             Yii::$app->cache->set('beng_version', $version, 30);
         }
+
+        p(Yii::$app->cache->get('beng_version'));die;
+
         $this->version = Yii::$app->cache->get('beng_version');
     }
 
