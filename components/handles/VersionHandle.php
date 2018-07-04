@@ -31,6 +31,9 @@ class VersionHandle
     {
         $this->model = new VersionARModel();
 
+        p(Yii::$app->cache->exists('beng_version'));
+
+
         if(!Yii::$app->cache->exists('beng_version')){
             $version = $this->model->findByAll();
             Yii::$app->cache->set('beng_version', $version, 30);
