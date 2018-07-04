@@ -31,17 +31,17 @@ class VersionHandle
     {
         $this->model = new VersionARModel();
 
-        p(Yii::$app->cache->exists('beng_version'));
+        p(Yii::$app->cache->exists('bengVersion'));
 
 
-        if(!Yii::$app->cache->exists('beng_version')){
+        if(Yii::$app->cache->exists('bengVersion')){
             $version = $this->model->findByAll();
-            Yii::$app->cache->set('beng_version', $version, 30);
+            Yii::$app->cache->set('bengVersion', $version, 30);
         }
 
-        p(Yii::$app->cache->get('beng_version'));die;
+        p(Yii::$app->cache->get('bengVersion'));die;
 
-        $this->version = Yii::$app->cache->get('beng_version');
+        $this->version = Yii::$app->cache->get('bengVersion');
     }
 
     public function getResource(){
