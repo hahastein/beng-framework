@@ -22,6 +22,7 @@ class VersionHandle
     const VERSION_TYPE_API_JOBS = 7;
 
     private $model;
+    private $cache;
     private $version;
 
     private $tagResource;
@@ -30,18 +31,18 @@ class VersionHandle
     public function __construct()
     {
         $this->model = new VersionARModel();
+        $this->cache = Yii::$app->cache;
+        p($this->cache->exists('bengVersion'));
 
-        p(Yii::$app->cache->exists('bengVersion'));
 
-
-        if(Yii::$app->cache->exists('bengVersion')){
+        if($this->cache->exists('bengVersion')){
             $version = $this->model->findByAll();
-            Yii::$app->cache->set('bengVersion', $version, 30);
+            $this->cache->set('bengVersion', $version, 30);
         }
 
-        p(Yii::$app->cache->get('bengVersion'));die;
+        p($this->cache->get('bengVersion'));die;
 
-        $this->version = Yii::$app->cache->get('bengVersion');
+        $this->version = $this->cache->get('bengVersion');
     }
 
     public function getResource(){
