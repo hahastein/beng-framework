@@ -30,7 +30,7 @@ class VersionHandle
     public function __construct()
     {
         $this->model = new VersionARModel();
-        if(Yii::$app->cache->get('beng_version') === false || is_null(Yii::$app->cache->get('beng_version'))){
+        if(Yii::$app->cache->get('beng_version') === false || !isset(Yii::$app->cache->get('beng_version'))){
         $version = $this->model->findByAll();
         Yii::$app->cache->set('beng_version', $version, 30);
     }
