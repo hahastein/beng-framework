@@ -33,14 +33,16 @@ class VersionHandle
         $this->model = new VersionARModel();
         $this->cache = Yii::$app->cache;
 
-        if($this->cache->get('bengVersion') === false){
+        $version = $this->cache->get('bengVersion');
+
+
+        if ($version === false){
             $version = $this->model->findByAll();
             $this->cache->set('bengVersion', $version, 30);
         }
 
-        p($this->cache->get('bengVersion'));die;
+        p($version);die;
 
-        $this->version = $this->cache->get('bengVersion');
     }
 
     public function getResource(){
