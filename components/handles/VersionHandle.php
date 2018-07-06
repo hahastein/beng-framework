@@ -37,7 +37,7 @@ class VersionHandle
 
         if ($version === false){
             $version = $this->model->findByAll();
-            $this->cache->set('bengVersion', $version, 3600);
+            $this->cache->set('bengVersion', $version);
         }
     }
 
