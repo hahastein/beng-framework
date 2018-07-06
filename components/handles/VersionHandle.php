@@ -39,6 +39,8 @@ class VersionHandle
             $version = $this->model->findByAll();
             $this->cache->set('bengVersion', $version);
         }
+
+        $this->version = $version;
     }
 
     public function getResource(){
