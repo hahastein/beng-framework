@@ -35,14 +35,10 @@ class VersionHandle
 
         $version = $this->cache->get('bengVersion');
 
-
         if ($version === false){
             $version = $this->model->findByAll();
-            $this->cache->set('bengVersion', $version, 30);
+            $this->cache->set('bengVersion', $version, 3600);
         }
-
-        p($version);die;
-
     }
 
     public function getResource(){
