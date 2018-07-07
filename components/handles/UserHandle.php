@@ -10,6 +10,7 @@ namespace bengbeng\framework\components\handles;
 
 use bengbeng\framework\models\SmsARModel;
 use EasyWeChat\Factory;
+use Overtrue\Socialite\AuthorizeFailedException;
 use Yii;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
@@ -82,10 +83,11 @@ class UserHandle{
     /**
      * 验证微信登录
      * @param UserARModel $model
+     * @param string $code
      * @return array
      * @throws \Exception
      */
-    private static function validateWeixin($model){
+    private static function validateWeixin($model, $code = ""){
         try{
             $wxInfo = self::getWxUnionCode();
             $userInfo = $model->findByWxunion($wxInfo['id']);
@@ -181,14 +183,14 @@ class UserHandle{
         try {
             $code = Yii::$app->request->get('code');
             if(!isset($code)){
-                throw new \Exception("请传入用户CODE...");
+                throw new \RuntimeException("请传入用户CODE...");
             }
 
             $wechatConfig = Factory::officialAccount(Yii::$app->params['WECHAT']);
             $wxUserInfo = $wechatConfig->oauth->user();
 
             if(!isset($wxUserInfo)){
-                throw new \Exception("插件初始化出现问题...");
+                throw new \RuntimeException("插件初始化出现问题...");
             }
 
 //            if($isSave){
@@ -202,7 +204,8 @@ class UserHandle{
                 'sex' => $wxUserInfo->getOriginal()['sex']
             ];
 
-        }catch (\Exception $ex){
+        }catch (AuthorizeFailedException $ex){
+
             throw new \Exception($ex->getMessage());
         }
     }
