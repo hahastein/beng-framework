@@ -34,13 +34,14 @@ class WeixinHandle
 
             $driver_type = Yii::$app->request->post('driver_type');
             if($driver_type == Enum::DRIVER_TYPE_WX){
-                $config = Yii::$app->params['WECHAT_MP'];
-            }else{
-                $config = Yii::$app->params['WECHAT'];
-            }
+                $wechatConfig = Factory::miniProgram(Yii::$app->params['WECHAT_MP']);
+                $wxUserInfo = $wechatConfig->auth->session($code);
+                p($wxUserInfo);die;
 
-            $wechatConfig = Factory::officialAccount($config);
-            $wxUserInfo = $wechatConfig->oauth->user();
+            }else{
+                $wechatConfig = Factory::officialAccount(Yii::$app->params['WECHAT']);
+                $wxUserInfo = $wechatConfig->oauth->user();
+            }
 
             if(!isset($wxUserInfo)){
                 throw new \RuntimeException("插件初始化出现问题...");
