@@ -206,9 +206,9 @@ class UserHandle{
             ];
 
         }catch (AuthorizeFailedException $ex){
-            p(WeixinEnum::$returnCode[$ex->body['errcode']]);die;
             if(isset($ex->body)){
-                return [$ex->body['errcode'], $ex->body['errmsg']];
+                throw new \Exception(WeixinEnum::$returnCode[$ex->body['errcode']]);
+//                return [$ex->body['errcode'], $ex->body['errmsg']];
             }
             throw new \Exception($ex->getMessage());
         }
