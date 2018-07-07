@@ -34,28 +34,57 @@ class WeixinHandle
 
             $driver_type = Yii::$app->request->post('driver_type');
             if($driver_type == Enum::DRIVER_TYPE_WX){
-                $wechatConfig = Factory::miniProgram(Yii::$app->params['WECHAT_MP']);
-                $wxUserInfo = $wechatConfig->auth->session($code);
-                p($wxUserInfo);die;
+                $iv = Yii::$app->request->post('iv');
+                $encryptedData = Yii::$app->request->post('encrypted');
+                $wechat = Factory::miniProgram(Yii::$app->params['WECHAT_XCX']);
+                if(!isset($wechat) || !$wechat){
+                    throw new \RuntimeException("微信初始化失败...");
+                }
+                $sessionData = $wechat->auth->session($code);
+                if(!$sessionData){
+                    throw new \RuntimeException("用户数据获取失败...");
+                }
+                $wxUserInfo = $wechat->encryptor->decryptData($sessionData, $iv, $encryptedData);
+                if(!isset($wxUserInfo)){
+                    throw new \RuntimeException("用户数据获取失败...");
+                }
+
+                p(json_encode($sessionData));die;
+
+                //获取用户数据
+                $userID = 0;
+                $nickName = '';
+                $avatar = '';
+                $sex = '';
 
             }else{
-                $wechatConfig = Factory::officialAccount(Yii::$app->params['WECHAT']);
-                $wxUserInfo = $wechatConfig->oauth->user();
+                $wechat = Factory::officialAccount(Yii::$app->params['WECHAT']);
+                if(!isset($wechat) || !$wechat){
+                    throw new \RuntimeException("微信初始化失败...");
+                }
+                $wxUserInfo = $wechat->oauth->user();
+                if(!isset($wxUserInfo)){
+                    throw new \RuntimeException("用户数据获取失败...");
+                }
+
+                //获取用户数据
+                $userID = $idType == WeixinEnum::WXID_TYPE_UNIONID?$wxUserInfo->getOriginal()['unionid']:$wxUserInfo->getId();
+                $nickName = $wxUserInfo->getNickname();
+                $avatar = $wxUserInfo->getAvatar();
+                $sex = $wxUserInfo->getOriginal()['sex'];
             }
 
-            if(!isset($wxUserInfo)){
-                throw new \RuntimeException("插件初始化出现问题...");
-            }
+
 
 //            if($isSave){
             //如果设置出入，请增加存入流程
 //            }
 
             return [
-                'id' => $idType == WeixinEnum::WXID_TYPE_UNIONID?$wxUserInfo->getOriginal()['unionid']:$wxUserInfo->getId(),
-                'nickname' => $wxUserInfo->getNickname(),
-                'avatar' => $wxUserInfo->getAvatar(),
-                'sex' => $wxUserInfo->getOriginal()['sex']
+                'id' => $userID,
+                'nickname' => $nickName,
+                'avatar' => $avatar,
+                'sex' => $sex;
             ];
 
         }catch (AuthorizeFailedException $ex){
