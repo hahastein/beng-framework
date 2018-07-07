@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\enum\Weixin;
 use bengbeng\framework\models\SmsARModel;
 use EasyWeChat\Factory;
 use Overtrue\Socialite\AuthorizeFailedException;
@@ -205,7 +206,7 @@ class UserHandle{
             ];
 
         }catch (AuthorizeFailedException $ex){
-            p($ex->body['errcode']);die;
+            p(Weixin::$returnCode[($ex->body['errcode']]);die;
             if(isset($ex->body)){
                 return [$ex->body['errcode'], $ex->body['errmsg']];
             }
