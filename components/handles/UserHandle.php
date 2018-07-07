@@ -205,7 +205,9 @@ class UserHandle{
             ];
 
         }catch (AuthorizeFailedException $ex){
-
+            if(isset($ex->body)){
+                return [$ex->body['errcode'], $ex->body['errmsg'], $ex->body['hints']];
+            }
             throw new \Exception($ex->getMessage());
         }
     }
