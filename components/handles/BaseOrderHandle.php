@@ -7,6 +7,8 @@
  */
 namespace bengbeng\framework\components\handles;
 
+use Yii;
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\OrderARModel;
 use yii\db\Exception;
 
@@ -19,28 +21,12 @@ use yii\db\Exception;
 class BaseOrderHandle
 {
 
-    // 支付类型0线下1支付宝2微信3银联4苹果支付
-    const PAY_TYPE_NOPAY = -1;
-    const PAY_TYPE_OFFLINE = 0;
-    const PAY_TYPE_ALIPAY = 1;
-    const PAY_TYPE_WXPAY = 2;
-    const PAY_TYPE_UNIONPAY = 3;
-    const PAY_TYPE_APPLEPAY = 4;
-
-    //订单状态0未支付1已支付2退款中3退款完成4取消订单5异常订单
-    const STATUS_NOPAY = 0;
-    const STATUS_PAY_FINISH = 1;
-    const STATUS_REFUND = 2;
-    const STATUS_REFUND_FINISH = 3;
-    const STATUS_CANCEL = 4;
-    const STATUS_EXCEPTION = 5;
-
-
     public $order_fields;
     public $user_id;
     public $store_id;
 
     private $orderSn;
+    private $orderID;
     private $paySn;
 
     private $orderModel;
@@ -63,11 +49,12 @@ class BaseOrderHandle
             $this->order_fields['order_pay_sn'] = $this->paySn;
             $this->order_fields['user_id'] = $this->getUserId();
             $this->order_fields['addtime'] = time();
-            $this->order_fields['pay_type'] = self::PAY_TYPE_NOPAY;
-            $this->order_fields['order_status'] = self::STATUS_NOPAY;
+            $this->order_fields['pay_type'] = Enum::PAY_TYPE_NOPAY;
+            $this->order_fields['order_status'] = Enum::ORDER_STATUS_NOPAY;
 
             $this->orderModel->setAttributes($this->order_fields, false);
             if($this->orderModel->save()){
+                $this->orderID = Yii::$app->db->getLastInsertID();
                 return true;
             }else{
                 throw new Exception('创建订单基础数据失败');
@@ -162,5 +149,13 @@ class BaseOrderHandle
     public function getOrderSn()
     {
         return $this->orderSn;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrderID()
+    {
+        return $this->orderID;
     }
 }
