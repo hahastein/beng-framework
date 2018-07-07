@@ -205,7 +205,7 @@ class UserHandle{
             ];
 
         }catch (AuthorizeFailedException $ex){
-            p($ex->body);die;
+            p($ex->body['errcode']);die;
             if(isset($ex->body)){
                 return [$ex->body['errcode'], $ex->body['errmsg']];
             }
