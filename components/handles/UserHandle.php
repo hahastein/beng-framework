@@ -18,16 +18,6 @@ use yii\db\Exception;
 
 class UserHandle{
 
-    const LOGIN_TYPE_MOBILE_PASS = 10;
-    const LOGIN_TYPE_MOBILE_SMS = 20;
-    const LOGIN_TYPE_WEIXIN = 30;
-    const LOGIN_TYPE_ACCOUNT = 40;
-
-    const BIND_TYPE_USER = 10;
-
-    const WXID_TYPE_UNIONID = 20;
-    const WXID_TYPE_OPENID = 10;
-
     /**
      * 登录入口
      * @param $param
@@ -35,7 +25,7 @@ class UserHandle{
      * @param \Closure $closure
      * @return mixed
      */
-    public static function login($param, $loginType = self::LOGIN_TYPE_MOBILE_SMS, \Closure $closure){
+    public static function login($param, $loginType = WeixinEnum::LOGIN_TYPE_MOBILE_SMS, \Closure $closure){
 
         try{
             $model = new UserARModel();
@@ -43,14 +33,14 @@ class UserHandle{
             self::validateParamData($model, $param);
 
             switch ($loginType){
-                case self::LOGIN_TYPE_ACCOUNT:
-                case self::LOGIN_TYPE_MOBILE_PASS:
+                case WeixinEnum::LOGIN_TYPE_ACCOUNT:
+                case WeixinEnum::LOGIN_TYPE_MOBILE_PASS:
                     $userInfo = self::validatePass($model, $param);
                     break;
-                case self::LOGIN_TYPE_WEIXIN:
+                case WeixinEnum::LOGIN_TYPE_WEIXIN:
                     $userInfo = self::validateWeixin($model);
                     break;
-                case self::LOGIN_TYPE_MOBILE_SMS:
+                case WeixinEnum::LOGIN_TYPE_MOBILE_SMS:
                     $userInfo = self::validateSmsCode($model, $param);
                     break;
                 default:
@@ -141,9 +131,9 @@ class UserHandle{
      * @param int $loginType
      */
     private static function setValidateScenario($model,$loginType){
-        if($loginType == self::LOGIN_TYPE_MOBILE_SMS)$model->setScenario('sms');
-        if($loginType == self::LOGIN_TYPE_MOBILE_PASS)$model->setScenario('pass');
-        if($loginType == self::LOGIN_TYPE_ACCOUNT)$model->setScenario('account');
+        if($loginType == WeixinEnum::LOGIN_TYPE_MOBILE_SMS)$model->setScenario('sms');
+        if($loginType == WeixinEnum::LOGIN_TYPE_MOBILE_PASS)$model->setScenario('pass');
+        if($loginType == WeixinEnum::LOGIN_TYPE_ACCOUNT)$model->setScenario('account');
     }
 
     /**
@@ -179,7 +169,7 @@ class UserHandle{
      * @return array
      * @throws \Exception
      */
-    public static function getWxUnionCode($idType = self::WXID_TYPE_UNIONID, $isSave = false){
+    public static function getWxUnionCode($idType = WeixinEnum::WXID_TYPE_UNIONID, $isSave = false){
 
         try {
             $code = Yii::$app->request->get('code');
@@ -199,7 +189,7 @@ class UserHandle{
 //            }
 
             return [
-                'id' => $idType == self::WXID_TYPE_UNIONID?$wxUserInfo->getOriginal()['unionid']:$wxUserInfo->getId(),
+                'id' => $idType == WeixinEnum::WXID_TYPE_UNIONID?$wxUserInfo->getOriginal()['unionid']:$wxUserInfo->getId(),
                 'nickname' => $wxUserInfo->getNickname(),
                 'avatar' => $wxUserInfo->getAvatar(),
                 'sex' => $wxUserInfo->getOriginal()['sex']

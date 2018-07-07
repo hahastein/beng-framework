@@ -13,6 +13,9 @@ use bengbeng\framework\base\Enum;
 class WeixinEnum extends Enum
 {
 
+    const WXID_TYPE_UNIONID = 20;
+    const WXID_TYPE_OPENID = 10;
+
     public static $returnCode = [
         '40001'=>'不合法的调用凭证',
         '40002'=>'不合法的grant_type',
