@@ -1,6 +1,6 @@
 <?php
 
-namespace bengbeng\framework\controllers;
+namespace bengbeng\framework\controllers\base;
 
 use Yii;
 use yii\helpers\ArrayHelper;
