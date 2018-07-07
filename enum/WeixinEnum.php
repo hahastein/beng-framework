@@ -10,7 +10,7 @@ namespace bengbeng\framework\enum;
 
 use bengbeng\framework\base\Enum;
 
-class Weixin extends Enum
+class WeixinEnum extends Enum
 {
 
     public static $returnCode = [
