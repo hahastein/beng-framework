@@ -38,6 +38,7 @@ class Enum
     const DRIVER_TYPE_IOS = 10;
     const DRIVER_TYPE_ANDROID = 11;
     const DRIVER_TYPE_H5 = 12;
-    const DRIVER_TYPE_WX = 13;
+    const DRIVER_TYPE_WXXCX = 13;
+    const DRIVER_TYPE_WXMP = 14;
 
 }

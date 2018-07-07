@@ -33,33 +33,8 @@ class WeixinHandle
             }
 
             $driver_type = Yii::$app->request->post('driver_type');
-            if($driver_type == Enum::DRIVER_TYPE_WX){
-                $iv = Yii::$app->request->post('iv');
-                $encryptedData = Yii::$app->request->post('encrypted');
-                if(!isset($iv) || !isset($encryptedData)){
-                    throw new \RuntimeException("参数错误...");
-                }
-                $wechat = Factory::miniProgram(Yii::$app->params['WECHAT_XCX']);
-                if(!isset($wechat) || !$wechat){
-                    throw new \RuntimeException("微信初始化失败...");
-                }
-                $sessionData = $wechat->auth->session($code);
-                if(!$sessionData || !isset($sessionData['session_key']) || empty($sessionData['session_key'])){
-                    throw new \RuntimeException("用户数据获取失败...");
-                }
-                $wxUserInfo = $wechat->encryptor->decryptData($sessionData['session_key'], $iv, $encryptedData);
-                if(!isset($wxUserInfo)){
-                    throw new \RuntimeException("用户数据获取失败...");
-                }
-
-                p($wxUserInfo);die;
-
-                //获取用户数据
-                $userID = 0;
-                $nickName = '';
-                $avatar = '';
-                $sex = '';
-
+            if($driver_type == Enum::DRIVER_TYPE_WXXCX){
+                self::miniProgram();
             }else{
                 $wechat = Factory::officialAccount(Yii::$app->params['WECHAT']);
                 if(!isset($wechat) || !$wechat){
@@ -77,8 +52,6 @@ class WeixinHandle
                 $sex = $wxUserInfo->getOriginal()['sex'];
             }
 
-
-
 //            if($isSave){
             //如果设置出入，请增加存入流程
 //            }
@@ -93,7 +66,6 @@ class WeixinHandle
         }catch (AuthorizeFailedException $ex){
             if(isset($ex->body)){
                 throw new \Exception(WeixinEnum::$returnCode[$ex->body['errcode']]);
-//                return [$ex->body['errcode'], $ex->body['errmsg']];
             }
             throw new \Exception($ex->getMessage());
         }
@@ -126,5 +98,38 @@ class WeixinHandle
         }catch (\Exception $ex){
             throw $ex;
         }
+    }
+
+    /**
+     * @return array
+     * @throws \EasyWeChat\Kernel\Exceptions\DecryptException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    private static function miniProgram(){
+        $iv = Yii::$app->request->post('iv');
+        $encryptedData = Yii::$app->request->post('encrypted');
+        if(!isset($iv) || !isset($encryptedData)){
+            throw new \RuntimeException("参数错误...");
+        }
+        $wechat = Factory::miniProgram(Yii::$app->params['WECHAT_XCX']);
+        if(!isset($wechat) || !$wechat){
+            throw new \RuntimeException("微信初始化失败...");
+        }
+        $sessionData = $wechat->auth->session($code);
+        if(!$sessionData || !isset($sessionData['session_key']) || empty($sessionData['session_key'])){
+            throw new \RuntimeException("用户数据获取失败...");
+        }
+        $wxUserInfo = $wechat->encryptor->decryptData($sessionData['session_key'], $iv, $encryptedData);
+        if(!isset($wxUserInfo)){
+            throw new \RuntimeException("用户数据获取失败...");
+        }
+
+        //返回获取用户数据
+        return [
+            'id' => $idType == WeixinEnum::WXID_TYPE_UNIONID?$wxUserInfo['unionId']:$wxUserInfo['openId'],
+            'nickname' => $wxUserInfo['nickName'],
+            'avatar' => $wxUserInfo['avatarUrl'],
+            'sex' => $wxUserInfo['gender']
+        ];
     }
 }
