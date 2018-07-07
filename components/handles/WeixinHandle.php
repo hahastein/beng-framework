@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\UserARModel;
 use Overtrue\Socialite\AuthorizeFailedException;
 use Yii;
@@ -31,7 +32,14 @@ class WeixinHandle
                 throw new \RuntimeException("请传入用户CODE...");
             }
 
-            $wechatConfig = Factory::officialAccount(Yii::$app->params['WECHAT']);
+            $driver_type = Yii::$app->request->post('driver_type');
+            if($driver_type == Enum::DRIVER_TYPE_WX){
+                $config = Yii::$app->params['WECHAT_MP'];
+            }else{
+                $config = Yii::$app->params['WECHAT'];
+            }
+
+            $wechatConfig = Factory::officialAccount($config);
             $wxUserInfo = $wechatConfig->oauth->user();
 
             if(!isset($wxUserInfo)){

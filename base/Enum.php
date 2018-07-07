@@ -34,4 +34,10 @@ class Enum
     const ORDER_STATUS_CANCEL = 4;
     const ORDER_STATUS_EXCEPTION = 5;
 
+    //设备类型来源
+    const DRIVER_TYPE_IOS = 10;
+    const DRIVER_TYPE_ANDROID = 11;
+    const DRIVER_TYPE_H5 = 12;
+    const DRIVER_TYPE_WX = 13;
+
 }
