@@ -84,7 +84,7 @@ class WeixinHandle
                 'id' => $userID,
                 'nickname' => $nickName,
                 'avatar' => $avatar,
-                'sex' => $sex;
+                'sex' => $sex
             ];
 
         }catch (AuthorizeFailedException $ex){
