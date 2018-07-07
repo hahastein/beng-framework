@@ -43,14 +43,18 @@ class JsonController extends Controller{
 
         $returnContent = [
             'code' => 400,
-            'msg' => '接口数据出现错误',
             'data' => false
         ];
         $array_record = 0;
         foreach ($result as $item){
-            if(is_object($item)) {
-                $returnContent['data'] = ArrayHelper::toArray($item);
-            }else if(is_array($item)){
+            if(is_object($item)){
+                if($array_record == 0) {
+                    $returnContent['data'] = ArrayHelper::toArray($item);
+                }else{
+                    $returnContent['data'.$array_record] = ArrayHelper::toArray($item);
+                }
+                $array_record ++;
+            } else if(is_array($item)){
                 if($array_record == 0){
                     $returnContent['data'] = $item;
                 }else{
@@ -58,10 +62,23 @@ class JsonController extends Controller{
                 }
                 $array_record ++;
             }else if(is_string($item)){
-                $returnContent['msg'] = $item;
+                if(isset($returnContent['msg'])){
+                    if($array_record == 0){
+                        $returnContent['data'] = $item;
+                    }else{
+                        $returnContent['data'.$array_record] = $item;
+                    }
+                    $array_record ++;
+                }else {
+                    $returnContent['msg'] = $item;
+                }
             }else{
                 $returnContent['code'] = $item;
             }
+        }
+
+        if(!isset($returnContent['msg'])){
+            $returnContent['msg'] = "接口数据出现错误";
         }
 
         return $returnContent;
