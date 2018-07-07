@@ -36,21 +36,23 @@ class WeixinHandle
             if($driver_type == Enum::DRIVER_TYPE_WX){
                 $iv = Yii::$app->request->post('iv');
                 $encryptedData = Yii::$app->request->post('encrypted');
+                if(!isset($iv) || !isset($encryptedData)){
+                    throw new \RuntimeException("参数错误...");
+                }
                 $wechat = Factory::miniProgram(Yii::$app->params['WECHAT_XCX']);
                 if(!isset($wechat) || !$wechat){
                     throw new \RuntimeException("微信初始化失败...");
                 }
                 $sessionData = $wechat->auth->session($code);
-                p($sessionData['session_key']);die;
-
-                if(!$sessionData){
+                if(!$sessionData || !isset($sessionData['session_key']) || empty($sessionData['session_key'])){
                     throw new \RuntimeException("用户数据获取失败...");
                 }
-                $wxUserInfo = $wechat->encryptor->decryptData($sessionData, $iv, $encryptedData);
+                $wxUserInfo = $wechat->encryptor->decryptData($sessionData['session_key'], $iv, $encryptedData);
                 if(!isset($wxUserInfo)){
                     throw new \RuntimeException("用户数据获取失败...");
                 }
 
+                p($wxUserInfo);die;
 
                 //获取用户数据
                 $userID = 0;
