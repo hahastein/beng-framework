@@ -43,7 +43,7 @@ class WeixinHandle
 
             $driver_type = Yii::$app->request->post('driver_type');
             if($driver_type == Enum::DRIVER_TYPE_WXXCX){
-                $wxUserInfo = self::miniProgram();
+                $wxUserInfo = self::miniProgram($code);
             }else{
                 $wxUserInfo = self::appProgram();
             }
@@ -80,11 +80,12 @@ class WeixinHandle
     }
 
     /**
+     * @param string $code
      * @return array
      * @throws \EasyWeChat\Kernel\Exceptions\DecryptException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    private static function miniProgram(){
+    private static function miniProgram($code){
         $iv = Yii::$app->request->post('iv');
         $encryptedData = Yii::$app->request->post('encrypted');
         if(!isset($iv) || !isset($encryptedData)){
