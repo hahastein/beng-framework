@@ -20,10 +20,11 @@ class UserHandle{
      * 登录入口
      * @param $param
      * @param int $loginType
+     * @param bool $autoCreate
      * @param \Closure $closure
      * @return mixed
      */
-    public static function login($param, $loginType = WeixinEnum::LOGIN_TYPE_MOBILE_SMS, \Closure $closure){
+    public static function login($param, $loginType = WeixinEnum::LOGIN_TYPE_MOBILE_SMS, $autoCreate = true, \Closure $closure){
 
         try{
             $model = new UserARModel();
@@ -36,7 +37,7 @@ class UserHandle{
                     $userInfo = self::validatePass($model, $param);
                     break;
                 case WeixinEnum::LOGIN_TYPE_WEIXIN:
-                    $userInfo = self::validateWeixin($model);
+                    $userInfo = self::validateWeixin($model, $autoCreate);
                     break;
                 case WeixinEnum::LOGIN_TYPE_MOBILE_SMS:
                     $userInfo = self::validateSmsCode($model, $param);
@@ -99,31 +100,36 @@ class UserHandle{
     /**
      * 验证微信登录
      * @param UserARModel $model
+     * @param bool $autoCreate
      * @return array|false|\yii\db\ActiveRecord
      * @throws \Exception
      */
-    private static function validateWeixin($model){
+    private static function validateWeixin($model, $autoCreate){
         try{
             $wxInfo = WeixinHandle::getWxUnionCode();
             if($userInfo = $model->findByWxunion($wxInfo['unionid'])){
                 return [
                     'user_id' => $userInfo['user_id'],
-                    'union_id' => $userInfo['unionid'],
+                    'union_id' => $userInfo['wx_unioncode'],
                     'nickname' => $userInfo['nickname'],
                     'avatar_head' => $userInfo['avatar_head'],
                     'phone_num' => $userInfo['phone_num'],
                     'phone_bind' => $userInfo['phone_bind']
                 ];
             }else{
-                $user_id = self::register($regType = 0,$wxInfo);
-                return [
-                    'user_id' => $user_id,
-                    'union_id' => $wxInfo['unionid'],
-                    'nickname' => $wxInfo['nickname'],
-                    'avatar_head' => $wxInfo['avatar'],
-                    'phone_num' => 0,
-                    'phone_bind' => 0
-                ];
+                if($autoCreate) {
+                    $user_id = self::register($regType = 0, $wxInfo);
+                    return [
+                        'user_id' => $user_id,
+                        'union_id' => $wxInfo['unionid'],
+                        'nickname' => $wxInfo['nickname'],
+                        'avatar_head' => $wxInfo['avatar'],
+                        'phone_num' => 0,
+                        'phone_bind' => 0
+                    ];
+                }else{
+                    return false;
+                }
             }
         }catch (\Exception $ex){
             throw $ex;
