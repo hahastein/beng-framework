@@ -99,6 +99,10 @@ class WeixinHandle
         if(!$sessionData || !isset($sessionData['session_key']) || empty($sessionData['session_key'])){
             throw new \RuntimeException("用户数据获取失败...");
         }
+        p($sessionData['session_key']);
+        p($encryptedData);
+        p($iv);
+        die;
         $wxUserInfo = $wechat->encryptor->decryptData($sessionData['session_key'], $iv, $encryptedData);
         if(!isset($wxUserInfo)){
             throw new \RuntimeException("用户数据获取失败...");
