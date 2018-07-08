@@ -34,9 +34,9 @@ class WeixinHandle
 
             $driver_type = Yii::$app->request->post('driver_type');
             if($driver_type == Enum::DRIVER_TYPE_WXXCX){
-                $wxUserInfo = self::miniProgram();
+                $wxUserInfo = self::miniProgram($idType);
             }else{
-                $wxUserInfo = self::appProgram();
+                $wxUserInfo = self::appProgram($idType);
             }
 
 //            if($isSave){
@@ -83,9 +83,10 @@ class WeixinHandle
     }
 
     /**
+     * @param int $idType
      * @return array
      */
-    private static function appProgram(){
+    private static function appProgram($idType){
         $wechat = Factory::officialAccount(Yii::$app->params['WECHAT']);
         if(!isset($wechat) || !$wechat){
             throw new \RuntimeException("微信初始化失败...");
@@ -105,11 +106,12 @@ class WeixinHandle
     }
 
     /**
+     * @param int $idType
      * @return array
      * @throws \EasyWeChat\Kernel\Exceptions\DecryptException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    private static function miniProgram(){
+    private static function miniProgram($idType){
         $iv = Yii::$app->request->post('iv');
         $encryptedData = Yii::$app->request->post('encrypted');
         if(!isset($iv) || !isset($encryptedData)){
