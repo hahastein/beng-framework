@@ -108,6 +108,7 @@ class UserHandle{
             if($userInfo = $model->findByWxunion($wxInfo['unionid'])){
                 return [
                     'user_id' => $userInfo['user_id'],
+                    'union_id' => $userInfo['unionid'],
                     'nickname' => $userInfo['nickname'],
                     'avatar_head' => $userInfo['avatar_head'],
                     'phone_num' => $userInfo['phone_num'],
@@ -117,6 +118,7 @@ class UserHandle{
                 $user_id = self::register($regType = 0,$wxInfo);
                 return [
                     'user_id' => $user_id,
+                    'union_id' => $wxInfo['unionid'],
                     'nickname' => $wxInfo['nickname'],
                     'avatar_head' => $wxInfo['avatar'],
                     'phone_num' => 0,
