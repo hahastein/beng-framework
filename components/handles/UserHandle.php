@@ -36,7 +36,7 @@ class UserHandle{
                     $userInfo = self::validatePass($model, $param);
                     break;
                 case WeixinEnum::LOGIN_TYPE_WEIXIN:
-                    $userInfo = WeixinHandle::validateWeixin($model);
+                    $userInfo = self::validateWeixin($model);
                     break;
                 case WeixinEnum::LOGIN_TYPE_MOBILE_SMS:
                     $userInfo = self::validateSmsCode($model, $param);
@@ -54,8 +54,35 @@ class UserHandle{
 
     }
 
-    public static function register(){
+    /**
+     * @param int $regType
+     * @param $params
+     * @return array|string
+     * @throws \Exception
+     */
+    public static function register($regType = 0, $params){
 
+        if($regType == 0){
+            $insert  = [
+                'wx_unioncode' => $params['unionid'],
+                'wx_openid' => $params['openid'],
+                'avatar_head' => $params['avatar'],
+                'nickname' => $params['nickname'],
+                'user_sex' => $params['sex'],
+                'username' => '竹迹用户'.time(),
+                'addtime' => time()
+            ];
+
+            $userModel = new UserARModel();
+            $userModel->setAttributes($insert, false);
+            if($userModel->save()){
+                return Yii::$app->db->getLastInsertID();
+            }else{
+                throw new \Exception('创建用户失败');
+            }
+        }else{
+            throw new \Exception('没有此创建类型');
+        }
     }
 
     public static function autoRegister(){
@@ -69,7 +96,37 @@ class UserHandle{
 
     //私有方法
 
-
+    /**
+     * 验证微信登录
+     * @param UserARModel $model
+     * @return array|false|\yii\db\ActiveRecord
+     * @throws \Exception
+     */
+    private static function validateWeixin($model){
+        try{
+            $wxInfo = WeixinHandle::getWxUnionCode();
+            if($userInfo = $model->findByWxunion($wxInfo['unionid'])){
+                return [
+                    'user_id' => $userInfo['user_id'],
+                    'nickname' => $userInfo['nickname'],
+                    'avatar_head' => $userInfo['avatar_head'],
+                    'phone_num' => $userInfo['phone_num'],
+                    'phone_bind' => $userInfo['phone_bind']
+                ];
+            }else{
+                $user_id = self::register($regType = 0,$wxInfo);
+                return [
+                    'user_id' => $user_id,
+                    'nickname' => $wxInfo['nickname'],
+                    'avatar_head' => $wxInfo['avatar'],
+                    'phone_num' => 0,
+                    'phone_bind' => 0
+                ];
+            }
+        }catch (\Exception $ex){
+            throw $ex;
+        }
+    }
 
     /**
      * 验证密码登录
