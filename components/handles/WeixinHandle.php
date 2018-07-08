@@ -99,7 +99,8 @@ class WeixinHandle
         if(!$sessionData || !isset($sessionData['session_key']) || empty($sessionData['session_key'])){
             throw new \RuntimeException("用户数据获取失败...");
         }
-        p($sessionData['session_key']);
+        p($code);
+        p($sessionData);
         p($encryptedData);
         p($iv);
         die;
