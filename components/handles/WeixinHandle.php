@@ -96,7 +96,6 @@ class WeixinHandle
             throw new \RuntimeException("微信初始化失败...");
         }
         $sessionData = $wechat->auth->session($code);
-        p($sessionData);die;
         if(!$sessionData || !isset($sessionData['session_key']) || empty($sessionData['session_key'])){
             throw new \RuntimeException("用户数据获取失败...");
         }
