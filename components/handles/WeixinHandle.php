@@ -103,7 +103,7 @@ class WeixinHandle
         p($sessionData);
         p($encryptedData);
         p($iv);
-        die;
+
         $wxUserInfo = $wechat->encryptor->decryptData($sessionData['session_key'], $iv, $encryptedData);
         if(!isset($wxUserInfo)){
             throw new \RuntimeException("用户数据获取失败...");
