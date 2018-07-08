@@ -34,34 +34,16 @@ class WeixinHandle
 
             $driver_type = Yii::$app->request->post('driver_type');
             if($driver_type == Enum::DRIVER_TYPE_WXXCX){
-                self::miniProgram();
+                $wxUserInfo = self::miniProgram();
             }else{
-                $wechat = Factory::officialAccount(Yii::$app->params['WECHAT']);
-                if(!isset($wechat) || !$wechat){
-                    throw new \RuntimeException("微信初始化失败...");
-                }
-                $wxUserInfo = $wechat->oauth->user();
-                if(!isset($wxUserInfo)){
-                    throw new \RuntimeException("用户数据获取失败...");
-                }
-
-                //获取用户数据
-                $userID = $idType == WeixinEnum::WXID_TYPE_UNIONID?$wxUserInfo->getOriginal()['unionid']:$wxUserInfo->getId();
-                $nickName = $wxUserInfo->getNickname();
-                $avatar = $wxUserInfo->getAvatar();
-                $sex = $wxUserInfo->getOriginal()['sex'];
+                $wxUserInfo = self::appProgram();
             }
 
 //            if($isSave){
             //如果设置出入，请增加存入流程
 //            }
 
-            return [
-                'id' => $userID,
-                'nickname' => $nickName,
-                'avatar' => $avatar,
-                'sex' => $sex
-            ];
+            return $wxUserInfo;
 
         }catch (AuthorizeFailedException $ex){
             if(isset($ex->body)){
@@ -98,6 +80,28 @@ class WeixinHandle
         }catch (\Exception $ex){
             throw $ex;
         }
+    }
+
+    /**
+     * @return array
+     */
+    private static function appProgram(){
+        $wechat = Factory::officialAccount(Yii::$app->params['WECHAT']);
+        if(!isset($wechat) || !$wechat){
+            throw new \RuntimeException("微信初始化失败...");
+        }
+        $wxUserInfo = $wechat->oauth->user();
+        if(!isset($wxUserInfo)){
+            throw new \RuntimeException("用户数据获取失败...");
+        }
+
+        //获取用户数据
+        return [
+            'id' => $idType == WeixinEnum::WXID_TYPE_UNIONID?$wxUserInfo->getOriginal()['unionid']:$wxUserInfo->getId(),
+            'nickname' => $wxUserInfo->getNickname(),
+            'avatar' => $wxUserInfo->getAvatar(),
+            'sex' => $wxUserInfo->getOriginal()['sex']
+        ];
     }
 
     /**
