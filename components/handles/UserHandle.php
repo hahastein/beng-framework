@@ -188,13 +188,11 @@ class UserHandle{
      * @throws \Exception
      */
     private static function validateSmsCode($model, $param){
-        $smsModel = new SmsARModel();
-        $smsInfo = $smsModel->findByCode($param['phone_num'], $param['code']);
-        if(!$smsInfo)throw new \Exception('验证码错误');
-        if($smsInfo->addtime + 60 < time()){
-            throw new \Exception('验证码过时');
+        if(SmsHandle::validateSmsCode($param)) {
+            return $model->findByMobilenumber($param['phone_num']);
+        }else{
+            throw new \Exception('验证码不存在');
         }
-        return $model->findByMobilenumber($param['phone_num']);
     }
 
     /**

@@ -53,6 +53,21 @@ class SmsHandle
         }
     }
 
+    /**
+     * @param $param
+     * @return bool
+     * @throws \Exception
+     */
+    public static function validateSmsCode($param){
+        $smsModel = new SmsARModel();
+        $smsInfo = $smsModel->findByCode($param['phone_num'], $param['code']);
+        if(!$smsInfo)throw new \Exception('验证码错误');
+        if($smsInfo->addtime + 60 < time()){
+            throw new \Exception('验证码过时');
+        }
+        return true;
+    }
+
     const SMS_STATUS_USE = 1;
     const SMS_STATUS_NOUSE = 0;
 
