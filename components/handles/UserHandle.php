@@ -95,6 +95,7 @@ class UserHandle{
      * 用户绑定信息
      * @param int $type
      * @param $params
+     * @return
      * @throws
      */
     public static function bind($type = Enum::USER_BIND_MOBILE, $params){
@@ -105,7 +106,7 @@ class UserHandle{
                 if(!$userObject = $model->findByWxunion($params['unionid'])){
                     $userObject->phone_num = $params['phone_num'];
                     $userObject->phone_bind = 1;
-                    $userObject->save();
+                    return $userObject->save();
                 }else{
                     throw new \Exception('此手机已经绑定过账号，请使用新的手机号进行绑定');
                 }
@@ -114,8 +115,6 @@ class UserHandle{
                 throw new \Exception('无此绑定类型');
                 break;
         }
-        echo "user handle base";
-
     }
 
 
