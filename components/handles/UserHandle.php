@@ -102,7 +102,7 @@ class UserHandle{
             case Enum::USER_BIND_MOBILE:
                 //验证用户是否已经绑定
                 $model = new UserARModel();
-                if(!$userObject = $model->findByMobilenumber($params['phone_num'])){
+                if(!$userObject = $model->findByWxunion($params['unionid'])){
                     $userObject->phone_num = $params['phone_num'];
                     $userObject->phone_bind = 1;
                     $userObject->save();
