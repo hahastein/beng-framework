@@ -41,4 +41,9 @@ class Enum
     const DRIVER_TYPE_WXXCX = 13;
     const DRIVER_TYPE_WXMP = 14;
 
+    //用户绑定类型
+    const USER_BIND_MOBILE = 1;
+    const USER_BIND_WEIXIN = 2;
+
+
 }

@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\enum\WeixinEnum;
 use bengbeng\framework\models\SmsARModel;
 use Yii;
@@ -90,8 +91,31 @@ class UserHandle{
 
     }
 
-    public static function bind(){
+    /**
+     * 用户绑定信息
+     * @param int $type
+     * @param $params
+     * @throws
+     */
+    public static function bind($type = Enum::USER_BIND_MOBILE, $params){
+        switch ($type){
+            case Enum::USER_BIND_MOBILE:
+                //验证用户是否已经绑定
+                $model = new UserARModel();
+                if(!$userObject = $model->findByMobilenumber($params['phone_num'])){
+                    $userObject->phone_num = $params['phone_num'];
+                    $userObject->phone_bind = 1;
+                    $userObject->save();
+                }else{
+                    throw new \Exception('此手机已经绑定过账号，请使用新的手机号进行绑定');
+                }
+                break;
+            default:
+                throw new \Exception('无此绑定类型');
+                break;
+        }
         echo "user handle base";
+
     }
 
 
