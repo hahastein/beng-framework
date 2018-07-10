@@ -20,7 +20,7 @@ class SecurityPlugins extends Component
      * @param $iv
      * @return string
      */
-    public static function decrypt($orgData, $key, $iv){
+    public function decrypt($orgData, $key, $iv){
         return openssl_decrypt(base64_decode($orgData), 'aes-128-cbc', $key, true, $iv);
     }
 }
