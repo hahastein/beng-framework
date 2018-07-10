@@ -13,8 +13,7 @@ class Yii extends \yii\BaseYii
 }
 
 /**
- * @property \bengbeng\framework\components\plugins\OutputPlugins $B B is plugins
- * @property \bengbeng\framework\components\plugins\SecurityPlugins $Security Security is plugins
+ * @property \bengbeng\framework\components\plugins\BengPlugins $Beng Beng is plugins
  */
 abstract class autoCompletion extends yii\base\Application
 {
