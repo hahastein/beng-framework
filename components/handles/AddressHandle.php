@@ -122,25 +122,19 @@ class AddressHandle
                 $this->error = "数据不存在";
                 return false;
             }
-
         }else{
             $this->model->setScenario('insert');
             $this->model->addtime = time();
             $this->model->user_id = $this->user_id;
-//            $this->model->setAttributes($this->params);
         }
+        $this->model->is_default = $this->params['is_default'];
 
-        if($this->model->setAttributes($this->params) && $this->model->validate()) {
-            $this->model->is_default = $this->params['is_default'];
-            if ($this->model->save()) {
-                return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
-            } else {
-                $this->error = "数据变更失败";
-                return false;
-            }
-        }else{
+        if($this->model->setAttributes($this->params) && $this->model->save()) {
+            return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
+        } else {
             $this->error = current($this->model->getFirstErrors());
             return false;
         }
+
     }
 }
