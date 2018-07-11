@@ -74,6 +74,7 @@ class AddressHandle
     public function setUserId($user_id)
     {
         $this->user_id = $user_id;
+        $this->params['user_id'] = $user_id;
     }
 
     /**
