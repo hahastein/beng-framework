@@ -104,7 +104,9 @@ class AddressHandle
     }
 
     public function all(){
-        return $this->model->find()->orderBy([
+        return $this->model->find()->where([
+            'user_id' => $this->user_id
+        ])->orderBy([
             'is_default' => SORT_DESC
         ])->asArray()->all();
     }
