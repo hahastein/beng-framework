@@ -125,11 +125,11 @@ class AddressHandle
         }else{
             $this->model->setScenario('insert');
         }
-        if($_GET['debug'] == 1){
-            p($this->params);
+        if(isset($_GET) && $_GET['debug'] == 1){
+            p($this->model->toArray());
         }
         $this->model->setAttributes($this->params);
-        if($_GET['debug'] == 1){
+        if(isset($_GET) && $_GET['debug'] == 1){
             p($this->model->toArray());
             die;
         }
