@@ -120,6 +120,7 @@ class AddressHandle
         }else{
             $this->model->setScenario('insert');
         }
+        \Yii::$app->B->outHtml($this->params);
         $this->model->setAttributes($this->params);
         if($this->model->validate()) {
             if ($this->address_id > 0) {
