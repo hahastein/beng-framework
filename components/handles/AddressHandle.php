@@ -125,8 +125,9 @@ class AddressHandle
             $this->model->setScenario('insert');
             $this->model->addtime = time();
             $this->model->user_id = $this->user_id;
+            $this->model->setAttributes($this->params);
         }
-        $this->model->setAttributes($this->params);
+
         if($this->model->validate()) {
             $this->model->is_default = $this->params['is_default'];
             if ($this->model->save()) {
