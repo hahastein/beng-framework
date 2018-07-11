@@ -30,6 +30,14 @@ class AddressHandle
         //获取需要的post数据
         $post = \Yii::$app->request->post();
 
+        if(isset($post['address_id'])){
+            $this->address_id = $post['address_id'];
+        }
+
+        if(isset($post['user_id'])){
+            $this->user_id = $post['user_id'];
+        }
+
         if(isset($post['address'])){
             $params['address'] = $post['address'];
         }
