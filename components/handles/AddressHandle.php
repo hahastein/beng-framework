@@ -124,9 +124,10 @@ class AddressHandle
             }
         }else{
             $this->model->setScenario('insert');
+            $this->model->setAttributes($this->params);
         }
 
-        if($this->model->setAttributes($this->params, false) && $this->model->validate()) {
+        if($this->model->validate()) {
             $this->model->is_default = $this->params['is_default'];
             $this->model->addtime = time();
             if ($this->model->save()) {
