@@ -36,6 +36,7 @@ class AddressHandle
 
         if(isset($post['user_id'])){
             $this->user_id = $post['user_id'];
+            $params['user_id'] = $this->user_id;
         }
 
         if(isset($post['address'])){
