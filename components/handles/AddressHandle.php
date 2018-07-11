@@ -122,8 +122,8 @@ class AddressHandle
             }
         }else{
             $this->model->setScenario('insert');
-            $this->model->addtime = time();
-            $this->model->user_id = $this->user_id;
+            $this->params['addtime'] = time();
+            $this->params['user_id'] = $this->user_id;
         }
 
         if($this->model->setAttributes($this->params) && $this->model->save()) {
