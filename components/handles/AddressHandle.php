@@ -18,12 +18,14 @@ class AddressHandle
     private $showField;
     private $params;
     private $error;
+    private $user_id;
     public function __construct()
     {
         $this->model = new AddressARModel();
         $this->address_id = 0;
         $this->showField = array();
         $this->params = array();
+        $this->user_id = 0;
 
         //获取需要的post数据
         $post = \Yii::$app->request->post();
@@ -58,6 +60,14 @@ class AddressHandle
     }
 
     /**
+     * @param int $user_id
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+    }
+
+    /**
      * @param array $params
      */
     public function setParams($params)
@@ -82,7 +92,7 @@ class AddressHandle
     }
 
     public function one(){
-        return $this->model->findByAddressID($this->address_id, $this->showField);
+        return $this->model->findByAddressID($this->address_id, $this->user_id, $this->showField);
     }
 
     public function all(){
@@ -100,7 +110,7 @@ class AddressHandle
             }
         }
         if($this->model->save()){
-            return \Yii::$app->db->lastInsertID;
+            return $this->address_id>0?$this->address_id:\Yii::$app->db->lastInsertID;
         }else{
             $this->error = "数据变更失败";
             return false;

@@ -17,11 +17,16 @@ class AddressARModel extends ActiveRecord
         return '{{%address}}';
     }
 
-    public function findByAddressID($address_id, $showField = array()){
+    public function findByAddressID($address_id, $user_id = 0, $showField = array()){
         $query = self::find();
         $query->where([
             'address_id' => $address_id
         ]);
+        if($user_id >0 ){
+            $query->andWhere([
+                'user_id' => $user_id
+            ]);
+        }
         if(count($showField)>0){
             $query->select($showField);
         }
