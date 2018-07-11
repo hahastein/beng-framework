@@ -38,29 +38,29 @@ class AddressHandle
 
         if(isset($post['user_id'])){
             $this->user_id = $post['user_id'];
-            $params['user_id'] = $this->user_id;
+            $this->params['user_id'] = $this->user_id;
         }
 
         if(isset($post['address'])){
-            $params['address'] = $post['address'];
+            $this->params['address'] = $post['address'];
         }
 
         if(isset($post['city'])){
-            $params['city'] = $post['city'];
+            $this->params['city'] = $post['city'];
         }
 
         if(isset($post['name'])){
-            $params['name'] = $post['name'];
+            $this->params['name'] = $post['name'];
         }
 
         if(isset($post['phone'])){
-            $params['phone'] = $post['phone'];
+            $this->params['phone'] = $post['phone'];
         }
 
         if(isset($post['is_default'])){
-            $params['is_default'] = $post['is_default'];
+            $this->params['is_default'] = $post['is_default'];
         }else{
-            $params['is_default'] = 0;
+            $this->params['is_default'] = 0;
         }
     }
 
