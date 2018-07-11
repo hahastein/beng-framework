@@ -125,7 +125,7 @@ class AddressHandle
         }else{
             $this->model->setScenario('insert');
         }
-        $this->model->setAttributes($this->params);
+        $this->model->load($this->params);
 
         if($this->model->validate()) {
             $this->model->is_default = $this->params['is_default'];
