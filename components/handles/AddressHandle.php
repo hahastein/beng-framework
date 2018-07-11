@@ -57,8 +57,6 @@ class AddressHandle
 
         if(isset($post['is_default'])){
             $this->params['is_default'] = $post['is_default'];
-        }else{
-            $this->params['is_default'] = 0;
         }
     }
 
