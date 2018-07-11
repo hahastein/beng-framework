@@ -34,31 +34,29 @@ class AddressHandle
             $this->address_id = $post['address_id'];
         }
 
-        if(isset($post['user_id'])){
+        if(!empty($post['user_id'])){
             $this->user_id = $post['user_id'];
             $this->params['user_id'] = $this->user_id;
         }
 
-        if(isset($post['address'])){
+        if(!empty($post['address'])){
             $this->params['address'] = $post['address'];
         }
 
-        if(isset($post['city'])){
+        if(!empty($post['city'])){
             $this->params['city'] = $post['city'];
         }
 
-        if(isset($post['name'])){
+        if(!empty($post['name'])){
             $this->params['name'] = $post['name'];
         }
 
-        if(isset($post['phone'])){
+        if(!empty($post['phone'])){
             $this->params['phone'] = $post['phone'];
         }
 
-        if(isset($post['is_default'])){
+        if(!empty($post['is_default'])) {
             $this->params['is_default'] = $post['is_default'];
-        }else{
-            $this->params['is_default'] = 0;
         }
     }
 
@@ -135,8 +133,10 @@ class AddressHandle
         }
 
         if($this->model->validate()) {
-            $this->model->is_default = $this->params['is_default'];
-            $this->model->addtime = time();
+            if ($this->address_id ==0 ) {
+                $this->model->is_default = empty($this->params['is_default'])?0:$this->params['is_default'];
+                $this->model->addtime = time();
+            }
             if ($this->model->save()) {
                 return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
             } else {
