@@ -114,6 +114,11 @@ class AddressHandle
     }
 
     public function save(){
+        if ($this->address_id > 0) {
+            $this->model->setScenario('modify');
+        }else{
+            $this->model->setScenario('insert');
+        }
         $this->model->setAttributes($this->params, false);
         if($this->model->validate()) {
             if ($this->address_id > 0) {
@@ -125,6 +130,7 @@ class AddressHandle
                 $this->model->addtime = time();
                 $this->model->user_id = $this->user_id;
             }
+            $this->model->is_default = $this->params['is_default'];
             if ($this->model->save()) {
                 return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
             } else {

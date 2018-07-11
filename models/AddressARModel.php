@@ -20,6 +20,7 @@ use yii\db\ActiveRecord;
  * @property string $name
  * @property integer $phone
  * @property integer $addtime
+ * @property  bool $is_default
 
  * @package bengbeng\framework\models
  */
