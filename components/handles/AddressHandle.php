@@ -58,6 +58,14 @@ class AddressHandle
     }
 
     /**
+     * @param array $params
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
+    }
+
+    /**
      * @param array $showField
      */
     public function setShowField($showField)
