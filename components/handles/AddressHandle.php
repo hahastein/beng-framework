@@ -30,8 +30,6 @@ class AddressHandle
         //获取需要的post数据
         $post = \Yii::$app->request->post();
 
-        \Yii::$app->Beng->outHtml($post);
-
         if(isset($post['address_id'])){
             $this->address_id = $post['address_id'];
         }
@@ -122,7 +120,6 @@ class AddressHandle
         }else{
             $this->model->setScenario('insert');
         }
-        \Yii::$app->Beng->outHtml($this->params);
         $this->model->setAttributes($this->params);
         if($this->model->validate()) {
             if ($this->address_id > 0) {
