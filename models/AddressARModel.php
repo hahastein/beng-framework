@@ -53,9 +53,8 @@ class AddressARModel extends ActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['insert'] = ['user_id', 'address', 'city', 'name', 'phone'];
-        $scenarios['modify'] = ['address_id','user_id', 'address', 'city', 'name', 'phone'];
-        $scenarios['default'] = ['address_id', 'user_id', 'is_default'];
+        $scenarios['insert'] = ['user_id', 'address', 'city', 'name', 'phone','addtime'];
+        $scenarios['modify'] = ['address_id','user_id', 'address', 'city', 'name', 'phone', 'is_default'];
         return $scenarios;
     }
 
