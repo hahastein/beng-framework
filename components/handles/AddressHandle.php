@@ -77,6 +77,14 @@ class AddressHandle
     }
 
     /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
      * @param array $params
      */
     public function setParams($params)
@@ -105,6 +113,7 @@ class AddressHandle
     }
 
     public function all(){
+        p($this->user_id);
         return $this->model->find()->where([
             'user_id' => $this->user_id
         ])->orderBy([
