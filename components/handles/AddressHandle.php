@@ -123,14 +123,8 @@ class AddressHandle
         }else{
             $this->model->setScenario('insert');
         }
-        if(isset($_GET) && $_GET['debug'] == 1){
-            p($this->model->toArray());
-        }
+
         $this->model->setAttributes($this->params);
-        if(isset($_GET) && $_GET['debug'] == 1){
-            p($this->model->toArray());
-            die;
-        }
 
         if($this->model->validate()) {
             if ($this->address_id ==0 ) {
