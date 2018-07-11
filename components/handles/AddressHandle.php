@@ -119,7 +119,7 @@ class AddressHandle
         }else{
             $this->model->setScenario('insert');
         }
-        $this->model->setAttributes($this->params, false);
+        $this->model->setAttributes($this->params);
         if($this->model->validate()) {
             if ($this->address_id > 0) {
                 if (!$this->model = self::one()) {
@@ -138,6 +138,7 @@ class AddressHandle
                 return false;
             }
         }else{
+            $this->error = current($this->model->getErrors());
             return false;
         }
     }
