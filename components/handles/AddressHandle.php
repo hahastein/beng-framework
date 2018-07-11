@@ -138,7 +138,7 @@ class AddressHandle
                 return false;
             }
         }else{
-            $this->error = current($this->model->getErrors());
+            $this->error = current($this->model->getFirstErrors());
             return false;
         }
     }
