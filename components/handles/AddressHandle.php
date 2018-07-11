@@ -113,7 +113,6 @@ class AddressHandle
     }
 
     public function all(){
-        p($this->user_id);
         return $this->model->find()->where([
             'user_id' => $this->user_id
         ])->orderBy([
