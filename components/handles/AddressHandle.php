@@ -125,7 +125,6 @@ class AddressHandle
             $this->model->addtime = time();
             $this->model->user_id = $this->user_id;
         }
-        $this->model->is_default = $this->params['is_default'];
 
         if($this->model->setAttributes($this->params) && $this->model->save()) {
             return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
