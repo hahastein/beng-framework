@@ -55,7 +55,7 @@ class AddressHandle
             $this->params['phone'] = $post['phone'];
         }
 
-        if(!empty($post['is_default'])) {
+        if(isset($post['is_default']) && trim($post['is_default']) != "") {
             $this->params['is_default'] = $post['is_default'];
         }
     }
