@@ -30,6 +30,8 @@ class AddressHandle
         //获取需要的post数据
         $post = \Yii::$app->request->post();
 
+        \Yii::$app->Beng->outHtml($post);
+
         if(isset($post['address_id'])){
             $this->address_id = $post['address_id'];
         }
