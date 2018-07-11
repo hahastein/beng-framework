@@ -130,10 +130,7 @@ class AddressHandle
             if ($this->address_id ==0 ) {
                 $this->model->addtime = time();
             }
-            if(!empty($_GET['debug'])){
-                p(\Yii::$app->request->post());die;
-            }
-            if(!empty($this->params['is_default'])){
+            if(isset($this->params['is_default'])){
                 $this->model->is_default = $this->params['is_default'];
             }
             if ($this->model->save()) {
