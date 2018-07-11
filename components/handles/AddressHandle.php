@@ -131,7 +131,7 @@ class AddressHandle
                 $this->model->addtime = time();
             }
             if(!empty($_GET['debug'])){
-                p($this->params);die;
+                p(\Yii::$app->request->post());die;
             }
             if(!empty($this->params['is_default'])){
                 $this->model->is_default = $this->params['is_default'];
