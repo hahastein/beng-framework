@@ -122,6 +122,7 @@ class AddressHandle
             }
         }else{
             $this->model->addtime = time();
+            $this->model->user_id = $this->user_id;
         }
         if($this->model->save()){
             return $this->address_id>0?$this->address_id:\Yii::$app->db->lastInsertID;
