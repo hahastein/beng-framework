@@ -121,6 +121,7 @@ class AddressHandle
                 $this->error = "数据不存在";
                 return false;
             }
+            $this->model->load($this->params);
         }else{
             $this->model->setScenario('insert');
             $this->model->addtime = time();
