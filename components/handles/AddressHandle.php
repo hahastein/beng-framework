@@ -128,8 +128,10 @@ class AddressHandle
 
         if($this->model->validate()) {
             if ($this->address_id ==0 ) {
-                $this->model->is_default = empty($this->params['is_default'])?0:$this->params['is_default'];
                 $this->model->addtime = time();
+            }
+            if(!empty($this->params['is_default'])){
+                $this->model->is_default = $this->params['is_default'];
             }
             if ($this->model->save()) {
                 return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
