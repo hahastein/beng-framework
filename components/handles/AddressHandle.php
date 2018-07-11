@@ -117,20 +117,17 @@ class AddressHandle
     public function save(){
         if ($this->address_id > 0) {
             $this->model->setScenario('modify');
+            if (!$this->model = self::one()) {
+                $this->error = "数据不存在";
+                return false;
+            }
         }else{
             $this->model->setScenario('insert');
+            $this->model->addtime = time();
+            $this->model->user_id = $this->user_id;
         }
         $this->model->setAttributes($this->params);
         if($this->model->validate()) {
-            if ($this->address_id > 0) {
-                if (!$this->model = self::one()) {
-                    $this->error = "数据不存在";
-                    return false;
-                }
-            } else {
-                $this->model->addtime = time();
-                $this->model->user_id = $this->user_id;
-            }
             $this->model->is_default = $this->params['is_default'];
             if ($this->model->save()) {
                 return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
