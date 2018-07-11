@@ -56,6 +56,8 @@ class AddressHandle
 
         if(isset($post['is_default'])){
             $params['is_default'] = $post['is_default'];
+        }else{
+            $params['is_default'] = 0;
         }
     }
 
@@ -118,6 +120,8 @@ class AddressHandle
                 $this->error = "数据不存在";
                 return false;
             }
+        }else{
+            $this->model->addtime = time();
         }
         if($this->model->save()){
             return $this->address_id>0?$this->address_id:\Yii::$app->db->lastInsertID;
