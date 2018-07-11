@@ -125,7 +125,14 @@ class AddressHandle
         }else{
             $this->model->setScenario('insert');
         }
-        $this->model->load($this->params);
+        if($_GET['debug'] == 1){
+            p($this->params);
+        }
+        $this->model->setAttributes($this->params);
+        if($_GET['debug'] == 1){
+            p($this->model->toArray());
+            die;
+        }
 
         if($this->model->validate()) {
             $this->model->is_default = $this->params['is_default'];
