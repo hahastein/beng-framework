@@ -116,8 +116,8 @@ class AddressHandle
 
     public function save(){
         if ($this->address_id > 0) {
-            $this->model->setScenario('modify');
             $this->model = self::one();
+            $this->model->setScenario('modify');
             if (!$this->model) {
                 $this->error = "数据不存在";
                 return false;
