@@ -130,6 +130,9 @@ class AddressHandle
             if ($this->address_id ==0 ) {
                 $this->model->addtime = time();
             }
+            if(!empty($_GET['debug'])){
+                p($this->params);die;
+            }
             if(!empty($this->params['is_default'])){
                 $this->model->is_default = $this->params['is_default'];
             }
