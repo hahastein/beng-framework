@@ -16,9 +16,10 @@ use yii\db\ActiveRecord;
  * @property integer $user_id 用户ID
  * @property integer $address_id 地址ID
  * @property string $address
- * @property integer $city
- * @property integer $name
+ * @property string $city
+ * @property string $name
  * @property integer $phone
+ * @property integer $addtime
 
  * @package bengbeng\framework\models
  */
