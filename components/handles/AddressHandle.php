@@ -112,6 +112,30 @@ class AddressHandle
         ])->asArray()->all();
     }
 
+    public function delete(){
+        try{
+            if ($this->address_id <= 0) {
+                throw new \Exception('参数错误');
+            }
+            $this->model = self::one();
+            if(!$this->model){
+                throw new \Exception('数据不存在');
+            }
+
+            if($this->model->delete()){
+                return true;
+            }else{
+                throw new \Exception('删除失败');
+            }
+        }catch (\Exception $ex){
+            $this->error = $ex->getMessage();
+            return false;
+        }catch (\Throwable $ex){
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
     public function save(){
         if ($this->address_id > 0) {
             $this->model = self::one();
