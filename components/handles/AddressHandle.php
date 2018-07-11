@@ -57,6 +57,8 @@ class AddressHandle
 
         if(isset($post['is_default'])){
             $this->params['is_default'] = $post['is_default'];
+        }else{
+            $this->params['is_default'] = 0;
         }
     }
 
@@ -122,16 +124,20 @@ class AddressHandle
             }
         }else{
             $this->model->setScenario('insert');
-            $this->params['addtime'] = time();
-            $this->params['user_id'] = $this->user_id;
         }
 
-        if($this->model->setAttributes($this->params) && $this->model->save()) {
-            return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
-        } else {
+        if($this->model->setAttributes($this->params, false) && $this->model->validate()) {
+            $this->model->is_default = $this->params['is_default'];
+            $this->model->addtime = time();
+            if ($this->model->save()) {
+                return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
+            } else {
+                $this->error = "数据变更失败";
+                return false;
+            }
+        }else{
             $this->error = current($this->model->getFirstErrors());
             return false;
         }
-
     }
 }
