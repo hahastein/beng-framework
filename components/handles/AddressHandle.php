@@ -115,19 +115,23 @@ class AddressHandle
 
     public function save(){
         $this->model->setAttributes($this->params, false);
-        if($this->address_id>0){
-            if(!$this->model = self::one()){
-                $this->error = "数据不存在";
+        if($this->model->validate()) {
+            if ($this->address_id > 0) {
+                if (!$this->model = self::one()) {
+                    $this->error = "数据不存在";
+                    return false;
+                }
+            } else {
+                $this->model->addtime = time();
+                $this->model->user_id = $this->user_id;
+            }
+            if ($this->model->save()) {
+                return $this->address_id > 0 ? $this->address_id : \Yii::$app->db->lastInsertID;
+            } else {
+                $this->error = "数据变更失败";
                 return false;
             }
         }else{
-            $this->model->addtime = time();
-            $this->model->user_id = $this->user_id;
-        }
-        if($this->model->save()){
-            return $this->address_id>0?$this->address_id:\Yii::$app->db->lastInsertID;
-        }else{
-            $this->error = "数据变更失败";
             return false;
         }
     }

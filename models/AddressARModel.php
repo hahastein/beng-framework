@@ -26,9 +26,35 @@ use yii\db\ActiveRecord;
 
 class AddressARModel extends ActiveRecord
 {
+
     public static function tableName()
     {
         return '{{%address}}';
+    }
+
+    public function rules()
+    {
+        return [
+            ['address_id', 'filter', 'filter'=> 'trim', 'on'=> ['modify']],
+            ['address_id', 'required', 'on'=> ['modify'], 'message' => '地址ID不正确'],
+            ['user_id', 'filter', 'filter'=> 'trim', 'on'=> ['insert', 'modify']],
+            ['user_id', 'required', 'on'=> ['insert', 'modify'], 'message' => '填写手机号'],
+            ['address', 'required', 'on'=> ['insert', 'modify'], 'message' => '填写收获地址'],
+            ['city', 'required', 'on'=> ['insert', 'modify'], 'message' => '填写收获地址所在城市'],
+            ['name', 'string', 'min' => 2, 'max' => 10, 'on'=> ['insert', 'modify'], 'message' => '填写收货人'],
+            ['phone', 'filter', 'filter'=> 'trim', 'on'=> ['insert', 'modify']],
+            ['phone', 'required', 'on'=> ['insert', 'modify'], 'message' => '填写收货人手机号'],
+            [['phone'],'match','pattern'=>'/^[1][356789][0-9]{9}$/','on'=> ['insert', 'modify'], 'message' => '收货人手机号格式错误'],
+        ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['insert'] = ['user_id', 'address', 'city', 'name', 'phone'];
+        $scenarios['modify'] = ['address_id','user_id', 'address', 'city', 'name', 'phone'];
+        $scenarios['default'] = ['address_id', 'user_id', 'is_default'];
+        return $scenarios;
     }
 
     public function findByAddressID($address_id, $user_id = 0, $showField = array()){
