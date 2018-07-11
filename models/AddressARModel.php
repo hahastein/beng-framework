@@ -10,6 +10,19 @@ namespace bengbeng\framework\models;
 
 use yii\db\ActiveRecord;
 
+/**
+ * Address Model
+ *
+ * @property integer $user_id 用户ID
+ * @property integer $address_id 地址ID
+ * @property string $address
+ * @property integer $city
+ * @property integer $name
+ * @property integer $phone
+
+ * @package bengbeng\framework\models
+ */
+
 class AddressARModel extends ActiveRecord
 {
     public static function tableName()
