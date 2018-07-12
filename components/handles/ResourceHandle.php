@@ -59,7 +59,13 @@ class ResourceHandle
         $model = new AreaARModel();
         $query = $model->find();
 
-        $query->with('childArea.childArea');
+        $record = 1;
+        $withParam = '';
+        while ($record <= $level) {
+            $withParam .= $record == $level?'child':'child.';
+            $record++;
+        }
+        $query->with($withParam);
         if($where){
             $query->where($where);
         }
