@@ -96,10 +96,39 @@ class ResourceHandle
         return $model->data();
     }
 
-    public static function findIndustryAll(){
+    public static function findIndustryAll($structure = Enum::STRUCTURE_AREA_ORDER){
+        if($structure == Enum::STRUCTURE_AREA_ORDER) {
+            return self::findIndustry();
+        }else{
+            return self::findIndustryRecursion();
+        }
+    }
+
+    private static function findIndustry(){
         $model = new IndustryARModel();
         return $model->data([
             'status' => 1
         ]);
+    }
+
+    private static function findIndustryRecursion($where = false, $level = 2){
+        $model = new IndustryARModel();
+        $query = $model->find();
+
+        $record = 1;
+        $withParam = '';
+        while ($record < $level) {
+            $withParam .= $record == $level-1?'child':'child.';
+            $record++;
+        }
+        $query->with($withParam);
+        if($where){
+            $query->where($where);
+        }
+        $query->andWhere([
+            'status' => 1,
+            'parent_id'=>0
+        ]);
+        return $query->asArray()->all();
     }
 }

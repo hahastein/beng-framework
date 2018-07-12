@@ -30,7 +30,7 @@ class AreaARModel extends ActiveRecord
     }
 
     public function getChild(){
-        return $this->hasOne(self::className(),['parent_id'=>'area_id']);
+        return $this->hasMany(self::className(),['parent_id'=>'area_id']);
     }
 
 }

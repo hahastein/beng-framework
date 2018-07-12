@@ -17,6 +17,10 @@ class IndustryARModel extends ActiveRecord
         return '{{%industry}}';
     }
 
+    public function getChild(){
+        return $this->hasMany(self::className(),['parent_id'=>'industry_id']);
+    }
+
     public function data($where = false)
     {
         $query = $this->find();
