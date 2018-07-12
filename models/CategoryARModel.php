@@ -20,7 +20,8 @@ use yii\db\ActiveRecord;
  */
 class CategoryARModel extends ActiveRecord
 {
-//关联数据库表名
+
+    //关联数据库表名
     public static function tableName()
     {
         return '{{%category}}';
