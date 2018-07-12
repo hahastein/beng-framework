@@ -8,14 +8,19 @@
 
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\AreaARModel;
 use bengbeng\framework\models\IndustryARModel;
 use bengbeng\framework\models\TagARModel;
 
 class ResourceHandle
 {
-    public static function findAreaAll(){
-        return self::findArea();
+    public static function findAreaAll($structure = Enum::STRUCTURE_AREA_ORDER){
+        if($structure == Enum::STRUCTURE_AREA_ORDER) {
+            return self::findArea();
+        }else{
+            return self::findAreaAllByRecursion();
+        }
     }
 
     /**
@@ -50,6 +55,17 @@ class ResourceHandle
         ]);
     }
 
+    private static function findAreaAllByRecursion($where = false, $level = 3){
+        $model = new AreaARModel();
+        $query = $model->find();
+
+        $query->with('childArea.childArea');
+        if($where){
+            $query->where($where);
+        }
+        $query->andWhere(['parent_id'=>0]);
+        return $query->all();
+    }
     /**
      * @param bool $where
      * @return array|\yii\db\ActiveRecord[]
@@ -62,6 +78,8 @@ class ResourceHandle
         }
         return $query->all();
     }
+
+
 
     public static function Category(){
 

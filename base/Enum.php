@@ -45,5 +45,8 @@ class Enum
     const USER_BIND_MOBILE = 1;
     const USER_BIND_WEIXIN = 2;
 
+    const STRUCTURE_AREA_ORDER = 1;
+    const STRUCTURE_AREA_RECURSION = 2;
+
 
 }

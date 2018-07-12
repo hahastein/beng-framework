@@ -28,4 +28,9 @@ class AreaARModel extends ActiveRecord
     public static function tableName(){
         return '{{%area}}';
     }
+
+    public function getChildArea(){
+        return $this->hasOne(self::className(),['parent_id'=>'city_id']);
+    }
+
 }
