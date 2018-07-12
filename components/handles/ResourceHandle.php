@@ -61,8 +61,8 @@ class ResourceHandle
 
         $record = 1;
         $withParam = '';
-        while ($record <= $level) {
-            $withParam .= $record == $level?'child':'child.';
+        while ($record < $level) {
+            $withParam .= $record == $level-1?'child':'child.';
             $record++;
         }
         $query->with($withParam);
