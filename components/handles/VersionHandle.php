@@ -53,10 +53,10 @@ class VersionHandle
                     $this->tagResource = ResourceHandle::findTagAll();
                     break;
                 case self::VERSION_TYPE_API_AREA:
-                    $this->cityResource = ResourceHandle::findAreaAll();
+                    $this->cityResource = ResourceHandle::findAreaAll(Enum::STRUCTURE_AREA_RECURSION);
                     break;
                 case self::VERSION_TYPE_API_INDUSTRY:
-                    $this->industryResource = ResourceHandle::findIndustryAll(Enum::STRUCTURE_AREA_RECURSION);
+                    $this->industryResource = ResourceHandle::findIndustryAll();
                     break;
             }
         }
