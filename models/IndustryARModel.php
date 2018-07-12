@@ -21,9 +21,12 @@ class IndustryARModel extends ActiveRecord
         return $this->hasMany(self::className(),['parent_id'=>'industry_id']);
     }
 
-    public function data($where = false, $order = false)
+    public function data($where = false, $select = false, $order = false)
     {
         $query = $this->find();
+        if($select){
+            $query->select($select);
+        }
         if ($where) {
             $query->where($where);
         }
