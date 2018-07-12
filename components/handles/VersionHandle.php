@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\base\Enum;
 use Yii;
 use bengbeng\framework\models\VersionARModel;
 
@@ -55,7 +56,7 @@ class VersionHandle
                     $this->cityResource = ResourceHandle::findAreaAll();
                     break;
                 case self::VERSION_TYPE_API_INDUSTRY:
-                    $this->industryResource = ResourceHandle::findIndustryAll();
+                    $this->industryResource = ResourceHandle::findIndustryAll(Enum::STRUCTURE_AREA_RECURSION);
                     break;
             }
         }
