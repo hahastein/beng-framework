@@ -30,7 +30,7 @@ class IndustryARModel extends ActiveRecord
         if($order){
             $query->orderBy($order);
         }
-        return $query->all();
+        return $query->asArray()->all();
     }
 
 }
