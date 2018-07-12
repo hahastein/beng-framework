@@ -27,6 +27,7 @@ class VersionHandle
 
     private $tagResource;
     private $cityResource;
+    private $industryResource;
 
     public function __construct()
     {
@@ -53,6 +54,9 @@ class VersionHandle
                 case self::VERSION_TYPE_API_AREA:
                     $this->cityResource = ResourceHandle::findAreaAll();
                     break;
+                case self::VERSION_TYPE_API_INDUSTRY:
+                    $this->industryResource = ResourceHandle::findIndustry();
+                    break;
             }
         }
     }
@@ -63,6 +67,14 @@ class VersionHandle
 
     public function getAreaData(){
         return $this->cityResource;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIndustryResource()
+    {
+        return $this->industryResource;
     }
 
 }

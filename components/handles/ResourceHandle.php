@@ -9,6 +9,7 @@
 namespace bengbeng\framework\components\handles;
 
 use bengbeng\framework\models\AreaARModel;
+use bengbeng\framework\models\IndustryARModel;
 use bengbeng\framework\models\TagARModel;
 
 class ResourceHandle
@@ -71,7 +72,10 @@ class ResourceHandle
         return $model->data();
     }
 
-    public static function Industry(){
-
+    public static function findIndustry(){
+        $model = new IndustryARModel();
+        return $model->data([
+            'status' => 1
+        ]);
     }
 }
