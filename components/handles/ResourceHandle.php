@@ -72,7 +72,7 @@ class ResourceHandle
         return $model->data();
     }
 
-    public static function findIndustry(){
+    public static function findIndustryAll(){
         $model = new IndustryARModel();
         return $model->data([
             'status' => 1
