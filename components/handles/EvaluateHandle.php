@@ -47,13 +47,13 @@ class EvaluateHandle
             $this->error =  '评星数据错误';
             return false;
         }
-        if(!is_numeric($post['resource_id']) || $post['resource_id'] < 1){
+        if(!is_numeric($post['obj_id']) || $post['obj_id'] < 1){
             $this->error =  '资源参数出现错误';
             return false;
         }
         $this->evaluate_content = $post['evaluate_content'];
         $this->star = $post['star'];
-        $this->obj_id = $post['resource_id'];
+        $this->obj_id = $post['obj_id'];
         return true;
     }
 
