@@ -105,6 +105,40 @@ class EvaluateHandle
     }
 
     /**
+     * 配合第一步的Save使用，如果前端只支持单图上传时，额外的图片使用此方法传递
+     * @return bool
+     * @throws Exception
+     */
+    public function saveImgById(){
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+            $upload = new UploadHandle([
+                'savePath' => 'upload/evaluate'
+            ]);
+            if ($images = $upload->save()) {
+                foreach ($images as $image) {
+                    $attModel = new AttachmentARModel();
+                    $attModel->att_type = Enum::ATTACHMENT_TYPE_EVALUATE;
+                    $attModel->obj_url = $image['path'];
+                    $attModel->obj_id = $this->evaluate_id;
+                    $attModel->addtime = time();
+                    if (!$attModel->save()) {
+                        throw new Exception('图片保存失败');
+                    }
+                }
+                $transaction->commit();
+                return true;
+            } else {
+                throw new Exception($upload->getError());
+            }
+        }catch (Exception $ex){
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+    /**
      * @return mixed
      */
     public function getError()
