@@ -53,7 +53,7 @@ class EvaluateHandle
      * status = 20
      */
     public function delete(){
-        if($this->evaluate_id > 0){
+        if($this->evaluate_id > 0 && $this->user_id > 0){
             $model = $this->model->findOne([
                 'evaluate_id' => $this->evaluate_id,
                 'user_id' => $this->user_id
@@ -61,12 +61,14 @@ class EvaluateHandle
 
             $model->status = Enum::EVALUATE_STATUS_DELETE;
             if($model->save()){
-                return [200, '删除成功'];
+                return true;
             }else{
-                return [400, '删除失败'];
+                $this->error = '删除失败';
+                return false;
             }
         }else{
-            return [400, '参数错误'];
+            $this->error = '参数问题';
+            return false;
         }
     }
 
