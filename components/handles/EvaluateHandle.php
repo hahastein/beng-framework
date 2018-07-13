@@ -67,8 +67,8 @@ class EvaluateHandle
             $upload = new UploadHandle([
                 'savePath' => 'upload/evaluate'
             ]);
-
-            if(!$images = $upload->save(false)) {
+            $images = $upload->save(false);
+            if(is_bool($images) && !$images) {
                 throw new Exception($upload->getError());
             }
 
