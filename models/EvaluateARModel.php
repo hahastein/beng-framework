@@ -34,7 +34,8 @@ class EvaluateARModel extends ActiveRecord
 
     public function getAttachment(){
         return $this->hasOne(AttachmentARModel::className(),[
-            'obj_id'=>'evaluate_id',
+            'obj_id'=>'evaluate_id'
+        ])->where([
             'att_type'=>Enum::ATTACHMENT_TYPE_EVALUATE
         ]);
     }
