@@ -23,6 +23,7 @@ class EvaluateHandle
     private $evaluate_content;
     private $star;
     private $obj_id;
+    private $property_id;
 
     private $error;
 
@@ -31,6 +32,7 @@ class EvaluateHandle
         $this->model = new EvaluateARModel();
         $this->evaluate_id = 0;
         $this->user_id;
+        $this->property_id = 0;
     }
 
     public function findByEvaluateId($type = Enum::EVALUATE_TYPE_USER){
@@ -90,6 +92,10 @@ class EvaluateHandle
             $this->error =  '资源参数出现错误';
             return false;
         }
+
+        if(is_numeric($post['property_id']) && $post['property_id'] > 0){
+            $this->property_id = $post['property_id'];
+        }
         $this->evaluate_content = $post['evaluate_content'];
         $this->star = $post['star'];
         $this->obj_id = $post['obj_id'];
@@ -115,6 +121,7 @@ class EvaluateHandle
             $this->model->star = $this->star;
             $this->model->user_id = $this->user_id;
             $this->model->obj_id = $this->obj_id;
+            $this->model->property_id = $this->property_id;
             $this->model->evaluate_type = 10;
             $this->model->addtime = time();
 

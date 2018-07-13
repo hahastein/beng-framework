@@ -18,6 +18,7 @@ use yii\db\ActiveRecord;
  * @property integer $user_id
  * @property integer $star
  * @property integer $obj_id
+ * @property integer $property_id
  * @property integer $status
  * @property integer $evaluate_type
  * @property integer $lookcount
