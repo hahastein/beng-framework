@@ -129,12 +129,14 @@ class EvaluateHandle
                 throw new Exception('评价保存失败');
             }
 
+            $obj_id = $this->model->evaluate_id;
+
             foreach ($images as $image) {
 
                 $attModel = new AttachmentARModel();
                 $attModel->att_type = Enum::ATTACHMENT_TYPE_EVALUATE;
                 $attModel->obj_url = $image['path'];
-                $attModel->obj_id = $this->model->evaluate_id;
+                $attModel->obj_id = $obj_id;
                 $attModel->addtime = time();
 
                 if (!$attModel->save()) {
@@ -142,7 +144,7 @@ class EvaluateHandle
                 }
             }
             $transaction->commit();
-            return $this->model->evaluate_id;
+            return $obj_id;
         }catch (Exception $ex){
             $transaction->rollBack();
             $this->error = $ex->getMessage();
