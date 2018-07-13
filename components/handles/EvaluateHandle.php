@@ -33,8 +33,12 @@ class EvaluateHandle
         $this->user_id;
     }
 
+    /**
+     * @param bool $post
+     * @return bool
+     */
     public function setPostParams($post = false){
-        $post = \Yii::$app->request->post();
+        if(!$post) $post = \Yii::$app->request->post();
         if(empty($post['evaluate_content'])){
             $this->error =  '评价内容不能为空';
             return false;
