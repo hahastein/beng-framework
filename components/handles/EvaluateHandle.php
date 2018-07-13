@@ -218,4 +218,12 @@ class EvaluateHandle
     {
         return $this->evaluate_id;
     }
+
+    /**
+     * @return int
+     */
+    public function getPropertyId()
+    {
+        return $this->property_id;
+    }
 }
