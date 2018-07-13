@@ -103,6 +103,13 @@ class EvaluateHandle
     }
 
     /**
+     * @param mixed $user_id
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+    }
+    /**
      * @param int $evaluate_id
      */
     public function setEvaluateId($evaluate_id)
