@@ -63,7 +63,7 @@ class EvaluateHandle
         ]);
 
         try {
-            if ($images = $upload->save()) {
+            if ($images = $upload->save(false)) {
                 $this->model->evaluate_content = $this->evaluate_content;
                 $this->model->star = $this->star;
                 $this->model->user_id = $this->user_id;
