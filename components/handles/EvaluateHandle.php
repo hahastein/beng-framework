@@ -35,9 +35,22 @@ class EvaluateHandle
 
     public function setPostParams($post = false){
         $post = \Yii::$app->request->post();
+        if(empty($post['evaluate_content'])){
+            $this->error =  '评价内容不能为空';
+            return false;
+        }
+        if(!is_numeric($post['star']) || $post['star'] > 3 || $post['star'] < 1){
+            $this->error =  '评星数据错误';
+            return false;
+        }
+        if(!is_numeric($post['resource_id']) || $post['resource_id'] < 1){
+            $this->error =  '资源参数出现错误';
+            return false;
+        }
         $this->evaluate_content = $post['evaluate_content'];
         $this->star = $post['star'];
         $this->obj_id = $post['resource_id'];
+        return true;
     }
 
     public function save(){
