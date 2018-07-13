@@ -11,6 +11,7 @@ namespace bengbeng\framework\base;
 
 class Enum
 {
+    //登录类型
     const LOGIN_TYPE_MOBILE_PASS = 10;
     const LOGIN_TYPE_MOBILE_SMS = 20;
     const LOGIN_TYPE_WEIXIN = 30;
@@ -45,8 +46,13 @@ class Enum
     const USER_BIND_MOBILE = 1;
     const USER_BIND_WEIXIN = 2;
 
+    //
     const STRUCTURE_AREA_ORDER = 1;
     const STRUCTURE_AREA_RECURSION = 2;
 
+    //附件类型
+    const ATTACHMENT_TYPE_STORE = 10;//商户
+    const ATTACHMENT_TYPE_EVALUATE = 11;//评价
+    const ATTACHMENT_TYPE_GOODS = 12;//商品
 
 }
