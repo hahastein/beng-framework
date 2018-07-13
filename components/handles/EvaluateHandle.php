@@ -158,6 +158,18 @@ class EvaluateHandle
      */
     public function setEvaluateId($evaluate_id)
     {
-        $this->evaluate_id = $evaluate_id;
+        if($this->evaluate_id <= 0){
+            $this->evaluate_id = \Yii::$app->request->post('evaluate_id',0);
+        }else {
+            $this->evaluate_id = $evaluate_id;
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getEvaluateId()
+    {
+        return $this->evaluate_id;
     }
 }
