@@ -55,4 +55,13 @@ class Enum
     const ATTACHMENT_TYPE_EVALUATE = 11;//评价
     const ATTACHMENT_TYPE_GOODS = 12;//商品
 
+    //评价
+    const EVALUATE_STATUS_SHOW = 10;
+    const EVALUATE_STATUS_DELETE = 20;
+
+    const EVALUATE_TYPE_GOODS = 20;
+    const EVALUATE_TYPE_USER = 10;
+    const EVALUATE_TYPE_ARTICLE = 30;
+
+
 }

@@ -33,6 +33,43 @@ class EvaluateHandle
         $this->user_id;
     }
 
+    public function findByEvaluateId($type = Enum::EVALUATE_TYPE_USER){
+        $result = $this->model->findById($this->user_id, $this->evaluate_id, $type);
+        return $result;
+    }
+
+    public function findAllByUserId($type = Enum::EVALUATE_TYPE_USER){
+        $result = $this->model->findAllByUserId($this->user_id, $type);
+        return $result;
+    }
+
+    public function findAllByObjectId($type = Enum::EVALUATE_TYPE_USER){
+        $result = $this->model->findAllByObjectId($this->obj_id, $type);
+        return $result;
+    }
+
+    /**
+     * 删除评论
+     * status = 20
+     */
+    public function delete(){
+        if($this->evaluate_id > 0){
+            $model = $this->model->findOne([
+                'evaluate_id' => $this->evaluate_id,
+                'user_id' => $this->user_id
+            ]);
+
+            $model->status = Enum::EVALUATE_STATUS_DELETE;
+            if($model->save()){
+                return [200, '删除成功'];
+            }else{
+                return [400, '删除失败'];
+            }
+        }else{
+            return [400, '参数错误'];
+        }
+    }
+
     /**
      * @param bool $post
      * @return bool
