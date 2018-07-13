@@ -57,42 +57,48 @@ class EvaluateHandle
         return true;
     }
 
+    /**
+     * @return bool|int
+     * @throws Exception
+     */
     public function save(){
-        $upload = new UploadHandle([
-            'savePath' => 'upload/evaluate'
-        ]);
-
+        $transaction = \Yii::$app->db->beginTransaction();
         try {
-            if ($images = $upload->save(false)) {
-                $this->model->evaluate_content = $this->evaluate_content;
-                $this->model->star = $this->star;
-                $this->model->user_id = $this->user_id;
-                $this->model->obj_id = $this->obj_id;
-                $this->model->evaluate_type = 10;
-                $this->model->addtime = time();
+            $upload = new UploadHandle([
+                'savePath' => 'upload/evaluate'
+            ]);
 
-                if (!$this->model->save()) {
-                    throw new Exception('评价保存失败');
-                }
-
-                foreach ($images as $image) {
-
-                    $attModel = new AttachmentARModel();
-                    $attModel->att_type = Enum::ATTACHMENT_TYPE_EVALUATE;
-                    $attModel->obj_url = $image['path'];
-                    $attModel->obj_id = $this->model->evaluate_id;
-                    $attModel->addtime = time();
-
-                    if (!$attModel->save()) {
-                        throw new Exception('图片保存失败');
-                    }
-                }
-
-                return $this->model->evaluate_id;
-            } else {
+            if(!$images = $upload->save(false)) {
                 throw new Exception($upload->getError());
             }
+
+            $this->model->evaluate_content = $this->evaluate_content;
+            $this->model->star = $this->star;
+            $this->model->user_id = $this->user_id;
+            $this->model->obj_id = $this->obj_id;
+            $this->model->evaluate_type = 10;
+            $this->model->addtime = time();
+
+            if (!$this->model->save()) {
+                throw new Exception('评价保存失败');
+            }
+
+            foreach ($images as $image) {
+
+                $attModel = new AttachmentARModel();
+                $attModel->att_type = Enum::ATTACHMENT_TYPE_EVALUATE;
+                $attModel->obj_url = $image['path'];
+                $attModel->obj_id = $this->model->evaluate_id;
+                $attModel->addtime = time();
+
+                if (!$attModel->save()) {
+                    throw new Exception('图片保存失败');
+                }
+            }
+            $transaction->commit();
+            return $this->model->evaluate_id;
         }catch (Exception $ex){
+            $transaction->rollBack();
             $this->error = $ex->getMessage();
             return false;
         }
