@@ -72,7 +72,6 @@ class EvaluateHandle
                 throw new Exception($upload->getError());
             }
 
-            p($images);die;
             $this->model->evaluate_content = $this->evaluate_content;
             $this->model->star = $this->star;
             $this->model->user_id = $this->user_id;
