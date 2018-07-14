@@ -106,6 +106,7 @@ class PayHandle
             $request->setBizContent($bizContent);
             return $aop->sdkExecute($request);
         }catch (\Exception $ex){
+            p($ex->getMessage());die;
             throw $ex;
         }
     }
