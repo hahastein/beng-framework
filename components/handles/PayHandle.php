@@ -89,13 +89,14 @@ class PayHandle
             $aop->signType = "RSA2";
 
             $request = new AlipayTradeAppPayRequest();
-            $bizContent = "{\"body\":\"" . $this->payBody . "\","
-                . "\"subject\": \"" . $this->paySubject . "\","
-                . "\"out_trade_no\": \"" . $this->payOrderSn . "\","
-                . "\"timeout_express\": \"30m\","
-                . "\"total_amount\": \"" . $this->payAmount . "\","
-                . "\"product_code\":\"QUICK_MSECURITY_PAY\""
-                . "}";
+            $bizContent = json_encode([
+                'body' => $this->payBody,
+                'subject' => $this->paySubject,
+                'out_trade_no' => $this->payOrderSn,
+                'timeout_express' => '30m',
+                'total_amount' => $this->payAmount,
+                'product_code' => 'QUICK_MSECURITY_PAY'
+            ]);
             $request->setNotifyUrl($this->payNotifyUrl);
             $request->setBizContent($bizContent);
             return $aop->sdkExecute($request);
