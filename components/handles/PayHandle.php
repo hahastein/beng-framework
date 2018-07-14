@@ -103,7 +103,7 @@ class PayHandle
             $request->setBizContent($bizContent);
             $returnData = $aop->sdkExecute($request);
             return [
-                'data' => $returnData
+                'aliSign' => $returnData
             ];
         }catch (\Exception $ex){
             throw $ex;
