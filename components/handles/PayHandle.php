@@ -90,8 +90,8 @@ class PayHandle
             $aop->format = "json";
             $aop->signType = "RSA2";
 
-p($aop);die;
             $request = new AlipayTradeAppPayRequest();
+            p($request);die;
 
             $bizContent = json_encode([
                 'body' => $this->payBody,
