@@ -24,6 +24,7 @@ class BaseOrderHandle
     public $order_fields;
     public $user_id;
     public $store_id;
+    public $is_trans;
 
     private $orderSn;
     private $orderID;
@@ -33,14 +34,20 @@ class BaseOrderHandle
 
     public function __construct(){
         $this->orderModel = new OrderARModel();
+        $this->is_trans = false;
     }
 
     /**
      * 创建基础订单表数据，回调处理自己的数据
+     * @param \Closure|null $closure
+     * @return bool
      * @throws Exception
      */
-    public function create(){
-
+    public function create(\Closure $closure = null){
+        $trans = null;
+        if($this->is_trans){
+            $trans = Yii::$app->db->beginTransaction();
+        }
         try{
             $this->orderSn = self::makeOrderSn($this->user_id, $this->store_id);
             $this->paySn = self::makePaySn($this->user_id, $this->store_id);
@@ -56,12 +63,28 @@ class BaseOrderHandle
 
             $this->orderModel->setAttributes($this->order_fields, false);
             if($this->orderModel->save()){
-                $this->orderID = Yii::$app->db->getLastInsertID();
-                return true;
+                if($closure != null){
+                    $callback = call_user_func($closure, [
+                        'orderID' => Yii::$app->db->getLastInsertID()
+                    ]);
+                    if(!$callback){
+                        throw new Exception('创建订单附属关系出错');
+                    }
+                    if($this->is_trans){
+                        $trans->commit();
+                    }
+                    return true;
+                }else {
+                    $this->orderID = Yii::$app->db->getLastInsertID();
+                    return true;
+                }
             }else{
                 throw new Exception('创建订单基础数据失败');
             }
         }catch (Exception $ex){
+            if($this->is_trans){
+                $trans->rollBack();
+            }
             throw  $ex;
         }
     }
@@ -159,5 +182,13 @@ class BaseOrderHandle
     public function getOrderID()
     {
         return $this->orderID;
+    }
+
+    /**
+     * @param bool $is_trans
+     */
+    public function setIsTrans($is_trans)
+    {
+        $this->is_trans = $is_trans;
     }
 }
