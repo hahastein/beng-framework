@@ -45,7 +45,6 @@ class BaseOrderHandle
      */
     public function create(\Closure $closure = null){
         $trans = null;
-        p($this->is_trans);die;
         if($this->is_trans){
             $trans = Yii::$app->db->beginTransaction();
         }
@@ -68,12 +67,14 @@ class BaseOrderHandle
                     $callback = call_user_func($closure, [
                         'orderID' => Yii::$app->db->getLastInsertID()
                     ]);
+                    p($callback);die;
+
                     if(!$callback){
                         throw new Exception('创建订单附属关系出错');
                     }
-                    if($this->is_trans){
-                        $trans->commit();
-                    }
+//                    if($this->is_trans){
+//                        $trans->commit();
+//                    }
                     return true;
                 }else {
                     $this->orderID = Yii::$app->db->getLastInsertID();
