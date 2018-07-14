@@ -77,6 +77,8 @@ class PayHandle
         try {
 
             $aop = new AopClient();
+            p($aop);die;
+
             $alipayConfig = \Yii::$app->params['Alipay'];
             if (!isset($alipayConfig) || !is_array($alipayConfig)) {
                 throw new \Exception('配置项错误');
@@ -90,7 +92,6 @@ class PayHandle
             $aop->charset = "UTF-8";
             $aop->signType = "RSA2";
 
-            p($aop);die;
 
             $request = new AlipayTradeAppPayRequest();
 
