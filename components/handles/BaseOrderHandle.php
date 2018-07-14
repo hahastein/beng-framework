@@ -49,7 +49,9 @@ class BaseOrderHandle
             $this->order_fields['order_pay_sn'] = $this->paySn;
             $this->order_fields['user_id'] = $this->getUserId();
             $this->order_fields['addtime'] = time();
-            $this->order_fields['pay_type'] = Enum::PAY_TYPE_NOPAY;
+            if(!isset($this->order_fields['pay_type'])){
+                $this->order_fields['pay_type'] = Enum::PAY_TYPE_NOPAY;
+            }
             $this->order_fields['order_status'] = Enum::ORDER_STATUS_NOPAY;
 
             $this->orderModel->setAttributes($this->order_fields, false);
