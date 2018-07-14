@@ -82,7 +82,6 @@ class PayHandle
             if (!isset($alipayConfig) || !is_array($alipayConfig)) {
                 throw new \Exception('配置项错误');
             }
-
             $aop->gatewayUrl = "https://openapi.alipay.com/gateway.do";
             $aop->appId = $alipayConfig['app_id'];
             $aop->rsaPrivateKey = $alipayConfig['rsaPrivateKey'];
@@ -91,7 +90,6 @@ class PayHandle
             $aop->signType = "RSA2";
 
             $request = new AlipayTradeAppPayRequest();
-            p($request);die;
 
             $bizContent = json_encode([
                 'body' => $this->payBody,
@@ -105,7 +103,6 @@ class PayHandle
             $request->setBizContent($bizContent);
             return $aop->sdkExecute($request);
         }catch (\Exception $ex){
-            p($ex->getMessage());die;
             throw $ex;
         }
     }
