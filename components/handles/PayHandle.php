@@ -70,7 +70,7 @@ class PayHandle
     }
 
     /**
-     * @return string
+     * @return array
      * @throws \Exception
      */
     private function configAppByAliPay(){
@@ -101,7 +101,10 @@ class PayHandle
             ]);
             $request->setNotifyUrl($this->payNotifyUrl);
             $request->setBizContent($bizContent);
-            return $aop->sdkExecute($request);
+            $returnData = $aop->sdkExecute($request);
+            return [
+                'data' => $returnData
+            ];
         }catch (\Exception $ex){
             throw $ex;
         }
