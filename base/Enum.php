@@ -63,5 +63,9 @@ class Enum
     const EVALUATE_TYPE_USER = 10;
     const EVALUATE_TYPE_ARTICLE = 30;
 
+    //支付
+    const PAYMENT_TYPE_WEIXIN = 2;
+    const PAYMENT_TYPE_ALIPAY = 1;
+
 
 }
