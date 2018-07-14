@@ -83,6 +83,9 @@ class PayHandle
             $aop->appId = $alipayConfig['app_id'];
             $aop->rsaPrivateKey = $alipayConfig['rsaPrivateKey'];
             $aop->alipayrsaPublicKey = $alipayConfig['rsaPublicKey'];
+            $aop->format = "json";
+            $aop->charset = "UTF-8";
+            $aop->signType = "RSA2";
 
             $request = new AlipayTradeAppPayRequest();
             $bizContent = "{\"body\":\"" . $this->payBody . "\","
