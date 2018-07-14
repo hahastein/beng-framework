@@ -99,6 +99,7 @@ class PayHandle
             ]);
             $request->setNotifyUrl($this->payNotifyUrl);
             $request->setBizContent($bizContent);
+            p($request);die;
             return $aop->sdkExecute($request);
         }catch (\Exception $ex){
             throw $ex;
