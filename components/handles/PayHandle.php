@@ -125,8 +125,8 @@ class PayHandle
         if($result['return_code'] == 'SUCCESS' && $result['result_code'] == 'SUCCESS'){
             unset($result['return_code']);
             unset($result['result_code']);
-            $result['package'] = 'Sign=WXPay';
-            $result['timeStamp'] = time();
+            $configApp = $app->jssdk->appConfig($result['prepay_id']);
+            return $configApp;
         }else{
             if($result['result_code'] == 'FAIL') {
                 throw new InvalidConfigException($result['err_code_des']);
@@ -134,7 +134,6 @@ class PayHandle
                 throw new InvalidConfigException('未知错误');
             }
         }
-        return $result;
     }
 
     public function send(){
