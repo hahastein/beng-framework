@@ -77,7 +77,6 @@ class PayHandle
         try {
 
             $aop = new AopClient();
-            p($aop);die;
 
             $alipayConfig = \Yii::$app->params['Alipay'];
             if (!isset($alipayConfig) || !is_array($alipayConfig)) {
@@ -89,10 +88,9 @@ class PayHandle
             $aop->rsaPrivateKey = $alipayConfig['rsaPrivateKey'];
             $aop->alipayrsaPublicKey = $alipayConfig['rsaPublicKey'];
             $aop->format = "json";
-            $aop->charset = "UTF-8";
             $aop->signType = "RSA2";
 
-
+p($aop);die;
             $request = new AlipayTradeAppPayRequest();
 
             $bizContent = json_encode([
