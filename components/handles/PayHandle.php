@@ -75,8 +75,11 @@ class PayHandle
      */
     private function configAppByAliPay(){
         try {
+
             $aop = new AopClient();
             $alipayConfig = \Yii::$app->params['Alipay'];
+            p($alipayConfig);die;
+
             if (!isset($alipayConfig) || !is_array($alipayConfig)) {
                 throw new \Exception('配置项错误');
             }
@@ -89,6 +92,7 @@ class PayHandle
             $aop->signType = "RSA2";
 
             $request = new AlipayTradeAppPayRequest();
+
             $bizContent = json_encode([
                 'body' => $this->payBody,
                 'subject' => $this->paySubject,
@@ -99,7 +103,6 @@ class PayHandle
             ]);
             $request->setNotifyUrl($this->payNotifyUrl);
             $request->setBizContent($bizContent);
-            p($request);die;
             return $aop->sdkExecute($request);
         }catch (\Exception $ex){
             throw $ex;
