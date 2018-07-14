@@ -80,6 +80,7 @@ class PayHandle
             if (!isset($alipayConfig) || !is_array($alipayConfig)) {
                 throw new \Exception('配置项错误');
             }
+            $aop->gatewayUrl = "https://openapi.alipay.com/gateway.do";
             $aop->appId = $alipayConfig['app_id'];
             $aop->rsaPrivateKey = $alipayConfig['rsaPrivateKey'];
             $aop->alipayrsaPublicKey = $alipayConfig['rsaPublicKey'];
