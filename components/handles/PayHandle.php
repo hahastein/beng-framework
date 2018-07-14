@@ -81,7 +81,6 @@ class PayHandle
             if (!isset($alipayConfig) || !is_array($alipayConfig)) {
                 throw new \Exception('配置项错误');
             }
-            p($alipayConfig);die;
 
             $aop->gatewayUrl = "https://openapi.alipay.com/gateway.do";
             $aop->appId = $alipayConfig['app_id'];
@@ -90,6 +89,8 @@ class PayHandle
             $aop->format = "json";
             $aop->charset = "UTF-8";
             $aop->signType = "RSA2";
+
+            p($aop);die;
 
             $request = new AlipayTradeAppPayRequest();
 
