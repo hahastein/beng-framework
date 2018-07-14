@@ -128,6 +128,7 @@ class PayHandle
             $result['package'] = 'Sign=WXPay';
             $result['timeStamp'] = time();
         }else{
+            p($result);die;
             throw new InvalidConfigException($result['return_msg']);
         }
         return $result;
