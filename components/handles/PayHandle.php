@@ -34,6 +34,12 @@ class PayHandle
                 'notify_url' => '/wxpay/pay.action', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
                 'trade_type' => 'APP',
             ]);
+            if($result['return_code'] == 'SUCCESS' && $result['result_code'] == 'SUCCESS'){
+                unset($result['return_code']);
+                unset($result['result_code']);
+            }else{
+                throw new InvalidConfigException($result['return_msg']);
+            }
         }catch (InvalidConfigException $ex){
             $this->error = $ex->getMessage();
             return false;
