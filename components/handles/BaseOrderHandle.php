@@ -45,6 +45,7 @@ class BaseOrderHandle
      */
     public function create(\Closure $closure = null){
         $trans = null;
+        p($this->is_trans);die;
         if($this->is_trans){
             $trans = Yii::$app->db->beginTransaction();
         }
