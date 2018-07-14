@@ -87,7 +87,11 @@ class PayHandle
             $aop->rsaPrivateKey = $alipayConfig['rsaPrivateKey'];
             $aop->alipayrsaPublicKey = $alipayConfig['rsaPublicKey'];
             $aop->format = "json";
-            $aop->signType = "RSA";
+            if(isset($alipayConfig['signType'])) {
+                $aop->signType = $alipayConfig['signType'];
+            }else{
+                $aop->signType = "RSA";
+            }
 
             $request = new AlipayTradeAppPayRequest();
 
