@@ -122,6 +122,8 @@ class PayHandle
         if($result['return_code'] == 'SUCCESS' && $result['result_code'] == 'SUCCESS'){
             unset($result['return_code']);
             unset($result['result_code']);
+            $result['package'] = 'Sign=WXPay';
+            $result['timeStamp'] = time();
         }else{
             throw new InvalidConfigException($result['return_msg']);
         }
