@@ -30,11 +30,10 @@ class AttachmentARModel extends ActiveRecord
         return '{{%attachment}}';
     }
 
-    public function extraFields()
+    public function fields()
     {
-        $fields = parent::extraFields();
+        $fields = parent::fields();
         $fields['obj_url'] = function () {
-
             if(empty($this->obj_url)){
                 return \Yii::getAlias('@resUrl').'/default.png';
             }else{
