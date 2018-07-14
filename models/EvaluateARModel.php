@@ -10,7 +10,6 @@ namespace bengbeng\framework\models;
 
 use bengbeng\framework\base\Enum;
 use yii\db\ActiveRecord;
-use yii\db\Expression;
 
 /**
  * Class EvaluateARModel
@@ -39,8 +38,6 @@ class EvaluateARModel extends ActiveRecord
             'obj_id'=>'evaluate_id'
         ])->where([
             'att_type'=>Enum::ATTACHMENT_TYPE_EVALUATE
-        ])->select([
-            'obj_url' => new Expression('')
         ]);
     }
 
