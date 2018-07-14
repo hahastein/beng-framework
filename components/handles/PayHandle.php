@@ -137,6 +137,13 @@ class PayHandle
 
     }
 
+    public function notify(\Closure $closure){
+        if($this->payType == Enum::PAY_TYPE_WXPAY){
+
+        }
+        return call_user_func($closure);
+    }
+
     /**
      * @param int $payType
      */
@@ -159,6 +166,14 @@ class PayHandle
     public function setPaySubject($paySubject)
     {
         $this->paySubject = $paySubject;
+    }
+
+    /**
+     * @param mixed $payNotifyUrl
+     */
+    public function setPayNotifyUrl($payNotifyUrl)
+    {
+        $this->payNotifyUrl = $payNotifyUrl;
     }
 
     /**
