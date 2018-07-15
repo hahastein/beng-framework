@@ -113,6 +113,13 @@ class AddressHandle
         return $this->model->findByAddressID($this->address_id, $this->user_id, $this->showField);
     }
 
+    public function getDefault(){
+        return $this->model->find()->where([
+            'user_id' => $this->user_id,
+            'is_default' => 1
+        ])->asArray()->all();
+    }
+
     public function all(){
         return $this->model->find()->where([
             'user_id' => $this->user_id
