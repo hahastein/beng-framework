@@ -117,7 +117,7 @@ class AddressHandle
         return $this->model->find()->where([
             'user_id' => $this->user_id,
             'is_default' => 1
-        ])->asArray()->all();
+        ])->limit(1)->asArray()->one();
     }
 
     public function all(){
