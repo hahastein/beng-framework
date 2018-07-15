@@ -42,6 +42,7 @@ class UploadHandle
         'saveExt'       =>  '', //文件保存后缀，空则使用原后缀
         'replace'       =>  false, //存在同名是否覆盖
         'hash'          =>  true, //是否生成hash编码
+        'domain'        => '',
         'driver'        =>  self::UPLOAD_TYPE_LOCAL, // 文件上传驱动
         'driverConfig'  =>  [
             'maxSize' => 0, //上传的文件大小限制 (0-不做限制)
@@ -62,6 +63,7 @@ class UploadHandle
 
     public function __construct($config = [])
     {
+        $config['domain'] = \Yii::getAlias('@resUrl');
         $this->config = array_merge($this->config, $config);
         //赋值默认rootpath
         $this->setRootPath();
@@ -123,7 +125,11 @@ class UploadHandle
                     $this->error = $this->uploader->getError();
                     return false;
                 }
-                $info[]['path'] = '/'.$file['savepath'].'/'.$file['savename'];
+                if(empty($this->config['domain'])){
+                    $info[]['path'] = '/'.$file['savepath'].'/'.$file['savename'];
+                }else{
+                    $info[]['path'] = $this->config['domain'].'/'.$file['savepath'].'/'.$file['savename'];
+                }
             } else {
                 $this->error = $this->uploader->getError();
                 return false;
