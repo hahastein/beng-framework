@@ -67,5 +67,9 @@ class Enum
     const PAYMENT_TYPE_WEIXIN = 2;
     const PAYMENT_TYPE_ALIPAY = 1;
 
+    //关注
+    const FOLLOW_TYPE_EVALUATE = 7;
+    const FOLLOW_TYPE_USER = 1;
+
 
 }
