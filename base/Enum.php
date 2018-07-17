@@ -71,5 +71,9 @@ class Enum
     const FOLLOW_TYPE_EVALUATE = 7;
     const FOLLOW_TYPE_USER = 1;
 
+    const IM_REQUEST_POST_TYPE_CURL = 1;
+    const IM_REQUEST_POST_TYPE_FSOCK = 2;
+
+
 
 }
