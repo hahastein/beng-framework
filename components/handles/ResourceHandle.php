@@ -69,7 +69,7 @@ class ResourceHandle
         if($where){
             $query->where($where);
         }
-        $query->andWhere(['parent_id'=>0]);
+        $query->andWhere(['parent_id' => 1]);
         return $query->asArray()->all();
     }
     /**
