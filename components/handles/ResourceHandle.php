@@ -55,7 +55,7 @@ class ResourceHandle
         ]);
     }
 
-    private static function findAreaAllByRecursion($where = false, $level = 4){
+    private static function findAreaAllByRecursion($where = false, $level = 3){
         $model = new AreaARModel();
         $query = $model->find();
 
@@ -69,7 +69,7 @@ class ResourceHandle
         if($where){
             $query->where($where);
         }
-        $query->andWhere(['parent_id' => 0]);
+        $query->andWhere(['parent_id' => 1]);
         return $query->asArray()->all();
     }
     /**
