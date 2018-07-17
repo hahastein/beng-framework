@@ -19,6 +19,7 @@ class YunxinHandle
     private $CheckSum;				//SHA1(AppSecret + Nonce + CurTime),三个参数拼接的字符串，进行SHA1哈希计算，转化成16进制字符(String，小写)
     const   HEX_DIGITS = "0123456789abcdef";
 
+    private $RequestType = 'curl';
     private $postType = Enum::IM_REQUEST_POST_TYPE_CURL;
 
     /**
