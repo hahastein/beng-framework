@@ -29,7 +29,7 @@ class SmsHandle
      */
     const SMS_TYPE_UNBIND = 3;
 
-    private static $sms_content = "【%s】您的验证码是%u";
+    private static $sms_content = "【APP】您的验证码是%u";
 
     /**
      * 发送验证码
@@ -111,18 +111,11 @@ class SmsHandle
     private static function saveAndSend($smsConfig, $phone_num, $sms_type, $send_code){
 
         if(isset($smsConfig['content'])){
-            $sms_content = $smsConfig['content'];
+            $content = $smsConfig['content'];
         }else{
-            $sms_content = $smsConfig['content'];
+            $content = self::$sms_content;
         }
 
-        if(isset($smsConfig['title'])){
-            $send_title = $smsConfig['title'];
-        }else{
-            $send_title = "竹迹脉金所";
-        }
-
-        $content = sprintf($sms_content, $send_title, $send_code);
 
         $model = new SmsARModel();
 
