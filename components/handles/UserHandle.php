@@ -126,7 +126,6 @@ class UserHandle{
                         $model->wx_openid = $params['open_id'];
                         $model->wx_bind = 1;
                     }
-                    return $model->save();
                 }else{
                     $model->phone_num = $params['phone_num'];
                     $model->phone_bind = 1;
@@ -138,8 +137,11 @@ class UserHandle{
                     $model->user_sex = $params['sex'];
                     $model->username = 'App用户'.time();
                     $model->addtime = time();
-
-                    return $model->save();
+                }
+                if($model->save()){
+                    return $model->user_id;
+                }else{
+                    throw new \Exception('操作失败');
                 }
                 break;
             default:
