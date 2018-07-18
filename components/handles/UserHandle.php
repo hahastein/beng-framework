@@ -116,7 +116,7 @@ class UserHandle{
                 break;
             case Enum::USER_BIND_TWOWAY:
                 $model = new UserARModel();
-                if($model = $model->findByMobileAndWxcode($params['phone_num'], $params['unionid'])){
+                if($model = $model->findByMobileAndWxcode($params['phone_num'], $params['union_id'])){
                     if(!$model->phone_num){
                         $model->phone_num = $params['phone_num'];
                         $model->phone_bind = 1;
