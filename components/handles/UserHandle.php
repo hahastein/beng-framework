@@ -188,6 +188,7 @@ class UserHandle{
                         'union_id' => $wxInfo['unionid'],
                         'nickname' => $wxInfo['nickname'],
                         'avatar_head' => $wxInfo['avatar'],
+                        'sex' => $wxInfo['sex'],
                         'phone_num' => 0,
                         'phone_bind' => 0
                     ];
