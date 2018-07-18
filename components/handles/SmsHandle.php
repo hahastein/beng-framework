@@ -29,7 +29,7 @@ class SmsHandle
      */
     const SMS_TYPE_UNBIND = 3;
 
-    private static $sms_content = "【APP】您的验证码是%u";
+    private static $sms_content = "【#app#】您的验证码是#code#";
 
     /**
      * 发送验证码
@@ -116,6 +116,14 @@ class SmsHandle
             $content = self::$sms_content;
         }
 
+        if(isset($smsConfig['title'])){
+            $title = $smsConfig['title'];
+        }else{
+            $title = '默认';
+        }
+
+        $content = str_replace('#app#', $title, $content);
+        $content = str_replace('#code#', $send_code, $content);
 
         $model = new SmsARModel();
 
