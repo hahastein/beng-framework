@@ -130,7 +130,7 @@ class UserHandle{
                     $model->phone_num = $params['phone_num'];
                     $model->phone_bind = 1;
                     $model->wx_unioncode = $params['union_id'];
-                    $model->wx_openid = $params['openid'];
+                    $model->wx_openid = $params['open_id'];
                     $model->wx_bind = 1;
                     $model->avatar_head = $params['avatar'];
                     $model->nickname = $params['nickname'];
