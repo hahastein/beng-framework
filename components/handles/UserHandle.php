@@ -127,6 +127,7 @@ class UserHandle{
                         $model->wx_bind = 1;
                     }
                 }else{
+                    $model = new UserARModel();
                     $model->phone_num = $params['phone_num'];
                     $model->phone_bind = 1;
                     $model->wx_unioncode = $params['union_id'];

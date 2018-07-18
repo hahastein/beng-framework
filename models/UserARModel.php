@@ -13,7 +13,8 @@ use yii\db\ActiveRecord;
  * @property string $userpass 用户密码
  * @property string $nickname 用户昵称
  * @property bool $phone_bind 是否绑定手机
- * @property string $wx_unioncode 微信第三方openid
+ * @property string $wx_unioncode 微信第三方unionid
+ * @property string $wx_openid 微信openid
  * @property bool $wx_bind 是否绑定微信
  * @property integer $industry_id 行业ID
  * @property integer $jobs_id 职位ID
