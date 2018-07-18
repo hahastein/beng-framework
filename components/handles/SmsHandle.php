@@ -109,8 +109,20 @@ class SmsHandle
      * @throws Exception
      */
     private static function saveAndSend($smsConfig, $phone_num, $sms_type, $send_code){
-        $send_title = "竹迹脉金所";
-        $content = sprintf(self::$sms_content, $send_title, $send_code);
+
+        if(isset($smsConfig['content'])){
+            $sms_content = $smsConfig['content'];
+        }else{
+            $sms_content = $smsConfig['content'];
+        }
+
+        if(isset($smsConfig['title'])){
+            $send_title = $smsConfig['title'];
+        }else{
+            $send_title = "竹迹脉金所";
+        }
+
+        $content = sprintf($sms_content, $send_title, $send_code);
 
         $model = new SmsARModel();
 
