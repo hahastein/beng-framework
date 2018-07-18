@@ -191,6 +191,7 @@ class UserHandle{
                         'nickname' => $wxInfo['nickname'],
                         'avatar_head' => $wxInfo['avatar'],
                         'sex' => $wxInfo['sex'],
+                        'openid' => $wxInfo['openid'],
                         'phone_num' => 0,
                         'phone_bind' => 0
                     ];
