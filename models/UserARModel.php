@@ -105,6 +105,14 @@ class UserARModel extends ActiveRecord{
         ]);
     }
 
+    public function findByMobileAndWxcode($phone_num,$code){
+        return self::info([
+            'or',
+            ['phone_num' => $phone_num],
+            ['wx_unioncode' => $code]
+        ]);
+    }
+
     public function info($where = []){
         return self::find()->where($where)->one();
     }

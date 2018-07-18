@@ -45,7 +45,7 @@ class Enum
     //用户绑定类型
     const USER_BIND_MOBILE = 1;
     const USER_BIND_WEIXIN = 2;
-
+    const USER_BIND_TWOWAY= 3;
     //
     const STRUCTURE_AREA_ORDER = 1;
     const STRUCTURE_AREA_RECURSION = 2;

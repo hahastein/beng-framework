@@ -71,7 +71,7 @@ class UserHandle{
                 'avatar_head' => $params['avatar'],
                 'nickname' => $params['nickname'],
                 'user_sex' => $params['sex'],
-                'username' => '竹迹用户'.time(),
+                'username' => 'App用户'.time(),
                 'addtime' => time()
             ];
 
@@ -114,6 +114,34 @@ class UserHandle{
                     throw new \Exception('用户不存在');
                 }
                 break;
+            case Enum::USER_BIND_TWOWAY:
+                $model = new UserARModel();
+                if($model = $model->findByMobileAndWxcode($params['phone_num'], $params['unionid'])){
+                    if(!$model->phone_num){
+                        $model->phone_num = $params['phone_num'];
+                        $model->phone_bind = 1;
+                    }
+                    if(!$model->wx_unioncode){
+                        $model->wx_unioncode = $params['union_id'];
+                        $model->wx_openid = $params['open_id'];
+                        $model->wx_bind = 1;
+                    }
+                    return $model->save();
+                }else{
+                    $model->phone_num = $params['phone_num'];
+                    $model->phone_bind = 1;
+                    $model->wx_unioncode = $params['union_id'];
+                    $model->wx_openid = $params['openid'];
+                    $model->wx_bind = 1;
+                    $model->avatar_head = $params['avatar'];
+                    $model->nickname = $params['nickname'];
+                    $model->user_sex = $params['sex'];
+                    $model->username = 'App用户'.time();
+                    $model->addtime = time();
+
+                    return $model->save();
+                }
+                break;
             default:
                 throw new \Exception('无此绑定类型');
                 break;
@@ -154,7 +182,15 @@ class UserHandle{
                         'phone_bind' => 0
                     ];
                 }else{
-                    return false;
+//                    return false;
+                    return [
+                        'user_id' => 0,
+                        'union_id' => $wxInfo['unionid'],
+                        'nickname' => $wxInfo['nickname'],
+                        'avatar_head' => $wxInfo['avatar'],
+                        'phone_num' => 0,
+                        'phone_bind' => 0
+                    ];
                 }
             }
         }catch (\Exception $ex){
