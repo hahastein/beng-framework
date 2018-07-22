@@ -28,7 +28,7 @@ class BaseActiveRecord extends ActiveRecord
     public function dataSet($page = 20){
         $query = self::find();
         //获取page的设置 默认为一页显示30;
-        $page = \Yii::$app->request->params['Page']['PageSize']?:$page;
+        $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$page;
 
         $pagination = new Pagination([
             'defaultPageSize' => $page,
