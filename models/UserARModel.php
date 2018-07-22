@@ -1,6 +1,8 @@
 <?php
 namespace bengbeng\framework\models;
 
+use bengbeng\framework\base\BaseActiveRecord;
+use yii\data\Pagination;
 use yii\db\ActiveRecord;
 
 /**
@@ -18,6 +20,7 @@ use yii\db\ActiveRecord;
  * @property bool $wx_bind 是否绑定微信
  * @property integer $industry_id 行业ID
  * @property integer $jobs_id 职位ID
+ * @property integer $intro 用户简介
  * @property integer $user_sex 用户性别
  * @property string $avatar_head 用户头像
  * @property integer $store_id 商户ID
@@ -31,7 +34,7 @@ use yii\db\ActiveRecord;
  * @package bengbeng\framework\models
  */
 
-class UserARModel extends ActiveRecord{
+class UserARModel extends BaseActiveRecord {
 
     public static function tableName(){
         return '{{%user}}';
@@ -67,14 +70,26 @@ class UserARModel extends ActiveRecord{
         return $fields;
     }
 
-    public function isByWxunion($code){
-        return self::find()->where([
-            'wx_unioncode' => $code
-        ])->exists();
+    /**
+     * 微信UnionCode是否存在
+     * @param bool $code        微信UnionCode
+     * @param bool $needInfo    是否要返回相应数据 默认为不返回数据
+     * @return bool|array
+     */
+    public function isByWxunion($code, $needInfo = false){
+        if($needInfo){
+            return self::findByWxunion($code);
+        }else{
+            return self::find()
+                ->where([
+                    'wx_unioncode' => $code
+                ])
+                ->exists();
+        }
     }
 
     /**
-     * 按微信openid获取用户信息
+     * 按微信UnionCode获取用户信息
      * @param $code
      * @return array|UserARModel|null|ActiveRecord
      */
@@ -106,6 +121,12 @@ class UserARModel extends ActiveRecord{
         ]);
     }
 
+    /**
+     * 按手机号或者微信code进行查找用户信息
+     * @param $phone_num
+     * @param $code
+     * @return array|null|ActiveRecord
+     */
     public function findByMobileAndWxcode($phone_num,$code){
         return self::info([
             'or',
@@ -114,8 +135,9 @@ class UserARModel extends ActiveRecord{
         ]);
     }
 
-    public function info($where = []){
-        return self::find()->where($where)->one();
+    public function listAll(){
+        $query = self::dataSet();
+        return $query->all();
     }
 
     /**
