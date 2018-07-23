@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\base;
 
+use function GuzzleHttp\Promise\all;
 use yii\data\Pagination;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -15,7 +16,7 @@ use yii\db\ActiveRecord;
 class BaseActiveRecord extends ActiveRecord
 {
     public $pageSize = 20;
-
+    public $returnArray = true;
     private $pagination;
 
     public function info($where = false){
@@ -32,7 +33,7 @@ class BaseActiveRecord extends ActiveRecord
      *      $query->with('custom');
      *      ...
      * });
-     * @return \yii\db\ActiveQuery
+     * @return array
      */
     public function dataSet(\Closure $callback = null){
         $query = self::find();
@@ -48,7 +49,10 @@ class BaseActiveRecord extends ActiveRecord
         }
         $query->offset($this->pagination->offset);
         $query->limit($this->pagination->limit);
-        return $query;
+        if($this->returnArray){
+            $query->asArray();
+        }
+        return $query->all();
     }
 
     /**
