@@ -8,8 +8,8 @@
 
 namespace bengbeng\framework\base;
 
-
 use yii\data\Pagination;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 class BaseActiveRecord extends ActiveRecord
@@ -25,10 +25,16 @@ class BaseActiveRecord extends ActiveRecord
     }
 
     /**
-     * @param \Closure $closure
+     * 通用返回数据集合，如需要设定其他参数，请参看参数说明
+     * @param \Closure $callback 回调方法，返回ActiveQuery类型的$query
+     * 参照实例如下:
+     * (new Customer())->dataSet(function(\yii\db\ActiveQuery $query){
+     *      $query->with('custom');
+     *      ...
+     * });
      * @return \yii\db\ActiveQuery
      */
-    public function dataSet(\Closure $closure = null){
+    public function dataSet(\Closure $callback = null){
         $query = self::find();
         //获取page的设置 默认为一页显示30;
         $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$this->pageSize;
@@ -37,8 +43,8 @@ class BaseActiveRecord extends ActiveRecord
             'defaultPageSize' => $page,
             'totalCount' => $query->count(),
         ]);
-        if($closure){
-            call_user_func($closure, $query);
+        if($callback){
+            call_user_func($callback, $query);
         }
         $query->offset($this->pagination->offset);
         $query->limit($this->pagination->limit);
