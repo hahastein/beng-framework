@@ -38,7 +38,7 @@ class BaseActiveRecord extends ActiveRecord
             'totalCount' => $query->count(),
         ]);
         if($closure){
-            call_user_func($closure, &$query);
+            call_user_func($closure, $query);
         }
         $query->offset($this->pagination->offset);
         $query->limit($this->pagination->limit);
