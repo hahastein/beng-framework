@@ -28,7 +28,7 @@ class BaseActiveRecord extends ActiveRecord
      * @param \Closure $closure
      * @return \yii\db\ActiveQuery
      */
-    public function dataSet(\Closure $closure){
+    public function dataSet(\Closure $closure = null){
         $query = self::find();
         //获取page的设置 默认为一页显示30;
         $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$this->pageSize;
