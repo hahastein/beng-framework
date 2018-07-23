@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
 
 class BaseActiveRecord extends ActiveRecord
 {
+    public $pageSize = 20;
 
     private $pagination;
 
@@ -24,18 +25,21 @@ class BaseActiveRecord extends ActiveRecord
     }
 
     /**
-     * @param int $page
+     * @param \Closure $closure
      * @return \yii\db\ActiveQuery
      */
-    public function dataSet($page = 20){
+    public function dataSet(\Closure $closure){
         $query = self::find();
         //获取page的设置 默认为一页显示30;
-        $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$page;
+        $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$this->pageSize;
 
         $this->pagination = new Pagination([
             'defaultPageSize' => $page,
             'totalCount' => $query->count(),
         ]);
+        if($closure){
+            $query = call_user_func($closure, $query);
+        }
         $query->offset($this->pagination->offset);
         $query->limit($this->pagination->limit);
         return $query;
