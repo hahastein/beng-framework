@@ -311,7 +311,7 @@ class YunxinHandle
      * @param  $token     [云信ID可以指定登录token值，最大长度128字节，并更新，如果未指定，会自动生成token，并在创建成功后返回]
      * @return $result    [返回array数组对象]
      */
-    public function updateUserId($accid,$name='',$props='{}',$token=''){
+    public function updateUserId($accid,$name='',$props='{}',$token='', $icon =''){
         $url = 'https://api.netease.im/nimserver/user/update.action';
         $data= array(
             'accid' => $accid,
@@ -319,6 +319,11 @@ class YunxinHandle
             'props' => $props,
             'token' => $token
         );
+
+        if(!empty($icon)){
+            $data['icon'] = $icon;
+        }
+
         if($this->RequestType=='curl'){
             $result = $this->postDataCurl($url,$data);
         }else{
