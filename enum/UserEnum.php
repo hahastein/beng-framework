@@ -34,6 +34,21 @@ class UserEnum extends Enum
         }
     }
 
+    public static function loginChange($driver_type){
+        switch ($login_type){
+            case self::DRIVER_TYPE_ANDROID:
+                return "安卓用户";
+            case self::DRIVER_TYPE_IOS:
+                return "苹果用户";
+            case self::DRIVER_TYPE_WXXCX:
+                return "小程序用户";
+            case self::DRIVER_TYPE_H5:
+                return "手机端用户";
+            default:
+                return "其他用户";
+        }
+    }
+
     const USER_PHONE_BIND = 1;
     const USER_PHONE_UNBIND = 0;
 
