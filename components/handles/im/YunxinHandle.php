@@ -309,6 +309,7 @@ class YunxinHandle
      * @param  $name      [云信ID昵称，最大长度64字节，用来PUSH推送时显示的昵称]
      * @param  $props     [json属性，第三方可选填，最大长度1024字节]
      * @param  $token     [云信ID可以指定登录token值，最大长度128字节，并更新，如果未指定，会自动生成token，并在创建成功后返回]
+     * @param  $icon      [云信ID头像URL，第三方可选填，最大长度1024]
      * @return $result    [返回array数组对象]
      */
     public function updateUserId($accid,$name='',$props='{}',$token='', $icon =''){
