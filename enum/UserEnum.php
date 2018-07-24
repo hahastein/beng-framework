@@ -35,7 +35,7 @@ class UserEnum extends Enum
     }
 
     public static function loginChange($driver_type){
-        switch ($login_type){
+        switch ($driver_type){
             case self::DRIVER_TYPE_ANDROID:
                 return "安卓用户";
             case self::DRIVER_TYPE_IOS:
