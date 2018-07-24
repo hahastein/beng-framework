@@ -275,8 +275,6 @@ class UserHandle{
         ])->exists();
     }
 
-
-
     /**
      * 新增用户信息
      * @return bool
