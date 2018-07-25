@@ -117,6 +117,9 @@ class UserHandle{
             case Enum::USER_BIND_TWOWAY:
                 $model = new UserARModel();
                 if($model = $model->findByMobileAndWxcode($params['phone_num'], $params['union_id'])){
+                    if($model->phone_num && $model->wx_unioncode){
+                        throw new \Exception('此用户已经存在');
+                    }
                     if(!$model->phone_num){
                         $model->phone_num = $params['phone_num'];
                         $model->phone_bind = 1;
