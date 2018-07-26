@@ -14,7 +14,10 @@ use yii\db\ActiveRecord;
 class BaseActiveRecord extends ActiveRecord
 {
     public $pageSize = 20;
+    public $validatePage = true;
+
     private $pagination;
+    private $dataCount = 0;
 
     public function info($where = false){
         $query = self::find();
@@ -37,10 +40,13 @@ class BaseActiveRecord extends ActiveRecord
         //获取page的设置 默认为一页显示30;
         $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$this->pageSize;
 
+        $this->dataCount = $query->count();
         $this->pagination = new Pagination([
             'defaultPageSize' => $page,
-            'totalCount' => $query->count(),
+            'totalCount' => $this->dataCount,
         ]);
+        $this->pagination->validatePage = $this->validatePage;
+
         if($callback){
             call_user_func($callback, $query);
         }
@@ -55,5 +61,13 @@ class BaseActiveRecord extends ActiveRecord
     public function getPagination()
     {
         return $this->pagination;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDataCount()
+    {
+        return $this->dataCount;
     }
 }
