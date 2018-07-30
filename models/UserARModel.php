@@ -2,6 +2,7 @@
 namespace bengbeng\framework\models;
 
 use bengbeng\framework\base\BaseActiveRecord;
+use bengbeng\framework\enum\UserEnum;
 use yii\data\Pagination;
 use yii\db\ActiveRecord;
 
@@ -165,7 +166,7 @@ class UserARModel extends BaseActiveRecord {
         $this->setScenario('wx');
         $this->setAttributes($param);
         if($this->validate()){
-            $this->login_type = isset($param['login_type'])?$param['login_type']:20;
+            $this->login_type = isset($param['login_type'])?$param['login_type']:UserEnum::LOGIN_TYPE_MOBILE_SMS;
             $this->wx_bind = isset($param['wx_unioncode'])?1:0;
             $this->phone_bind = isset($param['phone_bind'])?1:0;
             if(isset($param['userpass']))$this->userpass = $param['userpass'];
