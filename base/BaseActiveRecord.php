@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\base;
 
+use bengbeng\framework\base\data\ActiveOperate;
 use yii\data\Pagination;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -71,6 +72,19 @@ class BaseActiveRecord extends ActiveRecord
         $query->offset($this->pagination->offset);
         $query->limit($this->pagination->limit);
         return $query->all();
+    }
+
+    public function dataUpdate(\Closure $callback = null){
+        $operate = new ActiveOperate();
+        if($callback){
+            call_user_func($callback, $operate);
+        }
+
+        if(empty($operate->where)){
+            return self::updateAll($operate->params);
+        }else{
+            return self::updateAll($operate->params, $operate->where);
+        }
     }
 
     /**
