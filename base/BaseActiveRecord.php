@@ -79,12 +79,7 @@ class BaseActiveRecord extends ActiveRecord
         if($callback){
             call_user_func($callback, $operate);
         }
-
-        if(empty($operate->where)){
-            return self::updateAll($operate->params);
-        }else{
-            return self::updateAll($operate->params, $operate->where);
-        }
+        return self::updateAll($operate->getParams(), $operate->getWhere());
     }
 
     /**
