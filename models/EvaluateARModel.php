@@ -8,8 +8,8 @@
 
 namespace bengbeng\framework\models;
 
+use bengbeng\framework\base\BaseActiveRecord;
 use bengbeng\framework\base\Enum;
-use yii\db\ActiveRecord;
 
 /**
  * Class EvaluateARModel
@@ -26,7 +26,7 @@ use yii\db\ActiveRecord;
  * @package bengbeng\framework\models
  */
 
-class EvaluateARModel extends ActiveRecord
+class EvaluateARModel extends BaseActiveRecord
 {
     public static function tableName()
     {

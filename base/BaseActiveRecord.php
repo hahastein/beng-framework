@@ -65,12 +65,12 @@ class BaseActiveRecord extends ActiveRecord
             'totalCount' => $this->dataCount,
         ]);
         $this->pagination->validatePage = $this->validatePage;
+        $query->offset($this->pagination->offset);
+        $query->limit($this->pagination->limit);
 
         if($callback){
             call_user_func($callback, $query);
         }
-        $query->offset($this->pagination->offset);
-        $query->limit($this->pagination->limit);
         return $query->all();
     }
 
