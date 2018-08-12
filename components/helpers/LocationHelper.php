@@ -27,6 +27,11 @@ class LocationHelper
      * @return float|int
      */
     public static function BetweenDistance($my_lat, $my_lng, $other_lat, $other_lng, $unit = self::LOCATION_UNIT_AUTO){
+
+        if($my_lat == 0 || $my_lng == 0 || $other_lat == 0 || $other_lng == 0){
+            return '暂无距离';
+        }
+
         $myLat = $my_lat * self::PI / 180.0;
         $otherLat = $other_lat * self::PI / 180.0;
 
