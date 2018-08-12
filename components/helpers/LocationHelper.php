@@ -12,6 +12,10 @@ namespace bengbeng\framework\components\helpers;
 class LocationHelper
 {
     const ERATH_RADIUS = 6378.137;
+    const PI = 3.1415926535898;
+    const LOCATION_UNIT_AUTO = 1;
+    const LOCATION_UNIT_KM = 2;
+    const LOCATION_UNIT_M = 3;
 
     /**
      * 计算两者之间的距离
@@ -19,16 +23,23 @@ class LocationHelper
      * @param $my_lng
      * @param $other_lat
      * @param $other_lng
+     * @param $unit
      * @return float|int
      */
-    public static function BetweenDistance($my_lat, $my_lng, $other_lat, $other_lng){
-        $myLat = deg2rad($my_lat); //deg2rad()函数将角度转换为弧度
-        $otherLat = deg2rad($other_lat);
-        $myLng = deg2rad($my_lng);
-        $otherLng = deg2rad($other_lng);
+    public static function BetweenDistance($my_lat, $my_lng, $other_lat, $other_lng, $unit = self::LOCATION_UNIT_AUTO){
+        $myLat = $my_lat * self::PI / 180.0;
+        $otherLat = $other_lat * self::PI / 180.0;
+
         $lat = $myLat - $otherLat;
-        $lng = $myLng - $otherLng;
-        $result = 2 * asin(sqrt(pow(sin($lat / 2), 2) + cos($myLat) * cos($otherLat) * pow(sin($lng / 2), 2))) * self::ERATH_RADIUS * 1000;
+        $lng = ($my_lng * self::PI / 180.0) - ($other_lng * self::PI / 180.0);
+
+        $result = 2 * asin(sqrt(pow(sin($lat / 2), 2) + cos($myLat) * cos($otherLat) * pow(sin($lng / 2), 2)));
+        $result = $result * self::ERATH_RADIUS;
+
+        if($unit == self::LOCATION_UNIT_M){
+            $result = round($result * 1000);
+        }
+
         return $result;
     }
 }
