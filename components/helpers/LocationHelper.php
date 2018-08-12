@@ -37,7 +37,20 @@ class LocationHelper
         $result = $result * self::ERATH_RADIUS;
 
         if($unit == self::LOCATION_UNIT_M){
-            $result = round($result * 1000);
+            $result = round($result * 1000, 2) .'米';
+        }else if($unit == self::LOCATION_UNIT_AUTO){
+            if($result<1) {
+                $result = round($result * 1000, 2);
+                if($result <= 50){
+                    $result = '50米内';
+                }else{
+                    $result = $result . 'm';
+                }
+            }else{
+                $result = round($result, 2). ' km';
+            }
+        }else{
+            $result = round($result, 2). ' km';
         }
 
         return $result;
