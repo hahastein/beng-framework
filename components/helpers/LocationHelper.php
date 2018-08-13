@@ -52,10 +52,10 @@ class LocationHelper
                     $result = $result . 'm';
                 }
             }else{
-                $result = round($result, 0). ' km';
+                $result = round($result, 2). ' km';
             }
         }else{
-            $result = round($result, 0). ' km';
+            $result = round($result, 2). ' km';
         }
 
         return $result;
