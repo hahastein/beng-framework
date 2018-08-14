@@ -60,15 +60,15 @@ class BaseActiveRecord extends ActiveRecord
         $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$this->pageSize;
 
         $this->dataCount = $query->count();
-        $this->pagination = new Pagination([
-            'pageSize' => $page,
-            'totalCount' => $this->dataCount,
-        ]);
 
         if($callback){
             call_user_func($callback, $query);
         }
 
+        $this->pagination = new Pagination([
+            'pageSize' => $page,
+            'totalCount' => $query->count(),
+        ]);
         $this->pagination->validatePage = $this->validatePage;
         $query->offset($this->pagination->offset);
         $query->limit($this->pagination->limit);
