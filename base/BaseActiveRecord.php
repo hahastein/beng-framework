@@ -59,15 +59,16 @@ class BaseActiveRecord extends ActiveRecord
         //获取page的设置 默认为一页显示30;
         $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$this->pageSize;
 
-        if($callback){
-            call_user_func($callback, $query);
-        }
-
         $this->dataCount = $query->count();
         $this->pagination = new Pagination([
             'pageSize' => $page,
             'totalCount' => $this->dataCount,
         ]);
+
+        if($callback){
+            call_user_func($callback, $query);
+        }
+
         $this->pagination->validatePage = $this->validatePage;
         $query->offset($this->pagination->offset);
         $query->limit($this->pagination->limit);
