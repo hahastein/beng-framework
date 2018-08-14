@@ -65,7 +65,7 @@ class BaseActiveRecord extends ActiveRecord
 
         $this->dataCount = $query->count();
         $this->pagination = new Pagination([
-            'defaultPageSize' => $page,
+            'pageSize' => $page,
             'totalCount' => $this->dataCount,
         ]);
         $this->pagination->validatePage = $this->validatePage;
