@@ -80,4 +80,9 @@ class Enum
     const ERROR_NO_FIND_USER = 200001;  //没有找到用户信息
     const ERROR_CUSTOMER = 0;           //自定义错误类型
 
+    //成功类型定义
+    const SUCCESS_ADD_USER = 200001;
+    const SUCCESS_EDIT_USER = 200002;
+    const SUCCESS_CUSTOMER = 0;           //自定义错误类型
+
 }
