@@ -17,6 +17,34 @@ class LocationHelper
     const LOCATION_UNIT_KM = 2;
     const LOCATION_UNIT_M = 3;
 
+
+    public static function TransformDistance($distance, $degree = false, $unit = self::LOCATION_UNIT_AUTO){
+        if($degree){
+            $distance = $distance * self::ERATH_RADIUS * self::PI / 180.0;
+        }
+
+        $result = $distance;
+
+        if($unit == self::LOCATION_UNIT_M){
+            $result = round($result * 1000, 0) .'米';
+        }else if($unit == self::LOCATION_UNIT_AUTO){
+            if($result<1) {
+                $result = round($result * 1000, 0);
+                if($result <= 50){
+                    $result = '50米内';
+                }else{
+                    $result = $result . 'm';
+                }
+            }else{
+                $result = round($result, 2). ' km';
+            }
+        }else{
+            $result = round($result, 2). ' km';
+        }
+
+        return $result;
+    }
+
     /**
      * 计算两者之间的距离
      * @param $my_lat
