@@ -60,11 +60,14 @@ class LocationHelper
             return '暂无距离';
         }
 
-        $myLat = $my_lat * self::PI / 180.0;
-        $otherLat = $other_lat * self::PI / 180.0;
+        $myLat = deg2rad($my_lat);
+        $otherLat = deg2rad($other_lat);
+
+        $myLng = deg2rad($my_lng);
+        $otherLng = deg2rad($other_lng);
 
         $lat = $myLat - $otherLat;
-        $lng = ($my_lng * self::PI / 180.0) - ($other_lng * self::PI / 180.0);
+        $lng = $myLng - $otherLng;
 
         $result = 2 * asin(sqrt(pow(sin($lat / 2), 2) + cos($myLat) * cos($otherLat) * pow(sin($lng / 2), 2)));
         $result = $result * self::ERATH_RADIUS;
