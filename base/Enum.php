@@ -75,5 +75,9 @@ class Enum
     const IM_REQUEST_POST_TYPE_FSOCK = 2;
 
 
+    //错误类型定义
+    const ERROR_NO_PARAMS = 108001;     //没有参数
+    const ERROR_NO_FIND_USER = 200001;  //没有找到用户信息
+    const ERROR_CUSTOMER = 0;           //自定义错误类型
 
 }
