@@ -11,7 +11,7 @@ namespace bengbeng\framework\components\helpers;
 
 class LocationHelper
 {
-    const ERATH_RADIUS = 6378.137;
+    const ERATH_RADIUS = 6371.0;
     const PI = 3.1415926535898;
     const LOCATION_UNIT_AUTO = 1;
     const LOCATION_UNIT_KM = 2;
