@@ -27,10 +27,10 @@ class StatisticsHandle
 
     public function getStatistics($column){
 
-        return $this->data;
-//        return array_filter($this->data, function ($key) use ($column){
-//            return $key == $column;
-//        });
+//        return $this->data;
+        return array_filter($this->data, function ($key, $value) use ($column){
+            return $value == $column;
+        });
 
 //        switch ($column){
 //            case Enum::PLATFORM_STATISTICS_ACCOUNT_AMOUNT:
