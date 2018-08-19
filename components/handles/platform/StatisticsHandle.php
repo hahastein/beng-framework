@@ -28,9 +28,9 @@ class StatisticsHandle
     public function getStatistics($column){
 
 //        return $this->data;
-        return array_filter($this->data, function ($key, $value) use ($column){
+        return array_filter($this->data, function ($value, $key) use ($column){
             return $value == $column;
-        });
+        }, ARRAY_FILTER_USE_BOTH);
 
 //        switch ($column){
 //            case Enum::PLATFORM_STATISTICS_ACCOUNT_AMOUNT:
