@@ -85,4 +85,12 @@ class Enum
     const SUCCESS_EDIT_USER = 200002;
     const SUCCESS_CUSTOMER = 0;           //自定义错误类型
 
+    //平台统计类型定义
+    const PLATFORM_STATISTICS_ACCOUNT_AMOUNT = 'account_amount';
+    const PLATFORM_STATISTICS_USER_COUNT = 'user_count';
+    const PLATFORM_STATISTICS_ORDER_COUNT = 'order_count';
+    const PLATFORM_STATISTICS_GOODS_COUNT = 'goods_count';
+    const PLATFORM_STATISTICS_PRE_DAY_ADD_USER_COUNT = 'pre_day_add_user_count';
+    const PLATFORM_STATISTICS_PRE_MONTH_ADD_USER_COUNT = 'pre_month_add_user_count';
+
 }

@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
 
 class BaseActiveRecord extends ActiveRecord
 {
+    public $showPage = true;
     public $pageSize = 20;
     public $validatePage = true;
 
@@ -56,22 +57,26 @@ class BaseActiveRecord extends ActiveRecord
      */
     public function dataSet(\Closure $callback = null){
         $query = self::find();
-        //获取page的设置 默认为一页显示30;
-        $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$this->pageSize;
 
         if($callback){
             call_user_func($callback, $query);
         }
 
         $this->dataCount = $query->count();
-        $this->pagination = new Pagination([
-            'pageSize' => $page,
-            'totalCount' => $this->dataCount,
-        ]);
+        if($this->showPage) {
+            //获取page的设置 默认为一页显示30;
+            $page = isset(\Yii::$app->request->params['Page']['PageSize'])?:$this->pageSize;
 
-        $this->pagination->validatePage = $this->validatePage;
-        $query->offset($this->pagination->offset);
-        $query->limit($this->pagination->limit);
+            $this->pagination = new Pagination([
+                'pageSize' => $page,
+                'totalCount' => $this->dataCount,
+            ]);
+
+            $this->pagination->validatePage = $this->validatePage;
+            $query->offset($this->pagination->offset);
+            $query->limit($this->pagination->limit);
+
+        }
 
         return $query->all();
     }
