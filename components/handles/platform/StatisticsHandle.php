@@ -32,9 +32,11 @@ class StatisticsHandle
 
     public function getStatistics($column){
 
-        return array_filter($this->data, function ($value, $key) use ($column){
-            return  $value == $column;
-        }, ARRAY_FILTER_USE_BOTH);
+        return array_filter($this->data, function ($item) use ($column){
+            if($item['model_name'] == $column){
+                return $item;
+            }
+        });
 
 //        switch ($column){
 //            case Enum::PLATFORM_STATISTICS_ACCOUNT_AMOUNT:
