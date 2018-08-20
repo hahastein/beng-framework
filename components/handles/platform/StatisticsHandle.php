@@ -11,9 +11,8 @@ namespace bengbeng\framework\components\handles\platform;
 
 use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\base\Enum;
-use bengbeng\framework\models\PlatformStatisticsARModel;
+use bengbeng\framework\models\platform\PlatformStatisticsARModel;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 use yii\db\Expression;
 
 class StatisticsHandle
@@ -39,7 +38,7 @@ class StatisticsHandle
 
     }
 
-    public function saveModel($column, $updateValue, $des){
+    public function saveModel($column, $updateValue, $des = ''){
         return $this->_model->dataUpdate(function (ActiveOperate $operate) use($column,$updateValue,$des){
             $operate->where(['model_name' => $column]);
             switch ($column){

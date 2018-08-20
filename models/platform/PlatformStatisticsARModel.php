@@ -6,7 +6,7 @@
  * Time: 上午10:06
  */
 
-namespace bengbeng\framework\models;
+namespace bengbeng\framework\models\platform;
 
 
 use bengbeng\framework\base\BaseActiveRecord;
