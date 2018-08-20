@@ -31,11 +31,8 @@ class StatisticsHandle
     }
 
     public function getStatistics($column){
-
         return array_filter($this->data, function ($item) use ($column){
-            if($item['model_name'] == $column){
-                return $item;
-            }
+            return $item['model_name'] == $column;
         });
 
 //        switch ($column){
