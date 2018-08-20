@@ -23,6 +23,8 @@ class StatisticsHandle
         $this->openCache = true;
         $this->_model = new PlatformStatisticsARModel();
         $this->data = $this->_model->dataSet();
+                print_r($this->data);
+
     }
 
     public function getStatistics($column){
