@@ -11,6 +11,8 @@ namespace bengbeng\framework\components\handles\platform;
 
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\PlatformStatisticsARModel;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 class StatisticsHandle
 {
@@ -22,7 +24,9 @@ class StatisticsHandle
     {
         $this->openCache = true;
         $this->_model = new PlatformStatisticsARModel();
-        $this->data = $this->_model->dataSet();
+        $this->data = $this->_model->dataSet(function (ActiveQuery $query){
+            $query->asArray();
+        });
                 print_r($this->data);
 
     }
