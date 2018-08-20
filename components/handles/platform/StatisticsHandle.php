@@ -27,13 +27,11 @@ class StatisticsHandle
         $this->data = $this->_model->dataSet(function (ActiveQuery $query){
             $query->asArray();
         });
-                print_r($this->data);
 
     }
 
     public function getStatistics($column){
 
-//        return $this->data;
         return array_filter($this->data, function ($item) use ($column){
             return $item;
         });
