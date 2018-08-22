@@ -26,9 +26,13 @@ class PayHandle
     private $payNotifyUrl;
     private $error;
 
+    private $isDebug;
+    private $debugData;
+
     public function __construct()
     {
         $this->payType = Enum::PAY_TYPE_WXPAY;
+        $this->isDebug = false;
     }
 
     public function configForApp(){
@@ -151,6 +155,9 @@ class PayHandle
             try{
                 $app = Factory::payment(\Yii::$app->params['WECHAT']);
                 $response = $app->handlePaidNotify(function($message, $fail) use ($closure){
+                    if($this->isDebug && !empty($this->debugData)){
+                        $message = $this->debugData;
+                    }
                     $out_trade_no = $message['out_trade_no']; //订单号
                     $transaction_id = $message['transaction_id']; //外部交易号
                     $total_fee = $message['total_fee'] / 100; //支付金额
@@ -228,6 +235,22 @@ class PayHandle
     public function setPayAmount($payAmount)
     {
         $this->payAmount = $payAmount;
+    }
+
+    /**
+     * @param bool $isDebug
+     */
+    public function setIsDebug($isDebug)
+    {
+        $this->isDebug = $isDebug;
+    }
+
+    /**
+     * @param mixed $debugData
+     */
+    public function setDebugData($debugData)
+    {
+        $this->debugData = $debugData;
     }
 
     /**
