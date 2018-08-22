@@ -150,6 +150,9 @@ class PayHandle
 
     }
 
+    /**
+     * @param \Closure $closure
+     */
     public function notify(\Closure $closure){
         if($this->payType == Enum::PAY_TYPE_WXPAY){
             try{
@@ -170,10 +173,12 @@ class PayHandle
                             $orderModel = new OrderARModel();
                             $orderModel->dataUpdate(function (ActiveOperate $operate) use($out_trade_no, $transaction_id){
                                 $operate->where([
-                                    'transaction_id' => $transaction_id,
-                                    'order_sn' => $out_trade_no,
+                                    'order_sn' => $out_trade_no
                                 ]);
-                                $operate->params(['order_state' => Enum::ORDER_STATUS_EXCEPTION]);
+                                $operate->params([
+                                    'order_state' => Enum::ORDER_STATUS_EXCEPTION,
+                                    'transaction_id' => $transaction_id
+                                ]);
                             });
                             //是否写入日志
                         }
@@ -185,6 +190,18 @@ class PayHandle
                 $response->send();
             }catch (\EasyWeChat\Kernel\Exceptions\Exception $e){
 //                file_put_contents('/www/yqlh_log/wx_error'.date('Y-m-d', time()).'.log',$e->getMessage(),FILE_APPEND);
+            }
+        }else if($this->payType == Enum::PAY_TYPE_ALIPAY){
+            $aliPayData = \Yii::$app->request->post();
+            try{
+                if ($aliPayData['trade_status'] == 'TRADE_SUCCESS' && $aliPayData['notify_type'] == 'trade_status_sync') {
+
+                    echo 'SUCCESS';
+                }else{
+                    echo 'FAIL';
+                }
+            }catch (\Exception $ex){
+
             }
         }
     }
