@@ -8,9 +8,9 @@
 
 namespace bengbeng\framework\models;
 
-use yii\db\ActiveRecord;
+use bengbeng\framework\base\BaseActiveRecord;
 
-class OrderARModel extends ActiveRecord
+class OrderARModel extends BaseActiveRecord
 {
     public static function tableName(){
         return '{{%order}}';

@@ -81,6 +81,17 @@ class BaseActiveRecord extends ActiveRecord
         return $query->all();
     }
 
+    /**
+     * 通用数据更新，如需要设定其他参数，请参看参数说明
+     * @param \Closure $callback 回调方法，返回ActiveOperate类型的$operate
+     * 调用参照实例如下:
+     * customer = new Customer();
+     * customer->dataUpdate(function(\bengbeng\framework\base\ActiveOperate $operate){
+     *      $query->where(array());
+     *      $query->params(array());
+     * });
+     * @return bool
+     */
     public function dataUpdate(\Closure $callback = null){
         $operate = new ActiveOperate();
         if($callback){

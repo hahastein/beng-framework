@@ -8,9 +8,11 @@
 
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\plugins\alipay\AlipayTradeAppPayRequest;
 use bengbeng\framework\components\plugins\alipay\AopClient;
+use bengbeng\framework\models\OrderARModel;
 use EasyWeChat\Factory;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 
@@ -146,9 +148,38 @@ class PayHandle
 
     public function notify(\Closure $closure){
         if($this->payType == Enum::PAY_TYPE_WXPAY){
-
+            try{
+                $app = Factory::payment(\Yii::$app->params['WECHAT']);
+                $response = $app->handlePaidNotify(function($message, $fail) use ($closure){
+                    $out_trade_no = $message['out_trade_no']; //订单号
+                    $transaction_id = $message['transaction_id']; //外部交易号
+                    $total_fee = $message['total_fee'] / 100; //支付金额
+                    if ($message['return_code'] === 'SUCCESS') { //return_code 表示通信状态，不代表支付状态
+                        if ($message['result_code'] === 'SUCCESS') {
+                            //支付成功
+                            call_user_func($closure, $out_trade_no, $total_fee, $transaction_id);
+                        } elseif ($message['result_code'] === 'FAIL') {
+                            //支付失败
+                            $orderModel = new OrderARModel();
+                            $orderModel->dataUpdate(function (ActiveOperate $operate) use($out_trade_no, $transaction_id){
+                                $operate->where([
+                                    'transaction_id' => $transaction_id,
+                                    'order_sn' => $out_trade_no,
+                                ]);
+                                $operate->params(['order_state' => Enum::ORDER_STATUS_EXCEPTION]);
+                            });
+                            //是否写入日志
+                        }
+                    } else {
+                        return $fail('通信失败，请稍后再通知我');
+                    }
+                    return true; //处理完成，不再请求我
+                });
+                $response->send();
+            }catch (\EasyWeChat\Kernel\Exceptions\Exception $e){
+//                file_put_contents('/www/yqlh_log/wx_error'.date('Y-m-d', time()).'.log',$e->getMessage(),FILE_APPEND);
+            }
         }
-        return call_user_func($closure);
     }
 
     /**
