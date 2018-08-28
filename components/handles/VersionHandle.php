@@ -39,6 +39,10 @@ class VersionHandle
         $this->model = new VersionARModel();
         $this->cache = Yii::$app->cache;
 
+        $this->tagLastUpdateTime = -1;
+        $this->cityLastUpdateTime = -1;
+        $this->industryResource = -1;
+
         $version = $this->cache->get('bengVersion');
 
         if ($version === false){
