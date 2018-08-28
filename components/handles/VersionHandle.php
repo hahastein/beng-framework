@@ -30,6 +30,10 @@ class VersionHandle
     private $cityResource;
     private $industryResource;
 
+    private $tagLastUpdateTime;
+    private $cityLastUpdateTime;
+    private $industryLastUpdateTime;
+
     public function __construct()
     {
         $this->model = new VersionARModel();
@@ -46,17 +50,19 @@ class VersionHandle
     }
 
     public function getResource(){
-//        p($this->version);die;
         foreach ($this->version as $item) {
             switch ($item->version_type) {
                 case self::VERSION_TYPE_API_TAG:
                     $this->tagResource = ResourceHandle::findTagAll();
+                    $this->tagLastUpdateTime = $item->version_update_time;
                     break;
                 case self::VERSION_TYPE_API_AREA:
                     $this->cityResource = ResourceHandle::findAreaAll(Enum::STRUCTURE_AREA_RECURSION);
+                    $this->cityLastUpdateTime = $item->version_update_time;
                     break;
                 case self::VERSION_TYPE_API_INDUSTRY:
                     $this->industryResource = ResourceHandle::findIndustryAll(Enum::STRUCTURE_AREA_RECURSION);
+                    $this->industryResource = $item->version_update_time;
                     break;
             }
         }
@@ -74,6 +80,30 @@ class VersionHandle
     public function getIndustryData()
     {
         return $this->industryResource;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTagLastUpdateTime()
+    {
+        return $this->tagLastUpdateTime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCityLastUpdateTime()
+    {
+        return $this->cityLastUpdateTime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIndustryLastUpdateTime()
+    {
+        return $this->industryLastUpdateTime;
     }
 
 }
