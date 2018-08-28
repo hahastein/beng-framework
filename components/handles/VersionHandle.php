@@ -66,7 +66,7 @@ class VersionHandle
                     break;
                 case self::VERSION_TYPE_API_INDUSTRY:
                     $this->industryResource = ResourceHandle::findIndustryAll(Enum::STRUCTURE_AREA_RECURSION);
-                    $this->industryResource = $item->version_update_time;
+                    $this->industryLastUpdateTime = $item->version_update_time;
                     break;
             }
         }
