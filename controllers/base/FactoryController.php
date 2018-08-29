@@ -9,6 +9,10 @@
 namespace bengbeng\framework\controllers\base;
 
 
+use bengbeng\framework\base\Enum;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
 /**
@@ -29,5 +33,49 @@ class FactoryController extends Controller
         $this->user_id = \Yii::$app->request->get('user_id', 0);
         $this->keyword = \Yii::$app->request->get('keyword', '');
 
+    }
+
+    protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
+        $behaviors = self::behaviors();
+        $rules = $behaviors['access']['rules']; //= ArrayHelper::merge($behaviors['access']['rules'][0]['actions'], $actions);
+
+        foreach ($rules as $key => $rule){
+            if(in_array($access, $rule['roles'])){
+                $rules[$key]['actions'] = ArrayHelper::merge($rule['actions'], $actions);
+            }
+        }
+        $behaviors['access']['rules'] = $rules;
+        return $behaviors;
+    }
+
+    /**
+     * 私有方法
+     * 设置默认权限控制，公共可访问actions 为 [all, info, modify, create]
+     * @return array
+     */
+    private function setDefaultAccess(){
+        return [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'actions' => ['all', 'info', 'modify', 'create'],
+                    'allow' => true,
+                    'roles' => ['@'],
+                ]
+            ]
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'access' => self::setDefaultAccess(),
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
     }
 }

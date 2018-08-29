@@ -93,4 +93,8 @@ class Enum
     const PLATFORM_STATISTICS_PRE_DAY_ADD_USER_COUNT = 'pre_day_add_user_count';
     const PLATFORM_STATISTICS_PRE_MONTH_ADD_USER_COUNT = 'pre_month_add_user_count';
 
+    //
+    const ACCESS_RULE_AUTHENTICATED = '@';
+    const ACCESS_RULE_GUEST = '?';
+
 }
