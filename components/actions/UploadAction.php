@@ -87,7 +87,7 @@ class UploadAction extends Action
         switch ($this->outputType){
             case Enum::OUTPUT_JSON:
                 Yii::$app->response->format = Response::FORMAT_JSON;
-                return Json::encode($data);
+                return $data;
             default:
                 return $data;
         }
