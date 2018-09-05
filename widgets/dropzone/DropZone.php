@@ -18,7 +18,7 @@ use yii\helpers\Url;
 class DropZone extends Widget
 {
     public $name = '';
-    public $uploadUrl;
+    public $url;
     public $options = [];
     public $eventHandlers = [];
 
@@ -46,12 +46,12 @@ class DropZone extends Widget
 
     public function run()
     {
-        if (empty($this->uploadUrl)) {
-            $this->uploadUrl = Url::toRoute(['system/upload']);
+        if (empty($this->url)) {
+            $this->url = Url::toRoute(['system/upload']);
         }
 
         $options = [
-            'uploadUrl' => $this->uploadUrl,
+            'url' => $this->url,
             'paramName' => $this->name,
             'params' => [],
         ];
@@ -89,7 +89,7 @@ class DropZone extends Widget
      */
 
     private function loadEventHandlers(){
-        if(empty($this->eventHandlers['complete']) && !empty($this->uploadUrl)){
+        if(empty($this->eventHandlers['complete']) && !empty($this->url)){
             $this->eventHandlers['complete'] = 'function(data){$.complete.upload(data)}';
         }
     }
