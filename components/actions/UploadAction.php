@@ -15,6 +15,7 @@ use Yii;
 use yii\base\Action;
 use yii\db\Exception;
 use yii\helpers\Json;
+use yii\web\Response;
 
 class UploadAction extends Action
 {
@@ -85,6 +86,7 @@ class UploadAction extends Action
     private function output($data){
         switch ($this->outputType){
             case Enum::OUTPUT_JSON:
+                Yii::$app->response->format=Response::FORMAT_JSON;
                 return Json::encode($data);
             default:
                 return $data;
