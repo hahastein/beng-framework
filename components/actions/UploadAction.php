@@ -14,6 +14,7 @@ use bengbeng\framework\models\AttachmentARModel;
 use Yii;
 use yii\base\Action;
 use yii\db\Exception;
+use yii\helpers\Json;
 
 class UploadAction extends Action
 {
@@ -22,6 +23,7 @@ class UploadAction extends Action
     public $afterUploadHandler = null;
     public $beforeUploadHandler = null;
     public $isAttachment = false;
+    public $outputType = Enum::OUTPUT_JSON;
 
     private $error = '';
 
@@ -32,7 +34,6 @@ class UploadAction extends Action
     }
 
     public function run(){
-        print_r('123123');die;
         $transaction = \Yii::$app->db->beginTransaction();
         try {
             if(empty($this->uploadModel)){
@@ -67,11 +68,26 @@ class UploadAction extends Action
             }
 
             $transaction->commit();
-            return $images;
+
+            return $this->output($images);
         }catch (Exception $ex){
             $transaction->rollBack();
             $this->error = $ex->getMessage();
-            return false;
+            return $this->output(['code' => 200, 'msg' => $this->error]);
+        }
+    }
+
+    /**
+     * 按类型输出内容
+     * @param $data
+     * @return string
+     */
+    private function output($data){
+        switch ($this->outputType){
+            case Enum::OUTPUT_JSON:
+                return Json::encode($data);
+            default:
+                return $data;
         }
     }
 

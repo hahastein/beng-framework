@@ -97,4 +97,10 @@ class Enum
     const ACCESS_RULE_AUTHENTICATED = '@';
     const ACCESS_RULE_GUEST = '?';
 
+    //输出类型
+    const OUTPUT_JSON = 1;
+    const OUTPUT_ARRAY = 2;
+    const OUTPUT_XML = 3;
+    const OUTPUT_HTML = 4;
+
 }
