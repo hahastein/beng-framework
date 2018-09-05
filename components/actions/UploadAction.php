@@ -32,6 +32,7 @@ class UploadAction extends Action
     }
 
     public function run(){
+        print_r('123123');die;
         $transaction = \Yii::$app->db->beginTransaction();
         try {
             if(empty($this->uploadModel)){
