@@ -46,12 +46,12 @@ class DropZone extends Widget
 
     public function run()
     {
-        if (empty($this->url)) {
+        if (empty($this->uploadUrl)) {
             $this->uploadUrl = Url::toRoute(['system/upload']);
         }
 
         $options = [
-            'url' => $this->url,
+            'uploadUrl' => $this->uploadUrl,
             'paramName' => $this->name,
             'params' => [],
         ];
