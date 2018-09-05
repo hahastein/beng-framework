@@ -97,30 +97,30 @@ class DropZone extends Widget
     }
 
     private function loadDefaultOption(){
-        if(empty($options['maxFiles'])){
-            $options['maxFiles'] = '5';
+        if(empty($this->options['maxFiles'])){
+            $this->options['maxFiles'] = '5';
         }
 
-        if(empty($options['acceptedFiles'])){
-            $options['acceptedFiles'] = '.jpg,.jpeg,.gif,.png';
+        if(empty($this->options['acceptedFiles'])){
+            $this->options['acceptedFiles'] = '.jpg,.jpeg,.gif,.png';
         }
 
-        if(empty($options['addRemoveLinks'])){
-            $options['addRemoveLinks'] = 'true';
+        if(empty($this->options['addRemoveLinks'])){
+            $this->options['addRemoveLinks'] = 'true';
         }
 
-        if(empty($options['dictDefaultMessage'])){
+        if(empty($this->options['dictDefaultMessage'])){
             $dict_tag_a = Html::a('点击此处上传图片', null, ['class' => 'btn btn-info btn-lg']);
             $dict_tag_br = Html::tag('br');
 
-            $dict_tag_div_small = Html::tag('small', sprintf('或将要上传的图片拖到这里，单次最多可选%d张', $options['maxFiles']));
+            $dict_tag_div_small = Html::tag('small', sprintf('或将要上传的图片拖到这里，单次最多可选%d张', $this->options['maxFiles']));
             $dict_tag_div = Html::tag('div', $dict_tag_div_small, ['class' => 'text-center']);
 
-            $options['dictDefaultMessage'] = $dict_tag_a . $dict_tag_br. $dict_tag_br. $dict_tag_div;
+            $this->options['dictDefaultMessage'] = $dict_tag_a . $dict_tag_br. $dict_tag_br. $dict_tag_div;
         }
 
-        if(empty($options['dictRemoveFile'])){
-            $options['dictRemoveFile'] = '删除文件';
+        if(empty($this->options['dictRemoveFile'])){
+            $this->options['dictRemoveFile'] = '删除文件';
         }
     }
 
