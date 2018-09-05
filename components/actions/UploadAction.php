@@ -50,7 +50,7 @@ class UploadAction extends Action
                 'savePath' => $this->uploadDir . $this->uploadModel
             ]);
             $images = $upload->save(false);
-            if(is_bool($images) && !$images) {
+            if($images === false && !$images) {
                 throw new Exception($upload->getError());
             }
 
@@ -86,7 +86,7 @@ class UploadAction extends Action
     private function output($data){
         switch ($this->outputType){
             case Enum::OUTPUT_JSON:
-                Yii::$app->response->format=Response::FORMAT_JSON;
+                Yii::$app->response->format = Response::FORMAT_JSON;
                 return Json::encode($data);
             default:
                 return $data;
