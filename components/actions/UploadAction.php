@@ -20,7 +20,10 @@ class UploadAction extends Action
     public $uploadModel = '';
     public $uploadDir = 'upload/';
     public $afterUploadHandler = null;
-    public $isAttachment = true;
+    public $beforeUploadHandler = null;
+    public $isAttachment = false;
+
+    private $error = '';
 
     public function init()
     {
@@ -34,6 +37,12 @@ class UploadAction extends Action
             if(empty($this->uploadModel)){
                 throw new Exception('没有设定要上传的目录');
             }
+            $obj_id = 0;
+            if(isset($this->beforeUploadHandler)){
+                $obj_id = call_user_func($this->afterUploadHandler);
+                $obj_id = !$obj_id?0:$obj_id;
+            }
+
             $upload = new UploadHandle([
                 'savePath' => $this->uploadDir . $this->uploadModel
             ]);
@@ -44,7 +53,6 @@ class UploadAction extends Action
 
             if($this->isAttachment){
                 foreach ($images as $image) {
-
                     $attModel = new AttachmentARModel();
                     $attModel->att_type = Enum::ATTACHMENT_TYPE_STORE;
                     $attModel->obj_url = $image['path'];
@@ -58,11 +66,19 @@ class UploadAction extends Action
             }
 
             $transaction->commit();
-            return $obj_id;
+            return $images;
         }catch (Exception $ex){
             $transaction->rollBack();
             $this->error = $ex->getMessage();
             return false;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->error;
     }
 }
