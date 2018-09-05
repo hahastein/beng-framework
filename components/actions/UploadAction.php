@@ -49,7 +49,7 @@ class UploadAction extends Action
             $upload = new UploadHandle([
                 'savePath' => $this->uploadDir . $this->uploadModel
             ]);
-            $images = $upload->save(false);
+            $images = $upload->save();
             if($images === false && !$images) {
                 throw new Exception($upload->getError());
             }
