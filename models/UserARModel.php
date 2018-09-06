@@ -44,13 +44,15 @@ class UserARModel extends BaseActiveRecord {
     public function rules()
     {
         return [
-            ['phone_num', 'filter', 'filter'=> 'trim', 'on'=> ['pass', 'sms']],
+            ['phone_num', 'filter', 'filter'=> 'trim', 'on'=> ['pass', 'sms', 'modifyWithPhone']],
             ['phone_num', 'required', 'on'=> ['pass', 'sms'], 'message' => '填写手机号'],
             [['phone_num'],'match','pattern'=>'/^[1][356789][0-9]{9}$/','on'=> ['pass', 'sms'], 'message' => '手机号格式错误'],
             ['userpass', 'filter', 'filter'=> 'trim', 'on'=> ['account', 'pass']],
             ['userpass', 'required', 'on'=> ['account', 'pass'], 'message' => '请您填写密码'],
             ['userpass', 'string', 'min' => 6, 'max' => 64, 'on'=> ['account', 'pass'], 'message' => '密码位数不足'],
-            ['wx_unioncode', 'required', 'on' => ['wx'], 'message' => '微信openid不能为空']
+            ['wx_unioncode', 'required', 'on' => ['wx'], 'message' => '微信openid不能为空'],
+            ['nickname', 'required', 'on' => ['modify', 'modifyWithPhone'], 'message' => '昵称不能为空'],
+            ['nickname', 'string', 'min' => 2, 'max' => 18, 'on' => ['modify', 'modifyWithPhone'], 'message' => '昵称不能小于2位，多以18位']
         ];
     }
 
@@ -61,6 +63,8 @@ class UserARModel extends BaseActiveRecord {
         $scenarios['pass'] = ['phone_num','userpass'];
         $scenarios['sms'] = ['phone_num'];
         $scenarios['wx'] = ['wx_unioncode'];
+        $scenarios['modifyWithPhone'] = ['phone_num'];
+        $scenarios['modify'] = ['phone_num', 'nickname'];
         return $scenarios;
     }
 
