@@ -65,8 +65,12 @@ class BengPlugins extends Component
         }
 
         foreach ($postData as $key => $value){
-            if(!in_array($key, $column)){
+            if(empty($value)){
                 unset($postData[$key]);
+            }else{
+                if(!in_array($key, $column)){
+                    unset($postData[$key]);
+                }
             }
         }
 
