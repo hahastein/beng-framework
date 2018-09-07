@@ -54,6 +54,17 @@ class BengPlugins extends Component
            return $postData;
         }
 
+        //重置列
+        foreach ($column as $index => $item){
+            if(is_array($item)){
+                $key = key($item);
+                $postData[$item[$key]] = $postData[$key];
+                $column[] = $item[$key];
+                unset($column[$index]);
+                unset($postData[$key]);
+            }
+        }
+
         foreach ($postData as $key => $value){
             if(!in_array($key, $column)){
                 unset($postData[$key]);
