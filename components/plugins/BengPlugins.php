@@ -50,6 +50,10 @@ class BengPlugins extends Component
             return false;
         }
 
+        if(empty($column)){
+           return $postData;
+        }
+
         foreach ($postData as $key => $value){
             if(!in_array($key, $column)){
                 unset($postData[$key]);
