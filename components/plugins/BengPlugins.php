@@ -39,4 +39,23 @@ class BengPlugins extends Component
     public function AesDecrypt($orgData, $key, $iv){
         return openssl_decrypt(base64_decode($orgData), 'aes-128-cbc', $key, true, $iv);
     }
+
+    /*
+     * 批量获取post数据
+     */
+    public function PostData($column = []){
+        $postData = \Yii::$app->request->post();
+
+        if(empty($postData)){
+            return false;
+        }
+
+        foreach ($postData as $key => $value){
+            if(!in_array($key, $column)){
+                unset($postData[$key]);
+            }
+        }
+
+        return $postData;
+    }
 }
