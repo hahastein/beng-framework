@@ -34,8 +34,8 @@ class DropZone extends Widget
         ],
         'progress' => "<div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>",
         'error-message' => "<div class=\"dz-error-message\"><span data-dz-errormessage></span></div>",
-        'success-mark' => "<div class=\"dz-success-mark\"><span>✔</span></div>",
-        'error-mark' => "<div class=\"dz-error-mark\"><span>✘</span></div>",
+        'success-mark' => "<div class=\"dz-success-mark\"><span></span></div>",
+        'error-mark' => "<div class=\"dz-error-mark\"><span></span></div>",
     ];
 
     public function init()
