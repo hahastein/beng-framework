@@ -27,10 +27,10 @@ class DropZone extends Widget
     private $htmlOptions = [];
 
     private $template = [
+        'image' => "<div class=\"dz-image\"><img data-dz-thumbnail /></div>",
         'details' => [
             'size' => "<div class=\"dz-size\"><span data-dz-size></span></div>",
-            'filename' => "<div class=\"dz-filename\"><span data-dz-name></span></div>",
-            'img' => "<img data-dz-thumbnail />"
+            'filename' => "<div class=\"dz-filename\"><span data-dz-name></span></div>"
         ],
         'progress' => "<div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>",
         'error-message' => "<div class=\"dz-error-message\"><span data-dz-errormessage></span></div>",
@@ -141,7 +141,12 @@ class DropZone extends Widget
     private function getPreviewTemplate(){
         $details_size = $this->template['details']['size'];
         $details_filename = $this->template['details']['filename'];
-        $details_img = $this->template['details']['img'];
+        $details_img = empty($this->template['details']['img'])?"":$this->template['details']['img'];
+
+        $image = "";
+        if(!empty($this->template['image'])){
+            $image = $this->template['image'];
+        }
 
         $div_details = Html::tag('div', $details_size . $details_filename . $details_img, ['class' => 'dz-details']);
         $progress = $this->template['progress'];
@@ -149,8 +154,8 @@ class DropZone extends Widget
         $success_mark = $this->template['success-mark'];
         $error_mark = $this->template['error-mark'];
 
-        return Html::tag('div', $div_details.$progress.$error_message.$success_mark.$error_mark, [
-            'class' => 'dz-preview dz-processing dz-image-preview dz-success dz-complete'
+        return Html::tag('div', $image.$div_details.$progress.$error_message.$success_mark.$error_mark, [
+            'class' => 'dz-preview dz-file-preview'
         ]);
     }
 
