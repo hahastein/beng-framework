@@ -117,6 +117,8 @@ class DropZone extends Widget
             $this->options['dictDefaultMessage'] = $dict_tag_a . $dict_tag_br. $dict_tag_br. $dict_tag_div;
         }
 
+        $this->options['previewTemplate'] = "<div class=\"dz-preview dz-file-preview\"><div class=\"dz-details\"><div class=\"dz-filename\"><span data-dz-name></span></div><div class=\"dz-size\" data-dz-size></div><img data-dz-thumbnail /></div><div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div><div class=\"dz-success-mark\"><span></span></div><div class=\"dz-error-mark\"><span></span></div><div class=\"dz-error-message\"><span data-dz-errormessage></span></div></div>";
+
         if(empty($this->options['dictRemoveFile'])){
             $this->options['dictRemoveFile'] = '删除文件';
         }
