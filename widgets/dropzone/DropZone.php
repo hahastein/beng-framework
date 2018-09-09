@@ -162,6 +162,7 @@ class DropZone extends Widget
     private function registerAssets()
     {
         DropZoneAsset::register($this->getView());
+        DropZoneTemplateAsset::register($this->getView());
         $this->getView()->registerJs('Dropzone.autoDiscover = false;',\yii\web\View::POS_END);
     }
 }
