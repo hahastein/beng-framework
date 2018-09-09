@@ -27,11 +27,11 @@ class DropZone extends Widget
     private $htmlOptions = [];
 
     private $template = [
-//        'image' => "<div class=\"dz-image\"><img data-dz-thumbnail /></div>",
+        'image' => "<div class=\"dz-image\"><img data-dz-thumbnail /></div>",
         'details' => [
             'size' => "<div class=\"dz-size\"><span data-dz-size></span></div>",
             'filename' => "<div class=\"dz-filename\"><span data-dz-name></span></div>",
-            'image' => "<img data-dz-thumbnail />"
+//            'image' => "<img data-dz-thumbnail />"
         ],
         'progress' => "<div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>",
         'error-message' => "<div class=\"dz-error-message\"><span data-dz-errormessage></span></div>",
