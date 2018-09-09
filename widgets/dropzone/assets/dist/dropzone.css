@@ -1,6 +1,6 @@
 /*
  * The MIT License
- * Copyright (c) 2012 Matias Meno <m@tias.me>
+ * Copyright (c) 2018 hahastein <admin@52beng.com>
  */
 .dropzone, .dropzone * {
     box-sizing: border-box;
@@ -11,7 +11,7 @@
 .dropzone .dz-preview {
     position: relative;
     display: inline-block;
-    border: 1px solid black;
+    border: 1px dashed #1ab394;
     width: 120px;
     margin: 0.5em;
 }

@@ -27,10 +27,11 @@ class DropZone extends Widget
     private $htmlOptions = [];
 
     private $template = [
-        'image' => "<div class=\"dz-image\"><img data-dz-thumbnail /></div>",
+//        'image' => "<div class=\"dz-image\"><img data-dz-thumbnail /></div>",
         'details' => [
             'size' => "<div class=\"dz-size\"><span data-dz-size></span></div>",
-            'filename' => "<div class=\"dz-filename\"><span data-dz-name></span></div>"
+            'filename' => "<div class=\"dz-filename\"><span data-dz-name></span></div>",
+            'image' => "<img data-dz-thumbnail />"
         ],
         'progress' => "<div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>",
         'error-message' => "<div class=\"dz-error-message\"><span data-dz-errormessage></span></div>",
@@ -141,7 +142,7 @@ class DropZone extends Widget
     private function getPreviewTemplate(){
         $details_size = $this->template['details']['size'];
         $details_filename = $this->template['details']['filename'];
-        $details_img = empty($this->template['details']['img'])?"":$this->template['details']['img'];
+        $details_img = empty($this->template['details']['image'])?"":$this->template['details']['image'];
 
         $image = "";
         if(!empty($this->template['image'])){
