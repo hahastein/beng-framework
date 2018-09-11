@@ -45,12 +45,13 @@ class StrongMenu extends Widget
             $menuModel = new MenuARModel();
             $menuModel->showPage = false;
             $cache_data = $menuModel->dataSet(function (ActiveQuery $query){
-                $query->select(['menu_name', 'menu_icon', 'module', 'controller', 'action', 'parent_id']);
+                $query->select(['menu_id', 'menu_name', 'menu_icon', 'module', 'controller', 'action', 'parent_id']);
                 $query->where(['menu_type' => $this->type]);
                 $query->asArray();
             });
             Yii::$app->Beng->outHtml($cache_data);die;
-//            self::resetMenuData($cache_data);
+            self::resetMenuData($cache_data);
+            Yii::$app->Beng->outHtml($this->menuData);die;
 
             if($this->cache) {
                 $cache->set('system_menu_data', $this->menuData);
@@ -63,8 +64,6 @@ class StrongMenu extends Widget
         $moduleID = Yii::$app->module->id;
         $controllerID = Yii::$app->controller->id;
         $actionID = Yii::$app->controller->action->id;
-
-        Yii::$app->Beng->outHtml($this->menuData); die;
 
         return $this->render('menu-'.self::changeType($this->type), [
             'controllerID' => $controllerID,
