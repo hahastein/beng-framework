@@ -59,7 +59,7 @@ class StrongMenu extends Widget
         $controllerID = Yii::$app->controller->id;
         $actionID = Yii::$app->controller->action->id;
 
-        echo $this->menuData; die;
+        Yii::$app->Beng->outHtml($this->menuData); die;
 
         return $this->render('menu-'.self::changeType($this->type), [
             'controllerID' => $controllerID,
