@@ -73,6 +73,7 @@ class StrongMenu extends Widget
     }
 
     private function resetMenuData($menuData){
+        $this->menuData = [];
         foreach ($menuData as $menu){
             if($menu['parent_id'] == 0){
                 $this->menuData[$menu['menu_id']] = $menu;
