@@ -49,9 +49,8 @@ class StrongMenu extends Widget
                 $query->where(['menu_type' => $this->type]);
                 $query->asArray();
             });
-            Yii::$app->Beng->outHtml($cache_data);
+
             self::resetMenuData($cache_data);
-            Yii::$app->Beng->outHtml($this->menuData);die;
 
             if($this->cache) {
                 $cache->set('system_menu_data', $this->menuData);
@@ -74,6 +73,8 @@ class StrongMenu extends Widget
 
     private function resetMenuData($menuData){
         $this->menuData = [];
+        Yii::$app->Beng->outHtml($menuData);
+
         foreach ($menuData as $menu){
             if($menu['parent_id'] == 0){
                 $this->menuData[$menu['menu_id']] = $menu;
@@ -81,6 +82,8 @@ class StrongMenu extends Widget
                 $this->menuData[$menu['parent_id']]['parent'][] = $menu;
             }
         }
+        Yii::$app->Beng->outHtml($this->menuData);
+
     }
 
     public static function changeType($type){
