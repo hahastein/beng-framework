@@ -11,15 +11,15 @@ namespace bengbeng\framework\widgets\menu;
 use bengbeng\framework\models\platform\MenuARModel;
 use Yii;
 use yii\base\Widget;
-use yii\db\ActiveRecord;
+use yii\db\ActiveQuery;
 
 class StrongMenu extends Widget
 {
 
-    const TYPE_DEFAULT = 'layout';
-    const TYPE_LEFT = 'left';
-    const TYPE_TOP = 'top';
-    const TYPE_RIGHT = 'right';
+    const TYPE_DEFAULT = 0;
+    const TYPE_LEFT = 10;
+    const TYPE_TOP = 20;
+    const TYPE_RIGHT = 30;
 
     public $type;
     public $isCache;
@@ -42,8 +42,9 @@ class StrongMenu extends Widget
         if ($cache_data === false){
             $menuModel = new MenuARModel();
             $menuModel->showPage = false;
-            $cache_data = $menuModel->dataSet(function (ActiveRecord $record){
-
+            $cache_data = $menuModel->dataSet(function (ActiveQuery $query){
+                $query->select(['menu_name', 'menu_icon', 'module', 'controller', 'action', 'parent_id']);
+                $query->where(['menu_type' => $this->type]);
             });
             $cache->set('system_menu_data', $cache_data);
         }
@@ -57,10 +58,23 @@ class StrongMenu extends Widget
         $controllerID = Yii::$app->controller->id;
         $actionID = Yii::$app->controller->action->id;
 
-        return $this->render('menu-'.$this->type, [
+        return $this->render('menu-'.self::changeType($this->type), [
             'controllerID' => $controllerID,
             'actionID' => $actionID,
             'moduleID' => $moduleID
         ]);
+    }
+
+    public static function changeType($type){
+        switch ($type){
+            case self::TYPE_LEFT:
+                return 'left';
+            case self::TYPE_RIGHT:
+                return 'right';
+            case self::TYPE_TOP:
+                return 'top';
+            default:
+                return 'layout';
+        }
     }
 }
