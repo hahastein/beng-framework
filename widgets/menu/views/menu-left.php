@@ -10,7 +10,7 @@ use yii\helpers\Url;
         <ul class="nav nav-second-level">
             <?php foreach ($menu['parent'] as $parent){ ?>
             <li <?= $controllerID==$parent['controller'] && $actionID==$parent['action']?'class="active"':'' ?>>
-                <a href="<?= Url::to([$menu['controller'].'/'.$menu['action']]) ?>"><?=$parent['menu_name']?></a>
+                <a href="<?= Url::to([$parent['controller'].'/'.$parent['action']]) ?>"><?=$parent['menu_name']?></a>
             </li>
             <?php } ?>
         </ul>
