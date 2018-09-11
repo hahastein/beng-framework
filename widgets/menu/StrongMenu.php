@@ -39,6 +39,10 @@ class StrongMenu extends Widget
 
         if($this->cache){
             $this->menuData = $cache->get('system_menu_data');
+        }else{
+            if($cache->exists('system_menu_data')) {
+                $cache->delete('system_menu_data');
+            }
         }
 
         if ($this->menuData === false){
