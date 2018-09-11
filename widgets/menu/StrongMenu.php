@@ -38,7 +38,10 @@ class StrongMenu extends Widget
     private function initData(){
         $cache = Yii::$app->cache;
 
-        $cache_data = $cache->get('system_menu_data');
+        $cache_data = false;
+        if($this->isCache){
+            $cache_data = $cache->get('system_menu_data');
+        }
 
         if ($cache_data === false){
             $menuModel = new MenuARModel();
@@ -49,7 +52,10 @@ class StrongMenu extends Widget
                 $query->asArray();
             });
             self::resetMenuData($cache_data);
-            $cache->set('system_menu_data', $this->menuData);
+
+            if($this->isCache) {
+                $cache->set('system_menu_data', $this->menuData);
+            }
         }
     }
 
