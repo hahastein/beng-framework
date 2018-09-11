@@ -50,7 +50,7 @@ class StrongMenu extends Widget
                 $query->asArray();
             });
             Yii::$app->Beng->outHtml($cache_data);die;
-            self::resetMenuData($cache_data);
+//            self::resetMenuData($cache_data);
 
             if($this->cache) {
                 $cache->set('system_menu_data', $this->menuData);
