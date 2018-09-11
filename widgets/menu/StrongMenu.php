@@ -65,6 +65,7 @@ class StrongMenu extends Widget
         $actionID = Yii::$app->controller->action->id;
 
         return $this->render('menu-'.self::changeType($this->type), [
+            'menus' => $this->menuData,
             'controllerID' => $controllerID,
             'actionID' => $actionID,
             'moduleID' => $moduleID
@@ -81,8 +82,6 @@ class StrongMenu extends Widget
                 $this->menuData[$menu['parent_id']]['parent'][] = $menu;
             }
         }
-        Yii::$app->Beng->outHtml($this->menuData);
-
     }
 
     public static function changeType($type){
