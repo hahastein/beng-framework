@@ -49,7 +49,7 @@ class StrongMenu extends Widget
                 $query->where(['menu_type' => $this->type]);
                 $query->asArray();
             });
-            Yii::$app->Beng->outHtml($cache_data);die;
+            Yii::$app->Beng->outHtml($cache_data);
             self::resetMenuData($cache_data);
             Yii::$app->Beng->outHtml($this->menuData);die;
 
