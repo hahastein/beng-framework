@@ -37,6 +37,9 @@ class StrongMenu extends Widget
         $cache = Yii::$app->cache;
 
         $cache_data = false;
+
+        Yii::$app->Beng->outHtml($this->cache); die;
+
         if($this->cache){
             $cache_data = $cache->get('system_menu_data');
         }
