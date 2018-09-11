@@ -73,7 +73,6 @@ class StrongMenu extends Widget
 
     private function resetMenuData($menuData){
         $this->menuData = [];
-        Yii::$app->Beng->outHtml($menuData);
 
         foreach ($menuData as $menu){
             if($menu['parent_id'] == 0){
