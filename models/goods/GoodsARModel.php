@@ -8,10 +8,17 @@
 
 namespace bengbeng\framework\models\goods;
 
-
 use bengbeng\framework\base\BaseActiveRecord;
 
+/**
+ * 商品主表
+ * Class GoodsARModel
+ * @package bengbeng\framework\models\goods
+ */
 class GoodsARModel extends BaseActiveRecord
 {
-
+    public static function tableName()
+    {
+        return "{{%goods}}";
+    }
 }

@@ -64,7 +64,7 @@ class StrongMenu extends Widget
 
     public function run()
     {
-        $moduleID = Yii::$app->module->id;
+        $moduleID = '';
         $controllerID = Yii::$app->controller->id;
         $actionID = Yii::$app->controller->action->id;
 
