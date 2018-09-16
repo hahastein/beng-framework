@@ -21,7 +21,7 @@ class SummernoteAsset extends AssetBundle
     public $depends = [];
 
     public $js = [
-        'summernote.min.js',
+        'summernote.js',
     ];
 
 }
