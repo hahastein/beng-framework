@@ -64,6 +64,10 @@ class Summernote extends InputWidget
 
         $view = $this->getView();
 
+        if (ArrayHelper::getValue($this->clientOptions, 'codemirror')) {
+            CodemirrorAsset::register($view);
+        }
+
         SummernoteAsset::register($view);
 
         if ($language = ArrayHelper::getValue($this->clientOptions, 'lang', null)) {
