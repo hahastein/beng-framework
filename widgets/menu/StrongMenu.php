@@ -77,6 +77,10 @@ class StrongMenu extends Widget
         ]);
     }
 
+    /**
+     * 重置菜单数据
+     * @param $menuData
+     */
     private function resetMenuData($menuData){
         $this->menuData = [];
 
