@@ -10,7 +10,6 @@
       "email": "146119@qq.com"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "yiisoft/yii2": "~2.0.7",
     "yiisoft/yii2-imagine": "^2.0@dev",
@@ -36,6 +35,9 @@
     "asset-installer-paths": {
       "npm-asset-library": "vendor/npm",
       "bower-asset-library": "vendor/bower"
+    },
+    "branch-alias": {
+      "dev-master": "2.0.x-dev"
     }
   }
 }
