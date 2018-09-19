@@ -1,6 +1,6 @@
 {
   "name": "bengbengsoft/beng-framework",
-  "description": "bengbeng framework for yii2 ",
+  "description": "bengbeng framework for Yii2 ",
   "keywords": ["yii2", "framework", "bengbeng"],
   "type": "yii2-extension",
   "license": "MIT",
