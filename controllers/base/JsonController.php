@@ -25,15 +25,24 @@ class JsonController extends Controller{
     {
         $behaviors = parent::behaviors();
         unset($behaviors['authenticator']);
+        $allowCredentials = false;
+        $requestHeader = ['*'];
+
+        if(!empty(Yii::$app->params['origin.url']) && is_array(Yii::$app->params['origin.url']) && count(Yii::$app->params['origin.url'])>0){
+            $requestHeader = Yii::$app->params['origin.url'];
+            $allowCredentials = true;
+        }
+
         $behaviors['corsFilter'] = [
             'class' => Cors::className(),
             'cors' => [
-                'Origin' => ['*'],
+                'Origin' => $requestHeader,
+                'Access-Control-Allow-Origin' => $requestHeader,
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'HEAD', 'OPTIONS'],
-                'Access-Control-Request-Headers' => ['*'],
-                'Access-Control-Allow-Credentials' => false,
-                'Access-Control-Max-Age' => 86400,
-                'Access-Control-Expose-Headers' => []
+                'Access-Control-Request-Headers' => $requestHeader,
+                'Access-Control-Allow-Credentials' => $allowCredentials,
+//                'Access-Control-Allow-Headers' => 'Content-Type, X-Requested-With, Cache-Control,Authorization',
+                'Access-Control-Max-Age' => 86400
             ]
         ];
         $behaviors['contentNegotiator'] = [
