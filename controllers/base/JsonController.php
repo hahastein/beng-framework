@@ -39,9 +39,9 @@ class JsonController extends Controller{
                 'Origin' => $requestHeader,
                 'Access-Control-Allow-Origin' => $requestHeader,
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'HEAD', 'OPTIONS'],
-                'Access-Control-Request-Headers' => [*],
+                'Access-Control-Request-Headers' => ['*'],
                 'Access-Control-Allow-Credentials' => $allowCredentials,
-                'Access-Control-Allow-Headers' => 'Origin',
+                'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Referer, Authorization',
                 'Access-Control-Max-Age' => 86400
             ]
         ];
