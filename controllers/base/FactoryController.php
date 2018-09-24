@@ -93,6 +93,6 @@ class FactoryController extends Controller
         $customAccess = [
             'rules' => $this->actions
         ];
-        return ArrayHelper::merge($defaultAccess, $customAccess);
+        return ArrayHelper::merge($customAccess, $defaultAccess);
     }
 }
