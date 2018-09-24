@@ -26,6 +26,8 @@ class FactoryController extends Controller
     public $user_id;
     public $keyword;
 
+    private $actions = [];
+
     public function init()
     {
         parent::init();
@@ -35,28 +37,20 @@ class FactoryController extends Controller
 
     }
 
-    protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
-        $behaviors = self::behaviors();
-        $rules = $behaviors['access']['rules'];
+    public function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
 
-        if($access == Enum::ACCESS_RULE_AUTHENTICATED) {
-            foreach ($rules as $key => $rule) {
-                $rules[$key]['actions'] = ArrayHelper::merge($rule['actions'], $actions);
-            }
-        }else if($access == Enum::ACCESS_RULE_NULL){
-            $rules[] = [
+        if($access == Enum::ACCESS_RULE_NULL){
+            $this->actions[] = [
                 'actions' => $actions,
                 'allow' =>  true
             ];
         }else{
-            $rules[] = [
+            $this->actions[] = [
                 'actions' => $actions,
                 'allow' =>  true,
                 'roles' => $access
             ];
         }
-        $behaviors['access']['rules'] = $rules;
-        return $behaviors;
     }
 
     /**
@@ -89,8 +83,16 @@ class FactoryController extends Controller
     public function behaviors()
     {
         return [
-            'access' => self::setDefaultAccess(),
+            'access' => self::mergeActionToAccess(),
             'verbs' => self::setDefaultVerbs()
         ];
+    }
+
+    private function mergeActionToAccess(){
+        $defaultAccess = self::setDefaultAccess();
+        $customAccess = [
+            'rules' => $this->actions
+        ];
+        return ArrayHelper::merge($defaultAccess, $customAccess);
     }
 }
