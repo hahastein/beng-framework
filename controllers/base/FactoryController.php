@@ -46,7 +46,7 @@ class FactoryController extends Controller
         }else if($access == Enum::ACCESS_RULE_NULL){
             $rules['rules'][] = [
                 'actions' => $actions,
-                'allow' =>  false
+                'allow' =>  true
             ];
         }else{
             $rules['rules'][] = [
