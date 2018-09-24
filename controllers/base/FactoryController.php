@@ -37,7 +37,7 @@ class FactoryController extends Controller
 
     }
 
-    public function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
+    protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
 
         if($access == Enum::ACCESS_RULE_NULL){
             $this->actions[] = [
@@ -51,6 +51,14 @@ class FactoryController extends Controller
                 'roles' => $access
             ];
         }
+    }
+
+    public function behaviors()
+    {
+        return [
+            'access' => self::mergeActionToAccess(),
+            'verbs' => self::setDefaultVerbs()
+        ];
     }
 
     /**
@@ -77,14 +85,6 @@ class FactoryController extends Controller
             'actions' => [
                 'logout' => ['post'],
             ]
-        ];
-    }
-
-    public function behaviors()
-    {
-        return [
-            'access' => self::mergeActionToAccess(),
-            'verbs' => self::setDefaultVerbs()
         ];
     }
 
