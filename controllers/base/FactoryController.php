@@ -44,12 +44,12 @@ class FactoryController extends Controller
                 $rules[$key]['actions'] = ArrayHelper::merge($rule['actions'], $actions);
             }
         }else if($access == Enum::ACCESS_RULE_NULL){
-            $rules['rules'][] = [
+            $rules[] = [
                 'actions' => $actions,
                 'allow' =>  true
             ];
         }else{
-            $rules['rules'][] = [
+            $rules[] = [
                 'actions' => $actions,
                 'allow' =>  true,
                 'roles' => $access
