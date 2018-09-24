@@ -39,10 +39,21 @@ class FactoryController extends Controller
         $behaviors = self::behaviors();
         $rules = $behaviors['access']['rules'];
 
-        foreach ($rules as $key => $rule){
-            if(in_array($access, $rule['roles'])){
+        if($access == Enum::ACCESS_RULE_AUTHENTICATED) {
+            foreach ($rules as $key => $rule) {
                 $rules[$key]['actions'] = ArrayHelper::merge($rule['actions'], $actions);
             }
+        }else if($access == Enum::ACCESS_RULE_NULL){
+            $rules['rules'][] = [
+                'actions' => $actions,
+                'allow' =>  false
+            ];
+        }else{
+            $rules['rules'][] = [
+                'actions' => $actions,
+                'allow' =>  true,
+                'roles' => $access
+            ];
         }
         $behaviors['access']['rules'] = $rules;
         return $behaviors;
