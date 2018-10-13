@@ -83,7 +83,7 @@ class FactoryController extends Controller
         return [
             'class' => VerbFilter::className(),
             'actions' => [
-                'logout' => ['post'],
+                'logout' => ['get', 'post'],
             ]
         ];
     }
