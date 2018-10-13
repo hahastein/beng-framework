@@ -73,9 +73,13 @@ class FactoryController extends Controller
         ];
     }
 
-    private function setDefaultRules(){
+    /**
+     * @param null $actions
+     * @return array
+     */
+    private function setDefaultRules($actions = null){
         return [
-            'actions' => self::setDefaultActions(),
+            'actions' => empty($actions)?self::setDefaultActions():$actions,
             'allow' => true,
             'roles' => ['@']
         ];
@@ -98,7 +102,7 @@ class FactoryController extends Controller
         $rules = [];
         $defaultActions = self::setDefaultActions();
         if(isset($this->actions['a_' . Enum::ACCESS_RULE_AUTHENTICATED])){
-            $rules[] = ArrayHelper::merge($defaultActions, $this->actions['a_'. Enum::ACCESS_RULE_AUTHENTICATED]['actions']);
+            $rules[] = self::setDefaultRules(ArrayHelper::merge($defaultActions, $this->actions['a_'. Enum::ACCESS_RULE_AUTHENTICATED]['actions']));
         }else{
             $rules[] = self::setDefaultRules();
         }
