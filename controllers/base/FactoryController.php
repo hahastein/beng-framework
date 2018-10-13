@@ -39,17 +39,16 @@ class FactoryController extends Controller
 
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
 
-        if($access == Enum::ACCESS_RULE_NULL){
-            $this->actions[] = [
+        if(isset($this->actions['a_'. $access])){
+            $this->actions['a_'. $access]['actions'] = ArrayHelper::merge($this->actions['a_'. $access]['actions'], $actions);
+        }else{
+            $this->actions['a_'. $access] = [
                 'actions' => $actions,
                 'allow' =>  true
             ];
-        }else{
-            $this->actions[] = [
-                'actions' => $actions,
-                'allow' =>  true,
-                'roles' => $access
-            ];
+            if($access != Enum::ACCESS_RULE_NULL){
+                $this->actions['a_'. $access]['roles'] = $access;
+            }
         }
     }
 
@@ -64,19 +63,26 @@ class FactoryController extends Controller
     /**
      * 私有方法
      * 设置默认权限控制，公共可访问actions 为 [all, info, modify, create]
+     * @param null $rules
      * @return array
      */
-    private function setDefaultAccess(){
+    private function setAccess($rules){
         return [
             'class' => AccessControl::className(),
-            'rules' => [
-                [
-                    'actions' => ['all', 'info', 'modify', 'create'],
-                    'allow' => true,
-                    'roles' => ['@'],
-                ]
-            ]
+            'rules' => $rules
         ];
+    }
+
+    private function setDefaultRules(){
+        return [
+            'actions' => self::setDefaultActions(),
+            'allow' => true,
+            'roles' => ['@']
+        ];
+    }
+
+    private function setDefaultActions(){
+        return ['all', 'info', 'modify', 'create'];
     }
 
     private function setDefaultVerbs(){
@@ -89,10 +95,20 @@ class FactoryController extends Controller
     }
 
     private function mergeActionToAccess(){
-        $defaultAccess = self::setDefaultAccess();
-        $customAccess = [
-            'rules' => $this->actions
-        ];
-        return ArrayHelper::merge($customAccess, $defaultAccess);
+        $rules = [];
+        $defaultActions = self::setDefaultActions();
+        if(isset($this->actions['a_' . Enum::ACCESS_RULE_AUTHENTICATED])){
+            $rules[] = ArrayHelper::merge($defaultActions, $this->actions['a_'. Enum::ACCESS_RULE_AUTHENTICATED]['actions']);
+        }else{
+            $rules[] = self::setDefaultRules();
+        }
+        if(isset($this->actions['a_' . Enum::ACCESS_RULE_NULL])){
+            $rules[] = $this->actions['a_' . Enum::ACCESS_RULE_NULL];
+        }
+
+        if(isset($this->actions['a_' . Enum::ACCESS_RULE_GUEST])){
+            $rules[] = $this->actions['a_' . Enum::ACCESS_RULE_GUEST];
+        }
+        return self::setAccess($rules);
     }
 }
