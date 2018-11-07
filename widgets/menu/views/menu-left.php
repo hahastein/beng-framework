@@ -5,7 +5,7 @@ use yii\helpers\Url;
 <?php foreach ($menus as $menu){ ?>
 
     <li <?= $controllerID == $menu['controller']?'class="active"':'' ?>>
-        <a><i class="fa fa-th-large"></i> <span class="nav-label"><?=$menu['menu_name']?></span> <span class="fa arrow"></span></a>
+        <a><i class="fa <?=empty($menu['menu_icon'])?"fa-th-large":$menu['menu_icon']?>"></i> <span class="nav-label"><?=$menu['menu_name']?></span> <span class="fa arrow"></span></a>
         <?php if(!empty($menu['parent'])) { ?>
         <ul class="nav nav-second-level">
             <?php foreach ($menu['parent'] as $parent){ ?>
