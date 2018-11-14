@@ -110,8 +110,8 @@ class StrongMenu extends Widget
             }else{
                 $this->menuData[$menu['parent_id']]['parent'][] = $menu;
                 //将本身赋予父级
-                if(!in_array($menu['menu_name'], $this->menuData[$menu['parent_id']]['child'])){
-                    $this->menuData[$menu['parent_id']]['child'][] = $menu['menu_name'];
+                if(!in_array($menu['controller'], $this->menuData[$menu['parent_id']]['child'])){
+                    $this->menuData[$menu['parent_id']]['child'][] = $menu['controller'];
                 }
             }
         }
