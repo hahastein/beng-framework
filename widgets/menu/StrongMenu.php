@@ -56,7 +56,7 @@ class StrongMenu extends Widget
             $menuModel = new MenuARModel();
             $menuModel->showPage = false;
             $cache_data = $menuModel->dataSet(function (ActiveQuery $query){
-                $query->select(['menu_id', 'menu_name', 'menu_icon', 'module', 'controller', 'action', 'parent_id', 'order']);
+                $query->select(['menu_id', 'menu_name', 'menu_icon', 'module', 'controller', 'action', 'parent_id', 'order', 'initials']);
                 $query->where(['menu_type' => $this->type]);
                 $query->orderBy([
                     'parent_id' => SORT_ASC,
