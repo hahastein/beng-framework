@@ -46,6 +46,7 @@ class StrongMenu extends Widget
         //设置缓存
         if($this->cache){
             $this->menuData = $cache->get('system_menu_data');
+            print_r('cache-menuData have');
         }else{
             if($cache->exists('system_menu_data')) {
                 $cache->delete('system_menu_data');
@@ -53,6 +54,7 @@ class StrongMenu extends Widget
         }
 
         if (empty($this->menuData)){
+            print_r('cache-menuData setting');
             $menuModel = new MenuARModel();
             $menuModel->showPage = false;
             $cache_data = $menuModel->dataSet(function (ActiveQuery $query){
@@ -64,12 +66,15 @@ class StrongMenu extends Widget
                 ]);
                 $query->asArray();
             });
+            print_r($cache_data);
 
             self::resetMenuData($cache_data);
 
             if($this->cache) {
                 $cache->set('system_menu_data', $this->menuData);
             }
+        }else{
+            print_r('cache-menuData empty');
         }
     }
 
