@@ -105,9 +105,14 @@ class StrongMenu extends Widget
 
         foreach ($menuData as $menu){
             if($menu['parent_id'] == 0){
+                $menu['child'] = [];
                 $this->menuData[$menu['menu_id']] = $menu;
             }else{
                 $this->menuData[$menu['parent_id']]['parent'][] = $menu;
+                //将本身赋予父级
+                if(!in_array($menu['menu_name'], $this->menuData[$menu['parent_id']]['child'])){
+                    $this->menuData[$menu['parent_id']]['child'][] = $menu['menu_name'];
+                }
             }
         }
     }
