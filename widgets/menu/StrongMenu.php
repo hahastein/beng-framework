@@ -52,7 +52,7 @@ class StrongMenu extends Widget
             }
         }
 
-        if (empty($this->menuData){
+        if (empty($this->menuData)){
             $menuModel = new MenuARModel();
             $menuModel->showPage = false;
             $cache_data = $menuModel->dataSet(function (ActiveQuery $query){
