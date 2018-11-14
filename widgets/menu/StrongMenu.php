@@ -24,7 +24,6 @@ class StrongMenu extends Widget
     const TYPE_LEFT = 10;
     const TYPE_TOP = 20;
     const TYPE_RIGHT = 30;
-    const TYPE_CUSTOM = -1;
 
     public $type = self::TYPE_DEFAULT;
     public $layout;
@@ -46,15 +45,13 @@ class StrongMenu extends Widget
         //设置缓存
         if($this->cache){
             $this->menuData = $cache->get('system_menu_data');
-            print_r('cache-menuData have');
         }else{
             if($cache->exists('system_menu_data')) {
                 $cache->delete('system_menu_data');
             }
         }
 
-        if (empty($this->menuData)){
-            print_r('cache-menuData setting');
+        if ($this->menuData === false){
             $menuModel = new MenuARModel();
             $menuModel->showPage = false;
             $cache_data = $menuModel->dataSet(function (ActiveQuery $query){
@@ -66,15 +63,12 @@ class StrongMenu extends Widget
                 ]);
                 $query->asArray();
             });
-            print_r($cache_data);
 
             self::resetMenuData($cache_data);
 
             if($this->cache) {
                 $cache->set('system_menu_data', $this->menuData);
             }
-        }else{
-            print_r('cache-menuData empty');
         }
     }
 
@@ -95,10 +89,10 @@ class StrongMenu extends Widget
     }
 
     private function createLayoutPath(){
-        if($this->type == self::TYPE_CUSTOM){
-            return $this->layout;
-        }else{
+        if(empty($this->layout)){
             return 'menu-'.self::changeType($this->type);
+        }else{
+            return $this->layout;
         }
     }
 
