@@ -24,8 +24,10 @@ class StrongMenu extends Widget
     const TYPE_LEFT = 10;
     const TYPE_TOP = 20;
     const TYPE_RIGHT = 30;
+    const TYPE_CUSTOM = -1;
 
     public $type = self::TYPE_DEFAULT;
+    public $layout;
     public $cache = true;
 
     private $menuData;
@@ -77,12 +79,22 @@ class StrongMenu extends Widget
         $controllerID = Yii::$app->controller->id;
         $actionID = Yii::$app->controller->action->id;
 
-        return $this->render('menu-'.self::changeType($this->type), [
+
+
+        return $this->render(self::createLayoutPath(), [
             'menus' => $this->menuData,
             'controllerID' => $controllerID,
             'actionID' => $actionID,
             'moduleID' => $moduleID
         ]);
+    }
+
+    private function createLayoutPath(){
+        if($this->type == self::TYPE_CUSTOM){
+            return $this->layout;
+        }else{
+            return 'menu-'.self::changeType($this->type);
+        }
     }
 
     /**
