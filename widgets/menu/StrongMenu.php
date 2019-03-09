@@ -62,7 +62,7 @@ class StrongMenu extends Widget
             $cache_data = $menuModel->dataSet(function (ActiveQuery $query){
                 $query->select(['menu_id', 'menu_name', 'menu_icon', 'module', 'controller', 'action', 'parent_id', 'order', 'initials', 'is_home']);
                 $query->where(['menu_type' => $this->type]);
-                if($this->menuCate){
+                if(isset($this->menuCate)){
                     $query->andWhere(['menu_cate' => $this->menuCate]);
                 }
                 $query->orderBy([
