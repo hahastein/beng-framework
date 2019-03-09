@@ -26,6 +26,7 @@ class StrongMenu extends Widget
     const TYPE_RIGHT = 30;
 
     public $type = self::TYPE_DEFAULT;
+    public $menuCate;
     public $layout;
     public $cache = true;
 
@@ -40,14 +41,18 @@ class StrongMenu extends Widget
 
     private function initData(){
 
+        $cacheName = 'SYSTEM_MENU_DATA';
+        if($this->menuCate){
+            $cacheName .= '_'.$this->menuCate;
+        }
         $cache = Yii::$app->cache;
 
         //设置缓存
         if($this->cache){
-            $this->menuData = $cache->get('system_menu_data');
+            $this->menuData = $cache->get($cacheName);
         }else{
-            if($cache->exists('system_menu_data')) {
-                $cache->delete('system_menu_data');
+            if($cache->exists($cacheName)) {
+                $cache->delete($cacheName);
             }
         }
 
@@ -57,6 +62,9 @@ class StrongMenu extends Widget
             $cache_data = $menuModel->dataSet(function (ActiveQuery $query){
                 $query->select(['menu_id', 'menu_name', 'menu_icon', 'module', 'controller', 'action', 'parent_id', 'order', 'initials', 'is_home']);
                 $query->where(['menu_type' => $this->type]);
+                if($this->menuCate){
+                    $query->andWhere(['menu_cate' => $this->menuCate]);
+                }
                 $query->orderBy([
                     'parent_id' => SORT_ASC,
                     'order' => SORT_ASC
@@ -67,7 +75,7 @@ class StrongMenu extends Widget
             self::resetMenuData($cache_data);
 
             if($this->cache) {
-                $cache->set('system_menu_data', $this->menuData);
+                $cache->set($cacheName, $this->menuData);
             }
         }
     }
