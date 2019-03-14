@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\widgets\menu;
 
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\platform\MenuARModel;
 use Yii;
 use yii\base\Widget;
@@ -41,7 +42,7 @@ class StrongMenu extends Widget
 
     private function initData(){
 
-        $cacheName = 'SYSTEM_MENU_DATA';
+        $cacheName = Enum::CACHE_MENU_DATA;
         if($this->menuCate){
             $cacheName .= '_'.$this->menuCate;
         }

@@ -104,4 +104,7 @@ class Enum
     const OUTPUT_XML = 3;
     const OUTPUT_HTML = 4;
 
+    //缓存名称
+    const CACHE_MENU_DATA = 'SYSTEM_MENU_DATA';
+
 }
