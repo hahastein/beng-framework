@@ -1,10 +1,10 @@
 <?php
 namespace bengbeng\framework\models\admin;
 
+use bengbeng\framework\base\BaseActiveRecord;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
-use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
@@ -13,7 +13,7 @@ use yii\web\IdentityInterface;
  * 创建时间:2018/1/16 22:50
  * @package common\bengbeng\base\model
  */
-class AdminARModel extends ActiveRecord implements IdentityInterface{
+class AdminARModel extends BaseActiveRecord implements IdentityInterface{
 
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
