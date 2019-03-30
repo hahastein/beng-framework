@@ -46,12 +46,10 @@ class BaseController extends Controller
         }
 
         $namespace = $namespace.'logic\\';
-        print_r($logicName);
         $logicName = str_replace('.', '\\', $logicName);
         $logicName = $namespace.$logicName;
-        print_r($logicName);
-die;
-        return new $namespace.$logicName;
+
+        return new $logicName;
     }
 
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
