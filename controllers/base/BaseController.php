@@ -39,6 +39,18 @@ class BaseController extends Controller
 
     }
 
+    protected function getLogicLayer($logicName, $namespace=''){
+
+        if(empty($namespace)){
+            $namespace = '\\bengbeng\\framework\\';
+        }
+
+        $namespace = $namespace.'logic\\';
+        $logicName = str_replace('.', '\\', $logicName);
+
+        return new $namespace.$logicName;
+    }
+
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
 
         if(isset($this->actions['a_'. $access])){
