@@ -1,14 +1,15 @@
 <?php
 /**
- * Copyright    : BengBeng Framework Inc.
- * Author       : hahastein(146119@qq.com)
- * Url          : http://www.52beng.com
- * CreateTime   : 2018/8/15 1:04
- * Description  :
+ * 52Beng Framework Admin
+ *
+ * @link http://www.52beng.com
+ * @copyright Copyright © 2019 52Beng Framework. All rights reserved.
+ * @author hahastein <146119@qq.com>
+ * @license http://www.52beng.com/license
+ * @date 2018/8/15 1:04
  */
 
 namespace bengbeng\framework\controllers\base;
-
 
 use bengbeng\framework\base\Enum;
 use yii\filters\AccessControl;
@@ -21,7 +22,7 @@ use yii\web\Controller;
  * Class FactoryController
  * @package bengbeng\framework\controllers\base
  */
-class FactoryController extends Controller
+class BaseController extends Controller
 {
 
     public $user_id;
