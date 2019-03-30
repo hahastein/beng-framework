@@ -46,6 +46,7 @@ class BaseController extends Controller
         }
 
         $namespace = $namespace.'logic\\';
+        print_r($logicName);die;
         $logicName = str_replace('.', '\\', $logicName);
 
         return new $namespace.$logicName;
