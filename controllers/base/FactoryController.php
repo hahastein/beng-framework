@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: hahastein
- * Date: 2018/8/15
- * Time: 1:04
+ * Copyright    : BengBeng Framework Inc.
+ * Author       : hahastein(146119@qq.com)
+ * Url          : http://www.52beng.com
+ * CreateTime   : 2018/8/15 1:04
+ * Description  :
  */
 
 namespace bengbeng\framework\controllers\base;
