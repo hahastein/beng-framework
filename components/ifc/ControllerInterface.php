@@ -14,5 +14,5 @@ namespace bengbeng\framework\components\ifc;
 
 interface ControllerInterface
 {
-    public function all();
+    public function actionAll();
 }
