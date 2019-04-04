@@ -26,7 +26,8 @@ interface LogicLayerInterface
 
     /**
      * 获取单条数据
+     * @param int $id 要获取的唯一标识ID
      * @return mixed
      */
-    public function getOne();
+    public function getOne($id);
 }
