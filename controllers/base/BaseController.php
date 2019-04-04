@@ -37,21 +37,6 @@ class BaseController extends Controller
      * @var string $keyword
      */
     public $keyword;
-    /**
-     * 获取当前的controllerID
-     * @var string $controllerID
-     */
-    public $controllerID;
-    /**
-     * 获取当前的actionID
-     * @var string $actionID
-     */
-    public $actionID;
-    /**
-     * 获取当前的moduleID
-     * @var string $moduleID
-     */
-    public $moduleID;
 
     /**
      * 私有变量
@@ -66,11 +51,6 @@ class BaseController extends Controller
         $this->user_id = \Yii::$app->request->get('user_id', 0);
         $this->keyword = \Yii::$app->request->get('keyword', '');
 
-        \Yii::$app->Beng->outHtml($this);
-
-        $this->controllerID = $this->id;
-        $this->actionID = $this->action->id;
-        $this->moduleID = $this->module->id;
     }
 
     /**
