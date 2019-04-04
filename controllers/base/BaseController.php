@@ -66,9 +66,9 @@ class BaseController extends Controller
         $this->user_id = \Yii::$app->request->get('user_id', 0);
         $this->keyword = \Yii::$app->request->get('keyword', '');
 
-        $this->controllerID = \Yii::$app->controller->id;
-        $this->actionID = \Yii::$app->controller->action->id;
-        $this->moduleID = \Yii::$app->controller->module->id;
+        $this->controllerID = $this->id;
+        $this->actionID = $this->action->id;
+        $this->moduleID = $this->module->id;
     }
 
     /**
