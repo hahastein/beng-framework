@@ -107,4 +107,9 @@ class Enum
     //缓存名称
     const CACHE_MENU_DATA = 'SYSTEM_MENU_DATA';
 
+    //namespace
+    const NAMESPACE_FRAMEWORK = '\\bengbeng\\framework\\';
+    const NAMESPACE_ADMIN = '\\bengbeng\\admin\\';
+    const NAMESPACE_MERCHANT = '\\bengbeng\\merchant\\';
+
 }
