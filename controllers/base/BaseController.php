@@ -18,16 +18,45 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
 /**
- * 后台基础控制器
- * Class FactoryController
+ * 基础控制器
+ * Class BaseController
  * @package bengbeng\framework\controllers\base
  */
 class BaseController extends Controller
 {
 
-    public $user_id;
-    public $keyword;
+    const ACTION_PREFIX = 'ACTION_';
 
+    /**
+     * 公用用户ID (get) 参数为 user_id
+     * @var string $user_id
+     */
+    public $user_id;
+    /**
+     * 关键词 (get) 参数为 keyword
+     * @var string $keyword
+     */
+    public $keyword;
+    /**
+     * 获取当前的controllerID
+     * @var string $controllerID
+     */
+    public $controllerID;
+    /**
+     * 获取当前的actionID
+     * @var string $actionID
+     */
+    public $actionID;
+    /**
+     * 获取当前的moduleID
+     * @var string $moduleID
+     */
+    public $moduleID;
+
+    /**
+     * 私有变量
+     * @var array $actions
+     */
     private $actions = [];
 
     public function init()
@@ -37,8 +66,17 @@ class BaseController extends Controller
         $this->user_id = \Yii::$app->request->get('user_id', 0);
         $this->keyword = \Yii::$app->request->get('keyword', '');
 
+        $this->controllerID = \Yii::$app->controller->id;
+        $this->actionID = \Yii::$app->controller->action->id;
+        $this->moduleID = \Yii::$app->controller->module->id;
     }
 
+    /**
+     * 获取 Bll Class
+     * @param string $logicName 逻辑类的名称，可以是单类，也可以是多层级类(例如：class或者namespace.class)
+     * @param string $namespace 所用命名空间,默认为本命名空间下,可使用提供的枚举（枚举定义范围：Enum::NAMESPACE_*）
+     * @return mixed 返回 Bll Class
+     */
     protected function getLogicLayer($logicName, $namespace=''){
 
         if(empty($namespace)){
@@ -54,15 +92,15 @@ class BaseController extends Controller
 
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
 
-        if(isset($this->actions['a_'. $access])){
-            $this->actions['a_'. $access]['actions'] = ArrayHelper::merge($this->actions['a_'. $access]['actions'], $actions);
+        if(isset($this->actions[self::ACTION_PREFIX. $access])){
+            $this->actions[self::ACTION_PREFIX. $access]['actions'] = ArrayHelper::merge($this->actions[self::ACTION_PREFIX. $access]['actions'], $actions);
         }else{
-            $this->actions['a_'. $access] = [
+            $this->actions[self::ACTION_PREFIX. $access] = [
                 'actions' => $actions,
                 'allow' =>  true
             ];
             if($access != Enum::ACCESS_RULE_NULL){
-                $this->actions['a_'. $access]['roles'] = $access;
+                $this->actions[self::ACTION_PREFIX. $access]['roles'] = $access;
             }
         }
     }
@@ -116,17 +154,17 @@ class BaseController extends Controller
     private function mergeActionToAccess(){
         $rules = [];
         $defaultActions = self::setDefaultActions();
-        if(isset($this->actions['a_' . Enum::ACCESS_RULE_AUTHENTICATED])){
-            $rules[] = self::setDefaultRules(ArrayHelper::merge($defaultActions, $this->actions['a_'. Enum::ACCESS_RULE_AUTHENTICATED]['actions']));
+        if(isset($this->actions[self::ACTION_PREFIX . Enum::ACCESS_RULE_AUTHENTICATED])){
+            $rules[] = self::setDefaultRules(ArrayHelper::merge($defaultActions, $this->actions[self::ACTION_PREFIX. Enum::ACCESS_RULE_AUTHENTICATED]['actions']));
         }else{
             $rules[] = self::setDefaultRules();
         }
-        if(isset($this->actions['a_' . Enum::ACCESS_RULE_NULL])){
-            $rules[] = $this->actions['a_' . Enum::ACCESS_RULE_NULL];
+        if(isset($this->actions[self::ACTION_PREFIX . Enum::ACCESS_RULE_NULL])){
+            $rules[] = $this->actions[self::ACTION_PREFIX . Enum::ACCESS_RULE_NULL];
         }
 
-        if(isset($this->actions['a_' . Enum::ACCESS_RULE_GUEST])){
-            $rules[] = $this->actions['a_' . Enum::ACCESS_RULE_GUEST];
+        if(isset($this->actions[self::ACTION_PREFIX . Enum::ACCESS_RULE_GUEST])){
+            $rules[] = $this->actions[self::ACTION_PREFIX . Enum::ACCESS_RULE_GUEST];
         }
         return self::setAccess($rules);
     }
