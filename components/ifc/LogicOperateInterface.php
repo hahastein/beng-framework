@@ -20,13 +20,15 @@ interface LogicOperateInterface
 {
     /**
      * 保存数据
+     * @param array $dataParam 存入的数据
      * @return mixed
      */
-    public function save();
+    public function save($dataParam = null);
 
     /**
-     * 删除单条数据
+     * 删除数据
+     * @param mixed $id 要删除的ID，支持多个ID删除。(例：单ID $id = 1，多ID $id = [1,2,3])
      * @return mixed
      */
-    public function delete();
+    public function delete($id);
 }
