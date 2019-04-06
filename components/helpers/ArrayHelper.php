@@ -17,12 +17,16 @@ class ArrayHelper
     /**
      * 按key获取数组的内容并且从数组内移除key对应的内容
      * @param string $key 键值
-     * @param array $newArray 移除后的新数组
-     * @return string 返回key对应的内容
+     * @param array $data 移除后的新数组
+     * @return string|bool 返回key对应的内容
      */
-    public static function returnKeyAndRemove($key, &$newArray){
-        $keyContent = $newArray[$key];
-        unset($newArray[$key]);
-        return $keyContent;
+    public static function returnKeyAndRemove($key, &$data){
+        if(array_key_exists($key, $data)){
+            $keyContent = $data[$key];
+            unset($data[$key]);
+            return $keyContent;
+        }else{
+            return false;
+        }
     }
 }
