@@ -19,8 +19,6 @@ class UpyunDriver extends UploadDriverAbstract {
     {
 
         $upyunConfig = new Config($config['service'], $config['user'], $config['pwd']);
-
-        var_dump($upyunConfig);
         $this->selector = new Upyun($upyunConfig);
     }
 
@@ -31,7 +29,13 @@ class UpyunDriver extends UploadDriverAbstract {
 
     public function checkSavePath($savePath)
     {
-        var_dump($this->selector->info($savePath));
+        $pathInfo = false;
+        try{
+            $pathInfo = $this->selector->info($savePath);
+        }catch (\Exception $ex){
+            $this->error = $ex->getMessage();
+        }
+        return $pathInfo;
     }
 
     protected function mkdir($savePath)
