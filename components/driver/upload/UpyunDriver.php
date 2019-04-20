@@ -29,13 +29,15 @@ class UpyunDriver extends UploadDriverAbstract {
 
     public function checkSavePath($savePath)
     {
-        $pathInfo = false;
-        try{
-            $pathInfo = $this->selector->info($savePath);
-        }catch (\Exception $ex){
-            $this->error = $ex->getMessage();
-        }
-        return $pathInfo;
+
+        return $this->mkdir($savePath);
+//        $pathInfo = false;
+//        try{
+//            $pathInfo = $this->selector->info($savePath);
+//        }catch (\Exception $ex){
+//            $this->error = $ex->getMessage();
+//        }
+//        return $pathInfo;
     }
 
     protected function mkdir($savePath)
