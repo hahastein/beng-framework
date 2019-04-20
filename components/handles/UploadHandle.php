@@ -191,6 +191,10 @@ class UploadHandle
         }
     }
 
+    public function getUploader(){
+        return $this->uploader;
+    }
+
     /**
      * 设置上传驱动
      */
