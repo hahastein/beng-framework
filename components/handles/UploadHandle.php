@@ -52,6 +52,9 @@ class UploadHandle
     );
 
     private $_files;
+    /**
+     * @var \bengbeng\framework\components\driver\upload\UploadDriverAbstract $uploader
+     */
     private $uploader;
 
     /**
@@ -61,11 +64,11 @@ class UploadHandle
     private $error = ''; //上传错误信息
     private $success_upload = []; //成功上传后的信息
 
-    public function __construct($config = [])
+    public function __construct($config)
     {
         $config['domain'] = \Yii::getAlias('@resUrl');
         $this->config = array_merge($this->config, $config);
-        //赋值默认rootpath
+        //设置rootPath和subPath
         $this->setRootPath();
         $this->setSubPath();
         //加载所有上传的文件
@@ -95,10 +98,13 @@ class UploadHandle
             return false;
         }
 
-        if(!$this->uploader->checkRootPath($this->getRootPath())){
-            $this->error = $this->uploader->getError();
-            return false;
+        if($this->driver == self::UPLOAD_TYPE_LOCAL){
+            if(!$this->uploader->checkRootPath($this->getRootPath())){
+                $this->error = $this->uploader->getError();
+                return false;
+            }
         }
+
 
         /* 检查上传目录 */
         if(!$this->uploader->checkSavePath($this->savePath)){
@@ -109,9 +115,9 @@ class UploadHandle
         $info = [];
 
         foreach ($this->_files as $key => $file) {
-            $file['name']  = strip_tags($file['name']);
+            $file['name'] = strip_tags($file['name']);
             /* 获取上传文件后缀，允许上传无后缀文件 */
-            $file['ext']    =   pathinfo($file['name'], PATHINFO_EXTENSION);
+            $file['ext'] = pathinfo($file['name'], PATHINFO_EXTENSION);
 
             $file['savename'] = $this->getName($file);
             $file['savepath'] = $this->savePath;
@@ -187,8 +193,6 @@ class UploadHandle
 
     /**
      * 设置上传驱动
-     * @param string $driver 驱动名称
-     * @param array $config 驱动配置
      */
     private function setDriver(){
         $driver = $this->driver;
