@@ -17,7 +17,6 @@ class UpyunDriver extends UploadDriverAbstract {
 
     public function __construct($config = [])
     {
-        parent::__construct($config);
 
         $upyunConfig = new Config($config['service'], $config['user'], $config['pwd']);
 
