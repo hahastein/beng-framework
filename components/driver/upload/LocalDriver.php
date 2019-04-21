@@ -81,6 +81,7 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
             $this->error = '文件上传保存错误！';
             return false;
         }
+        $this->uploadOriginPath = '/' . $this->savePath . '/' .$saveName;
 
         if($this->thumbnail){
             if (!$this->thumbnail($file)) {
@@ -112,6 +113,7 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
             $originPath = $this->rootPath . '/' . $this->savePath . '/' . $saveName;
             $this->uploadThumbnailPath = $this->rootPath . '/' . $this->savePath . '/t'.$width.'_' . $saveName;
             if (Image::thumbnail($originPath, $width, $height)->save($this->uploadThumbnailPath)) {
+                $this->uploadThumbnailPath = '/' . $this->savePath . '/t'.$width.'_' . $saveName;
                 return true;
             } else {
                 throw new \Exception('生成缩略图失败');
