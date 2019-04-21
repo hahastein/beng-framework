@@ -94,7 +94,7 @@ class BaseUploadDriver
             $this->savePath = $this->savePath .'/'. $subPath;
         }
 
-        var_dump($this->savePath);die;
+        var_dump($this->savePath);
     }
 
     /**
