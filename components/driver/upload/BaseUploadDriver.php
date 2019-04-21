@@ -87,13 +87,15 @@ class BaseUploadDriver
             $subPath = date('Ym');
         }
 
-        var_dump($this->savePath);die;
+        var_dump($this->savePath);
 
         if(empty($this->savePath) ){
             $this->savePath = $subPath;
         }else{
             $this->savePath = $this->savePath .'/'. $subPath;
         }
+
+        var_dump($this->savePath);die;
     }
 
     /**
