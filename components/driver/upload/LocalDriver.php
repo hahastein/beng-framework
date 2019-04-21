@@ -181,28 +181,27 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
     private function autoSize($fileInfo, $zoom, &$width, &$height){
 
         if($zoom >0){
-            $width = $fileInfo['width'] * $zoom / 100;
-            $height = $fileInfo['height'] * $zoom / 100;
-        }else{
-            $width = $this->getThumbnailWidth($width);
-            $height = $this->getThumbnailHeight($height);
+            $width = round($fileInfo['width'] * $zoom / 100);
+//            $height = $fileInfo['height'] * $zoom / 100;
+        }
 
-            if($height==0){
+        $width = $this->getThumbnailWidth($width);
+        $height = $this->getThumbnailHeight($height);
+
+        if($fileInfo['width']>0 && $fileInfo['height']>0) {
+            if ($height == 0) {
                 //按宽度自动设置
-                if($fileInfo['width']>0 && $fileInfo['height']>0) {
-                    if ($fileInfo['width'] >= $width) {
-                        $height = ($fileInfo['height'] * $width) / $fileInfo['width'];
-                    }
+                if ($fileInfo['width'] >= $width) {
+                    $height = ($fileInfo['height'] * $width) / $fileInfo['width'];
                 }
-            }else if($width==0){
+            } else if ($width == 0) {
                 //按高度自动设置
-                if($fileInfo['width']>0 && $fileInfo['height']>0) {
-                    if ($fileInfo['height'] >= $height) {
-                        $width = ($fileInfo['width'] * $height) / $fileInfo['height'];
-                    }
+                if ($fileInfo['height'] >= $height) {
+                    $width = ($fileInfo['width'] * $height) / $fileInfo['height'];
                 }
             }
         }
+
     }
 
 }
