@@ -108,7 +108,7 @@ class UploadHandle
             return false;
         }
 
-        $info = [];
+        $successFiles = [];
 
         foreach ($this->_files as $key => $file) {
             $file['name'] = strip_tags($file['name']);
@@ -118,19 +118,20 @@ class UploadHandle
             if ($this->uploader->upload($file, false)) {
 
                 if(empty($this->domain)){
-                    $info[$key]['originPath'] = '/'.$this->uploader->getUploadOriginPath();
-                    $info[$key]['thumbnailPath'] = '/'.$this->uploader->getUploadThumbnailPath();
+                    $successUpload['originPath'] = '/'.$this->uploader->getUploadOriginPath();
+                    $successUpload['thumbnailPath'] = '/'.$this->uploader->getUploadThumbnailPath();
                 }else{
-                    $info[$key]['originPath'] = $this->domain.'/'.$this->uploader->getUploadOriginPath();
-                    $info[$key]['thumbnailPath'] = $this->domain.'/'.$this->uploader->getUploadThumbnailPath();
+                    $successUpload['originPath'] = $this->domain.'/'.$this->uploader->getUploadOriginPath();
+                    $successUpload['thumbnailPath'] = $this->domain.'/'.$this->uploader->getUploadThumbnailPath();
                 }
+                $successFiles[] = $successUpload;
             } else {
                 $this->error = $this->uploader->getError();
                 return false;
             }
         }
 
-        return $info;
+        return $successFiles;
     }
 
     public function getError(){
