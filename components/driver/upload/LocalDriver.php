@@ -103,8 +103,7 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
         $this->uploadThumbnailPath = '';
         //计算自动大小
         $zoom = $this->getThumbnailZoom($zoom);
-        $width = $this->getThumbnailWidth($width);
-        $height = $this->getThumbnailHeight($height);
+
 
         self::autoSize($file, $zoom, $width, $height);
 
@@ -178,18 +177,23 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
         if($zoom >0){
             $width = $fileInfo['width'] * 100 / $zoom;
             $height = $fileInfo['height'] * 100 / $zoom;
-        }else if($height==0){
-            //按宽度自动设置
-            if($fileInfo['width']>0 && $fileInfo['height']>0) {
-                if ($fileInfo['width'] >= $width) {
-                    $height = ($fileInfo['height'] * $width) / $fileInfo['width'];
+        }else{
+            $width = $this->getThumbnailWidth($width);
+            $height = $this->getThumbnailHeight($height);
+
+            if($height==0){
+                //按宽度自动设置
+                if($fileInfo['width']>0 && $fileInfo['height']>0) {
+                    if ($fileInfo['width'] >= $width) {
+                        $height = ($fileInfo['height'] * $width) / $fileInfo['width'];
+                    }
                 }
-            }
-        }else if($width==0){
-            //按高度自动设置
-            if($fileInfo['width']>0 && $fileInfo['height']>0) {
-                if ($fileInfo['height'] >= $height) {
-                    $width = ($fileInfo['width'] * $height) / $fileInfo['height'];
+            }else if($width==0){
+                //按高度自动设置
+                if($fileInfo['width']>0 && $fileInfo['height']>0) {
+                    if ($fileInfo['height'] >= $height) {
+                        $width = ($fileInfo['width'] * $height) / $fileInfo['height'];
+                    }
                 }
             }
         }
