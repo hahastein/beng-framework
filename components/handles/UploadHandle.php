@@ -147,7 +147,7 @@ class UploadHandle
     private function setDriver(){
         $driver = $this->driver;
         $config = $this->driverConfig;
-        var_dump($this->driverConfig);die;
+        var_dump($this->config);die;
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
         if(class_exists($class)){
             $this->uploader = new $class($config);
