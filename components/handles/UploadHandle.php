@@ -77,7 +77,6 @@ class UploadHandle
 
     public function save($validate = true){
 
-        var_dump($this->driver);die;
         if(!isset($this->_files) || count($this->_files)==0) {
             if($validate) {
                 $this->error = '请选择上传的文件';
@@ -148,6 +147,7 @@ class UploadHandle
     private function setDriver(){
         $driver = $this->driver;
         $config = $this->driverConfig;
+        var_dump($this->driverConfig);die;
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
         if(class_exists($class)){
             $this->uploader = new $class($config);
