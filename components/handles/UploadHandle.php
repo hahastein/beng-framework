@@ -68,9 +68,7 @@ class UploadHandle
 
     public function __construct($config)
     {
-        var_dump($this->config);
         $this->config = array_merge($config, $this->config);
-        var_dump($this->config);die;
         //加载所有上传的文件
         $this->_files = self::loadFiles();
         //设置上传驱动模式
