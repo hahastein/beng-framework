@@ -118,11 +118,11 @@ class UploadHandle
             if ($this->uploader->upload($file, false)) {
 
                 if(empty($this->domain)){
-                    $info[]['originPath'] = '/'.$this->uploader->getUploadOriginPath();
-                    $info[]['thumbnailPath'] = '/'.$this->uploader->getUploadThumbnailPath();
+                    $info[$key]['originPath'] = '/'.$this->uploader->getUploadOriginPath();
+                    $info[$key]['thumbnailPath'] = '/'.$this->uploader->getUploadThumbnailPath();
                 }else{
-                    $info[]['originPath'] = $this->domain.'/'.$this->uploader->getUploadOriginPath();
-                    $info[]['thumbnailPath'] = $this->domain.'/'.$this->uploader->getUploadThumbnailPath();
+                    $info[$key]['originPath'] = $this->domain.'/'.$this->uploader->getUploadOriginPath();
+                    $info[$key]['thumbnailPath'] = $this->domain.'/'.$this->uploader->getUploadThumbnailPath();
                 }
             } else {
                 $this->error = $this->uploader->getError();
