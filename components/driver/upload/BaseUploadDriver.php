@@ -99,8 +99,8 @@ class BaseUploadDriver
         return $newName .'.'. $ext;
     }
 
-    protected function getImageInfo($image, &$imageWidth, &$imageHeight){
-        list($width, $height) = getimagesize($image);
+    protected function getImageInfo(&$imageWidth, &$imageHeight){
+        list($width, $height) = getimagesize($this->uploadOriginPath);
         $imageWidth = $width;
         $imageHeight = $height;
     }

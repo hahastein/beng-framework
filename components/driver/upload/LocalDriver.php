@@ -82,7 +82,7 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
             return false;
         }
 
-        $this->getImageInfo($file['tmp_name'], $imageWidth, $imageHeight);
+        $this->getImageInfo($imageWidth, $imageHeight);
         $file['width'] = $imageWidth;
         $file['height'] = $imageHeight;
 
