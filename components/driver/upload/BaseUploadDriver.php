@@ -132,7 +132,7 @@ class BaseUploadDriver
 
     public function __get($name)
     {
-        var_dump($name);
+        var_dump($this->config);
         return $this->config[$name];
     }
 }
