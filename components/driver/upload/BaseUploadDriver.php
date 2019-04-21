@@ -65,7 +65,7 @@ class BaseUploadDriver
         $this->setRootPath();
         $this->setSubPath();
 
-        var_dump($this->$config);die;
+        var_dump($this->config);die;
     }
 
     /**
