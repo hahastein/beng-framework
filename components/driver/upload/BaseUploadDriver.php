@@ -90,8 +90,10 @@ class BaseUploadDriver
         var_dump($this->savePath);
 
         if(empty($this->savePath) ){
+            var_dump('aaaa');
             $this->savePath = $subPath;
         }else{
+            var_dump('2222');
             $this->savePath = $this->savePath .'/'. $subPath;
         }
 
