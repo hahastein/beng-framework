@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\components\helpers\ArrayHelper;
 use Upyun\Config;
 use Upyun\Upyun;
 
@@ -68,7 +69,7 @@ class UploadHandle
 
     public function __construct($config)
     {
-        $this->config = array_merge($this->config, $config);
+        $this->config = \yii\helpers\ArrayHelper::merge($this->config, $config);
 
         \Yii::$app->Beng->outHtml($this->config);
         //($this->config);die;
@@ -159,6 +160,18 @@ class UploadHandle
         }
     }
 
+    private function mergeConfig($config){
+
+        foreach($config as $key => $item){
+            if(is_array($key)){
+                $this->config[$key] = $this->mergeConfig($item);
+            }else{
+
+            }
+        }
+
+        return $config;
+    }
     /**
      *
      */
