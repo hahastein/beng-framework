@@ -31,18 +31,6 @@ class BaseUploadDriver
      */
     protected $error;
 
-//    /**
-//     * 上传文件根目录
-//     * @var string
-//     */
-//    protected $rootPath;
-
-//    /**
-//     * 上传文件子目录
-//     * @var string
-//     */
-//    protected $savePath='';
-
     /**
      * 上传成功后的文件地址
      * @var string
@@ -138,5 +126,11 @@ class BaseUploadDriver
     public function __get($name)
     {
         return $this->config[$name];
+    }
+
+    public function __isset($name)
+    {
+        $attribute = $this->$name;
+        return !empty($attribute);
     }
 }
