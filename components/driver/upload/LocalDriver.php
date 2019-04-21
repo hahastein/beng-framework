@@ -144,7 +144,12 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
      * @return float 返回配置的宽度
      */
     private function getThumbnailWidth($width){
-        return $width>0?$width:$this->thumbnail['width'];
+        if($width<=0){
+            if(isset($this->thumbnail['width'])){
+                $width = $this->thumbnail['width'];
+            }
+        }
+        return $width;
     }
 
     /**
@@ -153,7 +158,12 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
      * @return float 返回配置的高度
      */
     private function getThumbnailHeight($height){
-        return $height>0?$height:$this->thumbnail['height'];
+        if($height<=0){
+            if(isset($this->thumbnail['height'])){
+                $height = $this->thumbnail['height'];
+            }
+        }
+        return $height;
     }
 
     /**
