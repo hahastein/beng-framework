@@ -69,6 +69,9 @@ class UploadHandle
     public function __construct($config)
     {
         $this->config = array_merge($config, $this->config);
+
+        var_dump($this->config);die;
+
         //加载所有上传的文件
         $this->_files = self::loadFiles();
         //设置上传驱动模式
@@ -147,7 +150,6 @@ class UploadHandle
     private function setDriver(){
         $driver = $this->driver;
         $config = $this->driverConfig;
-        var_dump($this->config);die;
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
         if(class_exists($class)){
             $this->uploader = new $class($config);
