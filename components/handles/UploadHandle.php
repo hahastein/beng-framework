@@ -160,35 +160,6 @@ class UploadHandle
         }
     }
 
-
-    /**
-     *
-     */
-    private function upyun(){
-
-        try {
-
-
-            $config = new Config(SERVICE, USER_NAME, PWD);
-            $client = new Upyun($config);
-
-            $params = [
-                'notify-url' => NOTIFY_URL,
-                'apps' => [
-                    'name' => 'thumb',
-                    'x-gmkerl-thumb' => '/format/png',
-                    'save_as' => IMAGE_SAVE_AS,
-                ]
-            ];
-
-            return $client->write($key, $fd, $this->config['driverConfig'], true);
-
-        }catch (\Exception $ex){
-            return false;
-        }
-
-    }
-
     private function check($file){
         //检查文件类型
         if(!$this->checkMime($file['type'])){

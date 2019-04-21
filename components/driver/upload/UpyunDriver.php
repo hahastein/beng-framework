@@ -45,7 +45,16 @@ class UpyunDriver extends BaseUploadDriver implements UploadDriverInterface {
 
     public function upload($file, $replace = true)
     {
-        return false;
+        $fileStream = fopen($file['tmp_name'], 'r');
+        $saveName = $this->getName($file);
+        $this->uploadOriginPath = $this->savePath . '/' .$saveName;
+
+        try{
+            return $this->selector->write($this->uploadOriginPath, $fileStream);
+        }catch (\Exception $ex){
+            $this->error = $ex->getMessage();
+            return false;
+        }
     }
 
     public function mkdir($savePath)
