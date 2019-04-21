@@ -63,9 +63,7 @@ class BaseUploadDriver
     }
 
     protected function setRootPath(){
-        var_dump($this->rootPath);
         if(empty($this->rootPath)){
-            var_dump('root_aaaa');
             $this->rootPath = \Yii::getAlias('@res');
         }
     }
@@ -77,17 +75,11 @@ class BaseUploadDriver
             $subPath = date('Ym');
         }
 
-        var_dump($this->savePath);
-
         if( empty($this->savePath) ){
-            var_dump('aaaa');
             $this->savePath = $subPath;
         }else{
-            var_dump('2222');
             $this->savePath = $this->savePath .'/'. $subPath;
         }
-
-        var_dump($this->savePath);die;
     }
 
     /**
