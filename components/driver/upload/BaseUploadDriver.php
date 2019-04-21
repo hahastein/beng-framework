@@ -130,7 +130,7 @@ class BaseUploadDriver
         return $this->uploadThumbnailPath;
     }
 
-    public function __set($name)
+    public function __get($name)
     {
         return $this->config[$name];
     }
