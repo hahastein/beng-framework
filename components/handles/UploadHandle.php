@@ -69,7 +69,7 @@ class UploadHandle
     public function __construct($config)
     {
         var_dump($this->config);
-        $this->config = array_merge($this->config, $config);
+        $this->config = array_merge_recursive($this->config, $config);
         var_dump($this->config);die;
         //加载所有上传的文件
         $this->_files = self::loadFiles();
