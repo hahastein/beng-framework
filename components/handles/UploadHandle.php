@@ -30,19 +30,19 @@ class UploadHandle
     const UPLOAD_TYPE_UPYUN = 'Upyun';
 
     private $config = array(
-        'mimes'         =>  [], //允许上传的文件mime类型
-        'exts'          =>  ['jpg', 'png'], //允许上传的文件后缀
+        'mimes' => [], //允许上传的文件mime类型
+        'exts' => ['jpg', 'png'], //允许上传的文件后缀
         'maxSize' => 0, //上传的文件大小限制 (0-不做限制)
-        'hash'          =>  true, //是否生成hash编码
-        'domain'        => '',
-        'driver'        =>  self::UPLOAD_TYPE_LOCAL, // 文件上传驱动
-        'driverConfig'  =>  [
-            'rootPath'      =>  '', //保存根路径
-            'savePath'      =>  '', //保存路径
-            'folderNameMode'       =>  ['fun' => 'date', 'param' => 'Ymd'], //子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
-            'fileNameMode'      =>  false, //上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
-            'saveExt'       =>  '', //文件保存后缀，空则使用原后缀
-            'replace'       =>  false, //存在同名是否覆盖
+        'hash' => true, //是否生成hash编码
+        'domain' => '',
+        'driver' => self::UPLOAD_TYPE_LOCAL, // 文件上传驱动
+        'driverConfig' => [
+            'rootPath' => '', //保存根路径
+            'savePath' => '', //保存路径
+            'folderNameMode' => ['fun' => 'date', 'param' => 'Ymd'], //子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
+            'fileNameMode' => false, //上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
+            'saveExt' => '', //文件保存后缀，空则使用原后缀
+            'replace' => false, //存在同名是否覆盖
             'thumbnail' => false,
             'sdkConfig' => [
                 'service' => '',
@@ -70,6 +70,7 @@ class UploadHandle
     {
         $config['domain'] = \Yii::getAlias('@resUrl');
         $this->config = array_merge($this->config, $config);
+        var_dump($this->config);die;
         //加载所有上传的文件
         $this->_files = self::loadFiles();
         //设置上传驱动模式
