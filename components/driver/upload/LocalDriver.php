@@ -85,7 +85,7 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
         $this->getImageInfo($imageWidth, $imageHeight);
         $file['width'] = $imageWidth;
         $file['height'] = $imageHeight;
-
+        $file['originName'] = $saveName;
 
         if($this->thumbnail){
             if (!$this->thumbnail($file)) {
@@ -115,7 +115,7 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
 
         try {
 
-            $saveName = $this->getName($file);
+            $saveName = $file['originName'];
             $this->uploadThumbnailPath = $this->rootPath . '/' . $this->savePath . '/t'.$width.'_' . $saveName;
             if (Image::thumbnail($this->uploadOriginPath, $width, $height)->save($this->uploadThumbnailPath)) {
                 $this->uploadThumbnailPath = '/' . $this->savePath . '/t'.$width.'_' . $saveName;
