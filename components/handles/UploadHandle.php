@@ -70,7 +70,7 @@ class UploadHandle
     {
         $this->config = array_merge($config, $this->config);
 
-        var_dump($this->config);die;
+        var_dump($config);die;
 
         //加载所有上传的文件
         $this->_files = self::loadFiles();
