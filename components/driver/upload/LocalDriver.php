@@ -181,8 +181,8 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
     private function autoSize($fileInfo, $zoom, &$width, &$height){
 
         if($zoom >0){
-            $width = $fileInfo['width'] * 100 / $zoom;
-            $height = $fileInfo['height'] * 100 / $zoom;
+            $width = $fileInfo['width'] * $zoom / 100;
+            $height = $fileInfo['height'] * $zoom / 100;
         }else{
             $width = $this->getThumbnailWidth($width);
             $height = $this->getThumbnailHeight($height);
