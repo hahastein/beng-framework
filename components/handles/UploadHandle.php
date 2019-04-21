@@ -77,8 +77,6 @@ class UploadHandle
 
     public function save($validate = true){
 
-
-        var_dump($this->_files);die;
         if(!isset($this->_files) || count($this->_files)==0) {
             if($validate) {
                 $this->error = '请选择上传的文件';
