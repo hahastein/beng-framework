@@ -71,9 +71,6 @@ class UploadHandle
     {
         $this->config = \yii\helpers\ArrayHelper::merge($this->config, $config);
 
-        \Yii::$app->Beng->outHtml($this->config);
-        //($this->config);die;
-
         //加载所有上传的文件
         $this->_files = self::loadFiles();
         //设置上传驱动模式
