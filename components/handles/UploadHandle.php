@@ -68,7 +68,7 @@ class UploadHandle
 
     public function __construct($config)
     {
-        $this->config = array_merge($config, $this->config);
+        $this->config = array_merge($this->config, $config);
 
         \Yii::$app->Beng->outHtml($this->config);
         //($this->config);die;
