@@ -68,7 +68,7 @@ class UploadHandle
 
     public function __construct($config)
     {
-        $config['domain'] = \Yii::getAlias('@resUrl');
+        var_dump($this->config);
         $this->config = array_merge($this->config, $config);
         var_dump($this->config);die;
         //加载所有上传的文件
