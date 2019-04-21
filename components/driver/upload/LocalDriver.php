@@ -77,7 +77,7 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
             return false;
         }
         /* 移动文件 */
-        if (!move_uploaded_file($file['tmp_name'], $saveName)) {
+        if (!move_uploaded_file($file['tmp_name'], $this->uploadOriginPath)) {
             $this->error = '文件上传保存错误！';
             return false;
         }
