@@ -81,6 +81,7 @@ class BaseUploadDriver
     }
 
     protected function setSubPath(){
+        var_dump($this->savePath);
         if($this->folderNameMode){
             $subPath = call_user_func_array($this->folderNameMode['fun'], (array)$this->folderNameMode['param']);
         }else{
@@ -92,6 +93,8 @@ class BaseUploadDriver
         }else{
             $this->savePath = $this->savePath .'/'. $subPath;
         }
+
+        var_dump($this->savePath);die;
     }
 
     /**
