@@ -157,18 +157,7 @@ class UploadHandle
         }
     }
 
-    private function mergeConfig($config){
 
-        foreach($config as $key => $item){
-            if(is_array($key)){
-                $this->config[$key] = $this->mergeConfig($item);
-            }else{
-
-            }
-        }
-
-        return $config;
-    }
     /**
      *
      */
