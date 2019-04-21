@@ -109,8 +109,6 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
         //计算自动大小
         $zoom = $this->getThumbnailZoom($zoom);
 
-        var_dump($file);die;
-
         self::autoSize($file, $zoom, $width, $height);
 
         try {
