@@ -64,8 +64,6 @@ class BaseUploadDriver
         $this->config = $config;
         $this->setRootPath();
         $this->setSubPath();
-
-        var_dump($this->config);die;
     }
 
     /**
@@ -88,6 +86,8 @@ class BaseUploadDriver
         }else{
             $subPath = date('Ym');
         }
+
+        var_dump($this->savePath);die;
 
         if(empty($this->savePath) ){
             $this->savePath = $subPath;
