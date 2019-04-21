@@ -82,10 +82,10 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
             return false;
         }
 
-        list($imageWidth, $imageHeight, $imageType) = getimagesize($this->uploadOriginPath);
+        $this->getImageInfo($imageWidth, $imageHeight);
         $this->uploadOriginPath = '/' . $this->savePath . '/' .$saveName;
 
-        var_dump($imageWidth, $imageHeight, $imageType);die;
+        var_dump($imageWidth, $imageHeight);die;
 
         if($this->thumbnail){
             if (!$this->thumbnail($file)) {
