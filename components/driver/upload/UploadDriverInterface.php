@@ -12,52 +12,52 @@
 namespace bengbeng\framework\components\driver\upload;
 
 
-abstract class UploadDriverAbstract
+interface UploadDriverInterface
 {
 
     /**
-     * 错误信息s
-     * @var string
-     */
-    protected $error;
-    /**
-     * 上传文件根目录
-     * @var string
-     */
-    protected $rootPath;
-    /**
-     * 上传文件子目录
-     * @var string
-     */
-    protected $subPath;
-
-    abstract function __construct($config);
-
-    /**
      * 检查根目录是否存在
-     * @param $rootPath
      * @return boolean
      */
-    abstract function checkRootPath($rootPath = '');
+    function checkRootPath();
 
     /**
      * 检查创建路径
-     * @param $savePath
-     * @return mixed
+     * @return boolean
      */
-    abstract function checkSavePath($savePath);
+    function checkSavePath();
     /**
      * 创建目录
      * @param  string $savePath 要创建的路径
      * @return boolean 是否创建成功
      */
-    abstract protected function mkdir($savePath);
+    function mkdir($savePath);
+
+    /**
+     * 上传类
+     * @param array $file 上传的文件
+     * @param boolean $replace 是否自动替换存在的文件
+     * @return boolean|string 是否上传成功
+     */
+    function upload($file, $replace=true);
 
     /**
      * 获取最后一次上传错误信息
      * @return string 错误信息
      */
-    public function getError(){
-        return $this->error;
-    }
+    function getError();
+
+    /**
+     * 获取上传成功后的文件地址
+     * @return string
+     */
+    function getUploadOriginPath();
+
+    /**
+     * 获取上传成功后的缩略图地址
+     * @return string
+     */
+    function getUploadThumbnailPath();
+
+
 }

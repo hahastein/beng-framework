@@ -13,16 +13,13 @@ use Upyun\Upyun;
 
 /**
  * Class UploadHandle
- * @property array mimes
- * @property array exts
- * @property array subName
- * @property string rootPath
- * @property string savePath
- * @property string saveExt
- * @property bool replace
- * @property bool hash
- * @property string driver
- * @property array driverConfig
+ * @property array $mimes 允许上传的文件mime类型
+ * @property array $exts 允许上传的文件后缀
+ * @property integer $maxSize 上传的文件大小限制 (0-不做限制)
+ * @property bool $hash
+ * @property string $domain
+ * @property string $driver 文件上传驱动类型(默认为本地上传类型，目前支持本地及UPyun)，扩展请详见开发说明
+ * @property array $driverConfig 按驱动类型的配置文件
  * @package bengbeng\framework\components\handles
  */
 
@@ -35,25 +32,30 @@ class UploadHandle
     private $config = array(
         'mimes'         =>  [], //允许上传的文件mime类型
         'exts'          =>  ['jpg', 'png'], //允许上传的文件后缀
-        'subName'       =>  ['fun' => 'date', 'param' => 'Ymd'], //子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
-        'rootPath'      =>  '', //保存根路径
-        'savePath'      =>  '', //保存路径
-        'saveName'      =>  ['uniqid', ''], //上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
-        'saveExt'       =>  '', //文件保存后缀，空则使用原后缀
-        'replace'       =>  false, //存在同名是否覆盖
+        'maxSize' => 0, //上传的文件大小限制 (0-不做限制)
         'hash'          =>  true, //是否生成hash编码
         'domain'        => '',
         'driver'        =>  self::UPLOAD_TYPE_LOCAL, // 文件上传驱动
         'driverConfig'  =>  [
-            'maxSize' => 0, //上传的文件大小限制 (0-不做限制)
-            'thumbnail' => true
+            'rootPath'      =>  '', //保存根路径
+            'savePath'      =>  '', //保存路径
+            'folderNameMode'       =>  ['fun' => 'date', 'param' => 'Ymd'], //子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
+            'fileNameMode'      =>  false, //上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
+            'saveExt'       =>  '', //文件保存后缀，空则使用原后缀
+            'replace'       =>  false, //存在同名是否覆盖
+            'thumbnail' => true,
+            'sdkConfig' => [
+                'service' => '',
+                'user' => '',
+                'pwd' => ''
+            ]
 
         ], // 上传驱动配置
     );
 
     private $_files;
     /**
-     * @var \bengbeng\framework\components\driver\upload\UploadDriverAbstract $uploader
+     * @var \bengbeng\framework\components\driver\upload\UploadDriverInterface $uploader
      */
     private $uploader;
 
@@ -68,9 +70,6 @@ class UploadHandle
     {
         $config['domain'] = \Yii::getAlias('@resUrl');
         $this->config = array_merge($this->config, $config);
-        //设置rootPath和subPath
-        $this->setRootPath();
-        $this->setSubPath();
         //加载所有上传的文件
         $this->_files = self::loadFiles();
         //设置上传驱动模式
@@ -93,13 +92,9 @@ class UploadHandle
             return false;
         }
 
-        if($this->subName && !function_exists($this->subName['fun'])){
-            $this->error = "不存在文件生成规则：{$this->subName['fun']}";
-            return false;
-        }
-
+        /* 判断如果是本地上传，则检测是否有上传的根目录，一般为(upload) */
         if($this->driver == self::UPLOAD_TYPE_LOCAL){
-            if(!$this->uploader->checkRootPath($this->getRootPath())){
+            if(!$this->uploader->checkRootPath()){
                 $this->error = $this->uploader->getError();
                 return false;
             }
@@ -107,7 +102,7 @@ class UploadHandle
 
 
         /* 检查上传目录 */
-        if(!$this->uploader->checkSavePath($this->savePath)){
+        if(!$this->uploader->checkSavePath()){
             $this->error = $this->uploader->getError();
             return false;
         }
@@ -119,22 +114,12 @@ class UploadHandle
             /* 获取上传文件后缀，允许上传无后缀文件 */
             $file['ext'] = pathinfo($file['name'], PATHINFO_EXTENSION);
 
-            $file['savename'] = $this->getName($file);
-            $file['savepath'] = $this->savePath;
+            if ($this->uploader->upload($file, false)) {
 
-            if ($this->uploader->save($file, false)) {
-                if(isset(\Yii::$app->params['thumbnail'])) {
-                    if ($this->uploader->thumbnail($file)) {
-                        unset($file['error'], $file['tmp_name']);
-
-                    }
-                    $this->error = $this->uploader->getError();
-                    return false;
-                }
-                if(empty($this->config['domain'])){
-                    $info[]['path'] = '/'.$file['savepath'].'/'.$file['savename'];
+                if(empty($this->domain)){
+                    $info[]['path'] = '/'.$this->uploader->getUploadOriginPath();
                 }else{
-                    $info[]['path'] = $this->config['domain'].'/'.$file['savepath'].'/'.$file['savename'];
+                    $info[]['path'] = $this->domain.'/'.$this->uploader->getUploadOriginPath();
                 }
             } else {
                 $this->error = $this->uploader->getError();
@@ -145,50 +130,12 @@ class UploadHandle
         return $info;
     }
 
-    public function getRootPath(){
-        return isset($this->rootPath)?$this->rootPath:\Yii::getAlias('@res');
-    }
-
-    public function setSubPath(){
-        if($this->savePath){
-            $savePath = $this->savePath;
-        }else{
-            $savePath = '';
-        }
-
-        if($this->subName){
-            $subPath = $this->subName;
-            $subPath = call_user_func_array($subPath['fun'], (array)$subPath['param']);
-            if(empty($savePath)){
-                $savePath = $subPath;
-            }else{
-                $savePath = $savePath .'/'. $subPath;
-            }
-        }
-
-        $this->config['savePath'] = $savePath;
-    }
-
     public function getError(){
         return $this->error;
     }
 
     public function getSuccess(){
         return $this->success_upload;
-    }
-
-    private function getName($file){
-        $newName = md5(uniqid(rand()));
-        /* 文件保存后缀，支持强制更改文件后缀 */
-        $ext = empty($this->config['saveExt']) ? $file['ext'] : $this->saveExt;
-
-        return $newName .'.'. $ext;
-    }
-
-    private function setRootPath(){
-        if(!isset($this->rootPath) || empty($this->rootPath)){
-            $this->config['rootPath'] = \Yii::getAlias('@res');
-        }
     }
 
     public function getUploader(){

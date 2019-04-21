@@ -11,14 +11,15 @@ namespace bengbeng\framework\components\driver\upload;
 use Upyun\Config;
 use Upyun\Upyun;
 
-class UpyunDriver extends UploadDriverAbstract {
+class UpyunDriver extends BaseUploadDriver implements UploadDriverInterface {
 
     private $selector;
 
     public function __construct($config = [])
     {
+        parent::__construct($config);
 
-        $upyunConfig = new Config($config['service'], $config['user'], $config['pwd']);
+        $upyunConfig = new Config($this->sdkConfig['service'], $this->sdkConfig['user'], $this->sdkConfig['pwd']);
         $this->selector = new Upyun($upyunConfig);
     }
 
@@ -27,12 +28,12 @@ class UpyunDriver extends UploadDriverAbstract {
         return true;
     }
 
-    public function checkSavePath($savePath)
+    public function checkSavePath()
     {
         try{
-            return $this->selector->info($savePath);
+            return $this->selector->info($this->savePath);
         }catch (\Exception $ex){
-            if($this->mkdir($savePath)){
+            if($this->mkdir($this->savePath)){
                 $this->error = '文件夹不存在，已创建成功';
                 return true;
             }else{
@@ -42,7 +43,12 @@ class UpyunDriver extends UploadDriverAbstract {
         }
     }
 
-    protected function mkdir($savePath)
+    public function upload($file, $replace = true)
+    {
+        return false;
+    }
+
+    public function mkdir($savePath)
     {
         return $this->selector->createDir($savePath);
     }
