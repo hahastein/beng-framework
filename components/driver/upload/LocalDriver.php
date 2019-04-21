@@ -82,10 +82,11 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
             return false;
         }
 
-        $this->getImageInfo($imageWidth, $imageHeight);
-        $this->uploadOriginPath = '/' . $this->savePath . '/' .$saveName;
+        $this->getImageInfo($file['tmp_name'], $imageWidth, $imageHeight);
+        $file['width'] = $imageWidth;
+        $file['height'] = $imageHeight;
 
-        var_dump($imageWidth, $imageHeight);die;
+        $this->uploadOriginPath = '/' . $this->savePath . '/' .$saveName;
 
         if($this->thumbnail){
             if (!$this->thumbnail($file)) {
@@ -107,8 +108,6 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
         $this->uploadThumbnailPath = '';
         //计算自动大小
         $zoom = $this->getThumbnailZoom($zoom);
-
-        var_dump($file);die;
 
         self::autoSize($file, $zoom, $width, $height);
 
