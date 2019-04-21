@@ -81,9 +81,10 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
             $this->error = '文件上传保存错误！';
             return false;
         }
-        $this->uploadOriginPath = '/' . $this->savePath . '/' .$saveName;
 
         $fileInfo = getimagesize($this->uploadOriginPath);
+        $this->uploadOriginPath = '/' . $this->savePath . '/' .$saveName;
+
         var_dump($fileInfo);die;
 
         if($this->thumbnail){
