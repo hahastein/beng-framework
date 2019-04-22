@@ -20,7 +20,7 @@ use Upyun\Upyun;
  * @property bool $hash
  * @property string $domain
  * @property string $driver 文件上传驱动类型(默认为本地上传类型，目前支持本地及UPyun)，扩展请详见开发说明
- * @property array $driverConfig 按驱动类型的配置文件
+ * @property array $driverConfig 按驱动类型的配置文件(根据实际第三方服务器配置进行设置)
  * @package bengbeng\framework\components\handles
  */
 
@@ -31,27 +31,22 @@ class UploadHandle
     const UPLOAD_TYPE_UPYUN = 'Upyun';
 
     private $config = array(
-        'mimes' => [], //允许上传的文件mime类型
-        'exts' => ['jpg', 'png'], //允许上传的文件后缀
-        'maxSize' => 0, //上传的文件大小限制 (0-不做限制)
-        'hash' => true, //是否生成hash编码
+        'mimes' => [],
+        'exts' => ['jpg', 'png'],
+        'maxSize' => 0,
+        'hash' => true,
         'domain' => '',
-        'driver' => self::UPLOAD_TYPE_LOCAL, // 文件上传驱动
+        'driver' => self::UPLOAD_TYPE_LOCAL,
         'driverConfig' => [
-            'rootPath' => '', //保存根路径
-            'savePath' => '', //保存路径
-            'folderNameMode' => ['fun' => 'date', 'param' => 'Ymd'], //子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
-            'fileNameMode' => false, //上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
-            'fileExt' => '', //文件保存后缀，空则使用原后缀
-            'replace' => false, //存在同名是否覆盖
+            'rootPath' => '',
+            'savePath' => '',
+            'folderNameMode' => ['fun' => 'date', 'param' => 'Ymd'],
+            'fileNameMode' => false,
+            'fileExt' => '',
+            'replace' => false,
             'thumbnail' => false,
-            'sdkConfig' => [
-                'service' => '',
-                'user' => '',
-                'pwd' => ''
-            ]
-
-        ], // 上传驱动配置
+            'sdkConfig' => []
+        ]
     );
 
     private $_files;
