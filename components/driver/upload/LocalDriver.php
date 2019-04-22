@@ -72,7 +72,7 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
     public function upload($file, $replace=true)
     {
 
-        if($this->check($file)){
+        if(!$this->check($file)){
             return false;
         }
 
