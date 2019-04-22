@@ -11,7 +11,11 @@
 
 namespace bengbeng\framework\components\driver\upload;
 
-
+/**
+ * Interface UploadDriverInterface
+ * @property array $mimes
+ * @package bengbeng\framework\components\driver\upload
+ */
 interface UploadDriverInterface
 {
 

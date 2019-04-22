@@ -25,6 +25,10 @@ namespace bengbeng\framework\components\driver\upload;
  */
 class BaseUploadDriver
 {
+
+    public $mimes;
+    public $exts;
+
     /**
      * 错误信息
      * @var string
@@ -52,6 +56,25 @@ class BaseUploadDriver
         $this->config = $config;
         $this->setRootPath();
         $this->setSubPath();
+    }
+
+    /**
+     * 检测文件是否符合上传条件
+     * @param $file
+     * @return boolean
+     */
+    protected function check($file){
+
+        if(!$this->checkMime($file['type'])){
+            $this->error = '类型不匹配';
+            return false;
+        }
+
+        return true;
+    }
+
+    private function checkMime($mime) {
+        return empty($this->mimes)||count($this->mimes)==0 ? true : in_array(strtolower($mime), $this->mimes);
     }
 
     /**

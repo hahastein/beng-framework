@@ -1,16 +1,16 @@
 <?php
 /**
- * Created by BengBeng Framework.
- * User: hahastein
- * Date: 2018/6/19
- * Time: 23:49
+ * 52Beng Framework Admin
+ *
+ * @link http://www.52beng.com
+ * @copyright Copyright © 2019 52Beng Framework. All rights reserved.
+ * @author hahastein <146119@qq.com>
+ * @license http://www.52beng.com/license
+ * @date 2018/6/19 23:49
+ * @update 2019/4/22 13:50
  */
 
 namespace bengbeng\framework\components\handles;
-
-use bengbeng\framework\components\helpers\ArrayHelper;
-use Upyun\Config;
-use Upyun\Upyun;
 
 /**
  * Class UploadHandle
@@ -106,6 +106,7 @@ class UploadHandle
         $successFiles = [];
 
         foreach ($this->_files as $key => $file) {
+
             $file['name'] = strip_tags($file['name']);
             /* 获取上传文件后缀，允许上传无后缀文件 */
             $file['ext'] = pathinfo($file['name'], PATHINFO_EXTENSION);
@@ -150,23 +151,10 @@ class UploadHandle
         $class = strpos($driver,'\\')? $driver : '\\bengbeng\\framework\\components\\driver\\upload\\'.ucfirst(strtolower($driver)).'Driver';
         if(class_exists($class)){
             $this->uploader = new $class($config);
+            $this->uploader->mimes = $this->mimes;
         }else{
             $this->uploader = false;
         }
-    }
-
-    private function check($file){
-        //检查文件类型
-        if(!$this->checkMime($file['type'])){
-            $this->error = '类型不匹配';
-            return false;
-        }
-
-        return true;
-    }
-
-    private function checkMime($mime) {
-        return empty($this->mimes) ? true : in_array(strtolower($mime), $this->mimes);
     }
 
     private static function loadFiles(){

@@ -1,9 +1,13 @@
 <?php
 /**
- * Created by BengBengFramework.
- * User: hahastein
- * Date: 2018-06-22
- * Time: 12:16
+ * 52Beng Framework Admin
+ *
+ * @link http://www.52beng.com
+ * @copyright Copyright © 2019 52Beng Framework. All rights reserved.
+ * @author hahastein <146119@qq.com>
+ * @license http://www.52beng.com/license
+ * @date 2018/6/22 13:47
+ * @update 2019/4/22
  */
 
 namespace bengbeng\framework\components\driver\upload;
