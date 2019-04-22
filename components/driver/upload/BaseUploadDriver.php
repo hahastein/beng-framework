@@ -74,7 +74,13 @@ class BaseUploadDriver
     }
 
     private function checkMime($mime) {
-        return empty($this->mimes)||count($this->mimes)==0 ? true : in_array(strtolower($mime), $this->mimes);
+
+        if(!empty($this->mimes)){
+            if((is_array($this->mimes) && !in_array(strtolower($mime), $this->mimes)) || (!is_array($this->mimes) && $this->mimes != $mime)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
