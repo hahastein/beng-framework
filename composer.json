@@ -24,9 +24,6 @@
   "require-dev": {
     "yiisoft/yii2-codeception": "~2.0"
   },
-  "suggest": {
-    "yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
-  },
   "autoload": {
     "psr-4": {
       "bengbeng\\framework\\": ""
@@ -36,9 +33,6 @@
     "asset-installer-paths": {
       "npm-asset-library": "vendor/npm",
       "bower-asset-library": "vendor/bower"
-    },
-    "branch-alias": {
-      "dev-master": "2.x-dev"
     }
   }
 }
