@@ -110,6 +110,6 @@ class Enum
     //namespace
     const NAMESPACE_FRAMEWORK = '\\bengbeng\\framework\\';
     const NAMESPACE_ADMIN = '\\bengbeng\\admin\\';
-    const NAMESPACE_MERCHANT = '\\bengbeng\\merchant\\';
+    const NAMESPACE_MERCHANT = '\\bengbeng\\extend\\merchant\\';
 
 }
