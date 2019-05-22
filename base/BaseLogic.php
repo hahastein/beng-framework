@@ -20,13 +20,13 @@ class BaseLogic
     public $error;
 
     /**
-     * @var Model
+     * @var BaseActiveRecord
      */
     protected $model;
 
     protected function createModel($model = null)
     {
-        $this->models = $model;
+        $this->model = $model;
     }
 
     /**
