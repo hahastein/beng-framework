@@ -21,7 +21,7 @@ class BaseLogic
     public function __construct()
     {
 
-        var_dump(get_class());
+        var_dump(get_class());die;
 
         //创建Model
         $this->createModel();
