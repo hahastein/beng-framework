@@ -12,24 +12,21 @@
 namespace bengbeng\framework\base;
 
 
+use yii\base\Model;
+
 class BaseLogic
 {
 
     public $error;
+
+    /**
+     * @var Model
+     */
     protected $model;
 
-    public function __construct()
+    protected function createModel($model = null)
     {
-
-        var_dump(get_class());die;
-
-        //创建Model
-        $this->createModel();
-
-    }
-
-    private function createModel(){
-
+        $this->models = $model;
     }
 
     /**
