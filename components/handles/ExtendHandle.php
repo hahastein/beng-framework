@@ -48,11 +48,7 @@ class ExtendHandle
 
 
     public function readOrCreateFile($content){
-
-        if(count($this->extensions) == 0){
-            return file_put_contents($this->extensions_path, print_r($content, true));
-        }
-        return false;
+        return file_put_contents($this->extensions_path, print_r($content, true));
     }
 
     /**
