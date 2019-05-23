@@ -11,25 +11,32 @@
 
 namespace bengbeng\framework\base;
 
-
-use yii\base\Model;
-
 class BaseLogic
 {
 
+    /**
+     * 错误信息
+     * @var string
+     */
     public $error;
 
     /**
+     * 数据模型
      * @var BaseActiveRecord
      */
     protected $model;
 
+    /**
+     * 创建数据模型
+     * @param $model
+     */
     protected function createModel($model = null)
     {
         $this->model = $model;
     }
 
     /**
+     * 返回错误信息
      * @return string
      */
     public function getError()
