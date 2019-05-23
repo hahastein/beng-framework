@@ -48,7 +48,7 @@ class ExtendHandle
 
 
     public function readOrCreateFile($content){
-        $content = $text='<?php \r\n $vendorDir = dirname(__DIR__); \r\n return '.var_export($content,true).';';
+        $content = $text='<?php '.PHP_EOL.'$vendorDir = dirname(__DIR__); '.PHP_EOL.'return '.var_export($content,true).';';
         return file_put_contents($this->extensions_path, print_r($content, true));
     }
 
