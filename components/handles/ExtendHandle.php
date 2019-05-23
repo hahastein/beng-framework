@@ -30,8 +30,6 @@ class ExtendHandle
         $this->model = new ExtendARModel();
         $this->extensions_path = \Yii::getAlias('@vendor/bengbengsoft/extensions.php');
         $this->extensions = is_file($this->extensions_path) ? include $this->extensions_path : $this->createCache();
-
-        \Yii::$app->Beng->outHtml($this->extensions);
     }
 
     public function createCache(){

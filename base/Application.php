@@ -28,5 +28,9 @@ class Application extends \yii\web\Application
         $extend = new ExtendHandle();
         $extend->createCache();
 
+
+        \Yii::$app->Beng->outHtml($extend->extensions);
+
+
     }
 }
