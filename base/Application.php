@@ -38,6 +38,9 @@ class Application extends \yii\web\Application
                 $this->extensions = is_file($file) ? include $file : [];
             }
 
+            \Yii::$app->Beng->outHtml($this->extensions);
+
+
             $this->extensions = ArrayHelper::merge($this->extensions, $extend->extensions);
 
 
@@ -46,7 +49,6 @@ class Application extends \yii\web\Application
 
 
 
-        \Yii::$app->Beng->outHtml($this->extensions);
 
 
     }
