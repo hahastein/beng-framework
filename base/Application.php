@@ -12,6 +12,7 @@
 namespace bengbeng\framework\base;
 
 use bengbeng\framework\components\handles\ExtendHandle;
+use yii\helpers\ArrayHelper;
 
 class Application extends \yii\web\Application
 {
@@ -29,7 +30,23 @@ class Application extends \yii\web\Application
         $extend->createCache();
 
 
-        \Yii::$app->Beng->outHtml($extend->extensions);
+        if(is_array($extend->extensions)){
+
+
+            if ($this->extensions === null) {
+                $file = \Yii::getAlias('@vendor/yiisoft/extensions.php');
+                $this->extensions = is_file($file) ? include $file : [];
+            }
+
+            $this->extensions = ArrayHelper::merge($this->extensions, $extend->extensions);
+
+
+        }
+
+
+
+
+        \Yii::$app->Beng->outHtml($this->extensions);
 
 
     }
