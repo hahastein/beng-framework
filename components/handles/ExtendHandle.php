@@ -48,6 +48,7 @@ class ExtendHandle
 
 
     public function readOrCreateFile($content){
+        $content = $text='<?php return '.var_export($content,true).';';
         return file_put_contents($this->extensions_path, print_r($content, true));
     }
 
