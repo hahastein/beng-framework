@@ -48,7 +48,7 @@ class ExtendHandle
 
 
     public function readOrCreateFile($content){
-        $content = $text='<?php return '.var_export($content,true).';';
+        $content = $text='<?php \r\n $vendorDir = dirname(__DIR__); \r\n return '.var_export($content,true).';';
         return file_put_contents($this->extensions_path, print_r($content, true));
     }
 
@@ -66,7 +66,7 @@ class ExtendHandle
                 'name' => $extend_name,
                 'version' => $item['extend_version'],
                 'alias' => [
-                    '@'.$item['extend_namespace'] => \Yii::getAlias('@vendor') . '/' . $extend_name
+                    '@'.$item['extend_namespace'] => '[vendorPath]/' . $extend_name
                 ]
             ];
         }
