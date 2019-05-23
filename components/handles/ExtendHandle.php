@@ -21,10 +21,15 @@ class ExtendHandle
 {
 
     private $model;
+    private $extensions_path;
+    public $extensions;
+
 
     public function __construct()
     {
         $this->model = new ExtendARModel();
+        $this->extensions_path = \Yii::getAlias('@vendor/bengbengsoft/extensions.php');
+        $this->extensions = is_file($this->extensions_path) ? include $this->extensions_path : $this->createCache();
     }
 
     public function createCache(){
@@ -32,12 +37,20 @@ class ExtendHandle
         $data = $this->model->findByAll();
         $data = $this->formatForYiiExtend($data);
 
+        $this->readOrCreateFile($data);
+
+        return $data;
+
     }
 
 
 
-    public function createFile(){
+    public function readOrCreateFile($content){
 
+        if(count($this->extensions) == 0){
+            return file_put_contents($this->extensions_path, print_r($content, true));
+        }
+        return false;
     }
 
     /**
