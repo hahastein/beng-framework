@@ -21,6 +21,12 @@ class BaseLogic
     public $error;
 
     /**
+     * 成功信息
+     * @var string
+     */
+    public $success;
+
+    /**
      * 数据模型
      * @var BaseActiveRecord
      */
@@ -36,11 +42,17 @@ class BaseLogic
     }
 
     /**
-     * 返回错误信息
+     * 返回输出信息
      * @return string
      */
-    public function getError()
+    public function getMessage()
     {
-        return $this->error;
+        if(!empty($this->success)){
+            return $this->success;
+        }else if (!empty($this->error)){
+            return $this->error;
+        }else{
+            return '错误信息未定义';
+        }
     }
 }
