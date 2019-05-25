@@ -55,4 +55,22 @@ class BaseLogic
             return '错误信息未定义';
         }
     }
+
+    /**
+     * 获取错误信息
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    /**
+     * 获取成功信息
+     * @return string
+     */
+    public function getSuccess()
+    {
+        return $this->success;
+    }
 }
