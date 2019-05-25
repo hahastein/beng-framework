@@ -50,8 +50,10 @@ class BengPlugins extends Component
         return openssl_decrypt(base64_decode($orgData), 'aes-128-cbc', $key, true, $iv);
     }
 
-    /*
+    /**
      * 批量获取post数据
+     * @param array $column
+     * @return array|bool
      */
     public function PostData($column = []){
         $postData = \Yii::$app->request->post();
@@ -60,7 +62,7 @@ class BengPlugins extends Component
             return false;
         }
 
-        if(empty($column)){
+        if(empty($column) || count($column) == 0){
            return $postData;
         }
 
