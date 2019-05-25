@@ -26,7 +26,7 @@ class Application extends \yii\web\Application
 
     private function getExtend(){
         $extend = new ExtendHandle();
-        $extend->createCache();
+        $extend->createFile();
         if(is_array($extend->extensions)){
 
             if ($this->extensions === null) {

@@ -12,6 +12,7 @@
 namespace bengbeng\framework\components\handles;
 
 use bengbeng\framework\models\ExtendARModel;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ExtendHandle
@@ -29,29 +30,44 @@ class ExtendHandle
     {
         $this->model = new ExtendARModel();
         $this->extensions_path = \Yii::getAlias('@vendor/bengbengsoft/extensions.php');
-        $this->extensions = is_file($this->extensions_path) ? include $this->extensions_path : $this->createCache();
+        $this->extensions = is_file($this->extensions_path) ? include $this->extensions_path : $this->createFile();
     }
 
-    public function createCache(){
-
+    /**
+     * 创建扩展文件
+     * @return array
+     */
+    public function createFile(){
         $data = $this->model->findByAll();
         $data = $this->formatForYiiExtend($data);
-
-        $this->readOrCreateFile($data);
-
+        $this->writeFile($data);
         return $data;
-
     }
 
+    /**
+     * 追加内容到文件
+     * @param array $content
+     * @return bool|int
+     */
+    public function appendFile($content){
+        $content = $this->formatForYiiExtend([$content]);
+        $this->extensions = ArrayHelper::merge($this->extensions, $content);
+        return $this->writeFile($this->extensions);
+    }
 
-
-    public function readOrCreateFile($content){
+    /**
+     * 写入文件
+     * @param $content
+     * @return bool|int
+     */
+    public function writeFile($content){
         $content = $text='<?php '.PHP_EOL.'$vendorDir = dirname(__DIR__); '.PHP_EOL.'return '.var_export($content,true).';';
         $content = str_replace('\'[vendorPath]', '$vendorDir . \'', $content);
         return file_put_contents($this->extensions_path, print_r($content, true));
     }
 
     /**
+     * 将数据格式化为Yii extend 的格式
      * @param $data
      * @return array
      */
