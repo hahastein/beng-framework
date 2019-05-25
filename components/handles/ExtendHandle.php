@@ -51,7 +51,9 @@ class ExtendHandle
      */
     public function appendFile($content){
         $content = $this->formatForYiiExtend([$content]);
-        $this->extensions = ArrayHelper::merge($this->extensions, $content);
+
+        $resetExtend = $this->resetExtendPath($this->extensions);
+        $this->extensions = ArrayHelper::merge($resetExtend, $content);
         return $this->writeFile($this->extensions);
     }
 
@@ -64,6 +66,16 @@ class ExtendHandle
         $content = $text='<?php '.PHP_EOL.'$vendorDir = dirname(__DIR__); '.PHP_EOL.'return '.var_export($content,true).';';
         $content = str_replace('\'[vendorPath]', '$vendorDir . \'', $content);
         return file_put_contents($this->extensions_path, print_r($content, true));
+    }
+
+    private function resetExtendPath($extensions){
+
+        foreach ($extensions as $index => $extend){
+            foreach ($extend['alias'] as $key => $alias)
+            $extensions[$index]['alias'][$key] = '[vendorPath]/'.$extend['name'];
+        }
+
+        return $extensions;
     }
 
     /**
