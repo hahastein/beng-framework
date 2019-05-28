@@ -39,6 +39,12 @@ class BaseController extends Controller
     public $keyword;
 
     /**
+     * 逻辑 set为字符串的类名 get返回实际类
+     * @var string|mixed $logic
+     */
+    public $logic;
+
+    /**
      * 私有变量
      * @var array $actions
      */
@@ -75,6 +81,22 @@ class BaseController extends Controller
             return false;
         }
 
+    }
+
+    /**
+     * @param string $logic
+     */
+    public function setLogic($logic)
+    {
+        $this->logic = $this->getLogicLayer($logic);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogic()
+    {
+        return $this->logic;
     }
 
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
