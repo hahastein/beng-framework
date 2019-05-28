@@ -72,15 +72,19 @@ class BaseController extends Controller
         }
 
         $namespace = $namespace.'logic\\';
-        $logicName = str_replace('.', '\\', $logicName);
         $logicName = $namespace.$logicName;
 
+        return $this->execLoginLayer($logicName);
+
+    }
+
+    private function execLoginLayer($logicName){
+        $logicName = str_replace('.', '\\', $logicName);
         if(class_exists($logicName)){
             return new $logicName;
         }else{
             return false;
         }
-
     }
 
     /**
@@ -88,7 +92,7 @@ class BaseController extends Controller
      */
     public function setLogic($logic)
     {
-        $this->logic = $this->getLogicLayer($logic);
+        $this->logic = $this->execLoginLayer($logic);
     }
 
     /**
