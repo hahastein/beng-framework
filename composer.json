@@ -19,7 +19,6 @@
     "bower-asset/codemirror": "@stable",
     "bower-asset/summernote": "0.*",
     "overtrue/wechat": "~4.0",
-    "upyun/sdk": "dev-master",
     "jpush/jpush": "dev-master"
   },
   "require-dev": {
