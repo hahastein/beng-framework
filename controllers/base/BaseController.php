@@ -42,7 +42,7 @@ class BaseController extends Controller
      * 逻辑 set为字符串的类名 get返回实际类
      * @var string|mixed $logic
      */
-    private $logic;
+    protected $logic;
 
     /**
      * 私有变量
