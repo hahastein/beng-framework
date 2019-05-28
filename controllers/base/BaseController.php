@@ -84,7 +84,7 @@ class BaseController extends Controller
     }
 
 
-    private function __set($name)
+    public function __set($name, $value)
     {
         echo $name;exit;
         if($name == 'logic'){
