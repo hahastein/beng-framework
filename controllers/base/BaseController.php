@@ -52,7 +52,12 @@ class BaseController extends Controller
 
     public function init()
     {
+
+        $this->logic = '123123';
+
         parent::init();
+
+
 
         $this->user_id = \Yii::$app->request->get('user_id', 0);
         $this->keyword = \Yii::$app->request->get('keyword', '');
