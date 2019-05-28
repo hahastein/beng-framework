@@ -31,12 +31,12 @@ class BaseController extends Controller
      * 公用用户ID (get) 参数为 user_id
      * @var string $user_id
      */
-    public $user_id;
+    protected $user_id;
     /**
      * 关键词 (get) 参数为 keyword
      * @var string $keyword
      */
-    public $keyword;
+    protected $keyword;
 
     /**
      * 逻辑 set为字符串的类名 get返回实际类
@@ -93,14 +93,6 @@ class BaseController extends Controller
     public function setLogic($logic)
     {
         $this->logic = $this->execLoginLayer($logic);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLogic()
-    {
-        return $this->logic;
     }
 
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
