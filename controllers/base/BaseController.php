@@ -93,7 +93,7 @@ class BaseController extends Controller
      */
     public function setLogic($logic)
     {
-        echo 'aaaaa';die;
+        echo $logic;die;
         $this->logic = $this->getLogicLayer($logic);
     }
 
