@@ -85,6 +85,7 @@ class BaseController extends Controller
 
     public function __set($name, $value)
     {
+        echo $name;exit;
         if($name == 'logic'){
             return parent::__set($name, $this->getLogicLayer($value));
         }else{
