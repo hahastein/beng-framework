@@ -83,20 +83,13 @@ class BaseController extends Controller
 
     }
 
-    /**
-     * @param string $logic
-     */
-    public function setLogic($logic)
+    public function __set($name, $value)
     {
-        $this->logic = $this->getLogicLayer($logic);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLogic()
-    {
-        return $this->logic;
+        if($name == 'logic'){
+            return parent::__set($name, $this->getLogicLayer($value));
+        }else{
+            return parent::__set($name, $value);
+        }
     }
 
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
