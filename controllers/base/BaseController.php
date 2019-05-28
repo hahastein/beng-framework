@@ -57,7 +57,7 @@ class BaseController extends Controller
      * 获取 Bll Class
      * @param string $logicName 逻辑类的名称，可以是单类，也可以是多层级类(例如：class或者namespace.class)
      * @param string $namespace 所用命名空间,默认为本命名空间下,可使用提供的枚举（枚举定义范围：Enum::NAMESPACE_*）
-     * @return mixed 返回 Bll Class
+     * @return mixed|false 返回 Bll Class
      */
     protected function getLogicLayer($logicName, $namespace=''){
 
@@ -69,7 +69,12 @@ class BaseController extends Controller
         $logicName = str_replace('.', '\\', $logicName);
         $logicName = $namespace.$logicName;
 
-        return new $logicName;
+        if(class_exists($logicName)){
+            return new $logicName;
+        }else{
+            return false;
+        }
+
     }
 
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
