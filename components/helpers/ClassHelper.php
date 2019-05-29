@@ -21,9 +21,17 @@ class ClassHelper
      * @param $className
      * @return string
      */
-    public static function extendNamespaceSplicing($extendName, $className){
+    public static function extendSplicing($extendName, $className){
 
         return '\\bengbeng\\extend\\' . $extendName . '\\logic\\' . $className;
 
+    }
+
+    public static function frameworkSplicing($className){
+        return '\\bengbeng\\framework\\logic\\' . $className;
+    }
+
+    public static function adminSplicing($className){
+        return '\\bengbeng\\admin\\logic\\' . $className;
     }
 }

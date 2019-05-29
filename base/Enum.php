@@ -112,4 +112,12 @@ class Enum
     const NAMESPACE_ADMIN = '\\bengbeng\\admin\\';
     const NAMESPACE_MERCHANT = '\\bengbeng\\extend\\merchant\\';
 
+    //扩展功能定义
+    const EXTEND_TOOLS_MERCHANT = 'merchant'; //商户系统
+    const EXTEND_TOOLS_SHOP = 'shop'; //电商系统
+    const EXTEND_TOOLS_CMS = 'cms'; //内容文章系统
+    const EXTEND_TOOLS_WM = 'waimai'; //外卖系统
+    const EXTEND_TOOLS_ERP = 'erp'; //进销存系统
+    const EXTEND_TOOLS_FINANCE = 'finance'; //财务系统
+
 }
