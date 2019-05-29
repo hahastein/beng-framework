@@ -87,6 +87,7 @@ class BaseController extends Controller
 
         $logicModel = [];
         foreach ($logicNameArray as $model){
+            $model = strtolower($model);
             $logic = str_replace('BLL', '', $model);
             $className = str_replace('.', '\\', $model);
 
