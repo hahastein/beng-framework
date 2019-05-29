@@ -88,7 +88,7 @@ class BaseController extends Controller
         $logicModel = new \stdClass();
         foreach ($logicNameArray as $model){
 
-            $logic = explode('//', $model);
+            $logic = explode('\\', $model);
             $logic = $logic[count($logic)- 1];
             $logic = strtolower($logic);
             $logic = strtolower(str_replace('bll', '', $logic));
