@@ -85,17 +85,19 @@ class BaseController extends Controller
             $logicNameArray[] = $logicName;
         }
 
+        $logicModel = [];
         foreach ($logicNameArray as $model){
             $logic = str_replace('BLL', '', $model);
             $className = str_replace('.', '\\', $model);
 
             if(class_exists($className)){
-                $this->logic->$logic = new $className;
+                $logicModel[] = [$logic => new $className];
             }else{
-                $this->logic->$logic = false;
+                $logicModel[] = [$logic => false];
             }
 
         }
+        return (object)$logicModel;
     }
 
     /**
@@ -103,7 +105,7 @@ class BaseController extends Controller
      */
     public function setLogic($logic)
     {
-        $this->execLogicLayer($logic);
+        $this->logic = $this->execLogicLayer($logic);
     }
 
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
