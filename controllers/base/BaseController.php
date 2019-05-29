@@ -80,11 +80,12 @@ class BaseController extends Controller
 
     private function execLogicLayer($logicName){
 
+        $logicNameArray = [];
         if(!is_array($logicName)){
-            $logicName[] = $logicName;
+            $logicNameArray[] = $logicName;
         }
 
-        foreach ($logicName as $model){
+        foreach ($logicNameArray as $model){
             $logic = str_replace('BLL', '', $model);
             $className = str_replace('.', '\\', $model);
 
