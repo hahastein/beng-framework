@@ -74,16 +74,26 @@ class BaseController extends Controller
         $namespace = $namespace.'logic\\';
         $logicName = $namespace.$logicName;
 
-        return $this->execLoginLayer($logicName);
+        return $this->execLogicLayer($logicName);
 
     }
 
-    private function execLoginLayer($logicName){
-        $logicName = str_replace('.', '\\', $logicName);
-        if(class_exists($logicName)){
-            return new $logicName;
-        }else{
-            return false;
+    private function execLogicLayer($logicName){
+
+        if(!is_array($logicName)){
+            $logicName[] = $logicName;
+        }
+
+        foreach ($logicName as $model){
+            $logic = str_replace('BLL', '', $model);
+            $className = str_replace('.', '\\', $model);
+
+            if(class_exists($className)){
+                $this->logic->$logic = new $className;
+            }else{
+                $this->logic->$logic = false;
+            }
+
         }
     }
 
@@ -92,7 +102,7 @@ class BaseController extends Controller
      */
     public function setLogic($logic)
     {
-        $this->logic = $this->execLoginLayer($logic);
+        $this->execLogicLayer($logic);
     }
 
     protected function setActions($actions, $access = Enum::ACCESS_RULE_AUTHENTICATED){
