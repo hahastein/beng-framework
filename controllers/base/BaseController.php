@@ -85,20 +85,20 @@ class BaseController extends Controller
             $logicNameArray[] = $logicName;
         }
 
-        $logicModel = [];
+        $logicModel = new \stdClass();
         foreach ($logicNameArray as $model){
             $model = strtolower($model);
             $logic = strtolower(str_replace('BLL', '', $model));
             $className = str_replace('.', '\\', $model);
 
             if(class_exists($className)){
-                $logicModel[] = [$logic => new $className];
+                $logicModel->$logic = new $className;
             }else{
-                $logicModel[] = [$logic => false];
+                $logicModel->$logic = false;
             }
 
         }
-        return (object)$logicModel;
+        return $logicModel;
     }
 
     /**
