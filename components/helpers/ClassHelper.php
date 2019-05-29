@@ -27,10 +27,20 @@ class ClassHelper
 
     }
 
+    /**
+     * 返回核心库完整类地址
+     * @param $className
+     * @return string
+     */
     public static function frameworkSplicing($className){
         return '\\bengbeng\\framework\\logic\\' . $className;
     }
 
+    /**
+     * 返回后台库完整类地址
+     * @param $className
+     * @return string
+     */
     public static function adminSplicing($className){
         return '\\bengbeng\\admin\\logic\\' . $className;
     }
