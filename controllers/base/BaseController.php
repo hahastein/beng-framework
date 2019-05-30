@@ -103,10 +103,9 @@ class BaseController extends Controller
                 //处理不同命名空间下相同类名的问题
                 if (isset($logicModel->$logic)){
                     $logic = $logic_front . '_' . $this->logic;
-                    $logicModel->$logic = new $className;
-                }else{
-                    $logicModel->$logic = new $className;
                 }
+                $logicModel->$logic = new $className;
+
             }else{
                 $logicModel->$logic = false;
             }
