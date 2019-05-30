@@ -83,6 +83,8 @@ class BaseController extends Controller
         $logicNameArray = [];
         if(!is_array($logicName)){
             $logicNameArray[] = $logicName;
+        }else{
+            $logicNameArray = $logicName;
         }
 
         $logicModel = new \stdClass();
