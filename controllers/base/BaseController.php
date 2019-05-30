@@ -89,15 +89,24 @@ class BaseController extends Controller
         foreach ($logicNameArray as $model){
 
             $className = str_replace('.', '\\', $model);
+            $logic_front = '';
 
             $logic = explode('\\', $className);
             $logic = $logic[count($logic)- 1];
+            if(strstr($model, '.')){
+                $logic_front = $logic[count($logic) - 2];
+            }
             $logic = strtolower($logic);
             $logic = strtolower(str_replace('bll', '', $logic));
 
-
             if(class_exists($className)){
-                $logicModel->$logic = new $className;
+                //处理不同命名空间下相同类名的问题
+                if (isset($logicModel->$logic)){
+                    $logic = $logic_front . '_' . $this->logic;
+                    $logicModel->$logic = new $className;
+                }else{
+                    $logicModel->$logic = new $className;
+                }
             }else{
                 $logicModel->$logic = false;
             }
