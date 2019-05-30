@@ -88,12 +88,13 @@ class BaseController extends Controller
         $logicModel = new \stdClass();
         foreach ($logicNameArray as $model){
 
-            $logic = explode('\\', $model);
+            $className = str_replace('.', '\\', $model);
+
+            $logic = explode('\\', $className);
             $logic = $logic[count($logic)- 1];
             $logic = strtolower($logic);
             $logic = strtolower(str_replace('bll', '', $logic));
 
-            $className = str_replace('.', '\\', $model);
 
             if(class_exists($className)){
                 $logicModel->$logic = new $className;
@@ -106,6 +107,9 @@ class BaseController extends Controller
     }
 
     /**
+     * 设定逻辑处理类
+     * 例：传入类似\bengbeng\extend\logic\xxxBLL，返回全小写的xxx作为指向类
+     * 调用为 $this->>logic->xxx->getList();
      * @param string $logic
      */
     public function setLogic($logic)
