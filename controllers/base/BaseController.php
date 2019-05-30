@@ -94,10 +94,12 @@ class BaseController extends Controller
             $logic_front = '';
 
             $logic = explode('\\', $className);
-            $logic = $logic[count($logic)- 1];
+
             if(strstr($model, '.')){
                 $logic_front = $logic[count($logic) - 2];
             }
+            $logic = $logic[count($logic)- 1];
+
             $logic = strtolower($logic);
             $logic = strtolower(str_replace('bll', '', $logic));
 
