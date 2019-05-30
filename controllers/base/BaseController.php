@@ -40,7 +40,7 @@ class BaseController extends Controller
 
     /**
      * 逻辑 set为字符串的类名 get返回实际类
-     * @var string|mixed $logic
+     * @var string|array|mixed $logic
      */
     protected $logic;
 
@@ -119,7 +119,7 @@ class BaseController extends Controller
      * 设定逻辑处理类
      * 例：传入类似\bengbeng\extend\logic\xxxBLL，返回全小写的xxx作为指向类
      * 调用为 $this->>logic->xxx->getList();
-     * @param string $logic
+     * @param string|array $logic
      */
     public function setLogic($logic)
     {
