@@ -53,7 +53,7 @@ class BaseActiveRecord extends ActiveRecord
      *      $query->with('custom');
      *      ...
      * });
-     * @return array
+     * @return array|ActiveRecord
      */
     public function dataSet(\Closure $callback = null){
         $query = self::find();
