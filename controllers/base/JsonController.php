@@ -100,7 +100,8 @@ class JsonController extends Controller{
     {
 
         if(empty($this->token)){
-            $this->asJson(['code' => 403])->send();
+            $this->outputCode = self::CODE_ERROR_4031;
+            $this->asJson($this->splicingOutputContent())->send();
         }
 
         $this->longitude = Yii::$app->request->post('lng',0);
@@ -111,6 +112,14 @@ class JsonController extends Controller{
 
     public function afterAction($action, $result)
     {
+        return $this->splicingOutputContent();
+    }
+
+    /**
+     * 拼接输出返回内容
+     * @return array
+     */
+    private function splicingOutputContent(){
         $output['code'] = $this->outputCode;
 
         if($this->outputData){
