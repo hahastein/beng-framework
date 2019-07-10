@@ -23,6 +23,7 @@ class JsonController extends Controller{
      * @var array
      */
     protected $outputData;
+    protected $outputDataExt;
     /**
      * 输出的编码,默认0表示success 其它编码请查看const定义数值
      * @var int
@@ -104,14 +105,31 @@ class JsonController extends Controller{
 
     public function afterAction($action, $result)
     {
-        if($this->outputCode == self::CODE_SUCCESS){
-            return ['code' => $this->outputCode, 'data' => $this->outputData];
-        }elseif ($this->outputCode == self::CODE_ERROR_CUSTOM){
-            return ['code' => $this->outputCode, 'message' => $this->outputMessage, 'data' => $this->outputData];
+        $output['code'] = $this->outputCode;
+
+        if(!$this->outputData){
+            $output['data'] = $this->outputData;
         }else{
-            return ['code' => $this->outputCode, 'message' => $this->changeCodeToString()];
+            $output['data'] = false;
         }
 
+        if(!$this->outputDataExt){
+            foreach ($this->outputDataExt as $key => $dataExt){
+                if(is_string($key)) {
+                    $output[$key] = $dataExt;
+                }
+            }
+        }
+
+        if($this->outputCode != self::CODE_SUCCESS && $this->outputCode != self::CODE_ERROR_CUSTOM){
+            $output['message'] = $this->changeCodeToString();
+        }else{
+            if(!$this->outputMessage){
+                $output['message'] = $this->outputMessage;
+            }
+        }
+
+        return $output;
     }
 
     /**
