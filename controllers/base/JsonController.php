@@ -34,6 +34,7 @@ class JsonController extends Controller{
 
     const CODE_SUCCESS = 10;
     const CODE_ERROR_403 = 403;
+    const CODE_ERROR_4031 = 4031;
     const CODE_ERROR_404 = 404;
     const CODE_ERROR_4001 = 4001;
     const CODE_ERROR_4002 = 4002;
@@ -140,6 +141,8 @@ class JsonController extends Controller{
         switch ($this->outputCode){
             case self::CODE_ERROR_403:
                 return '您无此权限访问此接口，请确定权限是否正确';
+            case self::CODE_ERROR_4031:
+                return 'Token失效，请重新访问接口';
             case self::CODE_ERROR_404:
                 return '没有找到任何内容';
             case self::CODE_ERROR_4001:
