@@ -16,6 +16,8 @@ class JsonController extends Controller{
     public $token;
     public $sign;
 
+    protected $requestParams;
+
     /**
      * 输出的内容
      * @var array
@@ -41,9 +43,12 @@ class JsonController extends Controller{
         $this->longitude = 0;
         $this->latitude = 0;
         $this->outputCode = self::CODE_SUCCESS;
+        $this->requestParams = Yii::$app->request->post();
 
         $this->token = Yii::$app->getRequest()->getHeaders()->get('token');//获取验证token
         $this->sign = Yii::$app->getRequest()->getHeaders()->get('sign');//签名
+
+        unset($this->requestParams['lat'], $this->requestParams['lng']);
 
         //预留验证token及签名
 
