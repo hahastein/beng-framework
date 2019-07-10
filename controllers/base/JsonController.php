@@ -107,13 +107,13 @@ class JsonController extends Controller{
     {
         $output['code'] = $this->outputCode;
 
-        if(!$this->outputData){
+        if($this->outputData){
             $output['data'] = $this->outputData;
         }else{
             $output['data'] = false;
         }
 
-        if(!$this->outputDataExt){
+        if($this->outputDataExt){
             foreach ($this->outputDataExt as $key => $dataExt){
                 if(is_string($key)) {
                     $output[$key] = $dataExt;
@@ -124,7 +124,7 @@ class JsonController extends Controller{
         if($this->outputCode != self::CODE_SUCCESS && $this->outputCode != self::CODE_ERROR_CUSTOM){
             $output['message'] = $this->changeCodeToString();
         }else{
-            if(!$this->outputMessage){
+            if($this->outputMessage){
                 $output['message'] = $this->outputMessage;
             }
         }
