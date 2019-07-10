@@ -32,6 +32,8 @@ class JsonController extends Controller{
     const CODE_SUCCESS = 10;
     const CODE_ERROR_403 = 403;
     const CODE_ERROR_404 = 404;
+    const CODE_ERROR_4001 = 4001;
+    const CODE_ERROR_4002 = 4002;
     const CODE_ERROR_CUSTOM = 400;
 
     public function init()
@@ -116,6 +118,10 @@ class JsonController extends Controller{
                 return '您无此权限访问此接口，请确定权限是否正确';
             case self::CODE_ERROR_404:
                 return '没有找到任何内容';
+            case self::CODE_ERROR_4001:
+                return '参数问题，请检查传入参数';
+            case self::CODE_ERROR_4002:
+                return '...';
             default:
                 return '没有定义类型，请联系管理员';
         }
