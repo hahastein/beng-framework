@@ -137,7 +137,7 @@ class JsonController extends Controller{
      * @return string
      */
     private function changeCodeToString(){
-        switch ($this->outputData){
+        switch ($this->outputCode){
             case self::CODE_ERROR_403:
                 return '您无此权限访问此接口，请确定权限是否正确';
             case self::CODE_ERROR_404:
