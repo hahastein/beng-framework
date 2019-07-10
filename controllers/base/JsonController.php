@@ -97,6 +97,11 @@ class JsonController extends Controller{
      */
     public function beforeAction($action)
     {
+
+        if(empty($this->token)){
+            $this->outputCode = self::CODE_ERROR_403;return false;
+        }
+
         $this->longitude = Yii::$app->request->post('lng',0);
         $this->latitude = Yii::$app->request->post('lat',0);
 
