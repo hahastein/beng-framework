@@ -99,7 +99,8 @@ class JsonController extends Controller{
     {
 
         if(empty($this->token)){
-            $this->outputCode = self::CODE_ERROR_403;return false;
+            $this->outputCode = self::CODE_ERROR_403;
+            $this->afterAction($action, '');
         }
 
         $this->longitude = Yii::$app->request->post('lng',0);
