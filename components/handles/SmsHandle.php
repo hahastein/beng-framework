@@ -20,10 +20,12 @@ class SmsHandle
      * 登录验证码
      */
     const SMS_TYPE_LOGIN = 1;
+
     /**
      * 注册验证码
      */
     const SMS_TYPE_REG = 2;
+
     /**
      * 解绑验证码
      */
