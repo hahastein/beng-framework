@@ -122,6 +122,7 @@ class SmsHandle
             $this->model->sms_content = $this->contentFormat();
             $this->model->sms_type = $smsType;
             $this->model->sms_template = $templateID;
+            $this->model->sms_driver = $this->config['driver'];
             $this->model->sms_number = $code;
             $this->model->addtime = time();
 
@@ -151,7 +152,9 @@ class SmsHandle
      * @return SmsDriverAbstract|bool
      */
     private function setDriver(){
-        $driver = $this->config['driver'];
+        $driver = NullHelper::arrayKey($this->config, 'driver');
+
+        if(!$driver)return false;
 
         if(!$this->namespace){
             $this->namespace = '\\bengbeng\\framework\\components\\driver\\sms\\';
