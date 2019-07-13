@@ -65,10 +65,10 @@ class SmsHandle
     /**
      * 发送验证码
      * @param integer $smsType 短信验证码类型
-     * @param int $templateID 模板ID
+     * @param string $templateID 模板ID
      * @return bool
      */
-    public function singleSend($smsType = self::SMS_TYPE_LOGIN, $templateID = 0){
+    public function singleSend($smsType = self::SMS_TYPE_LOGIN, $templateID = '0'){
         if(!isset($this->config) || !is_array($this->config)){
             $this->message = '没有找到发送短信的配置或者配置文件格式不正确';
             return false;

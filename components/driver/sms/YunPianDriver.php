@@ -55,7 +55,7 @@ class YunPianDriver extends SmsDriverAbstract
         }
     }
 
-    public function singleSend($phone, $code, $templateID = 0)
+    public function singleSend($phone, $code, $templateID = '0')
     {
         try{
             $this->sendContent = str_replace('#code#', $code, $this->sendContent);

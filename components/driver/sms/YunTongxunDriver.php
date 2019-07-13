@@ -61,7 +61,7 @@ class YunTongxunDriver extends SmsDriverAbstract
 
     }
 
-    public function singleSend($phone, $code, $templateID = 0)
+    public function singleSend($phone, $code, $templateID = '0')
     {
         foreach ($this->sendContent as $key => $item){
             if($item == '#code#'){

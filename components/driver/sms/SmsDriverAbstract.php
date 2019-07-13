@@ -41,10 +41,10 @@ abstract class SmsDriverAbstract
      * 如果获取错误信息，获取message属性
      * @param int $phone 发送验证码的手机号
      * @param string $code 发送的验证码
-     * @param int $templateID 设置模板ID 0为自定义发送内容
+     * @param string $templateID 设置模板ID 0为自定义发送内容
      * @return bool
      */
-    abstract function singleSend($phone, $code, $templateID = 0);
+    abstract function singleSend($phone, $code, $templateID = '0');
 
 
     /**
