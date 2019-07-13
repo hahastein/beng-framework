@@ -59,17 +59,6 @@ class YunTongxunDriver extends SmsDriverAbstract
         $this->sdk->setAccount($this->accountSid, $this->accountToken);
         $this->sdk->setAppId($this->appId);
 
-        var_dump($serverIP);
-        var_dump($serverPort);
-        var_dump($softVersion);
-
-        var_dump($this->accountSid);
-        var_dump($this->accountToken);
-        var_dump($this->appId);
-
-        var_dump($this->sdk);
-        die;
-
     }
 
     public function singleSend($phone, $code, $templateID = '0')

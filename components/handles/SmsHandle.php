@@ -83,6 +83,8 @@ class SmsHandle
         $send_code = sprintf("%06d", rand(0,999999));
 
         try{
+
+            var_dump($templateID);die;
             return $this->save($send_code, $smsType, $templateID);
         }catch (Exception $ex){
             $this->message = $ex->getMessage();
