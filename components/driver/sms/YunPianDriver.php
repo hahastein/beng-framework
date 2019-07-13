@@ -11,15 +11,26 @@ use Yunpian\Sdk\YunpianConf;
 class YunPianDriver extends SmsDriverAbstract
 {
 
+    const SMS_SEND_DEFAULT_CONTENT = '【#app#】您的验证码是#code#';
+
     private $https = false;
     private $yunPianKey = '';
     private $yunPianClient;
+    private $appName;
 
-    public function __construct($config, $sendType = false)
+    public function __construct($config)
     {
-        parent::__construct($config, $sendType);
+        parent::__construct($config);
         $this->https = NullHelper::arrayKey($config, 'https');
         $this->yunPianKey = NullHelper::arrayKey($config, 'key');
+
+        if(!$this->sendContent){
+            $this->sendContent = self::SMS_SEND_DEFAULT_CONTENT;
+        }
+
+        if($this->appName){
+            $this->sendContent = str_replace('#app#', $this->appName, $this->sendContent);
+        }
 
         if($this->https){
             $this->yunPianClient = YunpianClient::create($this->yunPianKey);
@@ -41,14 +52,16 @@ class YunPianDriver extends SmsDriverAbstract
         }
     }
 
-    public function singleSend($phone, $templateID = 0)
+    public function singleSend($phone, $code, $templateID = 0)
     {
         try{
-            if($phone){
+            $this->sendContent = str_replace('#code#', $code, $this->sendContent);
+
+            if(!$phone){
                 throw new \Exception('手机号不能为空');
             }
 
-            if($this->sendContent){
+            if(!$this->sendContent && $templateID == 0){
                 throw new \Exception('没有配置发送内容模板，请在config配置或者设置sendContent属性');
             }
 

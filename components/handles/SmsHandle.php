@@ -8,8 +8,11 @@
 
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\components\driver\sms\SmsDriverAbstract;
+use bengbeng\framework\components\helpers\NullHelper;
 use bengbeng\framework\models\SmsARModel;
 use yii\db\Exception;
+use yii\helpers\Json;
 use Yunpian\Sdk\YunpianClient;
 use Yunpian\Sdk\YunpianConf;
 
@@ -31,29 +34,145 @@ class SmsHandle
      */
     const SMS_TYPE_UNBIND = 3;
 
-    private static $sms_content = "【#app#】您的验证码是#code#";
+    /**
+     * 其它
+     */
+    const SMS_TYPE_MORE = 4;
+
+    /**
+     * @var array 配置文件
+     */
+    private $config;
+    /**
+     * @var bool|string 命名空间
+     */
+    public $namespace;
+
+    public $message;
+
+    private $model;
+
+    private $phone;
+
+    public function __construct($phone)
+    {
+        $this->config = \Yii::$app->params['smsConfig'];
+        $this->namespace = NullHelper::arrayKey($this->config, 'namespace');
+        $this->phone = $phone;
+        $this->model = new SmsARModel();
+    }
 
     /**
      * 发送验证码
-     * @param $phone_num
-     * @param int $sms_type
-     * @return array
+     * @param integer $smsType 短信验证码类型
+     * @param int $templateID 模板ID
+     * @return bool
      */
-    public static function send($phone_num, $sms_type = self::SMS_TYPE_LOGIN){
-
-        $smsConfig = \Yii::$app->params['smsConfig'];
-        if(!isset($smsConfig)){
-            return [400,'没有找到发送短信的配置'];
+    public function singleSend($smsType = self::SMS_TYPE_LOGIN, $templateID = 0){
+        if(!isset($this->config) || !is_array($this->config)){
+            $this->message = '没有找到发送短信的配置或者配置文件格式不正确';
+            return false;
         }
 
+        if(!$phone_num){
+            $this->message = '电话号格式不正确';
+            return false;
+        }
+
+        //生成一个验证码
         $send_code = sprintf("%06d", rand(0,999999));
 
         try{
-            return self::saveAndSend($smsConfig, $phone_num, $sms_type, $send_code);
+            return $this->save($send_code, $smsType, $templateID);
         }catch (Exception $ex){
-            return [400,$ex->getMessage()];
+            $this->message = $ex->getMessage();
+            return false;
         }
     }
+
+    /**
+     * @param $code
+     * @param $smsType
+     * @param $templateID
+     * @return array|mixed
+     * @throws Exception
+     */
+    private function save($code, $smsType, $templateID){
+
+        $this->model->setAttributes(['phone_num' => $this->phone]);
+        if(!$this->model->validate()) {
+            throw new Exception(current($this->model->getFirstErrors()));
+        }
+
+        $smsInfo = $this->model->info([
+            'phone_num' => $this->phone,
+            'sms_type' => $smsType
+        ]);
+
+        if(isset($smsInfo)){
+            if ($smsInfo->addtime+60 > time()) {
+                throw new Exception('您操作太频繁了,稍后再试');
+            }
+        }
+
+
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            $this->model->phone_num = $this->phone;
+            $this->model->sms_content = $this->contentFormat();
+            $this->model->sms_type = $smsType;
+            $this->model->sms_template = $templateID;
+            $this->model->sms_number = $code;
+            $this->model->addtime = time();
+
+            if(!$this->model->save()){
+                throw new Exception('发送异常。');
+            }
+
+            if($smsDriver = $this->setDriver()){
+                if($smsDriver->singleSend($this->phone, $code, $templateID)){
+                    $transaction->commit();
+                    return true;
+                }else{
+                    throw new Exception($smsDriver->message);
+                }
+            }else{
+                throw new Exception('请配置发送短信的类型');
+            }
+        }catch (Exception $ex){
+            $transaction->rollback();
+            throw $ex;
+        }
+
+    }
+
+    /**
+     * 设置上传驱动
+     * @return SmsDriverAbstract|bool
+     */
+    private function setDriver(){
+        $driver = $this->config['driver'];
+
+        if(!$this->namespace){
+            $this->namespace = '\\bengbeng\\framework\\components\\driver\\sms\\';
+        }
+
+        $class = $this->namespace.ucfirst(strtolower($driver)).'Driver';
+        if(class_exists($class)){
+            return new $class($this->config);
+        }else{
+            return false;
+        }
+    }
+
+    private function contentFormat(){
+        if(is_array($this->config['content'])){
+            return Json::encode($this->config['content']);
+        }else{
+            return $this->config['content'];
+        }
+    }
+
 
     /**
      * @param $param
@@ -99,125 +218,6 @@ class SmsHandle
         }else{
             return false;
         }
-    }
-
-    /**
-     * 保存短信信息到数据库并发送
-     * @param $smsConfig
-     * @param $phone_num
-     * @param $sms_type
-     * @param $send_code
-     * @return array|mixed
-     * @throws Exception
-     */
-    private static function saveAndSend($smsConfig, $phone_num, $sms_type, $send_code){
-
-        if(isset($smsConfig['content'])){
-            $content = $smsConfig['content'];
-        }else{
-            $content = self::$sms_content;
-        }
-
-        if(isset($smsConfig['title'])){
-            $title = $smsConfig['title'];
-        }else{
-            $title = '默认';
-        }
-
-        $content = str_replace('#app#', $title, $content);
-        $content = str_replace('#code#', $send_code, $content);
-
-        $model = new SmsARModel();
-
-        $model->setAttributes(['phone_num' => $phone_num]);
-        if(!$model->validate()) {
-            throw new Exception(current($model->getFirstErrors()));
-        }
-
-        $smsInfo = $model->info([
-            'phone_num' => $phone_num,
-            'sms_type' => self::SMS_TYPE_LOGIN
-        ]);
-
-        if(isset($smsInfo)){
-            if ($smsInfo->addtime+60 > time()) {
-                return [400,'您操作太频繁了,稍后再试'];
-            }
-        }
-
-
-        $transaction = \Yii::$app->db->beginTransaction();
-        try{
-            $model->phone_num = $phone_num;
-            $model->sms_content = $content;
-            $model->sms_type = $sms_type;
-            $model->sms_number = $send_code;
-            $model->addtime = time();
-
-            if(!$model->save()){
-                throw new Exception('发送异常。');
-            }
-
-            if($smsConfig['use'] == 'YunPian'){
-
-                return self::YunPianSend($phone_num, $content, $smsConfig, function ($result, $message) use ($transaction){
-                    if($result){
-                        $transaction->commit();
-                        return [200, $message];
-                    }else{
-                        throw new Exception($message);
-                    }
-                });
-            }else{
-                throw new Exception('请配置发送短信的类型');
-            }
-        }catch (Exception $ex){
-            $transaction->rollback();
-            throw $ex;
-        }
-    }
-
-    /**
-     * 云片发送
-     * @param $phone_num
-     * @param $content
-     * @param $smsConfig
-     * @param \Closure $closure
-     * @return mixed
-     */
-    private static function YunPianSend($phone_num, $content, $smsConfig, \Closure $closure){
-        if($smsConfig['https']){
-            $yunpian = YunpianClient::create($smsConfig['key']);
-        }else{
-            $yunpian = YunpianClient::create($smsConfig['key'],[
-                'http.conn.timeout' => '10',
-                'http.so.timeout' => '30',
-                'http.charset' => 'utf-8',
-                'yp.version' => 'v2',
-                'yp.user.host' => 'http://sms.yunpian.com',
-                'yp.sign.host' => 'http://sms.yunpian.com',
-                'yp.tpl.host' => 'http://sms.yunpian.com',
-                'yp.sms.host' => 'http://sms.yunpian.com',
-                'yp.voice.host' => 'http://voice.yunpian.com',
-                'yp.flow.host' => 'http://flow.yunpian.com',
-                'yp.call.host' => 'http://call.yunpian.com',
-                'yp.vsms.host' => 'http://vsms.yunpian.com'
-            ]);
-        }
-        try{
-            $yunpian_send = $yunpian->sms()->single_send([
-                YunpianClient::MOBILE => $phone_num,
-                YunpianClient::TEXT => $content
-            ]);
-            if($yunpian_send->isSucc()){
-                return call_user_func($closure,true,"发送成功");
-            }else{
-                return call_user_func($closure,false,$yunpian_send->msg());
-            }
-        }catch (\Exception $ex){
-            return call_user_func($closure, false, $ex->getMessage());
-        }
-
     }
 
 }

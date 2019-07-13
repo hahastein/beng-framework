@@ -11,6 +11,7 @@ use bengbeng\framework\components\plugins\sms\sdk\YunTongxunSDK;
  */
 class YunTongxunDriver extends SmsDriverAbstract
 {
+    const SMS_SEND_DEFAULT_CONTENT = ['#code#'];
 
     /**
      * @var string 应用ID
@@ -28,9 +29,13 @@ class YunTongxunDriver extends SmsDriverAbstract
 
     private $sdk;
 
-    public function __construct($config, $sendType = false)
+    public function __construct($config)
     {
-        parent::__construct($config, $sendType);
+        parent::__construct($config);
+
+        if(!$this->sendContent){
+            $this->sendContent = self::SMS_SEND_DEFAULT_CONTENT;
+        }
 
         if(!$serverIP = NullHelper::arrayKey($config, 'ip')){
             $serverIP = $this->setEnvRequest();
@@ -50,8 +55,14 @@ class YunTongxunDriver extends SmsDriverAbstract
 
     }
 
-    public function singleSend($phone, $templateID = 0)
+    public function singleSend($phone, $code, $templateID = 0)
     {
+        foreach ($this->sendContent as $key => $item){
+            if($item == '#code#'){
+                $this->sendContent[$key] = str_replace('#code#', $code, $item);
+                break;
+            }
+        }
         $result = $this->sdk->sendTemplateSMS($phone, $this->sendContent, $templateID);
         if($result == NULL){
             $this->message = 'SDK错误，可能是配置出错';

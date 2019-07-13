@@ -16,6 +16,8 @@ use yii\db\ActiveRecord;
  * @property string $sms_content    短信发送内容
  * @property integer $sms_type      发送短信类型  1：登录验证
  * @property integer $sms_number
+ * @property string $sms_driver     使用的第三方驱动
+ * @property integer $sms_template  模板ID，0为自定义
  * @property integer $addtime
  * @property integer $lasttime
  * @property bool $is_use
