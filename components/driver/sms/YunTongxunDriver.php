@@ -2,7 +2,7 @@
 namespace bengbeng\framework\components\driver\sms;
 
 use bengbeng\framework\components\helpers\NullHelper;
-use bengbeng\framework\components\plugins\sms\sdk\YunTongxunSDK;
+use bengbeng\framework\components\driver\sms\sdk\YunTongxunSDK;
 
 /**
  * Class YunTongxunDriver
