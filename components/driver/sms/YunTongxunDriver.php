@@ -69,6 +69,10 @@ class YunTongxunDriver extends SmsDriverAbstract
                 break;
             }
         }
+        var_dump($phone);
+        var_dump($this->sendContent);
+        var_dump($templateID);
+        die;
         $result = $this->sdk->sendTemplateSMS($phone, $this->sendContent, $templateID);
         if($result == NULL){
             $this->message = 'SDK错误，可能是配置出错';
