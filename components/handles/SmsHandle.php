@@ -132,7 +132,7 @@ class SmsHandle
             if($smsDriver = $this->setDriver()){
                 if($smsDriver->singleSend($this->phone, $code, $templateID)){
                     $transaction->commit();
-                    return true;
+                    return $code;
                 }else{
                     throw new Exception($smsDriver->getMessage());
                 }
