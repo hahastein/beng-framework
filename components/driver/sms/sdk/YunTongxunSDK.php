@@ -12,7 +12,7 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-namespace bengbeng\framework\components\plugins\sms\sdk;
+namespace bengbeng\framework\components\driver\sms\sdk;
 
 class YunTongxunSDK {
 
