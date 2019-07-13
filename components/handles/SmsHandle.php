@@ -137,7 +137,7 @@ class SmsHandle
                     throw new Exception($smsDriver->getMessage());
                 }
             }else{
-                throw new Exception('请配置发送短信的类型');
+                throw new Exception('驱动配置出错，请检查是否正确');
             }
         }catch (Exception $ex){
             $transaction->rollback();
