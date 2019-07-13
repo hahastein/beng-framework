@@ -16,7 +16,6 @@ class YunPianDriver extends SmsDriverAbstract
     private $https = false;
     private $yunPianKey = '';
     private $yunPianClient;
-    private $appName;
 
     public function __construct($config)
     {
