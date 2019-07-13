@@ -46,4 +46,13 @@ abstract class SmsDriverAbstract
      */
     abstract function singleSend($phone, $code, $templateID = 0);
 
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
 }

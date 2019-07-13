@@ -16,16 +16,16 @@ class YunTongxunDriver extends SmsDriverAbstract
     /**
      * @var string 应用ID
      */
-    private $appId;
+    private $appId = '';
     /**
      * @var string 主账号，对发者主账号下的 Account SID
      */
-    private $accountSid;
+    private $accountSid = '';
 
     /**
      * @var string 主账号令牌，开发者主账号下的 Account Token
      */
-    private $accountToken;
+    private $accountToken = '';
 
     private $sdk;
 
@@ -37,15 +37,21 @@ class YunTongxunDriver extends SmsDriverAbstract
             $this->sendContent = self::SMS_SEND_DEFAULT_CONTENT;
         }
 
-        if(!$serverIP = NullHelper::arrayKey($config, 'ip')){
+        if(NullHelper::arrayKey($config, 'sdk')){
+            $this->appId = NullHelper::arrayKey($config['sdk'], 'appId');
+            $this->accountSid = NullHelper::arrayKey($config['sdk'], 'accountSid');
+            $this->accountToken = NullHelper::arrayKey($config['sdk'], 'accountToken');
+        }
+
+        if(!$serverIP = NullHelper::arrayKey($config['sdk'], 'ip')){
             $serverIP = $this->setEnvRequest();
         }
 
-        if(!$serverPort = NullHelper::arrayKey($config, 'port')){
+        if(!$serverPort = NullHelper::arrayKey($config['sdk'], 'port')){
             $serverPort = '8883';
         }
 
-        if(!$softVersion = NullHelper::arrayKey($config, 'version')){
+        if(!$softVersion = NullHelper::arrayKey($config['sdk'], 'version')){
             $softVersion = '2013-12-26';
         }
 

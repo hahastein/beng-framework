@@ -74,7 +74,7 @@ class SmsHandle
             return false;
         }
 
-        if(!$phone_num){
+        if(!$this->phone){
             $this->message = '电话号格式不正确';
             return false;
         }
@@ -134,7 +134,7 @@ class SmsHandle
                     $transaction->commit();
                     return true;
                 }else{
-                    throw new Exception($smsDriver->message);
+                    throw new Exception($smsDriver->getMessage());
                 }
             }else{
                 throw new Exception('请配置发送短信的类型');
@@ -173,6 +173,13 @@ class SmsHandle
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
 
     /**
      * @param $param

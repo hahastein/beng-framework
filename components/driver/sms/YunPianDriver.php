@@ -21,8 +21,11 @@ class YunPianDriver extends SmsDriverAbstract
     public function __construct($config)
     {
         parent::__construct($config);
-        $this->https = NullHelper::arrayKey($config, 'https');
-        $this->yunPianKey = NullHelper::arrayKey($config, 'key');
+
+        if(NullHelper::arrayKey($config, 'sdk')){
+            $this->https = NullHelper::arrayKey($config['sdk'], 'https');
+            $this->yunPianKey = NullHelper::arrayKey($config['sdk'], 'key');
+        }
 
         if(!$this->sendContent){
             $this->sendContent = self::SMS_SEND_DEFAULT_CONTENT;
