@@ -88,7 +88,7 @@ class YunTongxunDriver extends SmsDriverAbstract
         if($this->environment){
             return 'app.cloopen.com';
         }else{
-            return 'sendboxapp.cloopen.com';
+            return 'sandboxapp.cloopen.com';
         }
     }
 }
