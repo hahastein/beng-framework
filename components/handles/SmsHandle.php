@@ -157,7 +157,7 @@ class SmsHandle
             $this->namespace = '\\bengbeng\\framework\\components\\driver\\sms\\';
         }
 
-        $class = $this->namespace.ucfirst(strtolower($driver)).'Driver';
+        $class = $this->namespace.ucfirst($driver).'Driver';
         var_dump($class);die;
         if(class_exists($class)){
             return new $class($this->config);
