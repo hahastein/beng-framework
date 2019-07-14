@@ -113,7 +113,7 @@ class UserHandle{
             if($userModel->save()){
                 $userID = Yii::$app->db->getLastInsertID();
                 //更新用户的unionid
-                $unionID = $userID . '|' . str_replace('.', '|', uniqid(md5(microtime(true)),true));
+                $unionID = $userID . '1|' . str_replace('.', '|', uniqid(md5(microtime(true)),true));
                 $unionID = crypt($unionID, 'bengbeng@2019');
                 var_dump($unionID);die;
 
