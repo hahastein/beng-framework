@@ -17,6 +17,10 @@ class Enum
     const LOGIN_TYPE_WEIXIN = 30;
     const LOGIN_TYPE_ACCOUNT = 40;
 
+    //注册类型
+    const REG_TYPE_MOBILE = 10;
+    const REG_TYPE_WEIXIN = 30;
+
     const BIND_TYPE_USER = 10;
 
     // 支付类型0线下1支付宝2微信3银联4苹果支付

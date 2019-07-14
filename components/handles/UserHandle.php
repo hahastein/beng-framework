@@ -9,6 +9,7 @@
 namespace bengbeng\framework\components\handles;
 
 use bengbeng\framework\base\Enum;
+use bengbeng\framework\components\helpers\NullHelper;
 use bengbeng\framework\enum\WeixinEnum;
 use bengbeng\framework\models\SmsARModel;
 use Yii;
@@ -57,33 +58,61 @@ class UserHandle{
     }
 
     /**
+     * @param array $params
      * @param int $regType
-     * @param $params
-     * @return array|string
+     * @return string
      * @throws \Exception
      */
-    public static function register($regType = 0, $params){
+    public static function register($params, $regType = Enum::REG_TYPE_MOBILE){
 
-        if($regType == 0){
+        $userModel = new UserARModel();
+
+        //生成时间
+        $createTime = time();
+        //生成ID标识
+        $userUnionID = $createTime;
+        if($regType == Enum::REG_TYPE_MOBILE){
             $insert  = [
-                'wx_unioncode' => $params['unionid'],
+                'login_type' => Enum::REG_TYPE_MOBILE,
+                'username' => 'App用户'.$userUnionID,
+                'phone_num' => $params['phone'],
+                'phone_bind' => 1,
+
+            ];
+        }else if(Enum::REG_TYPE_WEIXIN){
+            $insert  = [
+                'login_type' => Enum::REG_TYPE_WEIXIN,
                 'wx_openid' => $params['openid'],
                 'avatar_head' => $params['avatar'],
-                'nickname' => $params['nickname'],
                 'user_sex' => $params['sex'],
-                'username' => 'App用户'.time(),
-                'addtime' => time()
+                'wx_bind' => 1
             ];
-
-            $userModel = new UserARModel();
-            $userModel->setAttributes($insert, false);
-            if($userModel->save()){
-                return Yii::$app->db->getLastInsertID();
-            }else{
-                throw new \Exception('创建用户失败');
-            }
         }else{
             throw new \Exception('没有此创建类型');
+        }
+
+        $insert['driver_type'] = $params['driver_type'];
+        $insert['driver_uuid'] = $params['driver_uuid'];
+        $insert['addtime'] = $createTime;
+
+        if($username = NullHelper::arrayKey($params, 'username')){
+            $insert['username'] = $username;
+        }else{
+            $insert['username'] = 'wku_' . $createTime;
+        }
+
+        if($nickname = NullHelper::arrayKey($params, 'nickname')){
+            $insert['nickname'] = $nickname;
+        }else{
+            $insert['nickname'] = '用户' . $createTime;
+        }
+
+
+        $userModel->setAttributes($insert, false);
+        if($userModel->save()){
+            return Yii::$app->db->getLastInsertID();
+        }else{
+            throw new \Exception('创建用户失败');
         }
     }
 
