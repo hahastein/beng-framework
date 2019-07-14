@@ -113,8 +113,8 @@ class UserHandle{
             if($userModel->save()){
                 $userID = Yii::$app->db->getLastInsertID();
                 //更新用户的unionid
-                $unionID = $userID . '|' . uniqid(md5(microtime(true)),true);
-                $unionID = Yii::$app->getSecurity()->encryptByPassword($unionID, 'bengbeng@2019');
+                $unionID = $userID . '|' . str_replace('.', '|', uniqid(md5(microtime(true)),true));
+//                $unionID = sha1()
                 var_dump($unionID);die;
 
                 if($userModel->updateUnionID($userID, $unionID)){
