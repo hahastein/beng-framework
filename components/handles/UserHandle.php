@@ -60,7 +60,7 @@ class UserHandle{
     /**
      * @param array $params
      * @param int $regType
-     * @return string
+     * @return array
      * @throws \Exception
      */
     public static function register($params, $regType = Enum::REG_TYPE_MOBILE){
