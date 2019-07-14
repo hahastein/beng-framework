@@ -2,6 +2,7 @@
 
 namespace bengbeng\framework\controllers\base;
 
+use bengbeng\framework\components\helpers\NullHelper;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
@@ -50,7 +51,7 @@ class JsonController extends Controller{
 
         $this->token = Yii::$app->getRequest()->getHeaders()->get('token');//获取验证token
         $this->sign = Yii::$app->getRequest()->getHeaders()->get('sign');//签名
-        $this->debug = Yii::$app->getRequest()->getHeaders()->get('debug');//调试模式
+        $this->debug = NullHelper::arrayKey($this->requestParams, 'debug');//调试模式
 
         unset($this->requestParams['lat'], $this->requestParams['lng']);
 
