@@ -114,8 +114,9 @@ class UserHandle{
                 $userID = Yii::$app->db->getLastInsertID();
                 //更新用户的unionid
                 $unionID = $userID . '|' . uniqid(md5(microtime(true)),true);
-                var_dump($unionID);die;
                 $unionID = Yii::$app->getSecurity()->encryptByPassword($unionID, 'bengbeng@2019');
+                var_dump($unionID);die;
+
                 if($userModel->updateUnionID($userID, $unionID)){
                     $trans->commit();
                     $insert['unionid'] = $unionID;
