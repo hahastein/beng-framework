@@ -2,6 +2,7 @@
 namespace bengbeng\framework\models;
 
 use bengbeng\framework\base\BaseActiveRecord;
+use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\enum\UserEnum;
 use yii\data\Pagination;
 use yii\db\ActiveRecord;
@@ -140,9 +141,21 @@ class UserARModel extends BaseActiveRecord {
         ]);
     }
 
-    public function listAll(){
-        $query = self::dataSet();
-        return $query->all();
+    public function findByAll(){
+        return self::dataSet();
+    }
+
+    /**
+     * 更新unionID
+     * @param $userID
+     * @param $unionID
+     * @return bool
+     */
+    public function updateUnionID($userID, $unionID){
+        return self::dataUpdate(function (ActiveOperate $operate) use($userID, $unionID){
+            $operate->params(['unionid' => $unionID]);
+            $operate->where(['user_id' => $userID]);
+        });
     }
 
     /**

@@ -107,14 +107,29 @@ class UserHandle{
             $insert['nickname'] = '用户' . $createTime;
         }
 
-
-        $userModel->setAttributes($insert, false);
-        if($userModel->save()){
-            $insert['user_id'] = Yii::$app->db->getLastInsertID();
-            return $insert;
-        }else{
-            throw new \Exception('创建用户失败');
+        $trans = Yii::$app->db->beginTransaction();
+        try{
+            $userModel->setAttributes($insert, false);
+            if($userModel->save()){
+                $userID = Yii::$app->db->getLastInsertID();
+                //更新用户的unionid
+                $unionID = $userID . '|' . uniqid(md5(microtime(true)),true);
+                $unionID = Yii::$app->getSecurity()->encryptByPassword($unionID, 'bengbeng@2019');
+                if($userModel->updateUnionID($userID, $unionID)){
+                    $trans->commit();
+                    $insert['unionid'] = $unionID;
+                    return $insert;
+                }else{
+                    throw new Exception('创建用户失败[1001]');
+                }
+            }else{
+                throw new Exception('创建用户失败[1000]');
+            }
+        }catch (Exception $ex){
+            $trans->rollBack();
+            throw new \Exception($ex->getMessage());
         }
+
     }
 
     public static function autoRegister(){
