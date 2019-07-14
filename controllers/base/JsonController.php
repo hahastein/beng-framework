@@ -17,6 +17,7 @@ class JsonController extends Controller{
     public $token;
     public $sign;
     public $debug;
+    public $unionID;
 
     protected $requestParams;
 
@@ -52,6 +53,7 @@ class JsonController extends Controller{
         $this->token = Yii::$app->getRequest()->getHeaders()->get('token');//获取验证token
         $this->sign = Yii::$app->getRequest()->getHeaders()->get('sign');//签名
         $this->debug = NullHelper::arrayKey($this->requestParams, 'debug');//调试模式
+        $this->unionID = NullHelper::arrayKey($this->requestParams, 'unionid');//用户唯一标识
 
         unset($this->requestParams['lat'], $this->requestParams['lng']);
 
