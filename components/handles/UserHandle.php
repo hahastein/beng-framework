@@ -110,7 +110,8 @@ class UserHandle{
 
         $userModel->setAttributes($insert, false);
         if($userModel->save()){
-            return Yii::$app->db->getLastInsertID();
+            $insert['user_id'] = Yii::$app->db->getLastInsertID();
+            return $insert;
         }else{
             throw new \Exception('创建用户失败');
         }
