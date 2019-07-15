@@ -40,24 +40,42 @@ class SmsHandle
     const SMS_TYPE_MORE = 4;
 
     /**
-     * @var array 配置文件
+     * 配置文件
+     * @var array
      */
     private $config;
+
     /**
-     * @var bool|string 命名空间
+     * 命名空间
+     * @var bool|string
      */
     public $namespace;
 
     public $message;
 
+    /**
+     * 短信模型表
+     * @var SmsARModel
+     */
     private $model;
 
+    /**
+     * 要发送的手机号
+     * @var string
+     */
     private $phone;
+
+    /**
+     * 是否开启调试模式
+     * @var bool
+     */
+    public $debug;
 
     public function __construct($phone)
     {
         $this->config = \Yii::$app->params['smsConfig'];
         $this->namespace = NullHelper::arrayKey($this->config, 'namespace');
+        $this->debug = NullHelper::arrayKey($this->config, 'debug');
         $this->phone = $phone;
         $this->model = new SmsARModel();
     }
@@ -131,7 +149,7 @@ class SmsHandle
             }
 
             if($smsDriver = $this->setDriver()){
-                if($smsDriver->singleSend($this->phone, $code, $templateID)){
+                if($this->debug || $smsDriver->singleSend($this->phone, $code, $templateID)){
                     $transaction->commit();
                     return $code;
                 }else{
