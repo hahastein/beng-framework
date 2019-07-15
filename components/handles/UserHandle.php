@@ -83,6 +83,7 @@ class UserHandle{
             $insert  = [
                 'login_type' => Enum::REG_TYPE_WEIXIN,
                 'wx_openid' => $params['openid'],
+                'wx_unioncode' => $params['unioncode'],
                 'avatar_head' => $params['avatar'],
                 'user_sex' => $params['sex'],
                 'wx_bind' => 1
