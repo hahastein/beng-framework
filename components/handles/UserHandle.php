@@ -85,13 +85,16 @@ class UserHandle{
                 'wx_openid' => $params['openid'],
                 'avatar_head' => $params['avatar'],
                 'user_sex' => $params['sex'],
-                'wx_bind' => 1,
-                'user_state' => 10
+                'wx_bind' => 1
             ];
         }else{
             throw new \Exception('没有此创建类型');
         }
 
+        if($user_state = NullHelper::arrayKey($params, 'user_state')){
+            $insert['user_state'] = $user_state;
+        }
+        
         $insert['driver_type'] = $params['driver_type'];
         $insert['driver_uuid'] = $params['driver_uuid'];
         $insert['addtime'] = $createTime;
