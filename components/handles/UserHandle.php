@@ -85,7 +85,8 @@ class UserHandle{
                 'wx_openid' => $params['openid'],
                 'avatar_head' => $params['avatar'],
                 'user_sex' => $params['sex'],
-                'wx_bind' => 1
+                'wx_bind' => 1,
+                'user_state' => 10
             ];
         }else{
             throw new \Exception('没有此创建类型');

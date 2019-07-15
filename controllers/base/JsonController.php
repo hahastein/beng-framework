@@ -20,6 +20,7 @@ class JsonController extends Controller{
     public $unionID;
 
     protected $requestParams;
+    protected $nullData;
 
     /**
      * 输出的内容
@@ -130,7 +131,9 @@ class JsonController extends Controller{
         if($this->outputData){
             $output['data'] = $this->outputData;
         }else{
-            $output['data'] = false;
+            if(isset($this->nullData)){
+                $output['data'] = $this->nullData;
+            }
         }
 
         if($this->outputDataExt){
