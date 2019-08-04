@@ -25,7 +25,7 @@ class NIMFriend extends NIMBase
 
         $this->checkSumHeader();
         $result = $this->httpUtil->request($url, $data, $this->httpHeader);
-        return $this->httpHeader;
+        return $this->parseReturn($result);
     }
 
     /**
