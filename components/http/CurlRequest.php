@@ -55,7 +55,6 @@ class CurlRequest extends BaseRequest implements RequestInterface
         foreach ($header as $key => $item){
             $request[] = $key . ':' . $item;
         }
-        \Yii::$app->Beng->outHtml($request);
 
         curl_setopt($this->curl, CURLOPT_HTTPHEADER,$request);
     }
