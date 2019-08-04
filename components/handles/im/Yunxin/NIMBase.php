@@ -42,10 +42,10 @@ class NIMBase
             HttpUtil::MODE_KEY_HTTP => $this->postType
         ]);
 
-        $this->httpHeader = array(
-            'AppKey:'.$config['key'],
-            'Content-Type:application/x-www-form-urlencoded;charset=utf-8'
-        );
+        $this->httpHeader = [
+            'AppKey' => $config['key'],
+            'Content-Type' => 'application/x-www-form-urlencoded;charset=utf-8'
+        ];
     }
 
     protected function checkSumHeader(){
