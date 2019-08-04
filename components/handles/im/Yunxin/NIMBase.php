@@ -17,6 +17,7 @@ class NIMBase
 
     const URL_MODE_USER = 'user';
     const URL_MODE_FRIEND = 'friend';
+    const URL_MODE_TEAM = 'team';
 
     protected $postType;
     protected $httpUtil;
