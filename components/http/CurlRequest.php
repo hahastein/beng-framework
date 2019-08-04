@@ -50,7 +50,13 @@ class CurlRequest extends BaseRequest implements RequestInterface
      */
     private function requestHeader($header, $returnRequestHeader = false){
         curl_setopt($this->curl, CURLOPT_HEADER, $returnRequestHeader);
-        curl_setopt($this->curl, CURLOPT_HTTPHEADER,$header);
+
+        $request = [];
+        foreach ($header as $key => $item){
+            $request[] = $key . ':' . $item;
+        }
+
+        curl_setopt($this->curl, CURLOPT_HTTPHEADER,$request);
     }
 
     /**
