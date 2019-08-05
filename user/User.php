@@ -66,25 +66,5 @@ class User
         var_dump($name.' - call');
     }
 
-    /**
-     * @return AddressLogic
-     */
-    public function getAddress()
-    {
-        if(!$this->address){
-            $this->address = new AddressLogic();
-        }
-        $this->address->userID = $this->userID;
-        $this->address->unionID = $this->unionID;
-        return $this->address;
-    }
 
-    /**
-     * @param AddressLogic $address
-     */
-    public function setAddress($address)
-    {
-        var_dump('asdasd - set');die;
-        $this->address = $address;
-    }
 }
