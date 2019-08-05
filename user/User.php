@@ -56,6 +56,11 @@ class User
         // TODO: Implement __get() method.
     }
 
+    public function __call($name, $arguments)
+    {
+        var_dump($name.' - call');die;
+    }
+
     /**
      * @return AddressLogic
      */
