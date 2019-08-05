@@ -18,6 +18,7 @@ class CacheHandle
 
         if ($cacheData === false) {
             if($callback){
+                var_dump($callback);
                 $cacheData = call_user_func($callback);
             }
         }
