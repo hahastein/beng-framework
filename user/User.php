@@ -3,7 +3,11 @@
 
 namespace bengbeng\framework\user;
 
-
+/**
+ * Class User
+ * @package bengbeng\framework\user
+ * @property AddressLogic $address
+ */
 class User
 {
 
@@ -12,11 +16,6 @@ class User
      * @var AccountLogic $account
      */
     public $account;
-
-    /**
-     * @var AddressLogic $address
-     */
-    public $address;
 
     private $userID;
     private $unionID;
