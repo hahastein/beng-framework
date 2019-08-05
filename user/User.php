@@ -3,6 +3,8 @@
 
 namespace bengbeng\framework\user;
 
+use yii\base\UnknownPropertyException;
+
 /**
  * Class User
  * @package bengbeng\framework\user
@@ -48,31 +50,37 @@ class User
         return $this->account?$this->account:new AccountLogic();
     }
 
+    /**
+     * @param $name
+     * @return mixed
+     * @throws UnknownPropertyException
+     */
     public function __get($name)
     {
         $getter = 'get' . $name;
-
-        var_dump($getter);die;
 
         if (method_exists($this, $getter)) {
             // read property, e.g. getName()
             return $this->$getter();
         }
+
+        throw new UnknownPropertyException('Getting unknown property: ' . get_class($this) . '::' . $name);
+
     }
     /**
      * @return AddressLogic
      */
-//    public function getAddress()
-//    {
-//        var_dump('asdasd - get');die;
-//        if(!$this->address){
-//            $address = new AddressLogic();
-//        }else{
-//            $address = $this->address;
-//        }
-//        $address->userID = $this->userID;
-//        $address->unionID = $this->unionID;
-//        return $address;
-//    }
+    public function getAddress()
+    {
+        var_dump('asdasd - get');die;
+        if(!$this->address){
+            $address = new AddressLogic();
+        }else{
+            $address = $this->address;
+        }
+        $address->userID = $this->userID;
+        $address->unionID = $this->unionID;
+        return $address;
+    }
 
 }
