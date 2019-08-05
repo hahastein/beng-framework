@@ -48,20 +48,24 @@ class User
         return $this->account?$this->account:new AccountLogic();
     }
 
+    public function __get($name)
+    {
+        var_dump('asdasd - get');die;
+    }
     /**
      * @return AddressLogic
      */
-    public function getAddress()
-    {
-        var_dump('asdasd - get');die;
-        if(!$this->address){
-            $address = new AddressLogic();
-        }else{
-            $address = $this->address;
-        }
-        $address->userID = $this->userID;
-        $address->unionID = $this->unionID;
-        return $address;
-    }
+//    public function getAddress()
+//    {
+//        var_dump('asdasd - get');die;
+//        if(!$this->address){
+//            $address = new AddressLogic();
+//        }else{
+//            $address = $this->address;
+//        }
+//        $address->userID = $this->userID;
+//        $address->unionID = $this->unionID;
+//        return $address;
+//    }
 
 }
