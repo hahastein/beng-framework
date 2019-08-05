@@ -73,14 +73,10 @@ class User
     public function getAddress()
     {
 
-        var_dump($this->address);die;
+//        var_dump($this->address);die;
 
 
-        if(!$this->address){
-            $address = new AddressLogic();
-        }else{
-            $address = $this->address;
-        }
+        $address = new AddressLogic();
         $address->userID = $this->userID;
         $address->unionID = $this->unionID;
 
