@@ -15,6 +15,9 @@ class UserBase
     private $unionID;
 
     protected $model;
+    protected $saveParams;
+
+    protected $error;
 
     /**
      * @param mixed $userID
@@ -30,6 +33,14 @@ class UserBase
     public function getUserID()
     {
         return $this->userID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->error;
     }
 
     /**
