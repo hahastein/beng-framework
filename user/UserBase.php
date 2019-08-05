@@ -14,10 +14,7 @@ class UserBase
     private $userID;
     private $unionID;
 
-    public function __construct()
-    {
-    }
-
+    protected $model;
 
     /**
      * @param mixed $userID
