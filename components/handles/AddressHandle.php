@@ -19,6 +19,7 @@ class AddressHandle
     private $params;
     private $error;
     private $user_id;
+
     public function __construct()
     {
         $this->model = new AddressARModel();
