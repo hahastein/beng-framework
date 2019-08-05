@@ -60,13 +60,12 @@ class User
      */
     public function __get($name)
     {
-        var_dump('aaa = '. $this->unionID);
 
         $getter = 'get' . $name;
 
         if (method_exists($this, $getter)) {
             // read property, e.g. getName()
-            return $this->getAddress();
+            return $this->$getter();
         }
 
         throw new UnknownPropertyException('Getting unknown property: ' . get_class($this) . '::' . $name);
@@ -77,10 +76,10 @@ class User
      */
     public function getAddress()
     {
-        var_dump('get address ==== '.$this->unionID);
 
         $address = new AddressLogic();
         $address->userID = $this->userID;
+        var_dump('asdada = '. $this->unionID);
         $address->unionID = $this->unionID;
 
         return $address;
