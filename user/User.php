@@ -49,12 +49,18 @@ class User
         return $this->account?$this->account:new AccountLogic();
     }
 
+    public function __get($name)
+    {
+        var_dump('asdasd - get');die;
+
+        // TODO: Implement __get() method.
+    }
+
     /**
      * @return AddressLogic
      */
     public function getAddress()
     {
-        var_dump('asdasd - get');die;
         if(!$this->address){
             $this->address = new AddressLogic();
         }
