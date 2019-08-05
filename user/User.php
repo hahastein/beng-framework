@@ -39,7 +39,6 @@ class User
      */
     public function setUnionID($unionID)
     {
-        var_dump('asdasd- set union id');
         $this->unionID = $unionID;
     }
 
@@ -74,11 +73,9 @@ class User
     public function getAddress()
     {
 
-        var_dump('asdasd - get address');
-
-
         $address = new AddressLogic();
         $address->userID = $this->userID;
+        var_dump($this->unionID);
         $address->unionID = $this->unionID;
 
         return $address;
