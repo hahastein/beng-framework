@@ -50,7 +50,14 @@ class User
 
     public function __get($name)
     {
-        var_dump('asdasd - get');die;
+        $getter = 'get' . $name;
+
+        var_dump($getter);die;
+
+        if (method_exists($this, $getter)) {
+            // read property, e.g. getName()
+            return $this->$getter();
+        }
     }
     /**
      * @return AddressLogic
