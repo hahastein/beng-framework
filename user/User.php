@@ -51,14 +51,19 @@ class User
 
     public function __get($name)
     {
-        var_dump('asdasd - get');die;
+        var_dump($name.' - get');
 
         // TODO: Implement __get() method.
     }
 
+    public function __set($name, $value)
+    {
+        var_dump($name.' - set');
+    }
+
     public function __call($name, $arguments)
     {
-        var_dump($name.' - call');die;
+        var_dump($name.' - call');
     }
 
     /**
