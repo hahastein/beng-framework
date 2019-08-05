@@ -48,7 +48,6 @@ class User
         return $this->account?$this->account:new AccountLogic();
     }
 
-
     /**
      * @return AddressLogic
      */
@@ -56,12 +55,15 @@ class User
     {
         var_dump('asdasd - get');die;
         if(!$this->address){
-            $this->address = new AddressLogic();
+            $address = new AddressLogic();
+        }else{
+            $address = $this->address;
         }
-        $this->address->userID = $this->userID;
-        $this->address->unionID = $this->unionID;
-        return $this->address;
+        $address->userID = $this->userID;
+        $address->unionID = $this->unionID;
+        return $address;
     }
+
 
     /**
      * @param AddressLogic $address
