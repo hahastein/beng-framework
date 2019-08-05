@@ -26,6 +26,15 @@ class UserBase
     {
         $this->userID = $userID;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUserID()
+    {
+        return $this->userID;
+    }
+
     /**
      * @param string $unionID
      */
