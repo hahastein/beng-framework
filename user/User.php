@@ -48,22 +48,27 @@ class User
         return $this->account?$this->account:new AccountLogic();
     }
 
-    public function __get($name)
-    {
-        var_dump($name.' - get');
 
-        // TODO: Implement __get() method.
+    /**
+     * @return AddressLogic
+     */
+    public function getAddress()
+    {
+        var_dump('asdasd - get');die;
+        if(!$this->address){
+            $this->address = new AddressLogic();
+        }
+        $this->address->userID = $this->userID;
+        $this->address->unionID = $this->unionID;
+        return $this->address;
     }
 
-    public function __set($name, $value)
+    /**
+     * @param AddressLogic $address
+     */
+    public function setAddress($address)
     {
-        var_dump($name.' - set');
+        var_dump('asdasd - set');die;
+        $this->address = $address;
     }
-
-    public function __call($name, $arguments)
-    {
-        var_dump($name.' - call');
-    }
-
-
 }
