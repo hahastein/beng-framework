@@ -11,16 +11,31 @@ use bengbeng\framework\models\UserARModel;
 class UserBase
 {
 
-    public $userID;
-
-    public $unionID;
+    private $userID;
+    private $unionID;
 
     public function __construct()
+    {
+    }
+
+
+    /**
+     * @param mixed $userID
+     */
+    public function setUserID($userID)
+    {
+        $this->userID = $userID;
+    }
+    /**
+     * @param string $unionID
+     */
+    public function setUnionID($unionID)
     {
         if(!$this->userID){
             //如果没有userid，需要将unionid转换为userid
             $this->userID = $this->unionToUser();
         }
+        $this->unionID = $unionID;
     }
 
     private function unionToUser(){
