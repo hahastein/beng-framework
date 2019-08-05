@@ -76,7 +76,7 @@ class User
      */
     public function getAddress()
     {
-var_dump($this->address);
+//var_dump($this->address);
         $address = new AddressLogic();
         $address->setUserID($this->userID);
         $address->setUnionID($this->unionID);
