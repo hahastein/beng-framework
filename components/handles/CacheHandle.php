@@ -15,7 +15,7 @@ class CacheHandle
         if($cache){
             $cacheData = $cache->get($name);
         }
-        var_dump($callback);die;
+        var_dump($cacheData);die;
 
         if ($cacheData === false) {
             if($callback){
