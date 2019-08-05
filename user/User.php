@@ -18,8 +18,27 @@ class User
      */
     public $address;
 
+    private $userID;
+    private $unionID;
+
     public function __construct()
     {
+    }
+
+    /**
+     * @param mixed $userID
+     */
+    public function setUserID($userID)
+    {
+        $this->userID = $userID;
+    }
+
+    /**
+     * @param mixed $unionID
+     */
+    public function setUnionID($unionID)
+    {
+        $this->unionID = $unionID;
     }
 
     /**
@@ -35,6 +54,11 @@ class User
      */
     public function getAddress()
     {
-        return $this->address?$this->address:new AddressLogic();
+        if(!$this->address){
+            $this->address = new AddressLogic();
+        }
+        $this->address->userID = $this->userID;
+        $this->address->unionID = $this->unionID;
+        return $this->address;
     }
 }

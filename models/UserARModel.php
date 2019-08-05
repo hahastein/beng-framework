@@ -127,6 +127,13 @@ class UserARModel extends BaseActiveRecord {
         ]);
     }
 
+    public function findAllByUnionId($unionid){
+        return self::info([
+            'unionid' => $unionid
+        ]);
+    }
+
+
     /**
      * 按手机号或者微信code进行查找用户信息
      * @param $phone_num
