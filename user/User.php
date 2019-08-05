@@ -72,7 +72,6 @@ class User
      */
     public function getAddress()
     {
-        var_dump('asdasd - get');die;
         if(!$this->address){
             $address = new AddressLogic();
         }else{
