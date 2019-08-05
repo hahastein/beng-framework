@@ -54,11 +54,21 @@ class User
      */
     public function getAddress()
     {
+        var_dump('asdasd - get');die;
         if(!$this->address){
             $this->address = new AddressLogic();
         }
         $this->address->userID = $this->userID;
         $this->address->unionID = $this->unionID;
         return $this->address;
+    }
+
+    /**
+     * @param AddressLogic $address
+     */
+    public function setAddress($address)
+    {
+        var_dump('asdasd - set');die;
+        $this->address = $address;
     }
 }
