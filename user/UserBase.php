@@ -31,11 +31,12 @@ class UserBase
      */
     public function setUnionID($unionID)
     {
+        $this->unionID = $unionID;
+
         if(!$this->userID){
             //如果没有userid，需要将unionid转换为userid
             $this->userID = $this->unionToUser();
         }
-        $this->unionID = $unionID;
     }
 
     private function unionToUser(){
