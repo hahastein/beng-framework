@@ -39,7 +39,11 @@ class User
      */
     public function setUnionID($unionID)
     {
+
+        var_dump($unionID);
+
         $this->unionID = $unionID;
+
     }
 
     /**
