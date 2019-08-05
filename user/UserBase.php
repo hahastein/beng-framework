@@ -26,7 +26,7 @@ class UserBase
     private function unionToUser(){
 
         $userData = CacheHandle::get(Enum::CACHE_USER_DATA, function (){
-            var_dump((new UserARModel())->findAllByUnionId($this->unionID));die;
+            var_dump($this->unionID);die;
             return (new UserARModel())->findAllByUnionId($this->unionID);
         });
 
