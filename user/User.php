@@ -42,7 +42,6 @@ class User
 
 
         $this->unionID = $unionID;
-        var_dump($this->unionID);
 
     }
 
@@ -61,6 +60,8 @@ class User
      */
     public function __get($name)
     {
+        var_dump($this->unionID);
+
         $getter = 'get' . $name;
 
         if (method_exists($this, $getter)) {
