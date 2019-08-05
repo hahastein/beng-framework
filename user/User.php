@@ -60,7 +60,7 @@ class User
      */
     public function __get($name)
     {
-        var_dump($this->unionID);
+        var_dump('aaa = '. $this->unionID);
 
         $getter = 'get' . $name;
 
