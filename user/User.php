@@ -64,13 +64,4 @@ class User
         return $address;
     }
 
-
-    /**
-     * @param AddressLogic $address
-     */
-    public function setAddress($address)
-    {
-        var_dump('asdasd - set');die;
-        $this->address = $address;
-    }
 }
