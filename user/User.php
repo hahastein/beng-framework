@@ -76,10 +76,10 @@ class User
      */
     public function getAddress()
     {
+        var_dump('asdada = '. $this->unionID);
 
         $address = new AddressLogic();
         $address->userID = $this->userID;
-        var_dump('asdada = '. $this->unionID);
         $address->unionID = $this->unionID;
 
         return $address;
