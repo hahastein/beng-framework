@@ -15,10 +15,10 @@ class CacheHandle
         if($cache){
             $cacheData = $cache->get($name);
         }
+        var_dump($callback);die;
 
         if ($cacheData === false) {
             if($callback){
-                var_dump($callback);die;
                 $cacheData = call_user_func($callback);
             }
         }
