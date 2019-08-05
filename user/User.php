@@ -66,7 +66,7 @@ class User
 
         if (method_exists($this, $getter)) {
             // read property, e.g. getName()
-            return $this->$getter();
+            return $this->getAddress();
         }
 
         throw new UnknownPropertyException('Getting unknown property: ' . get_class($this) . '::' . $name);
