@@ -79,6 +79,8 @@ class User
         }
         $address->userID = $this->userID;
         $address->unionID = $this->unionID;
+        var_dump($address);die;
+
         return $address;
     }
 
