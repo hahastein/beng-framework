@@ -11,16 +11,13 @@ class CacheHandle
 
         $cache = \Yii::$app->cache;
 
-        $cacheData = false;
+        $cacheData = NULL;
         if($cache){
             $cacheData = $cache->get($name);
         }
-        var_dump($cacheData);die;
 
-        if ($cacheData === false) {
-            if($callback){
-                $cacheData = call_user_func($callback);
-            }
+        if ($cacheData === NULL && $callback) {
+            $cacheData = call_user_func($callback);
         }
 
         if($cache) {
