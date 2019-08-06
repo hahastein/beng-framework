@@ -71,11 +71,11 @@ class GroupLogic extends UserBase
                     $transaction->commit();
                     return $returnID;
                 }else{
-                    throw new \Exception($this->nim->friend->error);
+                    throw new \Exception($this->nim->group->error);
                 }
 
             } else {
-                throw new \Exception('创建群成功');
+                throw new \Exception('创建群失败');
             }
 
         }catch (\Exception $ex){
