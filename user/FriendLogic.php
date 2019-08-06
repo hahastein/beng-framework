@@ -33,6 +33,11 @@ class FriendLogic extends UserBase
         try{
             $myID = $this->getUserID();
             $friendCache = UserUtil::getCache($friendUnionID);
+
+            if(!$friendCache){
+                throw new Exception('没有找到相关用户');
+            }
+
             $friendID = $friendCache->userID;
 
             $model = $this->userRelationModel->findRelationByTowID($myID, $friendID);
