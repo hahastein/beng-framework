@@ -11,7 +11,7 @@ use yii\base\UnknownPropertyException;
  * @property AddressLogic $address
  * @property AccountLogic $account
  * @property FriendLogic $friend
-
+ * @property GroupLogic $group
  */
 class User
 {
@@ -93,5 +93,16 @@ class User
         $friend->setUserID($this->userID);
         $friend->setUnionID($this->unionID);
         return $friend;
+    }
+
+    /**
+     * @return GroupLogic
+     */
+    public function getGroup()
+    {
+        $group = new GroupLogic();
+        $group->setUserID($this->userID);
+        $group->setUnionID($this->unionID);
+        return $group;
     }
 }
