@@ -70,7 +70,7 @@ class NIMFriend extends NIMBase
      * 好友关系-删除好友信息
      * @param  $accid       [云信ID，最大长度32字节，必须保证一个APP内唯一（只允许字母、数字、半角下划线_、@、半角点以及半角-组成，不区分大小写，会统一小写处理）]
      * @param  $faccid        [要修改朋友的accid]
-     * @return array $result      [返回array数组对象]
+     * @return bool $result
      */
     public function deleteFriend($accid,$faccid){
         $url = 'https://api.netease.im/nimserver/friend/delete.action';
@@ -80,7 +80,7 @@ class NIMFriend extends NIMBase
         );
         $this->checkSumHeader();
         $result = $this->httpUtil->request($url, $data, $this->httpHeader);
-        return $this->parseReturn($result);
+        return $this->checkReturn($result);
     }
 
     /**

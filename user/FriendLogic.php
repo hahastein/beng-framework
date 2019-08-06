@@ -21,6 +21,45 @@ class FriendLogic extends UserBase
         $this->userRelationModel = new UserRelationARModel();
     }
 
+    public function removeFriend($friendUnionID){
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            $myID = $this->getUserID();
+            $friendCache = UserUtil::getCache($friendUnionID);
+
+            if(!$friendCache){
+                throw new Exception('没有找到相关用户');
+            }
+
+            $friendID = $friendCache->userID;
+
+            $model = $this->userRelationModel->findRelationByTowID($myID, $friendID);
+            if (!$model) {
+                throw new Exception('你们不是好友，谈不上删除好友');
+            }
+
+
+            if ($model->delete()) {
+
+                $result = $this->nim->friend->deleteFriend($this->getUser()->imID, $friendCache->imID);
+                if($result){
+                    $transaction->commit();
+                    return true;
+                }else{
+                    throw new Exception($this->nim->friend->error);
+                }
+
+            } else {
+                throw new Exception('删除好友失败');
+            }
+
+        }catch (Exception $ex){
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
     /**
      * 添加好友
      * @param $friendUnionID
