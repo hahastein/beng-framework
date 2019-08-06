@@ -23,7 +23,7 @@ $cache->delete($name);
             $cacheData = $cache->get($name);
             var_dump($cacheData);
 
-            if ($cacheData && $callback) {
+            if (!$cacheData && $callback) {
                 $cacheData = call_user_func($callback);
 
                 $cache->set($name, $cacheData);
