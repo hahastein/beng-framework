@@ -139,6 +139,7 @@ class UserARModel extends BaseActiveRecord {
             $query->where([
                 'unionid' => $unionid
             ]);
+            $query->asArray();
         });
     }
 
