@@ -23,6 +23,8 @@ class NIMBase
     protected $httpUtil;
     protected $httpHeader;
 
+    public $returnData;
+
     public $error;
 
     private $codeDesc = [
@@ -133,6 +135,8 @@ class NIMBase
 
         if(array_key_exists('code', $result)){
             if($result['code'] == 200){
+                unset($result['code']);
+                $this->returnData = $result;
                 return true;
             }
         }

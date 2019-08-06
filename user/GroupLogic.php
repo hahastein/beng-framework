@@ -4,6 +4,7 @@
 namespace bengbeng\framework\user;
 
 
+use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\components\handles\im\NIMHandle;
 use bengbeng\framework\models\UserGroupARModel;
 use bengbeng\framework\models\UserGroupUserARModel;
@@ -54,6 +55,19 @@ class GroupLogic extends UserBase
 
                 $result = $this->nim->group->createGroup($this->saveParams['name'], $this->getUser()->imID, $imIDs, '', $this->saveParams['desc']);
                 if($result){
+
+                    if(!isset($this->nim->group->returnData['tid'])){
+                        throw new \Exception('群创建失败，没有获取到ID');
+                    }
+
+                    if(!$this->groupModel->dataUpdate(function (ActiveOperate $operate) use ($returnID){
+                        $operate->where(['group_id' => $returnID]);
+                        $operate->params([
+                            'im_group_id' => $this->nim->group->returnData['tid']
+                        ]);
+                    })){
+                        throw new \Exception('群创建失败，ID更新失败');
+                    }
                     $transaction->commit();
                     return $returnID;
                 }else{
@@ -69,6 +83,10 @@ class GroupLogic extends UserBase
             $this->error = $ex->getMessage();
             return false;
         }
+    }
+
+    public function join($id){
+
     }
 
     /**
