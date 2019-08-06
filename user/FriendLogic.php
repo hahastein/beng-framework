@@ -14,8 +14,6 @@ class FriendLogic extends UserBase
     private $userRelationModel;
     private $nim;
 
-    public $error;
-
     public function __construct()
     {
         $this->nim = new NIMHandle();
@@ -56,7 +54,6 @@ class FriendLogic extends UserBase
                 }else{
                     throw new Exception($this->nim->friend->error);
                 }
-
 
             } else {
                 throw new Exception('添加好友失败');
