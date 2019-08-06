@@ -25,6 +25,7 @@ $cache->delete($name);
 
             if (!$cacheData && $callback) {
                 $cacheData = call_user_func($callback);
+                var_dump($cacheData);
 
                 $cache->set($name, $cacheData);
             }
