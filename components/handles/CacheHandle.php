@@ -20,7 +20,7 @@ class CacheHandle
 $cache->delete($name);
         $userProperty = NULL;
         if($cache) {
-            $userProperty = $cache->get($name);
+//            $userProperty = $cache->get($name);
 
 
 
