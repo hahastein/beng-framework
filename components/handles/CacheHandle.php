@@ -23,7 +23,7 @@ $cache->delete($name);
             $userProperty = $cache->get($name);
 
 
-            var_dump( $cache->get($name));
+//            var_dump( $cache->get($name));
 
             if ($userProperty === NULL && $callback) {
                 $cacheData = call_user_func($callback);
