@@ -17,16 +17,15 @@ class CacheHandle
     public static function get($name, \Closure $callback = null){
 
         $cache = \Yii::$app->cache;
-$cache->delete($name);
+
         $cacheData = NULL;
+
         if($cache) {
             $cacheData = $cache->get($name);
             var_dump($cacheData);
 
             if (!$cacheData && $callback) {
                 $cacheData = call_user_func($callback);
-                var_dump($cacheData);
-
                 $cache->set($name, $cacheData);
             }
 
@@ -34,6 +33,9 @@ $cache->delete($name);
         }else{
             $userProperty = false;
         }
+
+        var_dump($userProperty);
+
 
         return $userProperty;
 
