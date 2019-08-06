@@ -21,8 +21,6 @@ class AddressLogic extends UserBase
      * @return array
      */
     public function All(){
-
-        var_dump($this->getUserID());die;
         return $this->model->find()->where([
             'user_id' => $this->getUserID()
         ])->orderBy([
