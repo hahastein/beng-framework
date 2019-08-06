@@ -85,8 +85,33 @@ class GroupLogic extends UserBase
         }
     }
 
-    public function join($id){
+    public function remove($groupID){
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            $myID = $this->getUserID();
+            $model = $this->groupModel->findInfoByGroupID($groupID, $myID);
+            if (!$model) {
+                throw new \Exception('群不存在');
+            }
 
+            if ($model->delete()) {
+                $result = $this->nim->group->removeGroup($model->im_group_id, $this->getUser()->imID);
+                if($result){
+                    $transaction->commit();
+                    return true;
+                }else{
+                    throw new \Exception($this->nim->group->error);
+                }
+
+            } else {
+                throw new \Exception('删除群失败');
+            }
+
+        }catch (\Exception $ex){
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
+        }
     }
 
     /**

@@ -17,7 +17,7 @@ class NIMGroup extends NIMBase
      * @param  $magree      [管理后台建群时，0不需要被邀请人同意加入群，1需要被邀请人同意才可以加入群。其它会返回414。]
      * @param  $joinmode    [群建好后，sdk操作时，0不用验证，1需要验证,2不允许任何人加入。其它返回414]
      * @param  $custom      [自定义高级群扩展属性，第三方可以跟据此属性自定义扩展自己的群属性。（建议为json）,最大长度1024字节.]
-     * @return array $result      [返回array数组对象]
+     * @return bool $result
      */
     public function createGroup($tname,$owner,$members,$announcement='',$intro='',$msg='',$magree='0',$joinmode='0',$custom='0'){
 //        $url = 'https://api.netease.im/nimserver/team/create.action';
@@ -33,6 +33,24 @@ class NIMGroup extends NIMBase
             'magree' => $magree,
             'joinmode' => $joinmode,
             'custom' => $custom
+        );
+
+        $this->checkSumHeader();
+        $result = $this->httpUtil->request($url, $data, $this->httpHeader);
+        return $this->checkReturn($result);
+    }
+
+    /**
+     * 群组功能（高级群）-解散群
+     * @param  $tid       [云信服务器产生，群唯一标识，创建群时会返回，最大长度128字节]
+     * @param  $owner       [群主用户帐号，最大长度32字节]
+     * @return bool $result
+     */
+    public function removeGroup($tid,$owner){
+        $url = $this->imUrl('remove', self::URL_MODE_TEAM);
+        $data= array(
+            'tid' => $tid,
+            'owner' => $owner
         );
 
         $this->checkSumHeader();
