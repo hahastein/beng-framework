@@ -28,7 +28,7 @@ class CacheHandle
                 $cache->set($name, $cacheData);
             }
 
-            $userProperty = new UserProperty($cacheData);
+            $userProperty = $cacheData?new UserProperty($cacheData):false;
         }else{
             $userProperty = false;
         }

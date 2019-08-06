@@ -60,7 +60,7 @@ class UserBase
 
         $userProperty = UserUtil::getCache($this->unionID);
 
-        if(isset($userProperty->userID)){
+        if($userProperty && isset($userProperty->userID)){
             return $userProperty->userID;
         }
 
