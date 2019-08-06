@@ -18,32 +18,18 @@ class CacheHandle
 
         $cache = \Yii::$app->cache;
 $cache->delete($name);
-        $userProperty = NULL;
+        $cacheData = NULL;
         if($cache) {
-//            $userProperty = $cache->get($name);
+            $cacheData = $cache->get($name);
 
-
-
-            if ($userProperty === NULL && $callback) {
+            if ($cacheData === NULL && $callback) {
                 $cacheData = call_user_func($callback);
-
-                $userProperty = new UserProperty();
-                $userProperty->userID = $cacheData['user_id'];
-                $userProperty->unionID = $cacheData['unionid'];
-                $userProperty->userName = $cacheData['username'];
-                $userProperty->nickname = $cacheData['nickname'];
-                $userProperty->userSex = $cacheData['user_sex'];
-                $userProperty->userState = $cacheData['user_state'];
-                $userProperty->phone = $cacheData['phone_num'];
-                $userProperty->phoneBind = $cacheData['phone_bind'];
-                $userProperty->wxBind = $cacheData['wx_bind'];
-                $userProperty->wxOpenid = $cacheData['wx_openid'];
-                $userProperty->avatarHead = $cacheData['avatar_head'];
-                var_dump( $userProperty);
-
-                $cache->set($name, $userProperty);
+                $cache->set($name, $cacheData);
             }
 
+            $userProperty = new UserProperty($cacheData);
+        }else{
+            $userProperty = false;
         }
 
         return $userProperty;
