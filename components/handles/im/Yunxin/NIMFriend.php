@@ -12,7 +12,7 @@ class NIMFriend extends NIMBase
      * @param  $faccid        [云信ID昵称，最大长度64字节，用来PUSH推送时显示的昵称]
      * @param  $type        [用户type，最大长度256字节]
      * @param  $msg        [用户签名，最大长度256字节]
-     * @return array $result      [返回array数组对象]
+     * @return bool $result
      */
     public function addFriend($accid,$faccid,$type='1',$msg=''){
         $url = self::NIM_API . '/friend/add.action';
@@ -25,7 +25,7 @@ class NIMFriend extends NIMBase
 
         $this->checkSumHeader();
         $result = $this->httpUtil->request($url, $data, $this->httpHeader);
-        return $this->parseReturn($result);
+        return $this->checkReturn($result);
     }
 
     /**

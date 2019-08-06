@@ -10,6 +10,8 @@ use yii\base\UnknownPropertyException;
  * @package bengbeng\framework\user
  * @property AddressLogic $address
  * @property AccountLogic $account
+ * @property FriendLogic $friend
+
  */
 class User
 {
@@ -82,4 +84,14 @@ class User
         return $address;
     }
 
+    /**
+     * @return FriendLogic
+     */
+    public function getFriend()
+    {
+        $friend = new FriendLogic();
+        $friend->setUserID($this->userID);
+        $friend->setUnionID($this->unionID);
+        return $friend;
+    }
 }
