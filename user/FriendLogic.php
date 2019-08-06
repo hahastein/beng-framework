@@ -29,8 +29,6 @@ class FriendLogic extends UserBase
      */
     public function addFriend($friendUnionID){
 
-        \Yii::$app->cache->delete(Enum::CACHE_USER_DATA.$friendUnionID);
-
         $transaction = \Yii::$app->db->beginTransaction();
         try{
             $myID = $this->getUserID();
