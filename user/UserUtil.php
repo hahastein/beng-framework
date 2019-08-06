@@ -20,6 +20,9 @@ class UserUtil
         if($getNew){
             return CacheHandle::get($cacheName, function () use ($unionID){
                 $userModel = (new UserARModel())->findAllByUnionId($unionID);
+                var_dump($unionID);
+
+                var_dump($userModel);
                 if($userModel){
                     return $userModel->toArray();
                 }else{
