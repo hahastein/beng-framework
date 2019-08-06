@@ -4,6 +4,7 @@
 namespace bengbeng\framework\user;
 
 
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\handles\im\NIMHandle;
 use bengbeng\framework\models\UserRelationARModel;
 use yii\db\Exception;
@@ -27,6 +28,8 @@ class FriendLogic extends UserBase
      * @throws Exception
      */
     public function addFriend($friendUnionID){
+
+        \Yii::$app->cache->delete(Enum::CACHE_USER_DATA.$friendUnionID);
 
         $transaction = \Yii::$app->db->beginTransaction();
         try{
