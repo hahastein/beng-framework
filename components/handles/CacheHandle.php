@@ -17,13 +17,12 @@ class CacheHandle
     public static function get($name, \Closure $callback = null){
 
         $cache = \Yii::$app->cache;
-//$cache->delete($name);
+$cache->delete($name);
         $userProperty = NULL;
         if($cache) {
             $userProperty = $cache->get($name);
 
 
-            var_dump( $cache->get($name));
 
             if ($userProperty === NULL && $callback) {
                 $cacheData = call_user_func($callback);
@@ -40,6 +39,7 @@ class CacheHandle
                 $userProperty->wxBind = $cacheData['wx_bind'];
                 $userProperty->wxOpenid = $cacheData['wx_openid'];
                 $userProperty->avatarHead = $cacheData['avatar_head'];
+                var_dump( $userProperty);
 
                 $cache->set($name, $userProperty);
             }
