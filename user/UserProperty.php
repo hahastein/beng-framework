@@ -40,7 +40,6 @@ class UserProperty
         if(isset($cacheData['imToken'])){
             $this->imID = $cacheData['imToken']['unionid'];
             $this->imToken = $cacheData['imToken']['im_token'];
-
         }
     }
 }
