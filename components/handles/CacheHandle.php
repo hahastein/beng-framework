@@ -21,11 +21,11 @@ $cache->delete($name);
         $cacheData = NULL;
         if($cache) {
             $cacheData = $cache->get($name);
+            var_dump($cacheData);
 
             if ($cacheData && $callback) {
                 $cacheData = call_user_func($callback);
 
-                var_dump($cacheData);
                 $cache->set($name, $cacheData);
             }
 
