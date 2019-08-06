@@ -34,9 +34,6 @@ class CacheHandle
             $userProperty = false;
         }
 
-        var_dump($userProperty);
-
-
         return $userProperty;
 
     }
