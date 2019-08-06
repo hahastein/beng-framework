@@ -60,12 +60,12 @@ class FriendLogic extends UserBase
 
             } else {
                 throw new Exception('添加好友失败');
-                return false;
             }
 
         }catch (Exception $ex){
             $transaction->rollBack();
             $this->error = $ex->getMessage();
+            return false;
         }
     }
 }
