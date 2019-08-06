@@ -55,8 +55,9 @@ class FriendLogic extends UserBase
 
                 $result = $this->nim->friend->addFriend($this->getUser()->imID, $friendCache->imID);
                 if($result){
+                    $returnID = \Yii::$app->db->lastInsertID;
                     $transaction->commit();
-                    return \Yii::$app->db->lastInsertID;
+                    return $returnID;
                 }else{
                     throw new Exception($this->nim->friend->error);
                 }
