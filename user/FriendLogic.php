@@ -45,15 +45,15 @@ class FriendLogic extends UserBase
                 throw new Exception('您和'.$friendCache->nickname.'已经是好友了');
             }
 
-            $model->send_user_id = $myID;
-            $model->accept_user_id = $friendID;
-            $model->status = 10;
-            $model->createtime = time();
-            $model->updatetime = time();
+            $this->userRelationModel->send_user_id = $myID;
+            $this->userRelationModel->accept_user_id = $friendID;
+            $this->userRelationModel->status = 10;
+            $this->userRelationModel->createtime = time();
+            $this->userRelationModel->updatetime = time();
 
-            if ($model->save()) {
+            if ($this->userRelationModel->save()) {
 
-                $result = $this->nim->friend->addFriend($this->getUser()->imToken, $friendCache->imToken);
+                $result = $this->nim->friend->addFriend($this->getUser()->imID, $friendCache->imID);
                 if($result){
                     $transaction->commit();
                     return \Yii::$app->db->lastInsertID;
