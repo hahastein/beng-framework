@@ -19,7 +19,7 @@ class UserUtil
         $cacheName = Enum::CACHE_USER_DATA.$unionID;
         if($getNew){
             return CacheHandle::get($cacheName, function () use ($unionID){
-                return (new UserARModel())->findAllByUnionId($unionID);
+                return (new UserARModel())->findAllByUnionId($unionID)->toArray();
             });
         }else{
             return CacheHandle::get($cacheName);
