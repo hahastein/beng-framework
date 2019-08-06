@@ -110,7 +110,7 @@ class Enum
 
     //缓存名称
     const CACHE_MENU_DATA = 'SYSTEM_MENU_DATA';
-    const CACHE_USER_DATA = 'USER_DATA';
+    const CACHE_USER_DATA = 'U_';
 
     //namespace
     const NAMESPACE_FRAMEWORK = '\\bengbeng\\framework\\';
