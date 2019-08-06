@@ -31,12 +31,12 @@ class FriendLogic extends UserBase
         $transaction = \Yii::$app->db->beginTransaction();
         try{
             $myID = $this->getUserID();
-            $userCache = UserUtil::getCache($friendUnionID);
-            $friendID = $userCache->userID;
+            $friendCache = UserUtil::getCache($friendUnionID);
+            $friendID = $friendCache->userID;
 
             $model = $this->userRelationModel->findRelationByTowID($myID, $friendID);
             if ($model) {
-                throw new Exception('您和'.$userCache->nickname.'已经是好友了');
+                throw new Exception('您和'.$friendCache->nickname.'已经是好友了');
             }
 
             $model->send_user_id = $myID;
@@ -47,7 +47,7 @@ class FriendLogic extends UserBase
 
             if ($model->save()) {
 
-                $result = $this->nim->friend->addFriend($myID, $friendID);
+                $result = $this->nim->friend->addFriend($this->getUser()->imToken, $friendCache->imToken);
                 if($result){
                     $transaction->commit();
                     return \Yii::$app->db->lastInsertID;

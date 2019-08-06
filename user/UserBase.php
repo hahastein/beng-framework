@@ -14,6 +14,11 @@ class UserBase
     private $userID;
     private $unionID;
 
+    /**
+     * @var UserProperty $user
+     */
+    private $user;
+
     protected $model;
     protected $saveParams;
 
@@ -36,6 +41,22 @@ class UserBase
     }
 
     /**
+     * @return UserProperty
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param UserProperty $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
      * @return string
      */
     public function getError()
@@ -52,7 +73,8 @@ class UserBase
 
         if(!$this->userID){
             //如果没有userid，需要将unionid转换为userid
-            $this->userID = $this->unionToUser();
+            $this->user = $this->unionToUser();
+            $this->userID = $this->user->userID;
         }
     }
 
@@ -61,7 +83,7 @@ class UserBase
         $userProperty = UserUtil::getCache($this->unionID);
 
         if($userProperty && isset($userProperty->userID)){
-            return $userProperty->userID;
+            return $userProperty;
         }
 
         return false;

@@ -5,6 +5,7 @@ use bengbeng\framework\base\BaseActiveRecord;
 use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\enum\UserEnum;
 use yii\data\Pagination;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -40,6 +41,10 @@ class UserARModel extends BaseActiveRecord {
 
     public static function tableName(){
         return '{{%user}}';
+    }
+
+    public function getImToken(){
+        return $this->hasOne(ImTokenARModel::className(),['user_id'=>'user_id'])->select('im_token');
     }
 
     public function rules()
@@ -128,9 +133,13 @@ class UserARModel extends BaseActiveRecord {
     }
 
     public function findAllByUnionId($unionid){
-        return self::info([
-            'unionid' => $unionid
-        ]);
+
+        return self::dataOne(function (ActiveQuery $query) use($unionid){
+            $query->with(['imToken']);
+            $query->where([
+                'unionid' => $unionid
+            ]);
+        });
     }
 
 

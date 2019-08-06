@@ -21,6 +21,7 @@ class UserProperty
     public $avatarHead;
     public $driverUuid;
     public $userState;
+    public $imToken;
 
     public function __construct($cacheData)
     {
@@ -35,6 +36,8 @@ class UserProperty
         $this->wxBind = $cacheData['wx_bind'];
         $this->wxOpenid = $cacheData['wx_openid'];
         $this->avatarHead = $cacheData['avatar_head'];
-
+        if(isset($cacheData['imToken'])){
+            $this->imToken = $cacheData['imToken']['im_token'];
+        }
     }
 }
