@@ -53,7 +53,7 @@ class GroupLogic extends UserBase
 //                }
 //                $result = UserGroupUserARModel::find()->createCommand()->batchInsert(UserGroupUserARModel::tableName(), $key, $insertValues)->execute();
 
-                $result = $this->nim->group->createGroup($this->saveParams['name'], $this->getUser()->imID, $imIDs, '', $this->saveParams['desc']);
+                $result = $this->nim->group->createGroup($this->saveParams['name'], $this->getUser()->imID, $imIDs, '', $this->saveParams['desc'], '欢迎加入我们的群');
                 if($result){
 
                     if(!isset($this->nim->group->returnData['tid'])){
