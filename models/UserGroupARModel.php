@@ -37,7 +37,7 @@ class UserGroupARModel extends BaseActiveRecord
     public function findInfoByGroupID($groupID, $userID){
         return self::info([
             'group_id' => $groupID,
-            'user_id' => $userID
+            'create_user_id' => $userID
         ]);
     }
 
