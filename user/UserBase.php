@@ -58,12 +58,10 @@ class UserBase
 
     private function unionToUser(){
 
-        $userData = CacheHandle::get(Enum::CACHE_USER_DATA, function (){
-            return (new UserARModel())->findAllByUnionId($this->unionID);
-        });
+        $userProperty = UserUtil::getCache($this->unionID);
 
-        if(array_key_exists('user_id', $userData)){
-            return $userData['user_id'];
+        if(isset($userProperty->userID)){
+            return $userProperty->userID;
         }
 
         return false;

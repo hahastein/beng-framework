@@ -4,26 +4,47 @@
 namespace bengbeng\framework\components\handles;
 
 
+use bengbeng\framework\user\UserProperty;
+
 class CacheHandle
 {
 
+    /**
+     * @param $name
+     * @param \Closure|null $callback
+     * @return UserProperty|NULL
+     */
     public static function get($name, \Closure $callback = null){
 
         $cache = \Yii::$app->cache;
 
-        $cacheData = NULL;
+        $userProperty = NULL;
         if($cache) {
-            $cacheData = $cache->get($name);
+            $userProperty = $cache->get($name);
 
 
-            if ($cacheData === NULL && $callback) {
+            if ($userProperty === NULL && $callback) {
                 $cacheData = call_user_func($callback);
+
+                $userProperty = new UserProperty();
+                $userProperty->userID = $cacheData['user_id'];
+                $userProperty->unionID = $cacheData['unionid'];
+                $userProperty->userName = $cacheData['username'];
+                $userProperty->nickname = $cacheData['nickname'];
+                $userProperty->userSex = $cacheData['user_sex'];
+                $userProperty->userState = $cacheData['user_state'];
+                $userProperty->phone = $cacheData['phone_num'];
+                $userProperty->phoneBind = $cacheData['phone_bind'];
+                $userProperty->wxBind = $cacheData['wx_bind'];
+                $userProperty->wxOpenid = $cacheData['wx_openid'];
+                $userProperty->avatarHead = $cacheData['avatar_head'];
+
                 $cache->set($name, $cacheData);
             }
 
         }
 
-        return $cacheData;
+        return $userProperty;
 
     }
 }
