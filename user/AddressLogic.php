@@ -4,7 +4,9 @@
 namespace bengbeng\framework\user;
 
 
+use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\models\AddressARModel;
+use yii\db\ActiveQuery;
 
 class AddressLogic extends UserBase
 {
@@ -46,6 +48,46 @@ class AddressLogic extends UserBase
             'user_id' => $this->getUserID(),
             'is_default' => 1
         ])->asArray()->one();
+    }
+
+    /**
+     * 设置默认地址
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function modifyDefault(){
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            $this->getPost();
+            if ($this->addressID <= 0) {
+                throw new \Exception('参数错误');
+            }
+            $changeOrg = $this->model->dataUpdate(function (ActiveOperate $operate){
+                $operate->where([
+                    'user_id' => $this->getUserID(),
+                ]);
+                $operate->params(['is_default' => 0]);
+            });
+
+            $changeCur = $this->model->dataUpdate(function (ActiveOperate $operate){
+                $operate->where([
+                    'user_id' => $this->getUserID(),
+                    'address_id' => $this->addressID
+                ]);
+                $operate->params(['is_default' => 1]);
+            });
+
+            if($changeOrg && $changeCur){
+                $transaction->commit();
+                return true;
+            }else{
+                throw new \Exception('修改失败');
+            }
+        }catch (\Exception $ex) {
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
+        }
     }
 
     /**

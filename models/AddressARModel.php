@@ -8,6 +8,7 @@
 
 namespace bengbeng\framework\models;
 
+use bengbeng\framework\base\BaseActiveRecord;
 use yii\db\ActiveRecord;
 
 /**
@@ -25,7 +26,7 @@ use yii\db\ActiveRecord;
  * @package bengbeng\framework\models
  */
 
-class AddressARModel extends ActiveRecord
+class AddressARModel extends BaseActiveRecord
 {
 
     public static function tableName()
