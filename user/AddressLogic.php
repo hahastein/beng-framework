@@ -123,8 +123,12 @@ class AddressLogic extends UserBase
             $this->saveParams = \Yii::$app->Beng->PostData([
                 'address_id','address','city','name','phone','is_default'
             ]);
-            $this->addressID = isset($this->saveParams['address_id'])?$this->saveParams['address_id']:0;
-            unset($this->saveParams['address_id']);
+            if(isset($this->saveParams['address_id'])){
+                $this->addressID = $this->saveParams['address_id'];
+                unset($this->saveParams['address_id']);
+            }else{
+                $this->addressID = 0;
+            }
             $this->saveParams['user_id'] = $this->getUserID();
         }
     }
