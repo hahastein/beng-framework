@@ -46,14 +46,15 @@ class AddressARModel extends ActiveRecord
             ['phone', 'filter', 'filter'=> 'trim', 'on'=> ['insert', 'modify']],
             ['phone', 'required', 'on'=> ['insert', 'modify'], 'message' => '填写收货人手机号'],
             [['phone'],'match','pattern'=>'/^[1][356789][0-9]{9}$/','on'=> ['insert', 'modify'], 'message' => '收货人手机号格式错误'],
+            ['is_default', 'filter', 'filter'=> 'trim', 'on'=> ['insert', 'modify']]
         ];
     }
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['insert'] = ['user_id', 'address', 'city', 'name', 'phone'];
-        $scenarios['modify'] = ['address_id','user_id', 'address', 'city', 'name', 'phone'];
+        $scenarios['insert'] = ['user_id', 'address', 'city', 'name', 'phone', 'is_default'];
+        $scenarios['modify'] = ['address_id','user_id', 'address', 'city', 'name', 'phone', 'is_default'];
         return $scenarios;
     }
 
