@@ -44,7 +44,7 @@ class UserARModel extends BaseActiveRecord {
     }
 
     public function getImToken(){
-        return $this->hasOne(ImTokenARModel::className(),['user_id'=>'user_id'])->select('unionid,im_token');
+        return $this->hasOne(ImTokenARModel::className(),['user_id'=>'user_id'])->select('user_id,unionid,im_token');
     }
 
     public function rules()
