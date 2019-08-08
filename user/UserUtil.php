@@ -7,6 +7,7 @@ namespace bengbeng\framework\user;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\handles\CacheHandle;
 use bengbeng\framework\models\UserARModel;
+use bengbeng\framework\models\UserTokenARModel;
 
 class UserUtil
 {
@@ -25,5 +26,12 @@ class UserUtil
         }else{
             return CacheHandle::get($cacheName);
         }
+    }
+
+    public static function getUserIDByImID($imID){
+        if($token = (new UserTokenARModel())->findByImID($imID)){
+            return $token['user_id'];
+        }
+        return false;
     }
 }
