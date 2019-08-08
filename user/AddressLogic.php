@@ -101,7 +101,7 @@ class AddressLogic extends UserBase
                 $this->model->addtime = time();
             }
             if(isset($this->params['is_default'])){
-                $this->model->is_default = (bool)$this->saveParams['is_default'];
+                $this->model->is_default = $this->saveParams['is_default'];
             }
             if ($this->model->save()) {
                 return $this->addressID > 0 ? $this->addressID : \Yii::$app->db->lastInsertID;
