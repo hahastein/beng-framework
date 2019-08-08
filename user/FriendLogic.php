@@ -39,7 +39,7 @@ class FriendLogic extends UserBase
 
             if ($model->delete()) {
 
-                $result = $this->nim->friend->deleteFriend($this->getUser()->imID, $friendCache->imID);
+                $result = $this->nim->friend->deleteFriend($this->getUser()->imID, $friendUnionID);
                 if($result){
                     $transaction->commit();
                     return true;
