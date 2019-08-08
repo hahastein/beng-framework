@@ -20,7 +20,7 @@ class AddressLogic extends UserBase
      * 获取收货地址列表
      * @return array
      */
-    public function All(){
+    public function all(){
         return $this->model->find()->where([
             'user_id' => $this->getUserID()
         ])->orderBy([
