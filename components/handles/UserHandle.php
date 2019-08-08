@@ -126,6 +126,7 @@ class UserHandle{
                 if($userModel->updateUnionID($userID, $unionID)){
                     $trans->commit();
                     $insert['unionid'] = $unionID;
+                    $insert['user_id'] = $userID;
                     return $insert;
                 }else{
                     throw new Exception('创建用户失败[1001]');
