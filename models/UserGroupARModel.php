@@ -41,6 +41,13 @@ class UserGroupARModel extends BaseActiveRecord
         ]);
     }
 
+    public function findInfoByIMID($imID, $userID){
+        return self::info([
+            'im_group_id' => $imID,
+            'create_user_id' => $userID
+        ]);
+    }
+
     public function findInfoByName($name){
         return self::info([
             'group_name' => $name

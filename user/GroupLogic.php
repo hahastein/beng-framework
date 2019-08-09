@@ -15,6 +15,9 @@ class GroupLogic extends UserBase
     private $groupUserModel;
     private $nim;
 
+    const REMOVE_MODE_GROUPID = 10;
+    const REMOVE_MODE_IMID = 20;
+
     public function __construct()
     {
         $this->nim = new NIMHandle();
@@ -85,11 +88,19 @@ class GroupLogic extends UserBase
         }
     }
 
-    public function remove($groupID){
+    public function removeByImID($groupID){
+        return self::remove($groupID, self::REMOVE_MODE_IMID);
+    }
+
+    public function remove($groupID, $mode = self::REMOVE_MODE_GROUPID){
         $transaction = \Yii::$app->db->beginTransaction();
         try{
             $myID = $this->getUserID();
-            $model = $this->groupModel->findInfoByGroupID($groupID, $myID);
+            if($mode == self::REMOVE_MODE_IMID){
+                $model = $this->groupModel->findInfoByIMID($groupID, $myID);
+            }else{
+                $model = $this->groupModel->findInfoByGroupID($groupID, $myID);
+            }
             if (!$model) {
                 throw new \Exception('群不存在');
             }
