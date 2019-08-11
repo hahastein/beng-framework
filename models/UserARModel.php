@@ -151,7 +151,7 @@ class UserARModel extends BaseActiveRecord {
      */
     public function findWalletByUserID($userID){
         return self::dataOne(function (ActiveQuery $query) use($userID){
-            $query->select(['balance, virtualcoin']);
+            $query->select(['balance', 'virtualcoin']);
             $query->where([
                 'user_id' => $userID
             ]);
