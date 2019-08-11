@@ -60,6 +60,7 @@ class WalletLogic extends UserBase
             $this->recordModel->mode = $mode;
             $this->recordModel->tools = $tools;
             $this->recordModel->tools_desc = $tools_desc;
+            $this->recordModel->createtime = time();
 
             if($this->recordModel->save()){
 

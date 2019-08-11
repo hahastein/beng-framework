@@ -18,6 +18,7 @@ use yii\db\ActiveQuery;
  * @property integer $mode              模式-10余额20虚拟币30积分
  * @property integer $tools             操作功能 功能参看说明或者查看const标注
  * @property string $tools_desc         操作说明
+ * @property integer $createtime        创建时间
  * @package bengbeng\framework\models
  */
 class WalletRecordARModel extends BaseActiveRecord
