@@ -38,7 +38,7 @@ class WalletRecordARModel extends BaseActiveRecord
 
     public function findByUserIDAndMode($userID, $mode){
         return $this->dataSet(function (ActiveQuery $query) use($userID, $mode){
-            $query->select(['username', 'coin', 'mode', 'tools', 'tools_desc']);
+            $query->select(['username', 'coin', 'mode', 'tools', 'tools_desc', 'createtime']);
             $query->where([
                 'user_id' => $userID,
                 'mode' => $mode
