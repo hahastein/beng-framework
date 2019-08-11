@@ -128,6 +128,11 @@ class WalletLogic extends UserBase
      * @return array
      */
     public function record($mode){
-        return $this->recordModel->findByUserIDAndMode($this->getUserID(), $mode);
+        $record = $this->recordModel->findByUserIDAndMode($this->getUserID(), $mode);
+
+        foreach ($record as $key => $item){
+
+            $record[$key]['createtime'] = date('Y-m-d H:i', $item['createtime']);
+        }
     }
 }
