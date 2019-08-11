@@ -31,7 +31,7 @@ class BaseActiveRecord extends ActiveRecord
     /**
      * 通用返回单条数据，如需要设定其他参数，请参看参数说明
      * @param \Closure|null $callback 回调方法，返回ActiveQuery类型的$query
-     * @return array|null|ActiveRecord
+     * @return ActiveRecord|null
      */
     public function dataOne(\Closure $callback = null){
         $query = self::find();

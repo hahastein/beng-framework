@@ -29,6 +29,8 @@ use yii\db\ActiveRecord;
  * @property integer $store_id 商户ID
  * @property integer $level 用户级别
  * @property float $balance 余额
+ * @property float $virtualcoin 虚拟币
+ * @property float $points 积分
  * @property integer $driver_type
  * @property string $driver_uuid
  * @property integer $addtime
@@ -140,6 +142,19 @@ class UserARModel extends BaseActiveRecord {
                 'unionid' => $unionid
             ]);
             $query->asArray();
+        });
+    }
+
+    /**
+     * @param $userID
+     * @return static|ActiveRecord|null
+     */
+    public function findWalletByUserID($userID){
+        return self::dataOne(function (ActiveQuery $query) use($userID){
+            $query->select(['balance, virtualcoin']);
+            $query->where([
+                'user_id' => $userID
+            ]);
         });
     }
 

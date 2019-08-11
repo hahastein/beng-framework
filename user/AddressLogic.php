@@ -15,6 +15,7 @@ class AddressLogic extends UserBase
 
     public function __construct()
     {
+        parent::__construct();
         $this->model = new AddressARModel();
     }
 

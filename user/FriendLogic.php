@@ -17,6 +17,7 @@ class FriendLogic extends UserBase
 
     public function __construct()
     {
+        parent::__construct();
         $this->nim = new NIMHandle();
         $this->userRelationModel = new UserRelationARModel();
     }

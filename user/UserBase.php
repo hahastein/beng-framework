@@ -4,8 +4,6 @@
 namespace bengbeng\framework\user;
 
 
-use bengbeng\framework\base\Enum;
-use bengbeng\framework\components\handles\CacheHandle;
 use bengbeng\framework\models\UserARModel;
 
 class UserBase
@@ -17,12 +15,30 @@ class UserBase
     /**
      * @var UserProperty $user
      */
-    private $user;
+    protected $user;
+
+    /**
+     * @var UserARModel $userModel
+     */
+    protected $userModel;
 
     protected $model;
     protected $saveParams;
 
     protected $error;
+
+    public function __construct()
+    {
+        $this->userModel = new UserARModel();
+    }
+
+    /**
+     * 桥接别的Logic
+     * @return User
+     */
+    protected function bridge(){
+        return new User();
+    }
 
     /**
      * @param mixed $userID

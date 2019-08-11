@@ -20,6 +20,7 @@ class GroupLogic extends UserBase
 
     public function __construct()
     {
+        parent::__construct();
         $this->nim = new NIMHandle();
         $this->groupModel = new UserGroupARModel();
         $this->groupUserModel = new UserGroupUserARModel();
