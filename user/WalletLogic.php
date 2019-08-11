@@ -125,6 +125,7 @@ class WalletLogic extends UserBase
 
     /**
      * 按类型获取记录
+     * @param int $mode
      * @return array
      */
     public function record($mode){
@@ -134,5 +135,7 @@ class WalletLogic extends UserBase
 
             $record[$key]['createtime'] = date('Y-m-d H:i', $item['createtime']);
         }
+
+        return $record;
     }
 }
