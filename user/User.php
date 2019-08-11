@@ -12,6 +12,7 @@ use yii\base\UnknownPropertyException;
  * @property AccountLogic $account
  * @property FriendLogic $friend
  * @property GroupLogic $group
+ * @property WalletLogic $wallet
  */
 class User
 {
@@ -104,5 +105,16 @@ class User
         $group->setUserID($this->userID);
         $group->setUnionID($this->unionID);
         return $group;
+    }
+
+    /**
+     * @return WalletLogic
+     */
+    public function getWallet()
+    {
+        $wallet = new WalletLogic();
+        $wallet->setUserID($this->userID);
+        $wallet->setUnionID($this->unionID);
+        return $wallet;
     }
 }
