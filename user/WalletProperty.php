@@ -12,8 +12,6 @@ class WalletProperty
 
     public function __construct($wallet)
     {
-
-        var_dump($wallet);die;
         $this->balance = $wallet->balance;
         $this->virtualCoin = $wallet->virtualcoin;
         $this->points = $wallet->points;
