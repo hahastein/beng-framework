@@ -23,6 +23,10 @@ class UserIDARModel extends BaseActiveRecord
         return '{{%user_ID}}';
     }
 
+    /**
+     * @param $user_id
+     * @return static|\yii\db\ActiveRecord|null
+     */
     public function findByUserID($user_id){
         return self::info([
             'user_id' => $user_id
