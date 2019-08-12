@@ -45,8 +45,20 @@ class UserARModel extends BaseActiveRecord {
         return '{{%user}}';
     }
 
+    /**
+     * 关联Im的Token信息
+     * @return ActiveQuery
+     */
     public function getImToken(){
         return $this->hasOne(ImTokenARModel::className(),['user_id'=>'user_id'])->select('user_id,unionid,im_token');
+    }
+
+    /**
+     * 关联用户身份证信息
+     * @return ActiveQuery
+     */
+    public function getUserID(){
+        return $this->hasOne(UserIDARModel::className(),['user_id'=>'user_id']);
     }
 
     public function rules()

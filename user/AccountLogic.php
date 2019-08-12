@@ -17,7 +17,7 @@ class AccountLogic extends UserBase
     }
 
     /**
-     * 修改用户信息
+     * 修改用户信息(修正中，无法使用)
      * @param array $user
      * @return bool
      */
