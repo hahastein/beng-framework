@@ -22,6 +22,8 @@ class BaseActiveRecord extends ActiveRecord
     private $pagination;
     private $dataCount = 0;
 
+    public $with;
+
     public function info($where = false){
         return self::dataOne(function (ActiveQuery $query) use($where){
             $query->where($where);
