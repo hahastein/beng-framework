@@ -15,6 +15,8 @@ use bengbeng\framework\base\BaseActiveRecord;
  * @property string $id_name
  * @property string $id_front_img
  * @property string $id_back_img
+ * @property string $id_address
+ * @property string address
  * @package bengbeng\framework\models
  */
 class UserIDARModel extends BaseActiveRecord
