@@ -130,6 +130,10 @@ class UploadHandle
         return $successFiles;
     }
 
+    public function getFileCount(){
+        return count($this->_files);
+    }
+
     public function getError(){
         return $this->error;
     }
