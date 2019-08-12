@@ -22,6 +22,10 @@ class BaseActiveRecord extends ActiveRecord
     private $pagination;
     private $dataCount = 0;
 
+    /**
+     * 设置关联表
+     * @var array
+     */
     public $with;
 
     public function info($where = false){
@@ -116,5 +120,20 @@ class BaseActiveRecord extends ActiveRecord
     public function getDataCount()
     {
         return $this->dataCount;
+    }
+
+    /**
+     * 移除关联ID字段，
+     * @param array $data 数据
+     * @param string $relationID
+     * @return mixed
+     */
+    protected function removeRelationID($data, $relationID = 'user_id'){
+        foreach ($this->with as $item){
+            if(isset($data[$item][$relationID])){
+                unset($data[$item][$relationID]);
+            }
+        }
+        return $data;
     }
 }
