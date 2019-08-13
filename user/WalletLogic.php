@@ -24,13 +24,13 @@ class WalletLogic extends UserBase
         $this->recordModel = new WalletRecordARModel();
     }
 
+    public function isCheckin(){
+        return $this->recordModel->isExistTodayInfo();
+    }
 
     public function signGetPoints(){
-        if(!$this->recordModel->isExistTodayInfo()){
-
+        if(!$this->isCheckin()){
             return $this->income(20, self::WALLET_MODE_POINTS, 'sign', '签到增加');
-
-
         }else{
             $this->error = '今日已签到，不能重复签到';
             return false;
