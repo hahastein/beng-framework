@@ -138,10 +138,12 @@ class AddressLogic extends UserBase
             $this->model->setScenario('insert');
         }
 
-        var_dump($this->model);die;
         $this->model->setAttributes($this->saveParams);
 
         if($this->model->validate()) {
+
+            var_dump($this->model);die;
+
             if ($this->addressID ==0 ) {
                 $this->model->addtime = time();
             }
