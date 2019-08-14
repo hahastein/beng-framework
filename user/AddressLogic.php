@@ -139,7 +139,7 @@ class AddressLogic extends UserBase
             $this->model->setScenario('insert');
         }
 
-        $this->model->setAttributes($this->saveParams);
+//        $this->model->setAttributes($this->saveParams);
 
 
 
