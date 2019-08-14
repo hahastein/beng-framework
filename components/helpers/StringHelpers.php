@@ -47,7 +47,7 @@ class StringHelpers
         $pattern = '1234567890ABCDEFGHIJKLOMNOPQRSTUVWXYZ';
         for($i=0;$i<$length;$i++)
         {
-            $key .= $pattern{mt_rand(0,strlen($pattern))};    //生成php随机数
+            $key .= $pattern{mt_rand(0,strlen($pattern)-1)};    //生成php随机数
         }
         return $key;
     }
