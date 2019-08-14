@@ -145,8 +145,8 @@ class AddressLogic extends UserBase
 //        $this->model->setAttributes($this->saveParams);
 
         if($this->model->load($this->saveParams, '')){
+            $this->model->is_default = (int)$this->saveParams['is_default'];
             var_dump($this->model);die;
-            $this->model->is_default = (bool)$this->saveParams['is_default'];
 
 //            if(isset($this->params['is_default'])){
 //            }
