@@ -133,7 +133,6 @@ class AddressLogic extends UserBase
                 $this->error = "数据不存在";
                 return false;
             }
-            $this->model->address_id = $this->addressID;
             $this->model->setScenario('modify');
         }else{
             $this->model->addtime = time();
@@ -143,21 +142,25 @@ class AddressLogic extends UserBase
 //        $this->model->setAttributes($this->saveParams);
 
 
+        if($this->model->load($this->saveParams)){
 
+            if($this->addressID > 0){
+                $this->model->address_id = $this->addressID;
+            }
 
 //            if(isset($this->params['is_default'])){
 //                $this->model->is_default = $this->saveParams['is_default'];
 //            }
-            if ($this->model->load($this->saveParams) && $this->model->save()) {
+            if ($this->model->save()) {
                 return $this->addressID > 0 ? $this->addressID : \Yii::$app->db->lastInsertID;
             } else {
-                $this->error = "数据变更失败-".current($this->model->getFirstErrors());
+                $this->error = "数据变更失败";
                 return false;
             }
-//        }else{
-//            $this->error = current($this->model->getFirstErrors());
-//            return false;
-//        }
+        }else{
+            $this->error = current($this->model->getFirstErrors());
+            return false;
+        }
     }
 
     /**
