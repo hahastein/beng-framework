@@ -62,6 +62,9 @@ class ArticleLogic extends CmsBase
     }
 
     private function parseArticleOne($article){
+        if(!$article){
+            return $article;
+        }
         $article['createtime'] = date('Y-m-d H:i:s', $article['createtime']);
         if(isset($article['app_content'])){
             $article['app_content'] = unserialize( $article['app_content'] );
