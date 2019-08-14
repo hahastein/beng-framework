@@ -46,7 +46,7 @@ class ArticleARModel extends BaseActiveRecord
 
         return self::dataSet(function (ActiveQuery $query) use ($cate_id){
 
-            $whereParams = ['post_status ' => Cms::ARTICLE_STATUS_REVIEWED];
+            $whereParams = ['post_status' => Cms::ARTICLE_STATUS_REVIEWED];
             if($cate_id > 0){
                 $whereParams['cate_id'] = $cate_id;
             }
