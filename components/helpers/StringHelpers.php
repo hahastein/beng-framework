@@ -41,7 +41,7 @@ class StringHelpers
         return $output;
     }
 
-    public function genNumberAndUpper($length = 8)
+    public static function genNumberAndUpper($length = 8)
     {
         $key = '';
         $pattern = '1234567890ABCDEFGHIJKLOMNOPQRSTUVWXYZ';
