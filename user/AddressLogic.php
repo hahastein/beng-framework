@@ -33,7 +33,7 @@ class AddressLogic extends UserBase
 
     /**
      * 获取一个收货地址
-     * @return array|null
+     * @return static|null
      */
     public function one(){
         $this->getPost();
@@ -126,6 +126,7 @@ class AddressLogic extends UserBase
      */
     public function save(){
         $this->getPost();
+
         if ($this->addressID > 0) {
             $this->model = self::one();
             $this->model->setScenario('modify');
@@ -137,6 +138,7 @@ class AddressLogic extends UserBase
             $this->model->setScenario('insert');
         }
 
+        var_dump($this->model);die;
         $this->model->setAttributes($this->saveParams);
 
         if($this->model->validate()) {
