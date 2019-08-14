@@ -36,7 +36,7 @@ class AddressLogic extends UserBase
      * @return static|null
      */
     public function one(){
-        $this->getPost();
+//        $this->getPost();
         return $this->model->findByAddressID($this->addressID, $this->getUserID(), []);
     }
 
@@ -139,7 +139,7 @@ class AddressLogic extends UserBase
             $this->model->setScenario('insert');
         }
 
-//        $this->model->setAttributes($this->saveParams);
+        $this->model->setAttributes($this->saveParams);
 
 
 
