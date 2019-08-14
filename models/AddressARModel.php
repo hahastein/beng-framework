@@ -55,7 +55,7 @@ class AddressARModel extends BaseActiveRecord
     {
         $scenarios = parent::scenarios();
         $scenarios['insert'] = ['user_id', 'address', 'city', 'name', 'phone', 'is_default'];
-        $scenarios['modify'] = ['address_id','user_id', 'address', 'city', 'name', 'phone', 'is_default'];
+        $scenarios['modify'] = ['address', 'city', 'name', 'phone', 'is_default'];
         return $scenarios;
     }
 
