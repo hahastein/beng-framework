@@ -133,6 +133,7 @@ class AddressLogic extends UserBase
                 $this->error = "数据不存在";
                 return false;
             }
+            var_dump($this->saveParams);die;
             if(empty($this->saveParams['is_default'])) {
                 $this->saveParams['is_default'] = $this->model->is_default;
             }
