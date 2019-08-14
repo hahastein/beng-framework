@@ -150,7 +150,7 @@ class AddressLogic extends UserBase
             if ($this->model->load($this->saveParams) && $this->model->save()) {
                 return $this->addressID > 0 ? $this->addressID : \Yii::$app->db->lastInsertID;
             } else {
-                $this->error = "数据变更失败";
+                $this->error = "数据变更失败-".current($this->model->getFirstErrors());
                 return false;
             }
 //        }else{
