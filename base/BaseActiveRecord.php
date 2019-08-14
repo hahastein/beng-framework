@@ -18,6 +18,7 @@ class BaseActiveRecord extends ActiveRecord
     public $showPage = true;
     public $pageSize = 20;
     public $validatePage = true;
+    public $showField;
 
     private $pagination;
     private $dataCount = 0;

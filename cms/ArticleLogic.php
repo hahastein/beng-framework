@@ -33,7 +33,9 @@ class ArticleLogic extends CmsBase
      * 获取所有数据
      */
     public function all(){
-        return $this->moduleModel->findAllByCateID($this->cateID);
+        $this->moduleModel->showField = ['article_id', 'title', 'view_count', 'comment_count', 'share_count', 'video_url', 'cover_image', 'createtime'];
+        $articleData = $this->moduleModel->findAllByCateID($this->cateID);
+        return $this->parseArticleAll($articleData);
     }
 
     /**
@@ -48,5 +50,20 @@ class ArticleLogic extends CmsBase
      */
     public function comment(){
 
+    }
+
+    private function parseArticleAll($data){
+        foreach ($data as $key => $item){
+            $data[$key] = $this->parseArticleOne($item);
+        }
+        return $data;
+    }
+
+    private function parseArticleOne($article){
+        $article['createtime'] = date('Y-m-d H:i:s', $this->articleID['createtime']);
+        if(isset($article['app_content'])){
+            $article['app_content'] = unserialize( $article['app_content'] );
+        }
+        return $article;
     }
 }

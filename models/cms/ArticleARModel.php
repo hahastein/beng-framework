@@ -51,6 +51,10 @@ class ArticleARModel extends BaseActiveRecord
                 $whereParams['cate_id'] = $cate_id;
             }
 
+            if($this->showField){
+                $query->select($this->showField);
+            }
+
             $query->where($whereParams);
             $query->orderBy([
                 'orderby' => SORT_DESC,
