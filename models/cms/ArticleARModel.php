@@ -4,6 +4,7 @@
 namespace bengbeng\framework\models\cms;
 
 use bengbeng\framework\base\BaseActiveRecord;
+use bengbeng\framework\cms\Cms;
 use yii\db\ActiveQuery;
 
 /**
@@ -45,8 +46,8 @@ class ArticleARModel extends BaseActiveRecord
 
         return self::dataSet(function (ActiveQuery $query) use ($cate_id){
 
-            $whereParams['post_status '] = 1;
-            if($cate_id == 0){
+            $whereParams = ['post_status ' => Cms::ARTICLE_STATUS_REVIEWED];
+            if($cate_id > 0){
                 $whereParams['cate_id'] = $cate_id;
             }
 

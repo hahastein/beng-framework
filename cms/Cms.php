@@ -14,6 +14,10 @@ use bengbeng\framework\base\BaseModules;
 class Cms extends BaseModules
 {
 
+    const ARTICLE_STATUS_REVIEWED = 1;
+    const ARTICLE_STATUS_REVIEWING = 0;
+    const ARTICLE_STATUS_VIOLATION = 2;
+
     public function __construct()
     {
         parent::__construct();
