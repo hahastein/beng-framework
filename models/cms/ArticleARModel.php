@@ -64,4 +64,19 @@ class ArticleARModel extends BaseActiveRecord
         });
 
     }
+
+    public function findOneByArticleID($article_id){
+        return self::dataOne(function (ActiveQuery $query) use ($article_id){
+
+            $whereParams = ['post_status' => Cms::ARTICLE_STATUS_REVIEWED];
+            $whereParams['article_id'] = $article_id;
+
+            if($this->showField){
+                $query->select($this->showField);
+            }
+
+            $query->where($whereParams);
+            $query->asArray();
+        });
+    }
 }

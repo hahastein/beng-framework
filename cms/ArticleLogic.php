@@ -18,7 +18,7 @@ class ArticleLogic extends CmsBase
     public function __construct()
     {
         parent::__construct();
-        $this->articleID = 0;
+        $this->articleID = \Yii::$app->request->post('article_id', 0);
         $this->moduleModel = new ArticleARModel();
     }
 
@@ -42,7 +42,9 @@ class ArticleLogic extends CmsBase
      * 获取详情
      */
     public function info(){
-
+        $this->moduleModel->showField = ['article_id', 'title', 'view_count', 'comment_count', 'share_count', 'video_url', 'cover_image', 'app_content', 'createtime'];
+        $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
+        return $this->parseArticleOne($articleData);
     }
 
     /**
