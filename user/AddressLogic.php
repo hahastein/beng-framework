@@ -144,10 +144,6 @@ class AddressLogic extends UserBase
 
         if($this->model->load($this->saveParams)){
 
-            if($this->addressID > 0){
-                $this->model->address_id = $this->addressID;
-            }
-
 //            if(isset($this->params['is_default'])){
 //                $this->model->is_default = $this->saveParams['is_default'];
 //            }
