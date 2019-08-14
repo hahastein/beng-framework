@@ -20,4 +20,20 @@ class Cms extends BaseModules
         $this->moduleName = 'cms';
     }
 
+
+    protected function setProperty($class)
+    {
+        //获取CMS下功能通用POST参数
+        $cate_id = 0;
+        if(\Yii::$app->request->isPost){
+            $cate_id = \Yii::$app->request->post('cate_id', 0);
+        }else if(\Yii::$app->request->isGet){
+            $cate_id = \Yii::$app->request->post('cate_id', 0);
+        }
+
+        $class->setCateID($cate_id);
+
+        return $class;
+    }
+
 }

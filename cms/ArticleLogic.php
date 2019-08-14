@@ -3,6 +3,8 @@
 
 namespace bengbeng\framework\cms;
 
+use bengbeng\framework\models\cms\ArticleARModel;
+
 /**
  * 文章系统
  * Class ArticleLogic
@@ -10,8 +12,14 @@ namespace bengbeng\framework\cms;
  */
 class ArticleLogic extends CmsBase
 {
+
+    public $articleID;
+
     public function __construct()
     {
+        parent::__construct();
+        $this->articleID = 0;
+        $this->moduleModel = new ArticleARModel();
     }
 
     /**
@@ -25,7 +33,7 @@ class ArticleLogic extends CmsBase
      * 获取所有数据
      */
     public function all(){
-
+        return $this->moduleModel->findAllByCateID($this->cateID);
     }
 
     /**

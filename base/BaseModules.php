@@ -24,16 +24,20 @@ class BaseModules
         if(isset($this->components[$name])){
             return $this->components[$name];
         }else{
-            $getter = 'get' . $name;
+//            $getter = 'get' . $name;
             if (isset($this->moduleName) && !empty($this->moduleName)) {
                 //class name
                 $className = '\\bengbeng\\framework\\'.$this->moduleName.'\\'.$name.'Logic';
-                var_dump($className);
+//                var_dump($className);
                 // read property, e.g. getName()
-                return $this->components[$name] = new $className();
+                return $this->components[$name] = $this->setProperty(new $className());
             }
             throw new UnknownPropertyException('没有找到此功能: ' . get_class($this) . '::' . $name);
         }
+    }
+
+    protected function setProperty($class){
+        return $class;
     }
 
 }
