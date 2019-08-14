@@ -133,9 +133,9 @@ class AddressLogic extends UserBase
                 $this->error = "数据不存在";
                 return false;
             }
-            if(!isset($this->saveParams['is_default'])) {
-                $this->saveParams['is_default'] = $this->model->is_default;
-            }
+//            if(!isset($this->saveParams['is_default'])) {
+//                $this->saveParams['is_default'] = $this->model->is_default;
+//            }
             $this->model->setScenario('modify');
         }else{
             $this->model->addtime = time();
@@ -168,7 +168,7 @@ class AddressLogic extends UserBase
     private function getPost(){
         if(\Yii::$app->request->isPost){
             $this->saveParams = \Yii::$app->Beng->PostData([
-                'address_id','address','city','name','phone','is_default'
+                'address_id','address','city','name','phone'
             ]);
             if(isset($this->saveParams['address_id'])){
                 $this->addressID = $this->saveParams['address_id'];
@@ -176,6 +176,9 @@ class AddressLogic extends UserBase
             }else{
                 $this->addressID = 0;
             }
+
+            $this->saveParams['is_default'] = \Yii::$app->request->post('is_default', 0);
+
             $this->saveParams['user_id'] = $this->getUserID();
         }
     }
