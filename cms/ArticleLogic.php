@@ -60,7 +60,7 @@ class ArticleLogic extends CmsBase
     }
 
     private function parseArticleOne($article){
-        $article['createtime'] = date('Y-m-d H:i:s', $this->articleID['createtime']);
+        $article['createtime'] = date('Y-m-d H:i:s', $article['createtime']);
         if(isset($article['app_content'])){
             $article['app_content'] = unserialize( $article['app_content'] );
         }
