@@ -129,11 +129,12 @@ class AddressLogic extends UserBase
 
         if ($this->addressID > 0) {
             $this->model = self::one();
-            $this->model->setScenario('modify');
             if (!$this->model) {
                 $this->error = "数据不存在";
                 return false;
             }
+            $this->model->address_id = $this->addressID;
+            $this->model->setScenario('modify');
         }else{
             $this->model->addtime = time();
             $this->model->setScenario('insert');
