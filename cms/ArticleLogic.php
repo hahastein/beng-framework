@@ -18,7 +18,7 @@ class ArticleLogic extends CmsBase
     public function __construct()
     {
         parent::__construct();
-        $this->articleID = \Yii::$app->request->post('article_id', 0);
+        $this->articleID = \Yii::$app->request->post('articleid', 0);
         $this->moduleModel = new ArticleARModel();
     }
 
