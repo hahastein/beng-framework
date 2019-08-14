@@ -9,6 +9,11 @@ use bengbeng\framework\components\handles\im\NIMHandle;
 use bengbeng\framework\models\UserRelationARModel;
 use yii\db\Exception;
 
+/**
+ * 好友系统，可对IM进行设置
+ * Class FriendLogic
+ * @package bengbeng\framework\user
+ */
 class FriendLogic extends UserBase
 {
 

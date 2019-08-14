@@ -9,6 +9,11 @@ use bengbeng\framework\components\handles\im\NIMHandle;
 use bengbeng\framework\models\UserGroupARModel;
 use bengbeng\framework\models\UserGroupUserARModel;
 
+/**
+ * 群系统
+ * Class GroupLogic
+ * @package bengbeng\framework\user
+ */
 class GroupLogic extends UserBase
 {
     private $groupModel;

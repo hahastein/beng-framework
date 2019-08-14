@@ -8,6 +8,11 @@ use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\models\AddressARModel;
 use yii\db\ActiveQuery;
 
+/**
+ * 收货地址功能
+ * Class AddressLogic
+ * @package bengbeng\framework\user
+ */
 class AddressLogic extends UserBase
 {
 

@@ -6,6 +6,7 @@ namespace bengbeng\framework\user;
 use yii\base\UnknownPropertyException;
 
 /**
+ * 用户系统入口
  * Class User
  * @package bengbeng\framework\user
  * @property AddressLogic $address

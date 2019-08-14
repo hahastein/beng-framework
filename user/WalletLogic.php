@@ -5,13 +5,20 @@ namespace bengbeng\framework\user;
 
 
 use bengbeng\framework\base\data\ActiveOperate;
-use bengbeng\framework\models\UserARModel;
 use bengbeng\framework\models\WalletRecordARModel;
 use yii\db\Exception;
 
+/**
+ * 钱包系统
+ * Class WalletLogic
+ * @package bengbeng\framework\user
+ */
 class WalletLogic extends UserBase
 {
 
+    /**
+     * @var WalletRecordARModel $recordModel
+     */
     private $recordModel;
 
     const WALLET_MODE_BALANCE = 10;
@@ -24,6 +31,10 @@ class WalletLogic extends UserBase
         $this->recordModel = new WalletRecordARModel();
     }
 
+    /**
+     * 检查当天是否已经签到
+     * @return int|string
+     */
     public function isCheckin(){
         return $this->recordModel->isExistTodayInfo();
     }
@@ -93,6 +104,7 @@ class WalletLogic extends UserBase
     }
 
     /**
+     * 获取钱包数据
      * @return WalletProperty
      */
     public function getWallet(){
@@ -130,12 +142,9 @@ class WalletLogic extends UserBase
      */
     public function record($mode){
         $record = $this->recordModel->findByUserIDAndMode($this->getUserID(), $mode);
-
         foreach ($record as $key => $item){
-
             $record[$key]['createtime'] = date('Y-m-d H:i', $item['createtime']);
         }
-
         return $record;
     }
 }

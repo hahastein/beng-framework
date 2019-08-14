@@ -8,6 +8,11 @@ use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\components\handles\UploadHandle;
 use yii\db\Exception;
 
+/**
+ * 账户系统
+ * Class AccountLogic
+ * @package bengbeng\framework\user
+ */
 class AccountLogic extends UserBase
 {
 
