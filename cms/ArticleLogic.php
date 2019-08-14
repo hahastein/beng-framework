@@ -33,7 +33,7 @@ class ArticleLogic extends CmsBase
      * 获取所有数据
      */
     public function all(){
-        $this->moduleModel->showField = ['article_id', 'title', 'view_count', 'comment_count', 'share_count', 'video_url', 'cover_image', 'createtime'];
+        $this->moduleModel->showField = ['article_id', 'url_code', 'title', 'view_count', 'comment_count', 'share_count', 'video_url', 'cover_image', 'createtime'];
         $articleData = $this->moduleModel->findAllByCateID($this->cateID);
         return $this->parseArticleAll($articleData);
     }
@@ -42,7 +42,7 @@ class ArticleLogic extends CmsBase
      * 获取详情
      */
     public function info(){
-        $this->moduleModel->showField = ['article_id', 'title', 'view_count', 'comment_count', 'share_count', 'video_url', 'cover_image', 'app_content', 'createtime'];
+        $this->moduleModel->showField = ['article_id', 'url_code', 'title', 'view_count', 'comment_count', 'share_count', 'video_url', 'cover_image', 'app_content', 'createtime'];
         $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
         return $this->parseArticleOne($articleData);
     }
@@ -69,6 +69,8 @@ class ArticleLogic extends CmsBase
         if(isset($article['app_content'])){
             $article['app_content'] = unserialize( $article['app_content'] );
         }
+        //生成H5地址
+        $article['h5_url'] = 'http://demo.wkm.52beng.com/expert/'.$article['url_code'];
         return $article;
     }
 }
