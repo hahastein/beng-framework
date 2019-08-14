@@ -133,9 +133,9 @@ class AddressLogic extends UserBase
                 $this->error = "数据不存在";
                 return false;
             }
-//            if(empty($this->params['is_default'])) {
-//                $this->saveParams['is_default'] = $this->model->is_default;
-//            }
+            if(empty($this->params['is_default'])) {
+                $this->saveParams['is_default'] = $this->model->is_default;
+            }
             $this->model->setScenario('modify');
         }else{
             $this->model->addtime = time();
