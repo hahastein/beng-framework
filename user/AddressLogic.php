@@ -133,9 +133,6 @@ class AddressLogic extends UserBase
                 $this->error = "数据不存在";
                 return false;
             }
-//            if(!isset($this->saveParams['is_default'])) {
-//                $this->saveParams['is_default'] = $this->model->is_default;
-//            }
             $this->model->setScenario('modify');
         }else{
             $this->model->addtime = time();
@@ -146,10 +143,9 @@ class AddressLogic extends UserBase
 
         if($this->model->load($this->saveParams, '')){
             $this->model->is_default = (int)$this->saveParams['is_default'];
-//            var_dump($this->model);die;
-
-//            if(isset($this->params['is_default'])){
-//            }
+            if ($this->addressID === 0) {
+                $this->addressID = time();
+            }
             if ($this->model->save()) {
                 return $this->addressID > 0 ? $this->addressID : \Yii::$app->db->lastInsertID;
             } else {
