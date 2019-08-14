@@ -44,9 +44,13 @@ class ArticleARModel extends BaseActiveRecord
     public function findAllByCateID($cate_id = 0){
 
         return self::dataSet(function (ActiveQuery $query) use ($cate_id){
-            $query->where([
-                'cate_id' => $cate_id
-            ]);
+
+            $whereParams['post_status '] = 1;
+            if($cate_id == 0){
+                $whereParams['cate_id'] = $cate_id;
+            }
+
+            $query->where($whereParams);
             $query->orderBy([
                 'orderby' => SORT_DESC,
                 'updatetime' => SORT_DESC
