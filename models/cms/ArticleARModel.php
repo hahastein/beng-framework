@@ -22,7 +22,7 @@ use yii\db\ActiveQuery;
  * @property int $mode 类型10全站20PC30APP
  * @property int $module 模块名称
  * @property int $cate_id 分类ID
- * @property string $content_mode 内容模式 C标准文本|U链接跳转
+ * @property string $content_mode 内容模式 C标准文本|U链接跳转|A应用跳转
  * @property bool $comment_status 评论状态1允许0不允许
  * @property int $post_status 文章状态1已审核0未审核2违规
  * @property bool $recommend 是否推荐到首页
