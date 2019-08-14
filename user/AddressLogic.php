@@ -135,31 +135,28 @@ class AddressLogic extends UserBase
                 return false;
             }
         }else{
+            $this->model->addtime = time();
             $this->model->setScenario('insert');
         }
 
-        $this->model->setAttributes($this->saveParams);
+//        $this->model->setAttributes($this->saveParams);
 
-        if($this->model->validate()) {
 
-            var_dump($this->model);die;
 
-            if ($this->addressID ==0 ) {
-                $this->model->addtime = time();
-            }
-            if(isset($this->params['is_default'])){
-                $this->model->is_default = $this->saveParams['is_default'];
-            }
-            if ($this->model->save()) {
+
+//            if(isset($this->params['is_default'])){
+//                $this->model->is_default = $this->saveParams['is_default'];
+//            }
+            if ($this->model->load($this->saveParams) && $this->model->save()) {
                 return $this->addressID > 0 ? $this->addressID : \Yii::$app->db->lastInsertID;
             } else {
                 $this->error = "数据变更失败";
                 return false;
             }
-        }else{
-            $this->error = current($this->model->getFirstErrors());
-            return false;
-        }
+//        }else{
+//            $this->error = current($this->model->getFirstErrors());
+//            return false;
+//        }
     }
 
     /**
