@@ -33,7 +33,8 @@ class ArticleLogic extends CmsBase
      * 获取所有数据
      */
     public function all(){
-        $this->moduleModel->showField = ['article_id', 'url_code', 'title', 'view_count', 'comment_count', 'share_count', 'video_url', 'cover_image', 'createtime'];
+        $this->moduleModel->showField = ['article_id', 'url_code', 'title', 'view_count', 'comment_count', 'share_count', 'source_id', 'video_url', 'cover_image', 'createtime'];
+        $this->moduleModel->with = ['celebrity'];
         $articleData = $this->moduleModel->findAllByCateID($this->cateID);
         return $this->parseArticleAll($articleData);
     }
