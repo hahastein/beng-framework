@@ -44,6 +44,7 @@ class ArticleARModel extends BaseActiveRecord
 
     public function getCelebrity(){
         return $this->hasOne(CelebrityARModel::className(),['celebrity_id'=>'source_id'])->select([
+            'celebrity_id',
             'celebrity_name',
             'belong_name',
             'jobs',
