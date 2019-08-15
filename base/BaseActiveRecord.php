@@ -79,8 +79,8 @@ class BaseActiveRecord extends ActiveRecord
                 'totalCount' => $this->dataCount,
             ];
 
-            $page = \Yii::$app->request->post('page', 0);
             if(\Yii::$app->request->isPost){
+                $page = \Yii::$app->request->post('page', 0);
                 $pageParam['page'] = $page>0?$page-1:$page;
             }
 
