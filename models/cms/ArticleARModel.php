@@ -42,9 +42,17 @@ class ArticleARModel extends BaseActiveRecord
         return '{{%cms_article}}';
     }
 
+    public function getCelebrity(){
+        return $this->hasOne(CelebrityARModel::className(),['source_id'=>'celebrity_id']);
+    }
+
     public function findAllByCateID($cate_id = 0){
 
         return self::dataSet(function (ActiveQuery $query) use ($cate_id){
+
+            if($this->with){
+                $query->with($this->with);
+            }
 
             $whereParams = ['post_status' => Cms::ARTICLE_STATUS_REVIEWED];
             if($cate_id > 0){
