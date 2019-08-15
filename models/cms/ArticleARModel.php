@@ -43,7 +43,7 @@ class ArticleARModel extends BaseActiveRecord
     }
 
     public function getCelebrity(){
-        return $this->hasOne(CelebrityARModel::className(),['source_id'=>'celebrity_id']);
+        return $this->hasOne(CelebrityARModel::className(),['celebrity_id'=>'source_id']);
     }
 
     public function findAllByCateID($cate_id = 0){
