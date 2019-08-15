@@ -77,6 +77,7 @@ class BaseActiveRecord extends ActiveRecord
             $this->pagination = new Pagination([
                 'pageSize' => $page,
                 'totalCount' => $this->dataCount,
+                'page' => \Yii::$app->request->post('page', 1)
             ]);
 
             $this->pagination->validatePage = $this->validatePage;
