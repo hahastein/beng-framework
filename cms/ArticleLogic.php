@@ -20,21 +20,33 @@ class ArticleLogic extends CmsBase
         parent::__construct();
         $this->articleID = \Yii::$app->request->post('articleid', 0);
         $this->moduleModel = new ArticleARModel();
+        $this->moduleModel->showField = [
+            'article_id',
+            'url_code',
+            'title',
+            'view_count',
+            'comment_count',
+            'share_count',
+            'source_id',
+            'video_url',
+            'cover_image',
+            'createtime'
+        ];
+        $this->moduleModel->with = ['celebrity'];
     }
 
     /**
      * 获取推荐
      */
     public function recommend(){
-
+        $articleData = $this->moduleModel->findRecommendByFilter();
+        return $this->parseArticleAll($articleData);
     }
 
     /**
      * 获取所有数据
      */
     public function all(){
-        $this->moduleModel->showField = ['article_id', 'url_code', 'title', 'view_count', 'comment_count', 'share_count', 'source_id', 'video_url', 'cover_image', 'createtime'];
-        $this->moduleModel->with = ['celebrity'];
         $articleData = $this->moduleModel->findAllByCateID($this->cateID);
         return $this->parseArticleAll($articleData);
     }
@@ -43,7 +55,7 @@ class ArticleLogic extends CmsBase
      * 获取详情
      */
     public function info(){
-        $this->moduleModel->showField = ['article_id', 'url_code', 'title', 'view_count', 'comment_count', 'share_count', 'video_url', 'cover_image', 'app_content', 'createtime'];
+        $this->moduleModel->showField[] = ['app_content'];
         $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
         return $this->parseArticleOne($articleData);
     }

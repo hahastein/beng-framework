@@ -65,6 +65,14 @@ class BaseActiveRecord extends ActiveRecord
     public function dataSet(\Closure $callback = null){
         $query = self::find();
 
+        if($this->showField){
+            $query->select($this->showField);
+        }
+
+        if($this->with){
+            $query->with($this->with);
+        }
+
         if($callback){
             call_user_func($callback, $query);
         }

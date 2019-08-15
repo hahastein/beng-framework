@@ -58,17 +58,9 @@ class ArticleARModel extends BaseActiveRecord
 
         return self::dataSet(function (ActiveQuery $query) use ($cate_id){
 
-            if($this->with){
-                $query->with($this->with);
-            }
-
             $whereParams = ['post_status' => Cms::ARTICLE_STATUS_REVIEWED];
             if($cate_id > 0){
                 $whereParams['cate_id'] = $cate_id;
-            }
-
-            if($this->showField){
-                $query->select($this->showField);
             }
 
             $query->where($whereParams);
@@ -81,15 +73,28 @@ class ArticleARModel extends BaseActiveRecord
 
     }
 
+    public function findRecommendByFilter(){
+        return self::dataSet(function (ActiveQuery $query){
+
+            $whereParams = [
+                'post_status' => Cms::ARTICLE_STATUS_REVIEWED,
+                'recommend' => 1
+            ];
+
+            $query->where($whereParams);
+            $query->orderBy([
+                'orderby' => SORT_DESC,
+                'updatetime' => SORT_DESC
+            ]);
+            $query->asArray();
+        });
+    }
+
     public function findOneByArticleID($article_id){
         return self::dataOne(function (ActiveQuery $query) use ($article_id){
 
             $whereParams = ['post_status' => Cms::ARTICLE_STATUS_REVIEWED];
             $whereParams['article_id'] = $article_id;
-
-            if($this->showField){
-                $query->select($this->showField);
-            }
 
             $query->where($whereParams);
             $query->asArray();
