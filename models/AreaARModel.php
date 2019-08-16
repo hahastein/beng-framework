@@ -53,21 +53,31 @@ class AreaARModel extends BaseActiveRecord
     }
 
     public function findAllByRecursion($where = false, $level = 3){
-        $model = new AreaARModel();
-        $query = $model->find();
 
-        $record = 1;
-        $withParam = '';
-        while ($record < $level) {
-            $withParam .= $record == $level-1?'child':'child.';
-            $record++;
-        }
-        $query->with($withParam);
-        if($where){
-            $query->where($where);
-        }
-        $query->andWhere(['parent_id' => 1]);
-        return $query->asArray()->all();
+        return $this->dataSet(function (ActiveQuery $query) use ($where, $level){
+            if($this->showField){
+                $query->select($this->showField);
+            }
+
+            $record = 1;
+            $withParam = '';
+            while ($record < $level) {
+                $withParam .= $record == $level-1?'child':'child.';
+                $record++;
+            }
+            $query->with($withParam);
+            if($where){
+                $query->where($where);
+            }
+            $query->andWhere(['parent_id' => 1]);
+
+            $query->orderBy([
+                'area_order'=>SORT_DESC,
+                'area_id' => SORT_ASC
+            ]);
+            $query->asArray();
+        });
+
     }
 
 }
