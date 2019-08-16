@@ -18,12 +18,14 @@ class SettingProperty
 
         foreach ($setting as $value){
             $key = $value['setting_name'];
+
+            var_dump($key);die;
+
             if(isset($this->$key)){
                 $this->$key = $value['setting_value'];
             }
         }
 
-        var_dump($this);die;
     }
 
 }
