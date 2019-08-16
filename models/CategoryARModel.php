@@ -42,6 +42,9 @@ class CategoryARModel extends BaseActiveRecord
     public function findAllByNewly($version){
 
         return $this->dataSet(function (ActiveQuery $query) use ($version){
+            if($this->showField){
+                $query->select($this->showField);
+            }
             $query->where([
                 'status' => 1
             ]);
@@ -57,6 +60,9 @@ class CategoryARModel extends BaseActiveRecord
     public function findAllByParentID($parent_id = 0){
 
         return $this->dataSet(function (ActiveQuery $query) use ($parent_id){
+            if($this->showField){
+                $query->select($this->showField);
+            }
             $query->where([
                 'parent_id' => $parent_id,
                 'status' => 1
