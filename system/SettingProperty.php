@@ -14,6 +14,8 @@ class SettingProperty
 
     public function __construct($setting)
     {
+
+        var_dump($setting);die;
         foreach ($setting as $value){
             $key = $value['setting_name'];
             if(isset($this->$key)){
