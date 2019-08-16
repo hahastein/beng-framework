@@ -44,7 +44,7 @@ class AreaARModel extends BaseActiveRecord
             $query->where([
                 'parent_id' => $parent_id,
             ]);
-            $query->orderBy(['area_id' => SORT_DESC, 'area_order'=>SORT_DESC]);
+            $query->orderBy(['area_id' => SORT_ASC, 'area_order'=>SORT_DESC]);
             $query->asArray();
         });
     }
