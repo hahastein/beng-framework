@@ -28,6 +28,14 @@ class CommentARModel extends BaseActiveRecord
         return '{{%cms_comment}}';
     }
 
+    public function getUser(){
+        return $this->hasOne(CelebrityARModel::className(),['user_id'=>'user_id'])->select([
+            'nickname',
+            'avatar_head',
+            'user_id'
+        ]);
+    }
+
     public function findAllByObjectID($mode, $objectID){
         return $this->dataSet(function (ActiveQuery $query) use($mode, $objectID){
             $query->where([
