@@ -39,6 +39,19 @@ class CategoryARModel extends BaseActiveRecord
         return '{{%category}}';
     }
 
+    public function findAllByNewly($version){
+
+        return $this->dataSet(function (ActiveQuery $query) use ($version){
+            $query->where([
+                'status' => 1
+            ]);
+            $query->andWhere([
+                '>=', 'updatetime', $version
+            ]);
+            $query->asArray();
+        });
+    }
+
     public function findAllByParentID($parent_id = 0){
 
         return $this->dataSet(function (ActiveQuery $query) use ($parent_id){
