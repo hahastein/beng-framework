@@ -12,6 +12,11 @@ class BaseModules
 
     public function __construct()
     {
+        $this->init();
+    }
+
+    public function init(){
+
     }
 
     /**

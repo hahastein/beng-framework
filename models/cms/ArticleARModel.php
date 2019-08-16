@@ -54,6 +54,10 @@ class ArticleARModel extends BaseActiveRecord
         ]);
     }
 
+    public function exists($article_id){
+        return self::find()->where(['article_id' => $article_id])->exists();
+    }
+
     public function findAllByCateID($cate_id = 0){
 
         return self::dataSet(function (ActiveQuery $query) use ($cate_id){

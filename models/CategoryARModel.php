@@ -8,17 +8,29 @@
 
 namespace bengbeng\framework\models;
 
-use yii\data\ActiveDataProvider;
-use yii\db\ActiveRecord;
+use bengbeng\framework\base\BaseActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * 类别模型.
  * 创建者:hahastein
  * 创建时间:2018/1/16 1:33
  * Class CategoryARModel
+ * @property integer $cate_id
+ * @property string $cate_name
+ * @property string $cate_code
+ * @property integer $cate_sort
+ * @property integer $parent_id
+ * @property integer $cate_order
+ * @property string $cate_icon
+ * @property integer $recommend
+ * @property integer $createtime
+ * @property integer $updatetime
+ * @property integer $status
+ * @property integer $admin_id
  * @package bengbeng\framework\models
  */
-class CategoryARModel extends ActiveRecord
+class CategoryARModel extends BaseActiveRecord
 {
 
     //关联数据库表名
@@ -27,16 +39,16 @@ class CategoryARModel extends ActiveRecord
         return '{{%category}}';
     }
 
-    public function cateList($where=false){
+    public function findAllByParentID($parent_id = 0){
 
-        $query = self::find()
-            ->where($where)
-            ->orderBy(['cate_id'=>SORT_DESC]);
-
-        $provider['query'] = $query;
-
-        $dataProvider = new ActiveDataProvider($provider);
-        return $dataProvider;
+        return $this->dataSet(function (ActiveQuery $query) use ($parent_id){
+            $query->where([
+                'parent_id' => $parent_id,
+                'status' => 1
+            ]);
+            $query->orderBy(['cate_order'=>SORT_DESC]);
+            $query->asArray();
+        });
     }
 
     public function cateInfo($where=false){

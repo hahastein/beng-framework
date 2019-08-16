@@ -30,6 +30,7 @@ class UserBase
     public function __construct()
     {
         $this->userModel = new UserARModel();
+
     }
 
     /**

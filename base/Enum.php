@@ -125,4 +125,8 @@ class Enum
     const EXTEND_TOOLS_ERP = 'erp'; //进销存系统
     const EXTEND_TOOLS_FINANCE = 'finance'; //财务系统
 
+    const MODULE_TYPE_ARTICLE = 10;
+    const MODULE_TYPE_FAQS = 20;
+    const MODULE_TYPE_GOODS = 30;
+
 }
