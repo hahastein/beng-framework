@@ -38,6 +38,7 @@ class CommentARModel extends BaseActiveRecord
 
     public function findAllByObjectID($mode, $objectID){
         return $this->dataSet(function (ActiveQuery $query) use($mode, $objectID){
+            $query->with(['user']);
             $query->where([
                 'comment_module' => $mode,
                 'object_id' => $objectID,
