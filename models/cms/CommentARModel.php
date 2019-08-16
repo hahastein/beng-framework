@@ -5,6 +5,7 @@ namespace bengbeng\framework\models\cms;
 
 
 use bengbeng\framework\base\BaseActiveRecord;
+use bengbeng\framework\models\UserARModel;
 use yii\db\ActiveQuery;
 
 /**
@@ -29,7 +30,7 @@ class CommentARModel extends BaseActiveRecord
     }
 
     public function getUser(){
-        return $this->hasOne(CelebrityARModel::className(),['user_id'=>'user_id'])->select([
+        return $this->hasOne(UserARModel::className(),['user_id'=>'user_id'])->select([
             'nickname',
             'avatar_head',
             'user_id'
