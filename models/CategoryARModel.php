@@ -36,7 +36,7 @@ class CategoryARModel extends BaseActiveRecord
     //关联数据库表名
     public static function tableName()
     {
-        return '{{%category}}';
+        return '{{%cms_category}}';
     }
 
     public function findAllByNewly($version){
