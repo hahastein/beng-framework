@@ -50,7 +50,7 @@ class CategoryARModel extends BaseActiveRecord
             ]);
             if($version){
                 $query->andWhere([
-                    '>=', 'updatetime', $version
+                    '>', 'updatetime', $version
                 ]);
             }
             $query->asArray();
