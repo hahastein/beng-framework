@@ -32,7 +32,7 @@ class AreaARModel extends BaseActiveRecord
     }
 
     public function getChild(){
-        return $this->hasMany(self::className(),['parent_id'=>'area_id']);
+        return $this->hasMany(self::className(),['parent_id'=>'area_id'])->select($this->showField);
     }
 
     public function findAllByParentID($parent_id = 0){
