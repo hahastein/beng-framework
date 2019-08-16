@@ -21,7 +21,7 @@ class SettingProperty
 
             var_dump($this->$key);
 
-            if(isset($this->$key)){
+            if(property_exists($this, $key)){
                 $this->$key = $value['setting_value'];
             }
         }
