@@ -91,7 +91,9 @@ class UserBase
         if(!$this->userID){
             //如果没有userid，需要将unionid转换为userid
             $this->user = $this->unionToUser();
-            $this->userID = $this->user->userID;
+            if($this->user){
+                $this->userID = $this->user->userID;
+            }
         }
     }
 

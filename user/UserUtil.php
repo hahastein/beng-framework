@@ -17,6 +17,9 @@ class UserUtil
      * @return UserProperty|NULL
      */
     public static function getCache($unionID, $getNew = true){
+        if(empty($unionID)){
+            return NULL;
+        }
         $cacheName = Enum::CACHE_USER_DATA.$unionID;
         if($getNew){
             return CacheHandle::get($cacheName, function () use ($unionID){
