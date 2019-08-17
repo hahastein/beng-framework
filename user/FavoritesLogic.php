@@ -22,8 +22,10 @@ class FavoritesLogic extends UserBase
     /**
      * 收藏文章
      * @param int $article_id 文章ID，如果不传，则获取post或者get的id参数
+     * @param  bool $autoDelete
+     * @return bool
      */
-    public function article($article_id = 0){
+    public function article($article_id = 0, $autoDelete = true){
 
         $article_id = $article_id>0?$article_id:\Yii::$app->request->post('id', 0);
 
@@ -37,20 +39,28 @@ class FavoritesLogic extends UserBase
                 throw new Exception('文章不存在');
             }
 
-            if($this->favModel->exists($article_id, $this->getUserID(), Enum::MODULE_TYPE_ARTICLE)){
-                throw new Exception('此文章已经收藏');
-            }
-
-            //写入收藏表
-            $this->favModel->object_id = $article_id;
-            $this->favModel->user_id = $this->getUserID();
-            $this->favModel->module = Enum::MODULE_TYPE_ARTICLE;
-            $this->favModel->createtime = time();
-
-            if($this->favModel->save()){
-                return true;
+            if($deleteModel = $this->favModel->findByModuleAndID($article_id, $this->getUserID(), Enum::MODULE_TYPE_ARTICLE)){
+                if($autoDelete){
+                    if($deleteModel->delete()){
+                        throw new Exception('取消收藏成功');
+                    }else{
+                        throw new Exception('取消收藏失败');
+                    }
+                }else{
+                    throw new Exception('此文章已经收藏');
+                }
             }else{
-                throw new Exception('收藏失败');
+                //写入收藏表
+                $this->favModel->object_id = $article_id;
+                $this->favModel->user_id = $this->getUserID();
+                $this->favModel->module = Enum::MODULE_TYPE_ARTICLE;
+                $this->favModel->createtime = time();
+
+                if($this->favModel->save()){
+                    return true;
+                }else{
+                    throw new Exception('收藏失败');
+                }
             }
 
         }catch (Exception $ex){

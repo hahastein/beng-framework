@@ -29,4 +29,12 @@ class UserFavoritesARModel extends BaseActiveRecord
             'module' => $module
         ])->exists();
     }
+
+    public function findByModuleAndID($object_id, $user_id, $module = Enum::MODULE_TYPE_ARTICLE){
+        return self::find()->where([
+            'object_id' => $object_id,
+            'user_id' => $user_id,
+            'module' => $module
+        ])->one();
+    }
 }
