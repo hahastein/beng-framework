@@ -77,6 +77,19 @@ class ArticleARModel extends BaseActiveRecord
 
     }
 
+    public function findAllByKeyword($keyword){
+        return self::dataSet(function (ActiveQuery $query) use ($keyword){
+
+            $whereParams = ['post_status' => Cms::ARTICLE_STATUS_REVIEWED];
+            $query->where($whereParams);
+            $query->andWhere(['like', 'title', $keyword]);
+            $query->orderBy([
+                'updatetime' => SORT_DESC
+            ]);
+            $query->asArray();
+        });
+    }
+
     public function findRecommendByFilter(){
         return self::dataSet(function (ActiveQuery $query){
 

@@ -51,6 +51,11 @@ class ArticleLogic extends CmsBase
         return $this->parseArticleAll($articleData);
     }
 
+    public function search($keyword){
+        $articleData = $this->moduleModel->findAllByKeyword($keyword);
+        return $this->parseArticleAll($articleData);
+    }
+
     /**
      * 获取详情
      */
