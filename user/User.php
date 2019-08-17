@@ -14,6 +14,7 @@ use yii\base\UnknownPropertyException;
  * @property FriendLogic $friend
  * @property GroupLogic $group
  * @property WalletLogic $wallet
+ * @property FavoritesLogic $favorites
  */
 class User
 {
@@ -117,5 +118,16 @@ class User
         $wallet->setUserID($this->userID);
         $wallet->setUnionID($this->unionID);
         return $wallet;
+    }
+
+    /**
+     * @return FavoritesLogic
+     */
+    public function getFavorites()
+    {
+        $favorites = new FavoritesLogic();
+        $favorites->setUserID($this->userID);
+        $favorites->setUnionID($this->unionID);
+        return $favorites;
     }
 }
