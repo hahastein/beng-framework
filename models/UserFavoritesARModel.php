@@ -24,7 +24,7 @@ class UserFavoritesARModel extends BaseActiveRecord
 
     public function exists($object_id, $user_id, $module = Enum::MODULE_TYPE_ARTICLE){
         return self::find()->where([
-            'object_id ' => $object_id,
+            'object_id' => $object_id,
             'user_id' => $user_id,
             'module' => $module
         ])->exists();
