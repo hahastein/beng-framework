@@ -30,7 +30,7 @@ class FavoritesLogic extends UserBase
         $article_id = $article_id>0?$article_id:\Yii::$app->request->post('id', 0);
 
         try{
-            if($article_id <= 0  || $this->getUserID()){
+            if($article_id <= 0  || !$this->getUserID()){
                 throw new Exception('参数错误');
             }
 
