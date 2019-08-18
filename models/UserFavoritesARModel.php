@@ -45,7 +45,7 @@ class UserFavoritesARModel extends BaseActiveRecord
 
     public function findByArticle($user_id){
         return self::find()->joinWith(['article'])->where([
-            'user_id' =>$user_id,
+            self::tableName().'user_id' =>$user_id,
             'module' => Enum::MODULE_TYPE_ARTICLE
         ])->asArray()->all();
     }
