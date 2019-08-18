@@ -5,6 +5,7 @@ namespace bengbeng\framework\models\cms;
 
 
 use bengbeng\framework\base\BaseActiveRecord;
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\UserARModel;
 use yii\db\ActiveQuery;
 
@@ -37,6 +38,21 @@ class CommentARModel extends BaseActiveRecord
         ]);
     }
 
+    public function getArticle(){
+        return $this->hasOne(ArticleARModel::className(),['article_id'=>'object_id'])->select([
+            'article_id',
+            'url_code',
+            'title',
+            'view_count',
+            'comment_count',
+            'share_count',
+            'source_id',
+            'video_url',
+            'cover_image',
+            'createtime'
+        ]);
+    }
+
     public function findAllByObjectID($mode, $objectID){
         return $this->dataSet(function (ActiveQuery $query) use($mode, $objectID){
             $query->with(['user']);
@@ -45,6 +61,21 @@ class CommentARModel extends BaseActiveRecord
                 'object_id' => $objectID,
                 'status' => 10,
                 'parent_id' => 0
+            ]);
+            $query->orderBy(['createtime' => SORT_DESC]);
+            $query->asArray();
+        });
+    }
+
+    public function findByArticle($user_id){
+
+        return $this->dataSet(function (ActiveQuery $query) use($user_id){
+            $query->with(['article']);
+            $query->where([
+                'comment_module' => Enum::MODULE_TYPE_ARTICLE,
+                'status' => 10,
+                'parent_id' => 0,
+                'user_id' => $user_id
             ]);
             $query->orderBy(['createtime' => SORT_DESC]);
             $query->asArray();
