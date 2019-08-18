@@ -77,7 +77,7 @@ class CommentARModel extends BaseActiveRecord
                 self::tableName().'.parent_id' => 0,
                 self::tableName().'.user_id' => $user_id
             ]);
-            $query->orderBy(['createtime' => SORT_DESC]);
+            $query->orderBy([self::tableName().'.createtime' => SORT_DESC]);
             $query->asArray();
         });
     }
