@@ -70,7 +70,7 @@ class CommentARModel extends BaseActiveRecord
     public function findByArticle($user_id){
 
         return $this->dataSet(function (ActiveQuery $query) use($user_id){
-            $query->with(['article']);
+            $query->with(['user', 'article']);
             $query->where([
                 'comment_module' => Enum::MODULE_TYPE_ARTICLE,
                 'status' => 10,
