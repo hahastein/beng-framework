@@ -88,7 +88,7 @@ class ArticleLogic extends CmsBase
             $article['app_content'] = unserialize( $article['app_content'] );
         }
         //生成H5地址
-        $article['h5_url'] = 'http://demo.wkm.52beng.com/expert/'.$article['url_code'];
+        $article['h5_url'] = \Yii::getAlias('@hybridUrl').'/expert/'.$article['url_code'];
         return $article;
     }
 }
