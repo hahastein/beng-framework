@@ -127,6 +127,7 @@ class Enum
 
     const MODULE_TYPE_ARTICLE = 10;
     const MODULE_TYPE_FAQS = 20;
+    const MODULE_TYPE_FAQS_REPLAY = 21;
     const MODULE_TYPE_GOODS = 30;
 
 }
