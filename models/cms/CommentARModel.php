@@ -72,10 +72,10 @@ class CommentARModel extends BaseActiveRecord
         return $this->dataSet(function (ActiveQuery $query) use($user_id){
             $query->joinWith(['user', 'article']);
             $query->where([
-                'comment_module' => Enum::MODULE_TYPE_ARTICLE,
-                'status' => 10,
-                'parent_id' => 0,
-                'user_id' => $user_id
+                self::tableName().'.comment_module' => Enum::MODULE_TYPE_ARTICLE,
+                self::tableName().'.status' => 10,
+                self::tableName().'.parent_id' => 0,
+                self::tableName().'.user_id' => $user_id
             ]);
             $query->orderBy(['createtime' => SORT_DESC]);
             $query->asArray();
