@@ -6,6 +6,7 @@ namespace bengbeng\framework\models;
 use bengbeng\framework\base\BaseActiveRecord;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\cms\ArticleARModel;
+use yii\db\ActiveQuery;
 
 /**
  * Class UserFavoritesARModel
@@ -55,9 +56,12 @@ class UserFavoritesARModel extends BaseActiveRecord
     }
 
     public function findByArticle($user_id){
-        return self::find()->joinWith(['article'])->where([
-            self::tableName().'.user_id' =>$user_id,
-            self::tableName().'.module' => Enum::MODULE_TYPE_ARTICLE
-        ])->asArray()->all();
+
+        return self::dataSet(function (ActiveQuery $query) use($user_id){
+            $query->joinWith(['article'])->where([
+                self::tableName().'.user_id' =>$user_id,
+                self::tableName().'.module' => Enum::MODULE_TYPE_ARTICLE
+            ])->asArray();
+        });
     }
 }
