@@ -5,6 +5,7 @@ namespace bengbeng\framework\models;
 
 use bengbeng\framework\base\BaseActiveRecord;
 use bengbeng\framework\base\Enum;
+use bengbeng\framework\models\cms\ArticleARModel;
 
 /**
  * Class UserFavoritesARModel
@@ -22,6 +23,10 @@ class UserFavoritesARModel extends BaseActiveRecord
         return '{{%user_favorites}}';
     }
 
+    public function getArticle(){
+        return $this->hasOne(ArticleARModel::className(),['object_id'=>'article_id']);
+    }
+
     public function exists($object_id, $user_id, $module = Enum::MODULE_TYPE_ARTICLE){
         return self::find()->where([
             'object_id' => $object_id,
@@ -36,5 +41,12 @@ class UserFavoritesARModel extends BaseActiveRecord
             'user_id' => $user_id,
             'module' => $module
         ])->one();
+    }
+
+    public function findByArticle($user_id){
+        return self::find()->joinWith(['article'])->where([
+            'user_id' =>$user_id,
+            'module' => Enum::MODULE_TYPE_ARTICLE
+        ])->asArray()->all();
     }
 }
