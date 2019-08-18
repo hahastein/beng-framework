@@ -24,7 +24,7 @@ class UserFavoritesARModel extends BaseActiveRecord
     }
 
     public function getArticle(){
-        return $this->hasOne(ArticleARModel::className(),['object_id'=>'article_id']);
+        return $this->hasOne(ArticleARModel::className(),['article_id'=>'object_id']);
     }
 
     public function exists($object_id, $user_id, $module = Enum::MODULE_TYPE_ARTICLE){
