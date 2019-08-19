@@ -40,6 +40,10 @@ class CmsBase
         if(isset($item['user_id'])){
             unset($item['user_id']);
         }
+
+        if(isset($item['user']['user_id'])){
+            unset($item['user']['user_id']);
+        }
         return $item;
     }
 }
