@@ -39,7 +39,9 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function getImages(){
-        return $this->hasMany(AttachmentARModel::className(),['object_id'=>'question_id'])->where(['att_type' => Enum::MODULE_TYPE_FAQS]);
+        return $this->hasMany(AttachmentARModel::className(),['object_id'=>'question_id'])->where(['att_type' => Enum::MODULE_TYPE_FAQS])->select([
+            'obj_url', 'is_default'
+        ]);
     }
 
     public function getUser(){
