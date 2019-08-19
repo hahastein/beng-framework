@@ -71,6 +71,10 @@ class FaqLogic extends CmsBase
         return $this->parseDataAll($answerData, 'parseAnswerDataOne');
     }
 
+    public function answerExits($code){
+        return $this->moduleModel->exits($this->questionID, $code);
+    }
+
     protected function parseDataOne($item)
     {
         $item = parent::parseDataOne($item);

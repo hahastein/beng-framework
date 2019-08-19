@@ -52,6 +52,13 @@ class QuestionsARModel extends BaseActiveRecord
         ]);
     }
 
+    public function exits($question_id, $code){
+        return self::find()->where([
+            'question_id' => $question_id,
+            'url_code' => $code
+        ])->exists();
+    }
+
     public function findAllByCateID($cate_id = 0){
         if($cate_id > 0){
             return $this->findByAll([
