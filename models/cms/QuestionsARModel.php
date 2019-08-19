@@ -52,6 +52,10 @@ class QuestionsARModel extends BaseActiveRecord
         ]);
     }
 
+    public function getIdentify(){
+        return $this->hasMany(FaqIdentifyARModel::className(),['question_id' => 'question_id', 'user_id'=>'user_id']);
+    }
+
     public function exits($question_id, $code){
         return self::find()->where([
             'question_id' => $question_id,
