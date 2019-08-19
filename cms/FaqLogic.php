@@ -60,9 +60,14 @@ class FaqLogic extends CmsBase
 
     }
 
-    public function answerInfo()
+    public function answerInfo($identify_user_id = false)
     {
-        $answerData = $this->answerModel->findAllByQuestionID($this->questionID);
+        if($identify_user_id){
+            $answerData = $this->answerModel->findAllByQuestionAndUserID($this->questionID, $identify_user_id);
+
+        }else{
+            $answerData = $this->answerModel->findAllByQuestionID($this->questionID);
+        }
         return $this->parseDataAll($answerData, 'parseAnswerDataOne');
     }
 
