@@ -130,4 +130,9 @@ class Enum
     const MODULE_TYPE_FAQS_REPLAY = 21;
     const MODULE_TYPE_GOODS = 30;
 
+    //系统通用状态
+    const SYSTEM_STATUS_SUCCESS = 10;
+    const SYSTEM_STATUS_DELETE = 0;
+    const SYSTEM_STATUS_VIOLATION = 1;
+
 }
