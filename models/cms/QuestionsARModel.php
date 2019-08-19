@@ -79,8 +79,14 @@ class QuestionsARModel extends BaseActiveRecord
                 if(!in_array('images', $this->with)){
                     $this->with[] = 'images';
                 }
-                $query->with($this->with);
+
+            }else{
+                $this->with = [];
+                $this->with[] = 'user';
+                $this->with[] = 'images';
             }
+
+            $query->with($this->with);
 
             $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
 
