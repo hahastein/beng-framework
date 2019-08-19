@@ -39,7 +39,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function getImages(){
-        return $this->hasMany(AttachmentARModel::className(),['object_id'=>'question_id', 'att_type' => Enum::MODULE_TYPE_FAQS]);
+        return $this->hasMany(AttachmentARModel::className(),['object_id'=>'question_id']);
     }
 
     public function getUser(){
@@ -88,7 +88,7 @@ class QuestionsARModel extends BaseActiveRecord
             }else{
                 $this->with = [];
                 $this->with[] = 'user';
-//                $this->with[] = 'images';
+                $this->with[] = 'images';
             }
 
             $query->with($this->with);
