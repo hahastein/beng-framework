@@ -54,6 +54,7 @@ class FaqLogic extends CmsBase
     public function info($code)
     {
 
+        $this->moduleModel->with = ['identify'];
         $data = $this->moduleModel->findInfoByQuestionID($this->questionID, $code);
 
         return $this->parseDataOne($data);
