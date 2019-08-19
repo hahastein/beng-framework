@@ -22,9 +22,9 @@ class CmsBase
         $this->cateID = $cateID;
     }
 
-    protected function parseDataAll($data){
+    protected function parseDataAll($data, $callbak = false){
         foreach ($data as $key => $item){
-            $data[$key] = $this->parseDataOne($item);
+            $data[$key] = $callbak?$this->$callbak($item):$this->parseDataOne($item);
         }
         return $data;
     }

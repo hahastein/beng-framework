@@ -45,12 +45,14 @@ class FaqLogic extends CmsBase
         ];
     }
 
-    public function all(){
+    public function all()
+    {
         $data = $this->moduleModel->findAllByCateID();
         return $this->parseDataAll($data);
     }
 
-    public function info($code){
+    public function info($code)
+    {
 
         $data = $this->moduleModel->findInfoByQuestionID($this->questionID, $code);
 
@@ -58,9 +60,10 @@ class FaqLogic extends CmsBase
 
     }
 
-    public function answerInfo(){
+    public function answerInfo()
+    {
         $answerData = $this->answerModel->findAllByQuestionID($this->questionID);
-        return $this->parseAnswerDataOne($answerData);
+        return $this->parseDataAll($answerData, 'parseAnswerDataOne');
     }
 
     protected function parseDataOne($item)
@@ -68,7 +71,7 @@ class FaqLogic extends CmsBase
         $item = parent::parseDataOne($item);
 
         //生成H5地址
-        $item['h5_url'] = \Yii::getAlias('@hybridUrl').'/faq/'.$item['url_code'];
+        $item['h5_url'] = \Yii::getAlias('@hybridUrl') . '/faq/' . $item['url_code'];
 
         return $item;
     }
@@ -79,9 +82,9 @@ class FaqLogic extends CmsBase
 
         $item['replytime'] = date('Y-m-d H:i:s', $item['replytime']);
 
-        if($item['status'] == Enum::SYSTEM_STATUS_VIOLATION){
+        if ($item['status'] == Enum::SYSTEM_STATUS_VIOLATION) {
             $item['content'] = '此内容违规';
-        }else if($item['status'] == Enum::SYSTEM_STATUS_DELETE){
+        } else if ($item['status'] == Enum::SYSTEM_STATUS_DELETE) {
             $item['content'] = '此内容被删除';
         }
 
