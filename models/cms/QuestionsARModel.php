@@ -51,9 +51,14 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function findAllByCateID($cate_id = 0){
-        return $this->findByAll([
-            'cate_id' => $cate_id
-        ]);
+        if($cate_id > 0){
+            return $this->findByAll([
+                'cate_id' => $cate_id
+            ]);
+        }else{
+            return $this->findByAll();
+        }
+
     }
 
     public function findAllByUserID($user_id){
@@ -66,7 +71,7 @@ class QuestionsARModel extends BaseActiveRecord
 
     }
 
-    private function findByAll($where){
+    private function findByAll($where = false){
         return self::dataSet(function (ActiveQuery $query) use ($where){
             if($this->showField){
                 $query->select($this->showField);
