@@ -6,6 +6,7 @@ namespace bengbeng\framework\models\cms;
 
 use bengbeng\framework\base\BaseActiveRecord;
 use bengbeng\framework\base\Enum;
+use bengbeng\framework\cms\Cms;
 use bengbeng\framework\models\AttachmentARModel;
 use bengbeng\framework\models\UserARModel;
 use yii\db\ActiveQuery;
@@ -78,6 +79,10 @@ class QuestionsARModel extends BaseActiveRecord
         return $this->findByAll([
             'user_id' => $user_id
         ]);
+    }
+
+    public function findAllByKeyword($keyword){
+        return $this->findByAll(['like', 'title', $keyword]);
     }
 
     public function findInfoByQuestionID($id, $code){

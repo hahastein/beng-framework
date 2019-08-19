@@ -61,6 +61,11 @@ class FaqLogic extends CmsBase
 
     }
 
+    public function search($keyword){
+        $questionData = $this->moduleModel->findAllByKeyword($keyword);
+        return $this->parseDataAll($questionData);
+    }
+
     public function answerInfo($identify_user_id = false)
     {
         if($identify_user_id){

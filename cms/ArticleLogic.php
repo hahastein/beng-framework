@@ -70,6 +70,7 @@ class ArticleLogic extends CmsBase
      */
     public function comment(){
 
+
     }
 
     private function parseArticleAll($data){
