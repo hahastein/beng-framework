@@ -4,6 +4,10 @@
 namespace bengbeng\framework\models\cms;
 
 use bengbeng\framework\base\BaseActiveRecord;
+use bengbeng\framework\base\Enum;
+use bengbeng\framework\models\AttachmentARModel;
+use bengbeng\framework\models\UserARModel;
+use yii\db\ActiveQuery;
 
 /**
  * Class AnswersARModel
@@ -22,4 +26,52 @@ class AnswersARModel extends BaseActiveRecord
     {
         return '{{%cms_answers}}';
     }
+
+    public function getImages(){
+        return $this->hasMany(AttachmentARModel::className(),['object_id'=>'answer_id'])->where(['att_type' => Enum::MODULE_TYPE_FAQS_REPLAY])->select([
+            'object_id', 'obj_url', 'is_default'
+        ]);
+    }
+
+    public function getUser(){
+        return $this->hasOne(UserARModel::className(),['user_id'=>'user_id'])->select([
+            'nickname',
+            'avatar_head',
+            'user_id'
+        ]);
+    }
+
+    public function findAllByQuestionID($question_id = 0){
+        return $this->findByAll([
+            'question_id' => $question_id
+        ]);
+
+    }
+
+    private function findByAll($where = false){
+        return self::dataSet(function (ActiveQuery $query) use ($where){
+            if($this->showField){
+                $query->select($this->showField);
+            }
+
+            if(!$this->with){
+                $this->with = [];
+            }
+
+            $this->with = array_merge($this->with, ['user', 'images']);
+
+            $query->with($this->with);
+
+//            $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
+
+            if($where){
+                $query->where($where);
+            }
+
+            $query->orderBy(['replytime' => SORT_ASC]);
+
+            $query->asArray();
+        });
+    }
+
 }
