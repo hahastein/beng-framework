@@ -69,8 +69,30 @@ class QuestionsARModel extends BaseActiveRecord
         ]);
     }
 
-    public function findInfoByQuestionID(){
+    public function findInfoByQuestionID($id, $code){
+        return self::dataOne(function (ActiveQuery $query) use ($id, $code){
+            if($this->showField){
+                $query->select($this->showField);
+            }
 
+
+            if(!$this->with){
+                $this->with = [];
+            }
+
+            $this->with = array_merge($this->with, ['user', 'images']);
+
+            $query->with($this->with);
+
+            $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
+
+            $query->andWhere([
+                'question_id' => $id,
+                'url_code' => $code
+            ]);
+
+            $query->asArray();
+        });
     }
 
     private function findByAll($where = false){
@@ -79,19 +101,11 @@ class QuestionsARModel extends BaseActiveRecord
                 $query->select($this->showField);
             }
 
-            if ($this->with){
-                if(!in_array('user', $this->with)){
-                    $this->with[] = 'user';
-                }
-                if(!in_array('images', $this->with)){
-                    $this->with[] = 'images';
-                }
-
-            }else{
+            if(!$this->with){
                 $this->with = [];
-                $this->with[] = 'user';
-                $this->with[] = 'images';
             }
+
+            $this->with = array_merge($this->with, ['user', 'images']);
 
             $query->with($this->with);
 

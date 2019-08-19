@@ -4,6 +4,7 @@
 namespace bengbeng\framework\cms;
 
 use bengbeng\framework\models\cms\QuestionsARModel;
+use function EasyWeChat\Kernel\data_get;
 
 /**
  * 问答系统
@@ -43,6 +44,13 @@ class FaqLogic extends CmsBase
     public function all(){
         $data = $this->moduleModel->findAllByCateID();
         return $this->parseDataAll($data);
+    }
+
+    public function info($id, $code){
+
+        $data = $this->moduleModel->findInfoByQuestionID($id, $code);
+        return $this->parseDataOne($data);
+
     }
 
     protected function parseDataOne($item)
