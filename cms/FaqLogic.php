@@ -50,6 +50,7 @@ class FaqLogic extends CmsBase
         $item = parent::parseDataOne($item);
 
 
+
         //生成H5地址
         $item['h5_url'] = \Yii::getAlias('@hybridUrl').'/faq/'.$item['url_code'];
 
