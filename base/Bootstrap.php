@@ -27,10 +27,6 @@ class Bootstrap
     protected $unionID;
 
     protected $moduleName;
-    /**
-     * @var UserProperty|false $user 用户信息
-     */
-    protected $user;
 
     public function __construct()
     {
@@ -62,17 +58,12 @@ class Bootstrap
      * 设置用户唯一标识
      * @param string $unionID
      */
+    /**
+     * @param string $unionID
+     */
     public function setUnionID($unionID)
     {
         $this->unionID = $unionID;
-
-        if(!$this->userID){
-            //如果没有userid，需要将unionid转换为userid
-            $this->user = $this->unionToUser();
-            if($this->user){
-                $this->userID = $this->user->userID;
-            }
-        }
     }
 
     /**
@@ -98,37 +89,4 @@ class Bootstrap
         }
     }
 
-    /**
-     * 设置属性
-     * @param $class
-     * @return mixed
-     */
-    protected function setProperty($class){
-
-        if(!method_exists($class,'setUserID')){
-            $class->setUserID($this->userID);
-        }
-
-        if(!method_exists($class,'setUnionID')){
-            $class->setUnionID($this->userID);
-        }
-
-        return $class;
-    }
-
-    /*
-     * 以下是私有方法
-     */
-
-    /**
-     * 获取用户后转换为OBJ
-     * @return UserProperty|bool|NULL
-     */
-    private function unionToUser(){
-        $userProperty = UserUtil::getCache($this->unionID);
-        if($userProperty && isset($userProperty->userID)){
-            return $userProperty;
-        }
-        return false;
-    }
 }
