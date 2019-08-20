@@ -89,7 +89,7 @@ class Bootstrap
             if (isset($this->moduleName) && !empty($this->moduleName)) {
                 //class name
                 $className = '\\bengbeng\\framework\\'.$this->moduleName.'\\'.ucfirst($name).'Logic';
-//                var_dump($className);
+                var_dump(get_class());die;
                 // read property, e.g. getName()
                 return $this->components[$name] = $this->setProperty(new $className());
             }
