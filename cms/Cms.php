@@ -24,7 +24,11 @@ class Cms extends BaseModules
         parent::__construct();
         $this->moduleName = 'cms';
     }
-
+    public function init()
+    {
+        parent::init();
+        $this->moduleName = 'cms';
+    }
 
     protected function setProperty($class)
     {
@@ -35,9 +39,7 @@ class Cms extends BaseModules
         } else if (\Yii::$app->request->isGet) {
             $cate_id = \Yii::$app->request->post('cate_id', 0);
         }
-//var_dump($class);die;
         $class->setCateID($cate_id);
-
         return $class;
     }
 

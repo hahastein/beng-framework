@@ -34,4 +34,12 @@ class UrlHelper
         }
         return Url::to([$url]);
     }
+
+    public static function param($name, $defaultValue = null){
+        if(\Yii::$app->request->isPost && \Yii::$app->request->post($name, $defaultValue)){
+            return \Yii::$app->request->post($name, $defaultValue);
+        }else{
+            return \Yii::$app->request->get($name, $defaultValue);
+        }
+    }
 }

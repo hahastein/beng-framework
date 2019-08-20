@@ -3,10 +3,9 @@
 
 namespace bengbeng\framework\system;
 
+use bengbeng\framework\base\Bootstrap;
 
-use bengbeng\framework\base\BaseModules;
-
-class System extends BaseModules
+class System extends Bootstrap
 {
 
 }

@@ -40,7 +40,7 @@ class ArticleLogic extends CmsBase
      */
     public function recommend(){
         $articleData = $this->moduleModel->findRecommendByFilter();
-        return $this->parseArticleAll($articleData);
+        return $this->parseDataAll($articleData);
     }
 
     /**
@@ -48,12 +48,12 @@ class ArticleLogic extends CmsBase
      */
     public function all(){
         $articleData = $this->moduleModel->findAllByCateID($this->cateID);
-        return $this->parseArticleAll($articleData);
+        return $this->parseDataAll($articleData);
     }
 
     public function search($keyword){
         $articleData = $this->moduleModel->findAllByKeyword($keyword);
-        return $this->parseArticleAll($articleData);
+        return $this->parseDataAll($articleData);
     }
 
     /**
@@ -62,7 +62,7 @@ class ArticleLogic extends CmsBase
     public function info(){
         $this->moduleModel->showField[] = ['app_content'];
         $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
-        return $this->parseArticleOne($articleData);
+        return $this->parseDataOne($articleData);
     }
 
     /**
@@ -73,23 +73,15 @@ class ArticleLogic extends CmsBase
 
     }
 
-    private function parseArticleAll($data){
-        foreach ($data as $key => $item){
-            $data[$key] = $this->parseArticleOne($item);
-        }
-        return $data;
-    }
+    protected function parseDataOne($item)
+    {
+        $item = parent::parseDataOne($item);
 
-    private function parseArticleOne($article){
-        if(!$article){
-            return $article;
-        }
-        $article['createtime'] = date('Y-m-d H:i:s', $article['createtime']);
         if(isset($article['app_content'])){
             $article['app_content'] = unserialize( $article['app_content'] );
         }
-        //生成H5地址
         $article['h5_url'] = \Yii::getAlias('@hybridUrl').'/expert/'.$article['url_code'];
-        return $article;
+        return $item;
     }
+
 }

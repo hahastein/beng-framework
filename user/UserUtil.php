@@ -12,6 +12,7 @@ use bengbeng\framework\models\UserTokenARModel;
 class UserUtil
 {
     /**
+     * 获取缓存用户信息
      * @param $unionID
      * @param bool $getNew
      * @return UserProperty|NULL
