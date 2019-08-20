@@ -9,7 +9,6 @@ use bengbeng\framework\base\Bootstrap;
  * CMS内容管理系统入口
  * Class Cms
  * @property ArticleLogic $article
- * @property FaqLogic $faq
  * @property QuestionLogic $question
  * @property AnswerLogic $answer
  * @package bengbeng\framework\cms

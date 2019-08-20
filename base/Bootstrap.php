@@ -2,8 +2,6 @@
 
 namespace bengbeng\framework\base;
 
-use bengbeng\framework\user\UserProperty;
-use bengbeng\framework\user\UserUtil;
 use yii\base\UnknownPropertyException;
 
 /**
@@ -90,6 +88,15 @@ class Bootstrap
     }
 
     protected function setProperty($class){
+
+        if(!method_exists($class,'setUserID')){
+            $class->setUserID($this->userID);
+        }
+
+        if(!method_exists($class,'setUnionID')){
+            $class->setUnionID($this->userID);
+        }
+
         return $class;
     }
 
