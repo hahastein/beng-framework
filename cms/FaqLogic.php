@@ -6,7 +6,6 @@ namespace bengbeng\framework\cms;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\cms\AnswersARModel;
 use bengbeng\framework\models\cms\QuestionsARModel;
-use function EasyWeChat\Kernel\data_get;
 
 /**
  * 问答系统

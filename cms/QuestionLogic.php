@@ -3,31 +3,72 @@
 
 namespace bengbeng\framework\cms;
 
-use bengbeng\framework\base\Modules;
+use bengbeng\framework\models\cms\QuestionsARModel;
 
 /**
  * 问题逻辑处理
  * Class QuestionLogic
  * @package bengbeng\framework\cms
  */
-class QuestionLogic extends Modules
+class QuestionLogic extends CmsBase
 {
 
-    private $questionID;
-
-    protected function init()
+    public function __construct()
     {
-        parent::init();
-        $this->questionID = \Yii::$app->request->post('questionid', 0);
+        parent::__construct();
+        $this->moduleModel = new QuestionsARModel();
+        $this->moduleModel->showField = [
+            'question_id',
+            'url_code',
+            'title',
+            'content',
+            'user_id',
+            'cate_id',
+            'fav_count',
+            'view_count',
+            'reply_count',
+            'share_count',
+            'is_reply',
+            'show_img',
+            'createtime'
+        ];
+    }
+
+    public function all()
+    {
+        $data = $this->moduleModel->findAllByCateID();
+        return $this->parseDataAll($data);
+    }
+
+    public function info($code)
+    {
+
+        $this->moduleModel->with = ['identify'];
+        $data = $this->moduleModel->findInfoByQuestionID($this->questionID, $code);
+
+        return $this->parseDataOne($data);
 
     }
 
+    public function search($keyword){
+        $questionData = $this->moduleModel->findAllByKeyword($keyword);
+        return $this->parseDataAll($questionData);
+    }
+
     /**
-     * 设置问答参数
-     * @param integer $questionID
+     * 此问题是否存在
+     * @param $code
+     * @return bool
      */
-    public function setQuestionID($questionID)
+    public function exits($code){
+        return $this->moduleModel->exits($this->questionID, $code);
+    }
+
+    protected function parseDataOne($item)
     {
-        $this->questionID = $questionID;
+        $item = parent::parseDataOne($item);
+        //生成H5地址
+        $item['h5_url'] = \Yii::getAlias('@hybridUrl') . '/faq/' . $item['url_code'];
+        return $item;
     }
 }

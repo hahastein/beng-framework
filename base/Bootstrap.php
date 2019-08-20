@@ -13,6 +13,7 @@ use yii\base\UnknownPropertyException;
  */
 class Bootstrap
 {
+
     private $components;
 
     /**
@@ -82,7 +83,6 @@ class Bootstrap
      */
     public function __get($name)
     {
-        var_dump(get_called_class());die;
 
         if(isset($this->components[$name])){
             return $this->components[$name];

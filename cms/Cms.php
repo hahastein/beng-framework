@@ -3,7 +3,7 @@
 
 namespace bengbeng\framework\cms;
 
-use bengbeng\framework\base\BaseModules;
+use bengbeng\framework\base\Bootstrap;
 
 /**
  * CMS内容管理系统入口
@@ -12,35 +12,17 @@ use bengbeng\framework\base\BaseModules;
  * @property FaqLogic $faq
  * @package bengbeng\framework\cms
  */
-class Cms extends BaseModules
+class Cms extends Bootstrap
 {
 
     const ARTICLE_STATUS_REVIEWED = 1;
     const ARTICLE_STATUS_REVIEWING = 0;
     const ARTICLE_STATUS_VIOLATION = 2;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->moduleName = 'cms';
-    }
     public function init()
     {
         parent::init();
         $this->moduleName = 'cms';
-    }
-
-    protected function setProperty($class)
-    {
-        //获取CMS下功能通用POST参数
-        $cate_id = 0;
-        if (\Yii::$app->request->isPost) {
-            $cate_id = \Yii::$app->request->post('cate_id', 0);
-        } else if (\Yii::$app->request->isGet) {
-            $cate_id = \Yii::$app->request->post('cate_id', 0);
-        }
-        $class->setCateID($cate_id);
-        return $class;
     }
 
 }

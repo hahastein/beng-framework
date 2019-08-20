@@ -12,12 +12,21 @@ class Modules
      * @var int $cateID 分类ID
      */
     protected $cateID;
+    protected $questionID;
+    protected $answerID;
+    protected $articleID;
 
     protected $moduleModel;
 
     public function __construct()
     {
-        $this->cateID = UrlHelper::param('cate_id', 0);
+        if(\Yii::$app->request->isPost){
+            $this->cateID = \Yii::$app->request->post('cate_id', 0);
+            $this->questionID = \Yii::$app->request->post('questionid', 0);
+            $this->answerID = \Yii::$app->request->post('answerid', 0);
+            $this->articleID = \Yii::$app->request->post('articleid', 0);
+        }
+
         $this->init();
     }
 
@@ -31,6 +40,20 @@ class Modules
     public function setCateID($cateID)
     {
         $this->cateID = $cateID;
+    }
+    /**
+     * @param int $questionID
+     */
+    public function setQuestionID($questionID)
+    {
+        $this->questionID = $questionID;
+    }
+    /**
+     * @param int $answerID
+     */
+    public function setAnswerID($answerID)
+    {
+        $this->answerID = $answerID;
     }
 
     protected function parseDataAll($data, $callbak = false){

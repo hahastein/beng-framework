@@ -13,12 +13,9 @@ use bengbeng\framework\models\cms\ArticleARModel;
 class ArticleLogic extends CmsBase
 {
 
-    public $articleID;
-
     public function __construct()
     {
         parent::__construct();
-        $this->articleID = \Yii::$app->request->post('articleid', 0);
         $this->moduleModel = new ArticleARModel();
         $this->moduleModel->showField = [
             'article_id',
