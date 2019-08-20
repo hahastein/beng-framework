@@ -89,11 +89,11 @@ class Bootstrap
 
     protected function setProperty($class){
 
-        if(!method_exists($class,'setUserID')){
+        if(method_exists($class,'setUserID')){
             $class->setUserID($this->userID);
         }
 
-        if(!method_exists($class,'setUnionID')){
+        if(method_exists($class,'setUnionID')){
             $class->setUnionID($this->unionID);
         }
 
