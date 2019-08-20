@@ -73,7 +73,7 @@ class QuestionLogic extends CmsBase
         if($result = $upload->save(false)){
             var_dump($result[0]['path']);die;
         }else{
-            var_dump('上传失败');die;
+            var_dump($upload->getError());die;
 
         }
     }
