@@ -73,7 +73,7 @@ class QuestionLogic extends CmsBase
         ]);
 
         if($result = $upload->save(false)){
-            var_dump($result[0]['path']);die;
+            var_dump($result[0]['originPath']);die;
         }else{
             var_dump($upload->getError());die;
 
