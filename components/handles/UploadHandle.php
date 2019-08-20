@@ -83,7 +83,7 @@ class UploadHandle
             }
         }
 
-        var_dump(count(count($this->_files)));die;
+        var_dump(count($this->_files));die;
 
 
         if(!$this->uploader){
