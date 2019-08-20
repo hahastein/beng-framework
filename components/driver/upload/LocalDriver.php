@@ -79,7 +79,6 @@ class LocalDriver extends BaseUploadDriver implements UploadDriverInterface {
         $this->uploadOriginPath = '';
         $saveName = $this->getName($file);
         $this->uploadOriginPath = $this->rootPath . '/' . $this->savePath . '/' .$saveName;
-        var_dump('234234'.$this->uploadOriginPath);die;
 
         /* 不覆盖同名文件 */
         if (!$replace && is_file($this->uploadOriginPath)) {
