@@ -10,6 +10,8 @@ use bengbeng\framework\base\Bootstrap;
  * Class Cms
  * @property ArticleLogic $article
  * @property FaqLogic $faq
+ * @property QuestionLogic $question
+ * @property AnswerLogic $answer
  * @package bengbeng\framework\cms
  */
 class Cms extends Bootstrap
