@@ -69,6 +69,7 @@ class QuestionLogic extends CmsBase
             'maxSize' => 5,
             'savePath' => 'upload/answer'
         ]);
+        var_dump('ceshi');die;
 
         if($result = $upload->save(false)){
             var_dump($result[0]['path']);die;
