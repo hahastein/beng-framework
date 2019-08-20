@@ -3,6 +3,7 @@
 
 namespace bengbeng\framework\cms;
 
+use bengbeng\framework\components\handles\UploadHandle;
 use bengbeng\framework\models\cms\QuestionsARModel;
 
 /**
@@ -59,8 +60,22 @@ class QuestionLogic extends CmsBase
 
     }
 
-    public function reply(){
-        var_dump($this->getUserID());die;
+    public function reply($content = null){
+        if(!$content){
+            $content = \Yii::$app->request->post('content', '');
+        }
+
+        $upload = new UploadHandle([
+            'maxSize' => 5,
+            'savePath' => 'upload/answer'
+        ]);
+
+        if($result = $upload->save(false)){
+            var_dump($result[0]['path']);die;
+        }else{
+            var_dump('上传失败');die;
+
+        }
     }
 
     /**
