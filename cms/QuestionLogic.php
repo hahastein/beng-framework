@@ -67,7 +67,9 @@ class QuestionLogic extends CmsBase
 
         $upload = new UploadHandle([
             'maxSize' => 5,
-            'savePath' => 'upload/answer'
+            'driverConfig'=>[
+                'savePath' => 'upload/answer'
+            ]
         ]);
 
         if($result = $upload->save(false)){
