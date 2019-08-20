@@ -83,6 +83,9 @@ class UploadHandle
             }
         }
 
+        var_dump(count(count($this->_files)));die;
+
+
         if(!$this->uploader){
             $this->error = "不存在上传驱动：{$this->driver}";
             return false;
