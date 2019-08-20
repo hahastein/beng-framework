@@ -25,6 +25,10 @@ class AnswerLogic extends CmsBase
         return $this->parseDataAll($answerData);
     }
 
+    public function reply(){
+
+    }
+
     protected function parseDataOne($item)
     {
         $item['replytime'] = date('Y-m-d H:i:s', $item['replytime']);

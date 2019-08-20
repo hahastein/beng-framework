@@ -55,6 +55,14 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($questionData);
     }
 
+    public function post(){
+
+    }
+
+    public function reply(){
+        var_dump($this->getUserID());die;
+    }
+
     /**
      * 此问题是否存在
      * @param $code
