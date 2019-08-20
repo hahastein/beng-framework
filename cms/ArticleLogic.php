@@ -74,10 +74,10 @@ class ArticleLogic extends CmsBase
     {
         $item = parent::parseDataOne($item);
 
-        if(isset($article['app_content'])){
-            $article['app_content'] = unserialize( $article['app_content'] );
+        if(isset($item['app_content'])){
+            $item['app_content'] = unserialize( $item['app_content'] );
         }
-        $article['h5_url'] = \Yii::getAlias('@hybridUrl').'/expert/'.$article['url_code'];
+        $item['h5_url'] = \Yii::getAlias('@hybridUrl').'/expert/'.$item['url_code'];
         return $item;
     }
 
