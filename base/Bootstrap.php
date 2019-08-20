@@ -94,7 +94,7 @@ class Bootstrap
         }
 
         if(!method_exists($class,'setUnionID')){
-            $class->setUnionID($this->userID);
+            $class->setUnionID($this->unionID);
         }
 
         return $class;
