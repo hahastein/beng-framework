@@ -22,7 +22,7 @@ class AnswerLogic extends CmsBase
         }else{
             $answerData = $this->moduleModel->findAllByQuestionID($this->questionID);
         }
-        return $this->parseDataAll($answerData, 'parseAnswerDataOne');
+        return $this->parseDataAll($answerData);
     }
 
     protected function parseDataOne($item)
