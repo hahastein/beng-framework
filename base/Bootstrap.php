@@ -89,4 +89,8 @@ class Bootstrap
         }
     }
 
+    protected function setProperty($class){
+        return $class;
+    }
+
 }
