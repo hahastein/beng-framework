@@ -61,12 +61,16 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($questionData);
     }
 
+    public function postOnlyExtend($extend = []){
+        return $this->post(null, null, $extend);
+    }
     /**
      * @param string|null $title
      * @param string|null $content
+     * @param array $extend
      * @return bool
      */
-    public function post($title = null, $content = null){
+    public function post($title = null, $content = null, $extend = []){
         if(!$content){
             $content = \Yii::$app->request->post('content', '');
         }
@@ -96,6 +100,10 @@ class QuestionLogic extends CmsBase
             $this->moduleModel->content = $content;
             $this->moduleModel->user_id = $this->getUserID();
             $this->moduleModel->createtime = $this->moduleModel->updatetime = time();
+
+            foreach ($extend as $key => $item){
+                $this->moduleModel->$key = $item;
+            }
 
             if(!$this->moduleModel->save()){
                 throw new Exception('发布失败');

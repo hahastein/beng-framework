@@ -25,6 +25,9 @@ use yii\db\ActiveQuery;
  * @property bool $is_reply 是否可以回复
  * @property bool $show_img 是否给普通用户显示图片
  * @property integer $status 状态 10正常0删除4违规
+ * @property integer $relation_bool 关联bool扩展字段
+ * @property integer $relation_int 关联int扩展字段
+ * @property integer $relation_string 关联string扩展字段
  * @property integer $createtime 创建时间
  * @property integer $updatetime 修改时间
  * @property integer $replytime 最后回复时间
