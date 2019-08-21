@@ -82,13 +82,13 @@ class QuestionLogic extends CmsBase
                 throw new Exception('回复失败，内容长度不够');
             }
 
-//            if(empty($title)){
-//                if(strlen($content)>20){
-//                    $title = substr($content,0,20);
-//                }else{
-//                    $title = $content;
-//                }
-//            }
+            if(empty($title)){
+                if(strlen($content)>20){
+                    $title = mb_substr($content,0,20);
+                }else{
+                    $title = $content;
+                }
+            }
 
             $this->moduleModel->url_code = 'Q_'.StringHelpers::genRandomString(8);
 
