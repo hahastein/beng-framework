@@ -87,7 +87,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function findInfoByQuestionID($id){
-        return self::dataOne(function (ActiveQuery $query) use ($id, $code){
+        return self::dataOne(function (ActiveQuery $query) use ($id){
             if($this->showField){
                 $query->select($this->showField);
             }
