@@ -26,6 +26,7 @@ use yii\db\ActiveQuery;
  * @property integer $status 状态 10正常0删除4违规
  * @property integer $createtime 创建时间
  * @property integer $updatetime 修改时间
+ * @property integer $replytime 最后回复时间
  * @package bengbeng\framework\models\cms
  */
 class QuestionsARModel extends BaseActiveRecord
@@ -85,7 +86,24 @@ class QuestionsARModel extends BaseActiveRecord
         return $this->findByAll(['like', 'title', $keyword]);
     }
 
-    public function findInfoByQuestionID($id, $code){
+    public function findInfoByQuestionID($id){
+        return self::dataOne(function (ActiveQuery $query) use ($id, $code){
+            if($this->showField){
+                $query->select($this->showField);
+            }
+
+            if($this->with && count($this->with) > 0){
+                $query->with($this->with);
+            }
+
+            $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
+            $query->andWhere([
+                'question_id' => $id,
+            ]);
+        });
+    }
+
+    public function findInfoByQuestionIDAndCode($id, $code){
         return self::dataOne(function (ActiveQuery $query) use ($id, $code){
             if($this->showField){
                 $query->select($this->showField);

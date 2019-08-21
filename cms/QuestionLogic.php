@@ -3,8 +3,12 @@
 
 namespace bengbeng\framework\cms;
 
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\handles\UploadHandle;
+use bengbeng\framework\models\cms\AnswersARModel;
 use bengbeng\framework\models\cms\QuestionsARModel;
+use bengbeng\framework\system\System;
+use yii\db\Exception;
 
 /**
  * 问题逻辑处理
@@ -45,7 +49,7 @@ class QuestionLogic extends CmsBase
     {
 
         $this->moduleModel->with = ['identify'];
-        $data = $this->moduleModel->findInfoByQuestionID($this->questionID, $code);
+        $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
 
         return $this->parseDataOne($data);
 
@@ -60,23 +64,75 @@ class QuestionLogic extends CmsBase
 
     }
 
+    /**
+     * 回复数据
+     * @param string|null $content
+     * @return bool
+     */
     public function reply($content = null){
         if(!$content){
             $content = \Yii::$app->request->post('content', '');
         }
 
-        $upload = new UploadHandle([
-            'maxSize' => 5,
-            'driverConfig'=>[
-                'savePath' => 'upload/answer'
-            ]
-        ]);
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            if(!$questionModel = $this->moduleModel->findInfoByQuestionID($this->questionID)){
+                throw new Exception('问题不存在或者已经已经关闭');
+            }
 
-        if($result = $upload->save(false)){
-            var_dump($result[0]['originPath']);die;
-        }else{
-            var_dump($upload->getError());die;
+            if(empty($content) || strlen($content)<5){
+                throw new Exception('回复失败，内容长度不够');
+            }
 
+            $upload = new UploadHandle([
+                'maxSize' => 5,
+                'driverConfig'=>[
+                    'savePath' => 'upload/answer'
+                ]
+            ]);
+
+            if($upload->getFileCount() > 5){
+                throw new Exception('图片不能超过5张哦');
+            }else{
+                $uploadResult = $upload->save(false);
+            }
+
+            //写入图片
+            if(!(new System())->attachment->save($uploadResult, $this->questionID, Enum::MODULE_TYPE_FAQS_REPLAY)){
+                throw new Exception('回复失败[20081]。图片写入失败');
+            }
+
+            //写入回复数据
+            $answerModel = new AnswersARModel();
+            $answerModel->question_id = $this->questionID;
+            $answerModel->content = $content;
+            $answerModel->user_id = $this->getUser();
+            $answerModel->status = 10;
+            $answerModel->replytime = time();
+
+            if(!$answerModel->save()){
+                throw new Exception('回复失败[20080]。回答写入失败');
+            }
+
+            //更新问题表的回复总数及最后回复时间
+
+            $questionModel->reply_count = $questionModel->reply_count+1;
+            $questionModel->updatetime = $questionModel->replytime = time();
+
+            if(!$questionModel->save()){
+                throw new Exception('回复失败[20082]。更新主表失败');
+            }
+
+            return true;
+//            var_dump($result[0]['originPath']);die;
+
+
+
+        }catch (Exception $ex){
+
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
         }
     }
 
