@@ -95,12 +95,14 @@ class QuestionLogic extends CmsBase
                 throw new Exception('图片不能超过5张哦');
             }else{
                 $uploadResult = $upload->save(false);
+
+                //写入图片
+                if($uploadResult && !(new System())->attachment->save($uploadResult, $this->questionID, Enum::MODULE_TYPE_FAQS_REPLAY)){
+                    throw new Exception('回复失败[20081]。图片写入失败');
+                }
             }
 
-            //写入图片
-            if(!(new System())->attachment->save($uploadResult, $this->questionID, Enum::MODULE_TYPE_FAQS_REPLAY)){
-                throw new Exception('回复失败[20081]。图片写入失败');
-            }
+
 
             //写入回复数据
             $answerModel = new AnswersARModel();
