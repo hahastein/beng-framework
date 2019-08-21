@@ -125,6 +125,7 @@ class QuestionLogic extends CmsBase
                 throw new Exception('回复失败[20082]。更新主表失败');
             }
 
+            $transaction->commit();
             return true;
 //            var_dump($result[0]['originPath']);die;
 
