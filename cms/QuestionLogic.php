@@ -90,9 +90,9 @@ class QuestionLogic extends CmsBase
                 }
             }
 
-            $this->moduleModel->url_code = 'Q_'.StringHelpers::genRandomString(8);
+            $this->moduleModel->url_code = 'Q_'.StringHelpers::genRandomString(12);
 
-            $this->moduleModel->title = $content;
+            $this->moduleModel->title = $title;
             $this->moduleModel->content = $content;
             $this->moduleModel->user_id = $this->getUserID();
             $this->moduleModel->createtime = $this->moduleModel->updatetime = time();
