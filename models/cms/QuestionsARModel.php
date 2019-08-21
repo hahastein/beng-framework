@@ -14,8 +14,9 @@ use yii\db\ActiveQuery;
 /**
  * Class QuestionsARModel
  * @property integer $question_id
+ * @property integer $url_code
  * @property string $title 标题（如果不存在标题的，从内容截取25个字做标题）
- * @property string $text 内容
+ * @property string $content 内容
  * @property integer $user_id 用户ID
  * @property integer $reply_count 回复总数
  * @property integer $view_count 浏览总数

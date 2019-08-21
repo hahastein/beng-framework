@@ -5,6 +5,7 @@ namespace bengbeng\framework\cms;
 
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\handles\UploadHandle;
+use bengbeng\framework\components\helpers\StringHelpers;
 use bengbeng\framework\models\cms\AnswersARModel;
 use bengbeng\framework\models\cms\QuestionsARModel;
 use bengbeng\framework\system\System;
@@ -60,7 +61,73 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($questionData);
     }
 
-    public function post(){
+    /**
+     * @param string|null $title
+     * @param string|null $content
+     * @return bool
+     */
+    public function post($title = null, $content = null){
+        if(!$content){
+            $content = \Yii::$app->request->post('content', '');
+        }
+
+        if(!$title){
+            $title = \Yii::$app->request->post('title', '');
+        }
+
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+
+            if(empty($content) || strlen($content)<5){
+                throw new Exception('回复失败，内容长度不够');
+            }
+
+            if(empty($title)){
+                if(strlen($content)>20){
+                    $title = substr($content,0,20);
+                }else{
+                    $title = $content;
+                }
+            }
+
+            $this->moduleModel->url_code = 'Q_'.StringHelpers::genRandomString(8);
+
+            $this->moduleModel->title = $title;
+            $this->moduleModel->content = $content;
+            $this->moduleModel->user_id = $this->getUserID();
+            $this->moduleModel->createtime = $this->moduleModel->updatetime = time();
+
+            if(!$this->moduleModel->save()){
+                throw new Exception('发布失败');
+            }
+
+
+            $upload = new UploadHandle([
+                'maxSize' => 5,
+                'driverConfig'=>[
+                    'savePath' => 'upload/question'
+                ]
+            ]);
+
+            if($upload->getFileCount() > 5){
+                throw new Exception('图片不能超过5张哦');
+            }else{
+                $uploadResult = $upload->save(false);
+
+                //写入图片
+                if($uploadResult && !(new System())->attachment->save($uploadResult, \Yii::$app->db->lastInsertID, Enum::MODULE_TYPE_FAQS)){
+                    throw new Exception('回复失败[20081]。图片写入失败');
+                }
+            }
+
+            $transaction->commit();
+            return true;
+
+        }catch (Exception $ex){
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
+        }
 
     }
 
