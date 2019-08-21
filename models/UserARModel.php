@@ -157,6 +157,15 @@ class UserARModel extends BaseActiveRecord {
         });
     }
 
+    public function findAllByUserId($user_id){
+
+        return self::dataOne(function (ActiveQuery $query) use($user_id){
+            $query->where([
+                'user_id' => $user_id
+            ]);
+        });
+    }
+
     /**
      * @param $userID
      * @return static|ActiveRecord|null
