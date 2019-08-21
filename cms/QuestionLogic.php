@@ -64,12 +64,8 @@ class QuestionLogic extends CmsBase
     public function postOnlyExtend($extend = []){
         return $this->post(null, null, $extend);
     }
-    /**
-     * @param string|null $title
-     * @param string|null $content
-     * @param array $extend
-     * @return bool
-     */
+
+
     public function post($title = null, $content = null, $extend = []){
         if(!$content){
             $content = \Yii::$app->request->post('content', '');
