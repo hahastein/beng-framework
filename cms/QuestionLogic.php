@@ -108,7 +108,7 @@ class QuestionLogic extends CmsBase
             $answerModel = new AnswersARModel();
             $answerModel->question_id = $this->questionID;
             $answerModel->content = $content;
-            $answerModel->user_id = $this->getUser();
+            $answerModel->user_id = $this->getUserID();
             $answerModel->status = 10;
             $answerModel->replytime = time();
 
