@@ -1,0 +1,48 @@
+<?php
+
+
+namespace bengbeng\framework\models;
+
+use bengbeng\framework\base\BaseActiveRecord;
+
+/**
+ * Class ApplyARModel
+ * @property integer $apply_id
+ * @property integer $user_id
+ * @property integer $apply_type
+ * @property string $apply_message
+ * @property string $extend_info
+ * @property integer $admin_id
+ * @property integer $status
+ * @property integer $createtime
+ * @property integer $updatetime
+ * @package bengbeng\framework\models
+ */
+class ApplyARModel extends BaseActiveRecord
+{
+    public static function tableName()
+    {
+        return '{{%apply}}';
+    }
+
+    public function findByAll(){
+
+    }
+
+    public function findByApplyID($id){
+
+    }
+
+    public function findByTypeAndUserID($user_id, $type){
+
+    }
+
+    public function exist($user_id, $type){
+        return self::find()->where([
+            'user_id' => $user_id,
+            'apply_type' => $type
+        ])->exists();
+    }
+
+
+}
