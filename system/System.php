@@ -13,5 +13,9 @@ use bengbeng\framework\base\Bootstrap;
  */
 class System extends Bootstrap
 {
-
+    public function init()
+    {
+        parent::init();
+        $this->moduleName = 'system';
+    }
 }
