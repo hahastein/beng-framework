@@ -29,8 +29,10 @@ class ApplyARModel extends BaseActiveRecord
 
     }
 
-    public function findByApplyID($id){
-
+    public function findByApplyID($apply_id){
+        return self::find()->where([
+            'apply_id' => $apply_id
+        ])->one();
     }
 
     public function findByTypeAndUserID($user_id, $type){
