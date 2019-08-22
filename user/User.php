@@ -4,7 +4,6 @@
 namespace bengbeng\framework\user;
 
 use bengbeng\framework\base\Bootstrap;
-use yii\base\UnknownPropertyException;
 
 /**
  * 用户系统入口

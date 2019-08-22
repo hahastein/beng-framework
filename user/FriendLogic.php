@@ -61,6 +61,10 @@ class FriendLogic extends UserBase
             $transaction->rollBack();
             $this->error = $ex->getMessage();
             return false;
+        }catch (\Throwable $ex){
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
         }
     }
 

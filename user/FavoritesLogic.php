@@ -13,12 +13,11 @@ use yii\db\StaleObjectException;
 
 class FavoritesLogic extends UserBase
 {
-    private $favModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->favModel = new UserFavoritesARModel();
+        $this->moduleModel = new UserFavoritesARModel();
     }
 
     /**
@@ -79,7 +78,7 @@ class FavoritesLogic extends UserBase
      */
     private function save($id, $type, $autoDelete = true){
         try{
-            if($deleteModel = $this->favModel->findByModuleAndID($id, $this->getUserID(), $type)){
+            if($deleteModel = $this->moduleModel->findByModuleAndID($id, $this->getUserID(), $type)){
                 if($autoDelete){
                     if($deleteModel->delete()){
                         return true;
@@ -91,12 +90,12 @@ class FavoritesLogic extends UserBase
                 }
             }else{
                 //写入收藏表
-                $this->favModel->object_id = $id;
-                $this->favModel->user_id = $this->getUserID();
-                $this->favModel->module = $type;
-                $this->favModel->createtime = time();
+                $this->moduleModel->object_id = $id;
+                $this->moduleModel->user_id = $this->getUserID();
+                $this->moduleModel->module = $type;
+                $this->moduleModel->createtime = time();
 
-                if($this->favModel->save()){
+                if($this->moduleModel->save()){
                     return true;
                 }else{
                     throw new Exception('收藏失败');

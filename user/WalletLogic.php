@@ -16,11 +16,6 @@ use yii\db\Exception;
 class WalletLogic extends UserBase
 {
 
-    /**
-     * @var WalletRecordARModel $recordModel
-     */
-    private $recordModel;
-
     const WALLET_MODE_BALANCE = 10;
     const WALLET_MODE_VIRTUAL_COIN = 20;
     const WALLET_MODE_POINTS = 30;
@@ -28,7 +23,7 @@ class WalletLogic extends UserBase
     public function __construct()
     {
         parent::__construct();
-        $this->recordModel = new WalletRecordARModel();
+        $this->moduleModel = new WalletRecordARModel();
     }
 
     /**
@@ -36,7 +31,7 @@ class WalletLogic extends UserBase
      * @return int|string
      */
     public function isCheckin(){
-        return $this->recordModel->isExistTodayInfo();
+        return $this->moduleModel->isExistTodayInfo();
     }
 
     public function signGetPoints(){
@@ -64,16 +59,16 @@ class WalletLogic extends UserBase
             }
 
             //写入日志
-            $this->recordModel->user_id = $this->getUserID();
-            $this->recordModel->username = $this->user->nickname;
-            $this->recordModel->coin = $currency;
-            $this->recordModel->org_coin = $orgCurrency;
-            $this->recordModel->mode = $mode;
-            $this->recordModel->tools = $tools;
-            $this->recordModel->tools_desc = $tools_desc;
-            $this->recordModel->createtime = time();
+            $this->moduleModel->user_id = $this->getUserID();
+            $this->moduleModel->username = $this->user->nickname;
+            $this->moduleModel->coin = $currency;
+            $this->moduleModel->org_coin = $orgCurrency;
+            $this->moduleModel->mode = $mode;
+            $this->moduleModel->tools = $tools;
+            $this->moduleModel->tools_desc = $tools_desc;
+            $this->moduleModel->createtime = time();
 
-            if($this->recordModel->save()){
+            if($this->moduleModel->save()){
 
                 $currency = $currency + $orgCurrency;
                 if($this->userModel->dataUpdate(function (ActiveOperate $operate) use ($currency){
@@ -141,7 +136,7 @@ class WalletLogic extends UserBase
      * @return array
      */
     public function record($mode){
-        $record = $this->recordModel->findByUserIDAndMode($this->getUserID(), $mode);
+        $record = $this->moduleModel->findByUserIDAndMode($this->getUserID(), $mode);
         foreach ($record as $key => $item){
             $record[$key]['createtime'] = date('Y-m-d H:i', $item['createtime']);
         }

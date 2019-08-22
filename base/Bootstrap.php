@@ -33,8 +33,6 @@ class Bootstrap
             $this->setUnionID($unionID);
         }
         $this->userID = 0;
-        $this->user = false;
-
         $this->init();
     }
 
