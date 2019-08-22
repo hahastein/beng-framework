@@ -25,22 +25,28 @@ class AttachmentLogic extends Modules
 
         $insertValue = [];
         foreach ($_files as $key => $pic){
-            $insertValue[] = [
-                'att_type' => $type,
-                'obj_url' => $_files['originPath'],
-                'object_id' => $object_id,
-                'addtime' => time()
+            $item = [
+                $type,
+                $_files['originPath'],
+                $object_id,
+                time()
             ];
             if($key == 0){
-                $insertValue['is_default'] = 1;
+                $item[] = 1;
+            }else{
+                $item[] = 0;
             }
+
+            $insertValue[] = $item;
         }
 
         if( \Yii::$app->db->createCommand()->batchInsert(AttachmentARModel::tableName(), [
-            'setting_model',
-            'setting_string_value',
-            'setting_int_value',
-            'is_system'], $insertValue)->execute() ){
+            'att_type',
+            'obj_url',
+            'object_id',
+            'addtime',
+            'is_default'
+            ], $insertValue)->execute() ){
             return true;
         }else{
             return false;

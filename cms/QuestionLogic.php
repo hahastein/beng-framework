@@ -118,8 +118,9 @@ class QuestionLogic extends CmsBase
             }else{
                 $uploadResult = $upload->save(false);
 
+                $system = new System();
                 //写入图片
-                if($uploadResult && !(new System())->attachment->save($uploadResult, \Yii::$app->db->lastInsertID, Enum::MODULE_TYPE_FAQS)){
+                if($uploadResult && !$system->attachment->save($uploadResult, \Yii::$app->db->lastInsertID, Enum::MODULE_TYPE_FAQS)){
                     throw new Exception('回复失败[20081]。图片写入失败');
                 }
             }
