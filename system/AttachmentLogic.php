@@ -42,6 +42,8 @@ class AttachmentLogic extends Modules
                 $insertValue[] = $item;
             }
 
+            var_dump($insertValue);die;
+
             if( \Yii::$app->db->createCommand()->batchInsert(AttachmentARModel::tableName(), [
                 'att_type',
                 'obj_url',
