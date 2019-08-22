@@ -29,7 +29,7 @@ class AttachmentLogic extends Modules
             foreach ($_files as $key => $pic){
                 $item = [
                     $type,
-                    $pic['originPath'],
+                    \Yii::getAlias('@resUrl').$pic['originPath'],
                     $object_id,
                     time()
                 ];
