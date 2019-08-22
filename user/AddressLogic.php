@@ -21,7 +21,7 @@ class AddressLogic extends UserBase
     public function __construct()
     {
         parent::__construct();
-        $this->model = new AddressARModel();
+        $this->moduleModel = new AddressARModel();
     }
 
     /**
@@ -29,7 +29,7 @@ class AddressLogic extends UserBase
      * @return array
      */
     public function all(){
-        return $this->model->find()->where([
+        return $this->moduleModel->find()->where([
             'user_id' => $this->getUserID()
         ])->orderBy([
             'is_default' => SORT_DESC
@@ -42,7 +42,7 @@ class AddressLogic extends UserBase
      */
     public function one(){
 //        $this->getPost();
-        return $this->model->findByAddressID($this->addressID, $this->getUserID(), []);
+        return $this->moduleModel->findByAddressID($this->addressID, $this->getUserID(), []);
     }
 
     /**
@@ -50,7 +50,7 @@ class AddressLogic extends UserBase
      * @return array|null
      */
     public function frequent(){
-        return $this->model->find()->where([
+        return $this->moduleModel->find()->where([
             'user_id' => $this->getUserID(),
             'is_default' => 1
         ])->asArray()->one();
@@ -68,14 +68,14 @@ class AddressLogic extends UserBase
             if ($this->addressID <= 0) {
                 throw new \Exception('参数错误');
             }
-            $changeOrg = $this->model->dataUpdate(function (ActiveOperate $operate){
+            $changeOrg = $this->moduleModel->dataUpdate(function (ActiveOperate $operate){
                 $operate->where([
                     'user_id' => $this->getUserID(),
                 ]);
                 $operate->params(['is_default' => 0]);
             });
 
-            $changeCur = $this->model->dataUpdate(function (ActiveOperate $operate){
+            $changeCur = $this->moduleModel->dataUpdate(function (ActiveOperate $operate){
                 $operate->where([
                     'user_id' => $this->getUserID(),
                     'address_id' => $this->addressID
@@ -106,12 +106,12 @@ class AddressLogic extends UserBase
             if ($this->addressID <= 0) {
                 throw new \Exception('参数错误');
             }
-            $this->model = self::one();
-            if(!$this->model){
+            $this->moduleModel = self::one();
+            if(!$this->moduleModel){
                 throw new \Exception('数据不存在');
             }
 
-            if($this->model->delete()){
+            if($this->moduleModel->delete()){
                 return true;
             }else{
                 throw new \Exception('删除失败');
@@ -133,32 +133,32 @@ class AddressLogic extends UserBase
         $this->getPost();
 
         if ($this->addressID > 0) {
-            $this->model = self::one();
-            if (!$this->model) {
+            $this->moduleModel = self::one();
+            if (!$this->moduleModel) {
                 $this->error = "数据不存在";
                 return false;
             }
-            $this->model->setScenario('modify');
+            $this->moduleModel->setScenario('modify');
         }else{
-            $this->model->addtime = time();
-            $this->model->setScenario('insert');
+            $this->moduleModel->addtime = time();
+            $this->moduleModel->setScenario('insert');
         }
 
-//        $this->model->setAttributes($this->saveParams);
+//        $this->moduleModel->setAttributes($this->saveParams);
 
-        if($this->model->load($this->saveParams, '')){
-            $this->model->is_default = (int)$this->saveParams['is_default'];
+        if($this->moduleModel->load($this->saveParams, '')){
+            $this->moduleModel->is_default = (int)$this->saveParams['is_default'];
             if ($this->addressID === 0) {
                 $this->addressID = time();
             }
-            if ($this->model->save()) {
+            if ($this->moduleModel->save()) {
                 return $this->addressID > 0 ? $this->addressID : \Yii::$app->db->lastInsertID;
             } else {
                 $this->error = "数据变更失败";
                 return false;
             }
         }else{
-            $this->error = current($this->model->getFirstErrors());
+            $this->error = current($this->moduleModel->getFirstErrors());
             return false;
         }
     }

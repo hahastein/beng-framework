@@ -216,8 +216,8 @@ class QuestionLogic extends CmsBase
      * @param $code
      * @return bool
      */
-    public function exits($code){
-        return $this->moduleModel->exits($this->questionID, $code);
+    public function exists($code){
+        return $this->moduleModel->exists($this->questionID, $code);
     }
 
     protected function parseDataOne($item)

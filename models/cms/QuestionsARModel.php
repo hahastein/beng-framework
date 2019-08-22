@@ -62,11 +62,16 @@ class QuestionsARModel extends BaseActiveRecord
         return $this->hasMany(FaqIdentifyARModel::className(),['question_id' => 'question_id']);
     }
 
-    public function exits($question_id, $code){
-        return self::find()->where([
+    public function exists($question_id, $code = ''){
+        $model = self::find()->where([
             'question_id' => $question_id,
-            'url_code' => $code
-        ])->exists();
+        ]);
+        if(!empty($code)){
+            $model->andWhere([
+                'url_code' => $code
+            ]);
+        }
+        return $model->exists();
     }
 
     public function findAllByCateID($cate_id = 0){

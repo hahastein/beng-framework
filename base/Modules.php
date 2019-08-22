@@ -5,6 +5,7 @@ namespace bengbeng\framework\base;
 
 use bengbeng\framework\user\UserProperty;
 use bengbeng\framework\user\UserUtil;
+use yii\db\Exception;
 
 class Modules
 {
@@ -160,5 +161,22 @@ class Modules
             return $userProperty;
         }
         return false;
+    }
+
+    protected function Transaction(){
+        $tr = \Yii::$app->db->beginTransaction();
+        try{
+            $this->TransactionLogic();
+            $tr->commit();
+            return true;
+        }catch (Exception $ex) {
+            $tr->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+    protected function TransactionLogic(){
+
     }
 }
