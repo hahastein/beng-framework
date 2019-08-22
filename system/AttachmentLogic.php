@@ -23,6 +23,7 @@ class AttachmentLogic extends Modules
      * @throws \yii\db\Exception
      */
     public function save($_files, $object_id, $type){
+        var_dump($_files);die;
 
         try{
             $insertValue = [];
@@ -42,7 +43,6 @@ class AttachmentLogic extends Modules
                 $insertValue[] = $item;
             }
 
-            var_dump($insertValue);die;
 
             if( \Yii::$app->db->createCommand()->batchInsert(AttachmentARModel::tableName(), [
                 'att_type',
