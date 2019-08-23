@@ -31,7 +31,9 @@ class AccountLogic extends UserBase
         try{
 
             $upload = new UploadHandle([
-                'savePath' => 'upload/user'
+                'driverConfig' => [
+                    'savePath' => 'upload/user'
+                ]
             ]);
 
             if($upload->getFileCount() > 1){
