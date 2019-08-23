@@ -60,7 +60,7 @@ class UploadAction extends Action
                 foreach ($images as $image) {
                     $attModel = new AttachmentARModel();
                     $attModel->att_type = Enum::ATTACHMENT_TYPE_STORE;
-                    $attModel->obj_url = $image['path'];
+                    $attModel->obj_url = $image['originPath'];
                     $attModel->obj_id = $obj_id;
                     $attModel->addtime = time();
 
