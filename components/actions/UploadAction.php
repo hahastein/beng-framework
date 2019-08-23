@@ -47,7 +47,9 @@ class UploadAction extends Action
             }
 
             $upload = new UploadHandle([
-                'savePath' => $this->uploadDir . $this->uploadModel
+                'driverConfig' => [
+                    'savePath' => $this->uploadDir . $this->uploadModel
+                ]
             ]);
             $images = $upload->save();
             if($images === false && !$images) {
