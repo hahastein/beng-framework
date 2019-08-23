@@ -5,6 +5,7 @@ namespace bengbeng\framework\models\cms;
 
 use bengbeng\framework\base\BaseActiveRecord;
 use bengbeng\framework\cms\Cms;
+use bengbeng\framework\models\CategoryARModel;
 use yii\db\ActiveQuery;
 
 /**
@@ -51,6 +52,13 @@ class ArticleARModel extends BaseActiveRecord
             'introduce',
             'head',
             'extend'
+        ]);
+    }
+
+    public function getCate(){
+        return $this->hasOne(CategoryARModel::className(),['cate_id'=>'cate_id'])->select([
+            'cate_id',
+            'cate_name'
         ]);
     }
 
