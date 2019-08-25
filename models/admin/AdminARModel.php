@@ -5,6 +5,7 @@ use bengbeng\framework\base\BaseActiveRecord;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
 use yii\web\IdentityInterface;
 
 /**
@@ -150,25 +151,14 @@ class AdminARModel extends BaseActiveRecord implements IdentityInterface{
 
     /**
      * 返回所有管理员信息
-     * @param bool $where
-     * @return ActiveDataProvider
+     * @return array
      */
-    public function findByAll($where=false){
-        $query = self::find()->where($where);
+    public function findByAll(){
 
-        $query->orderBy([
-            'admin_level' => SORT_ASC
-        ]);
+        return self::dataSet(function (ActiveQuery $query){
+            $query->asArray();
+        });
 
-        $provider['query'] = $query;
-        if($this->pageSize>0) {
-            $provider['pagination'] = [
-                'pageSize' => $this->pageSize
-            ];
-        }
-
-        $dataProvider = new ActiveDataProvider($provider);
-        return $dataProvider;
     }
 
     /**
