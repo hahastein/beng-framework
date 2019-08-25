@@ -24,4 +24,12 @@ class PermissionsARModel extends BaseActiveRecord
     {
         return '{{%permissions}}';
     }
+
+    public function getChild(){
+        return $this->hasMany(self::className(),['parent_id'=>'permissions_id']);
+    }
+
+    public function findShowLayerByAll(){
+        return self::find()->with(['child'])->where(['parent_id' => 0])->orderBy(['order' => SORT_DESC])->asArray()->all();
+    }
 }
