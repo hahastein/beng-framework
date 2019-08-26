@@ -67,6 +67,17 @@ class CommentARModel extends BaseActiveRecord
         });
     }
 
+    public function findOneByObjectAndUserID($userID, $mode, $objectID){
+        return $this->dataOne(function (ActiveQuery $query) use($userID, $mode, $objectID){
+            $query->with(['user']);
+            $query->where([
+                'comment_module' => $mode,
+                'object_id' => $objectID,
+                'user_id' => $userID
+            ]);
+        });
+    }
+
     public function findByArticle($user_id){
 
         return $this->dataSet(function (ActiveQuery $query) use($user_id){
