@@ -22,6 +22,13 @@ class AccountLogic extends UserBase
     }
 
     /**
+     * @return array
+     */
+    public function Info(){
+        return $this->userModel->findOneByUserId($this->getUserID())->toArray();
+    }
+
+    /**
      * 修改用户信息(修正中，无法使用)
      * @param array $user
      * @return bool
