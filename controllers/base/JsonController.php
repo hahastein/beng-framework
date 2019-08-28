@@ -105,10 +105,10 @@ class JsonController extends Controller{
     public function beforeAction($action)
     {
 
-        if(empty($this->token)){
-            $this->outputCode = self::CODE_ERROR_4031;
-            $this->asJson($this->splicingOutputContent())->send();
-        }
+//        if(empty($this->token)){
+//            $this->outputCode = self::CODE_ERROR_4031;
+//            $this->asJson($this->splicingOutputContent())->send();
+//        }
 
         $this->longitude = Yii::$app->request->post('lng',0);
         $this->latitude = Yii::$app->request->post('lat',0);
