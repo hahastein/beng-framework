@@ -51,6 +51,7 @@ class ArticleARModel extends BaseActiveRecord
             'jobs',
             'introduce',
             'head',
+            'tag',
             'extend'
         ]);
     }
