@@ -4,8 +4,10 @@
 namespace bengbeng\framework\models\cms;
 
 use bengbeng\framework\base\BaseActiveRecord;
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\cms\Cms;
 use bengbeng\framework\models\CategoryARModel;
+use bengbeng\framework\models\UserFavoritesARModel;
 use yii\db\ActiveQuery;
 
 /**
@@ -61,6 +63,12 @@ class ArticleARModel extends BaseActiveRecord
             'cate_id',
             'cate_name'
         ]);
+    }
+
+    public function getFav(){
+        return $this->hasOne(UserFavoritesARModel::className(),['user_id'=>'user_id', 'object_id' => 'article_id'])->where([
+            'module' => Enum::MODULE_TYPE_ARTICLE
+        ])->exists();
     }
 
     public function exists($article_id){

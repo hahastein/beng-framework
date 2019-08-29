@@ -57,7 +57,8 @@ class ArticleLogic extends CmsBase
      * 获取详情
      */
     public function info(){
-        $this->moduleModel->showField[] = ['app_content'];
+        $this->moduleModel->showField = ['article_id', 'user_id', 'url_code','comment_count','share_count','video_url','cover_image'];
+        $this->moduleModel->with = ['fav'];
         $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
         return $this->parseDataOne($articleData);
     }
