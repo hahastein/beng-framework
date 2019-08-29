@@ -93,9 +93,9 @@ class ArticleLogic extends CmsBase
             $item['video_url'] = \Yii::getAlias('@cdnUrl').'/'.$item['video_url'];
         }
         if(isset($item['fav'])){
-            $item['fav'] = true;
+            $item['fav'] = 1;
         }else{
-            $item['fav'] = false;
+            $item['fav'] = 0;
         }
 
         return $item;
