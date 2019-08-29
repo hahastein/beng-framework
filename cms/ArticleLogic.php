@@ -3,7 +3,9 @@
 
 namespace bengbeng\framework\cms;
 
+use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\cms\ArticleARModel;
+use yii\db\ActiveQuery;
 
 /**
  * 文章系统
@@ -58,7 +60,14 @@ class ArticleLogic extends CmsBase
      */
     public function info(){
         $this->moduleModel->showField = ['article_id', 'user_id', 'url_code','comment_count','share_count','video_url','cover_image'];
-        $this->moduleModel->with = ['fav'];
+        if($this->getUserID()){
+            $this->moduleModel->with = ['fav' => function(ActiveQuery $query){
+                $query->where([
+                    'module' => Enum::MODULE_TYPE_ARTICLE,
+                    'user_id' => $this->getUserID()
+                ]);
+            }];
+        }
         $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
         return $this->parseDataOne($articleData);
     }
