@@ -93,10 +93,6 @@ class ArticleLogic extends CmsBase
             $item['video_url'] = \Yii::getAlias('@cdnUrl').'/'.$item['video_url'];
         }
 
-        if(isset($item['cover_image'])){
-            $item['cover_image'] = \Yii::getAlias('@cdnUrl').'/'.$item['video_url'];
-        }
-
         return $item;
     }
 
