@@ -61,9 +61,7 @@ class ArticleLogic extends CmsBase
     public function info(){
         $this->moduleModel->with=[];
         $this->moduleModel->showField = ['article_id', 'user_id', 'url_code','comment_count','share_count','video_url','cover_image'];
-
-        var_dump($this->getUserID());die;
-        if($this->getUser()){
+        if($this->getUserID()){
             $this->moduleModel->with = ['fav' => function(ActiveQuery $query){
                 $query->where([
                     'module' => Enum::MODULE_TYPE_ARTICLE,
