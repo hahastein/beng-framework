@@ -156,6 +156,7 @@ class Modules
      * @return UserProperty|bool|NULL
      */
     private function unionToUser(){
+        var_dump($this->unionID);die;
         $userProperty = UserUtil::getCache($this->unionID);
         if($userProperty && isset($userProperty->userID)){
             return $userProperty;
