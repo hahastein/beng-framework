@@ -57,6 +57,12 @@ class GoodsARModel extends BaseActiveRecord
         ]);
     }
 
+    public function getImageDefault(){
+        return $this->hasOne(AttachmentARModel::className(),['object_id'=>'goods_id'])->where(['att_type' => Enum::MODULE_TYPE_GOODS, 'is_default' => 1])->select([
+            'object_id', 'obj_url', 'is_default'
+        ]);
+    }
+
     public function findStatusByAll(){
         return self::dataSet(function (ActiveQuery $query){
             $query->where([
