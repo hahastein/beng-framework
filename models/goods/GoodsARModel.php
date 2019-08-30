@@ -63,6 +63,16 @@ class GoodsARModel extends BaseActiveRecord
         ]);
     }
 
+    public function getSpell(){
+
+        return $this->hasOne(SpellGoodsARModel::className(),['goods_id'=>'goods_id'])->where(['status ' => 1])->select([
+            'goods_id', 'limit_num',
+            'spell_price','spell_integral',
+            'spell_pay_mode', 'spell_name',
+            'spell_desc', 'spell_start_time', 'spell_end_time'
+        ]);
+    }
+
     public function findStatusByAll(){
         return self::dataSet(function (ActiveQuery $query){
             $query->where([
@@ -72,5 +82,16 @@ class GoodsARModel extends BaseActiveRecord
             ]);
             $query->asArray();
         });
+    }
+
+    public function findOneByGoodsID($goods_id){
+
+        return self::dataOne(function (ActiveQuery $query) use ($goods_id){
+            $query->where([
+                'goods_id' => $goods_id
+            ]);
+            $query->asArray();
+        });
+
     }
 }
