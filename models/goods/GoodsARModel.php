@@ -64,9 +64,6 @@ class GoodsARModel extends BaseActiveRecord
                 'goods_verify' => 1,
                 'goods_lock' => 0
             ]);
-            if($query->with){
-                $query->with($this->with);
-            }
             $query->asArray();
         });
     }
