@@ -9,6 +9,8 @@
 namespace bengbeng\framework\models\goods;
 
 use bengbeng\framework\base\BaseActiveRecord;
+use bengbeng\framework\base\Enum;
+use bengbeng\framework\models\AttachmentARModel;
 use yii\db\ActiveQuery;
 
 /**
@@ -49,6 +51,12 @@ class GoodsARModel extends BaseActiveRecord
         return "{{%shop_goods}}";
     }
 
+    public function getImages(){
+        return $this->hasMany(AttachmentARModel::className(),['object_id'=>'goods_id'])->where(['att_type' => Enum::MODULE_TYPE_GOODS])->select([
+            'object_id', 'obj_url', 'is_default'
+        ]);
+    }
+
     public function findStatusByAll(){
         return self::dataSet(function (ActiveQuery $query){
             $query->where([
@@ -56,6 +64,10 @@ class GoodsARModel extends BaseActiveRecord
                 'goods_verify' => 1,
                 'goods_lock' => 0
             ]);
+            if($query->with){
+                $query->with($this->with);
+            }
+            $query->asArray();
         });
     }
 }
