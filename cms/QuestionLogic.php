@@ -48,7 +48,7 @@ class QuestionLogic extends CmsBase
     }
 
     public function noReply(){
-        $data = $this->moduleModel->findAllByCateID();
+        $data = $this->moduleModel->findAllByNoReply();
         return $this->parseDataAll($data);
     }
 
