@@ -73,6 +73,15 @@ class GoodsARModel extends BaseActiveRecord
         ]);
     }
 
+    public function exists($goods_id){
+        return self::find()->where([
+            'goods_id' => $goods_id,
+            'goods_state' => 1,
+            'goods_verify' => 1,
+            'goods_lock' => 0
+        ])->exists();
+    }
+
     public function findStatusByAll(){
         return self::dataSet(function (ActiveQuery $query){
             $query->where([
@@ -88,7 +97,10 @@ class GoodsARModel extends BaseActiveRecord
 
         return self::dataOne(function (ActiveQuery $query) use ($goods_id){
             $query->where([
-                'goods_id' => $goods_id
+                'goods_id' => $goods_id,
+                'goods_state' => 1,
+                'goods_verify' => 1,
+                'goods_lock' => 0
             ]);
             $query->asArray();
         });
