@@ -65,6 +65,18 @@ class QuestionLogic extends CmsBase
 
     }
 
+    public function my()
+    {
+
+        if($this->getUserID()){
+            $data = $this->moduleModel->findAllByUserID($this->getUserID());
+            return $this->parseDataAll($data);
+        }else{
+            return false;
+        }
+
+    }
+
     public function search($keyword){
         $questionData = $this->moduleModel->findAllByKeyword($keyword);
         return $this->parseDataAll($questionData);
