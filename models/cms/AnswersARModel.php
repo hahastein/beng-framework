@@ -67,7 +67,7 @@ class AnswersARModel extends BaseActiveRecord
             ]);
 
             $query->orderBy([
-                'replytime' => SORT_DESC
+                'max(replytime)' => SORT_DESC
             ]);
 
             $query->asArray();
