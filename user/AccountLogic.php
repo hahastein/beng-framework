@@ -6,6 +6,7 @@ namespace bengbeng\framework\user;
 
 use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\components\handles\UploadHandle;
+use bengbeng\framework\models\cms\AnswersARModel;
 use yii\db\Exception;
 
 /**
@@ -26,6 +27,12 @@ class AccountLogic extends UserBase
      */
     public function Info(){
         return $this->userModel->findOneByUserId($this->getUserID())->toArray();
+    }
+
+    public function answer(){
+        $answerModel = new AnswersARModel();
+
+        return $answerModel->findGroupAllByUserID($this->getUserID());
     }
 
     /**

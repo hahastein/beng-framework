@@ -57,6 +57,24 @@ class AnswersARModel extends BaseActiveRecord
         ]);
 
     }
+    public function findGroupAllByUserID($user_id){
+        return self::dataSet(function (ActiveQuery $query) use($user_id){
+
+            $query->select(['question_id']);
+            $query->groupBy(['question_id']);
+            $query->where([
+                'user_id' => $user_id,
+            ]);
+
+            $query->orderBy([
+                'replytime' => SORT_DESC
+            ]);
+
+            $query->asArray();
+
+        });
+
+    }
 
     private function findByAll($where = false){
         return self::dataSet(function (ActiveQuery $query) use ($where){
