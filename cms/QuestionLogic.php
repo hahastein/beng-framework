@@ -234,6 +234,11 @@ class QuestionLogic extends CmsBase
         $item = parent::parseDataOne($item);
         //生成H5地址
         $item['h5_url'] = \Yii::getAlias('@hybridUrl') . '/faq/' . $item['url_code'];
+        if(isset($item['fav'])){
+            $item['fav'] = 1;
+        }else{
+            $item['fav'] = 0;
+        }
         return $item;
     }
 }
