@@ -90,6 +90,21 @@ class QuestionsARModel extends BaseActiveRecord
 
     }
 
+
+    public function findAllByNoReply($cate_id = 0){
+        if($cate_id > 0){
+            return $this->findByAll([
+                'cate_id' => $cate_id,
+                'reply_count' => 0
+            ]);
+        }else{
+            return $this->findByAll([
+                'reply_count' => 0
+            ]);
+        }
+
+    }
+
     public function findAllByUserID($user_id){
         return $this->findByAll([
             'user_id' => $user_id

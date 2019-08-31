@@ -47,12 +47,17 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($data);
     }
 
+    public function noReply(){
+        $data = $this->moduleModel->findAllByCateID();
+        return $this->parseDataAll($data);
+    }
+
     public function info($code)
     {
 
         $this->moduleModel->with = ['identify'];
-        if($this->getUserID()){
-            $this->moduleModel->with['fav'] = function(ActiveQuery $query){
+        if ($this->getUserID()) {
+            $this->moduleModel->with['fav'] = function (ActiveQuery $query) {
                 $query->where([
                     'module' => Enum::MODULE_TYPE_FAQS,
                     'user_id' => $this->getUserID()
