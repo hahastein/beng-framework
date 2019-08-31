@@ -65,7 +65,7 @@ class AnswersARModel extends BaseActiveRecord
         return self::dataSet(function (ActiveQuery $query) use($user_id){
 
             $query->select(['question_id']);
-            $query->with(['question']);
+            $query->with(['question.user']);
             $query->groupBy(['question_id']);
             $query->where([
                 'user_id' => $user_id,
