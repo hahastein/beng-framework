@@ -64,7 +64,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function getFav(){
-        return $this->hasOne(UserFavoritesARModel::className(),['object_id' => 'article_id']);
+        return $this->hasOne(UserFavoritesARModel::className(),['object_id' => 'question_id']);
     }
 
     public function exists($question_id, $code = ''){
