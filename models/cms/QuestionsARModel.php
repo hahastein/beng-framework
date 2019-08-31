@@ -9,6 +9,7 @@ use bengbeng\framework\base\Enum;
 use bengbeng\framework\cms\Cms;
 use bengbeng\framework\models\AttachmentARModel;
 use bengbeng\framework\models\UserARModel;
+use bengbeng\framework\models\UserFavoritesARModel;
 use yii\db\ActiveQuery;
 
 /**
@@ -62,6 +63,10 @@ class QuestionsARModel extends BaseActiveRecord
         return $this->hasMany(FaqIdentifyARModel::className(),['question_id' => 'question_id']);
     }
 
+    public function getFav(){
+        return $this->hasOne(UserFavoritesARModel::className(),['object_id' => 'article_id']);
+    }
+
     public function exists($question_id, $code = ''){
         $model = self::find()->where([
             'question_id' => $question_id,
@@ -113,19 +118,17 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function findInfoByQuestionIDAndCode($id, $code){
+
+        if(!$this->with){
+            $this->with = [];
+        }
+        $this->with[] = 'user';
+        $this->with[] = 'images';
+
         return self::dataOne(function (ActiveQuery $query) use ($id, $code){
             if($this->showField){
                 $query->select($this->showField);
             }
-
-
-            if(!$this->with){
-                $this->with = [];
-            }
-
-            $this->with = array_merge($this->with, ['user', 'images']);
-
-            $query->with($this->with);
 
             $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
 

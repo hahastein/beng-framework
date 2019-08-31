@@ -9,6 +9,7 @@ use bengbeng\framework\components\helpers\StringHelpers;
 use bengbeng\framework\models\cms\AnswersARModel;
 use bengbeng\framework\models\cms\QuestionsARModel;
 use bengbeng\framework\system\System;
+use yii\db\ActiveQuery;
 use yii\db\Exception;
 
 /**
@@ -50,6 +51,14 @@ class QuestionLogic extends CmsBase
     {
 
         $this->moduleModel->with = ['identify'];
+        if($this->getUserID()){
+            $this->moduleModel->with[] = ['fav' => function(ActiveQuery $query){
+                $query->where([
+                    'module' => Enum::MODULE_TYPE_FAQS,
+                    'user_id' => $this->getUserID()
+                ]);
+            }];
+        }
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
 
         return $this->parseDataOne($data);
