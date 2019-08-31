@@ -66,7 +66,7 @@ class GoodsARModel extends BaseActiveRecord
     public function getSpell(){
 
         return $this->hasOne(SpellGoodsARModel::className(),['goods_id'=>'goods_id'])->where(['status' => 1])->select([
-            'goods_id', 'limit_num',
+            'goods_id', 'limit_num','buy_count',
             'spell_price','spell_integral',
             'spell_pay_mode', 'spell_name',
             'spell_desc', 'spell_start_time', 'spell_end_time'
