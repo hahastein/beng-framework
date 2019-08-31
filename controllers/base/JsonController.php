@@ -169,7 +169,7 @@ class JsonController extends Controller{
             case self::CODE_ERROR_4001:
                 return '参数问题，请检查传入参数';
             case self::CODE_ERROR_4002:
-                return '...';
+                return '未登录';
             default:
                 return '没有定义类型，请联系管理员';
         }
