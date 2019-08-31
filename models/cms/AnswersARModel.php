@@ -41,6 +41,10 @@ class AnswersARModel extends BaseActiveRecord
         ]);
     }
 
+    public function getQuestion(){
+        return $this->hasOne(QuestionsARModel::className(),['question_id'=>'question_id']);
+    }
+
     public function findAllByQuestionID($question_id = 0){
         return $this->findByAll([
             'question_id' => $question_id,
@@ -61,6 +65,7 @@ class AnswersARModel extends BaseActiveRecord
         return self::dataSet(function (ActiveQuery $query) use($user_id){
 
             $query->select(['question_id']);
+            $query->with(['question']);
             $query->groupBy(['question_id']);
             $query->where([
                 'user_id' => $user_id,
