@@ -40,6 +40,9 @@ use yii\db\ActiveQuery;
  */
 class ArticleARModel extends BaseActiveRecord
 {
+
+    public $module = 0;
+
     public static function tableName()
     {
         return '{{%cms_article}}';
@@ -81,8 +84,8 @@ class ArticleARModel extends BaseActiveRecord
             if($cate_id > 0){
                 $whereParams['cate_id'] = $cate_id;
             }
-
             $query->where($whereParams);
+            $query->andWhere(['module' => $this->module]);
             $query->orderBy([
                 'orderby' => SORT_DESC,
                 'updatetime' => SORT_DESC
@@ -98,6 +101,7 @@ class ArticleARModel extends BaseActiveRecord
             $whereParams = ['post_status' => Cms::ARTICLE_STATUS_REVIEWED];
             $query->where($whereParams);
             $query->andWhere(['like', 'title', $keyword]);
+            $query->andWhere(['module' => $this->module]);
             $query->orderBy([
                 'updatetime' => SORT_DESC
             ]);
@@ -114,6 +118,7 @@ class ArticleARModel extends BaseActiveRecord
             ];
 
             $query->where($whereParams);
+            $query->andWhere(['module' => $this->module]);
             $query->orderBy([
                 'orderby' => SORT_DESC,
                 'updatetime' => SORT_DESC
