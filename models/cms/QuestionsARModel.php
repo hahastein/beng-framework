@@ -125,8 +125,6 @@ class QuestionsARModel extends BaseActiveRecord
         $this->with[] = 'user';
         $this->with[] = 'images';
 
-        var_dump(['a', 'b', 'a' => function(){}]);die;
-
         return self::dataOne(function (ActiveQuery $query) use ($id, $code){
             if($this->showField){
                 $query->select($this->showField);

@@ -52,12 +52,12 @@ class QuestionLogic extends CmsBase
 
         $this->moduleModel->with = ['identify'];
         if($this->getUserID()){
-            $this->moduleModel->with[] = ['fav' => function(ActiveQuery $query){
+            $this->moduleModel->with['fav'] = function(ActiveQuery $query){
                 $query->where([
                     'module' => Enum::MODULE_TYPE_FAQS,
                     'user_id' => $this->getUserID()
                 ]);
-            }];
+            };
         }
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
 
