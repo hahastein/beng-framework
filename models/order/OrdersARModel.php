@@ -13,6 +13,8 @@ use bengbeng\framework\base\BaseActiveRecord;
 /**
  * Class OrderARModel
  * @property integer $order_id
+ * @property integer $comment_id 公共ID
+ * @property integer $group_id 分组ID
  * @property integer $order_sn 订单编号
  * @property integer $pay_sn 支付单号
  * @property integer $store_id 店铺id
