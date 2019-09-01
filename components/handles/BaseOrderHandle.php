@@ -7,9 +7,9 @@
  */
 namespace bengbeng\framework\components\handles;
 
+use bengbeng\framework\models\order\OrdersARModel;
 use Yii;
 use bengbeng\framework\base\Enum;
-use bengbeng\framework\models\OrderARModel;
 use yii\db\Exception;
 
 /**
@@ -33,7 +33,7 @@ class BaseOrderHandle
     private $orderModel;
 
     public function __construct(){
-        $this->orderModel = new OrderARModel();
+        $this->orderModel = new OrdersARModel();
         $this->is_trans = false;
     }
 
