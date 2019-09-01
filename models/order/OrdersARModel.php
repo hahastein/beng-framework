@@ -6,20 +6,19 @@
  * Time: 17:36
  */
 
-namespace bengbeng\framework\models;
+namespace bengbeng\framework\models\order;
 
 use bengbeng\framework\base\BaseActiveRecord;
 
-class OrderARModel extends BaseActiveRecord
+/**
+ * Class OrderARModel
+ *
+ * @package bengbeng\framework\models
+ */
+class OrdersARModel extends BaseActiveRecord
 {
     public static function tableName(){
-        return '{{%order}}';
+        return '{{%shop_orders}}';
     }
 
-    public function rules()
-    {
-        return [
-
-        ];
-    }
 }
