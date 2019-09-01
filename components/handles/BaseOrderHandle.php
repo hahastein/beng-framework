@@ -21,10 +21,11 @@ use yii\db\Exception;
 class BaseOrderHandle
 {
 
-    public $order_fields;
-    public $user_id;
-    public $store_id;
-    public $is_trans;
+    private $order_fields;
+    private $user_id;
+    private $store_id;
+    private $store_name;
+    private $is_trans;
 
     private $orderSn;
     private $orderID;
@@ -35,6 +36,8 @@ class BaseOrderHandle
     public function __construct(){
         $this->orderModel = new OrdersARModel();
         $this->is_trans = false;
+        $this->store_id = 0;
+        $this->store_name = '';
     }
 
     /**
