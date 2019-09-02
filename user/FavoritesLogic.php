@@ -7,6 +7,7 @@ namespace bengbeng\framework\user;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\cms\ArticleARModel;
 use bengbeng\framework\models\cms\QuestionsARModel;
+use bengbeng\framework\models\goods\GoodsARModel;
 use bengbeng\framework\models\UserFavoritesARModel;
 use yii\db\Exception;
 use yii\db\StaleObjectException;
@@ -62,6 +63,26 @@ class FavoritesLogic extends UserBase
             }
 
             return $this->save($question_id,Enum::MODULE_TYPE_FAQS, $autoDelete);
+
+        }catch (Exception $ex){
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+    public function goods($goods_id = 0, $autoDelete = true){
+        $goods_id = $goods_id>0?$goods_id:\Yii::$app->request->post('goods_id', 0);
+        try{
+            if($goods_id <= 0  || !$this->getUserID()){
+                throw new Exception('参数错误');
+            }
+
+            $goodsModel = new GoodsARModel();
+            if(!$goodsModel->exists($goods_id)){
+                throw new Exception('商品不存在');
+            }
+
+            return $this->save($goods_id,Enum::MODULE_TYPE_GOODS, $autoDelete);
 
         }catch (Exception $ex){
             $this->error = $ex->getMessage();
