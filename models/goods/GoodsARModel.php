@@ -11,6 +11,7 @@ namespace bengbeng\framework\models\goods;
 use bengbeng\framework\base\BaseActiveRecord;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\AttachmentARModel;
+use bengbeng\framework\models\UserFavoritesARModel;
 use yii\db\ActiveQuery;
 
 /**
@@ -71,6 +72,10 @@ class GoodsARModel extends BaseActiveRecord
             'spell_pay_mode', 'spell_name',
             'spell_desc', 'spell_start_time', 'spell_end_time', 'finish_expire', 'status'
         ]);
+    }
+
+    public function getFav(){
+        return $this->hasOne(UserFavoritesARModel::className(),['object_id' => 'goods_id']);
     }
 
     public function exists($goods_id){
