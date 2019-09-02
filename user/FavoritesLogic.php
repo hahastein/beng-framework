@@ -15,6 +15,8 @@ use yii\db\StaleObjectException;
 class FavoritesLogic extends UserBase
 {
 
+    private $isCancel = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -102,6 +104,7 @@ class FavoritesLogic extends UserBase
             if($deleteModel = $this->moduleModel->findByModuleAndID($id, $this->getUserID(), $type)){
                 if($autoDelete){
                     if($deleteModel->delete()){
+                        $this->isCancel = true;
                         return true;
                     }else{
                         throw new Exception('取消收藏失败');
@@ -117,6 +120,7 @@ class FavoritesLogic extends UserBase
                 $this->moduleModel->createtime = time();
 
                 if($this->moduleModel->save()){
+                    $this->isCancel = false;
                     return true;
                 }else{
                     throw new Exception('收藏失败');
@@ -127,5 +131,9 @@ class FavoritesLogic extends UserBase
         }catch (\Throwable $ex){
             throw new Exception($ex->getMessage());
         }
+    }
+
+    public function getIsCancel(){
+        return $this->isCancel;
     }
 }
