@@ -132,6 +132,24 @@ class QuestionsARModel extends BaseActiveRecord
         });
     }
 
+    public function findInfoByUserAndQuestionID($user_id, $id){
+        return self::dataOne(function (ActiveQuery $query) use ($user_id,$id){
+            if($this->showField){
+                $query->select($this->showField);
+            }
+
+            if($this->with && count($this->with) > 0){
+                $query->with($this->with);
+            }
+
+            $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
+            $query->andWhere([
+                'question_id' => $id,
+                'user_id' => $user_id
+            ]);
+        });
+    }
+
     public function findInfoByQuestionIDAndCode($id, $code){
 
         if(!$this->with){
