@@ -87,13 +87,18 @@ class GoodsARModel extends BaseActiveRecord
         ])->exists();
     }
 
-    public function findStatusByAll(){
-        return self::dataSet(function (ActiveQuery $query){
+    public function findStatusByCateAll($cate_id = 0){
+        return self::dataSet(function (ActiveQuery $query) use ($cate_id){
             $query->where([
                 'goods_state' => 1,
                 'goods_verify' => 1,
                 'goods_lock' => 0
             ]);
+            if($cate_id>0){
+                $query->andWhere([
+                    'cate_id' => $cate_id
+                ]);
+            }
             $query->asArray();
         });
     }
