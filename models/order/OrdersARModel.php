@@ -48,4 +48,8 @@ class OrdersARModel extends BaseActiveRecord
         return '{{%shop_orders}}';
     }
 
+
+    public function getOneGoods(){
+        return $this->hasOne(OrderGoodsARModel::className(),['order_id'=>'order_id'])->select('order_id,goods_name,goods_price,goods_num');
+    }
 }
