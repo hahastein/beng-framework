@@ -86,6 +86,7 @@ class UserHandle{
                 'wx_unioncode' => $params['unioncode'],
                 'avatar_head' => $params['avatar'],
                 'user_sex' => $params['sex'],
+                'nickname' => $params['nickname'],
                 'wx_bind' => 1
             ];
         }else{
