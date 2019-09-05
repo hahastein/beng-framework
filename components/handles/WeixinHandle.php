@@ -64,7 +64,7 @@ class WeixinHandle
         if(!isset($wechat) || !$wechat){
             throw new \RuntimeException("微信初始化失败...");
         }
-        $wechat->
+//        $wechat->
         $wxUserInfo = $wechat->oauth->user();
         if(!isset($wxUserInfo)){
             throw new \RuntimeException("用户数据获取失败...");
