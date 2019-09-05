@@ -89,6 +89,10 @@ class UserHandle{
                 'nickname' => $params['nickname'],
                 'wx_bind' => 1
             ];
+            if(!empty($params['phone'])){
+                $insert['phone_num'] = $params['phone'];
+                $insert['phone_bind'] = 1;
+            }
         }else{
             throw new \Exception('没有此创建类型');
         }
