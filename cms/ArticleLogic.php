@@ -71,6 +71,7 @@ class ArticleLogic extends CmsBase
             }];
         }
         $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
+        var_dump($articleData);die;
         return $this->parseDataOne($articleData);
     }
 
