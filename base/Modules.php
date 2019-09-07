@@ -135,10 +135,10 @@ class Modules
 
     protected function parseDataOne($item){
         if(isset($item['createtime'])) {
-            $item['createtime'] = date('Y-m-d H:i:s', $item['createtime']);
+            $item['createtime'] = date('m-d H:i:s', $item['createtime']);
         }
         if(isset($item['updatetime'])) {
-            $item['updatetime'] = date('Y-m-d H:i:s', $item['updatetime']);
+            $item['updatetime'] = date('m-d H:i:s', $item['updatetime']);
         }
 
         if(isset($item['user_id'])){
