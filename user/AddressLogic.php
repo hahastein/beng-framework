@@ -68,12 +68,20 @@ class AddressLogic extends UserBase
             if ($this->addressID <= 0) {
                 throw new \Exception('参数错误');
             }
-            $changeOrg = $this->moduleModel->dataUpdate(function (ActiveOperate $operate){
-                $operate->where([
+
+            $defaultInfo = $this->moduleModel->dataOne(function (ActiveQuery $query){
+                $query->where([
                     'user_id' => $this->getUserID(),
+                    'is_default' => 1
                 ]);
-                $operate->params(['is_default' => 0]);
             });
+
+            if($defaultInfo){
+                $defaultInfo->is_default = 0;
+                if(!$defaultInfo->save()){
+                    throw new \Exception('修改失败');
+                }
+            }
 
             $changeCur = $this->moduleModel->dataUpdate(function (ActiveOperate $operate){
                 $operate->where([
@@ -83,7 +91,7 @@ class AddressLogic extends UserBase
                 $operate->params(['is_default' => 1]);
             });
 
-            if($changeOrg && $changeCur){
+            if($changeCur){
                 $transaction->commit();
                 return true;
             }else{
