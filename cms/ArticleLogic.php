@@ -60,7 +60,7 @@ class ArticleLogic extends CmsBase
      * 获取详情
      */
     public function info(){
-        $this->moduleModel->with=[];
+//        $this->moduleModel->with=[];
         $this->moduleModel->showField = ['article_id', 'user_id', 'url_code','comment_count','share_count','video_url','cover_image'];
         if($this->getUserID()){
             $this->moduleModel->with = ['fav' => function(ActiveQuery $query){
