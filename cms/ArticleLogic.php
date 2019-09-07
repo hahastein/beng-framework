@@ -61,7 +61,7 @@ class ArticleLogic extends CmsBase
      */
     public function info(){
 //        $this->moduleModel->with=[];
-        $this->moduleModel->showField = ['article_id', 'user_id', 'url_code','comment_count','share_count','video_url','cover_image'];
+        $this->moduleModel->showField = ['article_id', 'source_id','user_id', 'url_code','comment_count','share_count','video_url','cover_image'];
         if($this->getUserID()){
             $this->moduleModel->with = ['fav' => function(ActiveQuery $query){
                 $query->where([
@@ -71,7 +71,7 @@ class ArticleLogic extends CmsBase
             }];
         }
         $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
-//        var_dump($articleData);die;
+        var_dump($articleData);die;
         return $this->parseDataOne($articleData);
     }
 
