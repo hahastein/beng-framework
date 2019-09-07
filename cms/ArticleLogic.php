@@ -68,7 +68,7 @@ class ArticleLogic extends CmsBase
                     'module' => Enum::MODULE_TYPE_ARTICLE,
                     'user_id' => $this->getUserID()
                 ]);
-                $query->andWhere(['module' => 0]);
+                $query->andWhere(['module' => 10]);
             }];
         }
         $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
