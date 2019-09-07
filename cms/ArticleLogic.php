@@ -60,15 +60,15 @@ class ArticleLogic extends CmsBase
      * 获取详情
      */
     public function info(){
-        $this->moduleModel->with=[];
-        $this->moduleModel->showField = ['article_id', 'source_id','user_id', 'url_code','comment_count','share_count','video_url','cover_image'];
+//        $this->moduleModel->with=[];
+        $this->moduleModel->showField = ['article_id', 'source_id','user_id', 'url_code','comment_count','fav_count','share_count','video_url','cover_image'];
         if($this->getUserID()){
-            $this->moduleModel->with = ['fav' => function(ActiveQuery $query){
+            $this->moduleModel->with['fav'] = function(ActiveQuery $query){
                 $query->where([
                     'module' => Enum::MODULE_TYPE_ARTICLE,
                     'user_id' => $this->getUserID()
                 ]);
-            }];
+            };
         }
         $articleData = $this->moduleModel->findOneByArticleID($this->articleID);
 //        var_dump($articleData);die;
