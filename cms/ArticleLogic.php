@@ -39,6 +39,14 @@ class ArticleLogic extends CmsBase
      * 获取推荐
      */
     public function recommend(){
+        if($this->getUserID()){
+            $this->moduleModel->with['fav'] = function(ActiveQuery $query){
+                $query->where([
+                    'module' => Enum::MODULE_TYPE_ARTICLE,
+                    'user_id' => $this->getUserID()
+                ]);
+            };
+        }
         $articleData = $this->moduleModel->findRecommendByFilter();
         return $this->parseDataAll($articleData);
     }
@@ -47,6 +55,14 @@ class ArticleLogic extends CmsBase
      * 获取所有数据
      */
     public function all(){
+        if($this->getUserID()){
+            $this->moduleModel->with['fav'] = function(ActiveQuery $query){
+                $query->where([
+                    'module' => Enum::MODULE_TYPE_ARTICLE,
+                    'user_id' => $this->getUserID()
+                ]);
+            };
+        }
         $articleData = $this->moduleModel->findAllByCateID($this->cateID);
         return $this->parseDataAll($articleData);
     }
