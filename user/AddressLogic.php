@@ -29,11 +29,13 @@ class AddressLogic extends UserBase
      * @return array
      */
     public function all(){
-        return $this->moduleModel->find()->where([
-            'user_id' => $this->getUserID()
-        ])->orderBy([
-            'is_default' => SORT_DESC
-        ])->asArray()->all();
+        return $this->moduleModel->dataSet(function (ActiveQuery $query){
+            $query->where([
+                'user_id' => $this->getUserID()
+            ])->orderBy([
+                'is_default' => SORT_DESC
+            ])->asArray();
+        });
     }
 
     /**
