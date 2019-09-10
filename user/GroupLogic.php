@@ -69,7 +69,7 @@ class GroupLogic extends UserBase
                         throw new \Exception('群创建失败，没有获取到ID');
                     }
 
-                    if(!$this->groupModel->dataUpdate(function (ActiveOperate $operate) use ($returnID){
+                    if(!$this->groupModel->dataUpdate(function (ActiveOperate $operate) use ($returnID, $groupData){
                         $operate->where(['group_id' => $returnID]);
                         $operate->params([
                             'im_group_id' => $groupData['tid']
