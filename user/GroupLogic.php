@@ -64,21 +64,21 @@ class GroupLogic extends UserBase
 
                 $result = $this->nim->group->createGroup($this->saveParams['name'], $this->getUser()->imID, $imIDs, '', $this->saveParams['desc'], '欢迎加入我们的群');
                 if($result){
-
-                    if(!isset($this->nim->group->returnData['tid'])){
+                    $groupData = $this->nim->group->returnData;
+                    if(!isset($groupData['tid'])){
                         throw new \Exception('群创建失败，没有获取到ID');
                     }
 
                     if(!$this->groupModel->dataUpdate(function (ActiveOperate $operate) use ($returnID){
                         $operate->where(['group_id' => $returnID]);
                         $operate->params([
-                            'im_group_id' => $this->nim->group->returnData['tid']
+                            'im_group_id' => $groupData['tid']
                         ]);
                     })){
                         throw new \Exception('群创建失败，ID更新失败');
                     }
                     $transaction->commit();
-                    return $returnID;
+                    return $groupData['tid'];
                 }else{
                     throw new \Exception($this->nim->group->error);
                 }
