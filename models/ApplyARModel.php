@@ -40,6 +40,13 @@ class ApplyARModel extends BaseActiveRecord
 
     }
 
+    public function findOneByTypeAndUserID($user_id, $type){
+        return self::find()->where([
+            'user_id' => $user_id,
+            'apple_type' => $type
+        ])->orderBy(['apply_id' => SORT_DESC])->one();
+    }
+
     public function exist($user_id, $type){
         return self::find()->where([
             'user_id' => $user_id,
