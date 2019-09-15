@@ -66,12 +66,16 @@ class QuestionLogic extends CmsBase
         }
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
 
-        if(isset($data['identify']['user'])){
-            $auth_info = json_decode($data['identify']['user']['auth_info']);
-            $data['identify']['doctor_name'] = $auth_info['doctorname'];
-            unset($data['identify']['user']);
+
+        foreach ($data['identify'] as $key => $identify){
+            if(isset($identify['user'])){
+                $auth_info = json_decode($identify['user']['auth_info']);
+                $data['identify'][$key]['doctor_name'] = $auth_info['doctorname'];
+                unset($data['identify'][$key]['user']);
+            }
+            unset($data['identify'][$key]['user_id'],$data['identify'][$key]['question_id']);
         }
-        unset($data['identify']['user_id'],$data['identify']['question_id']);
+
 
         return $this->parseDataOne($data);
 
