@@ -32,6 +32,7 @@ class UserFavoritesARModel extends BaseActiveRecord
             'view_count',
             'comment_count',
             'share_count',
+            'fav_count',
             'source_id',
             'video_url',
             'cover_image',
@@ -58,7 +59,16 @@ class UserFavoritesARModel extends BaseActiveRecord
     public function findByArticle($user_id){
 
         return self::dataSet(function (ActiveQuery $query) use($user_id){
-            $query->joinWith(['article.celebrity'])->where([
+            $query->joinWith(['article' => function(ActiveQuery $query) use ($user_id){
+
+                $query->with(['celebrity','fav' => function(ActiveQuery $query) use ($user_id){
+                    $query->where([
+                        'module' => Enum::MODULE_TYPE_ARTICLE,
+                        'user_id' => $user_id
+                    ]);
+                }]);
+
+            }])->where([
                 self::tableName().'.user_id' =>$user_id,
                 self::tableName().'.module' => Enum::MODULE_TYPE_ARTICLE
             ])->asArray();
