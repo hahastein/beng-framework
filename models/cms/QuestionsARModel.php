@@ -80,6 +80,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function findAllByCateID($cate_id = 0){
+        $this->with = ['identify'];
         if($cate_id > 0){
             return $this->findByAll([
                 'cate_id' => $cate_id
