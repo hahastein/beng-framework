@@ -99,7 +99,12 @@ class UserFavoritesARModel extends BaseActiveRecord
         return self::dataSet(function (ActiveQuery $query) use($user_id){
             $query->joinWith(['question' => function(ActiveQuery $query) use ($user_id){
 
-                $query->with(['user','identify.user']);
+                $query->with(['user','identify.user','fav' => function(ActiveQuery $query) use ($user_id){
+                    $query->where([
+                        'module' => Enum::MODULE_TYPE_FAQS,
+                        'user_id' => $user_id
+                    ]);
+                }]);
 
             }])->where([
                 self::tableName().'.user_id' =>$user_id,
