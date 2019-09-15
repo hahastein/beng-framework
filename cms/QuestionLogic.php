@@ -69,7 +69,8 @@ class QuestionLogic extends CmsBase
 
         foreach ($data['identify'] as $key => $identify){
             if($identify['user']){
-                $auth_info = json_decode($identify['user']['auth_info']);
+                $auth_info = json_decode($identify['user']['auth_info'],true);
+                $identify['doctor_name'] = $auth_info['doctorname'];
 
             }
             unset($data['identify'][$key]['user_id'],$data['identify'][$key]['question_id']);
