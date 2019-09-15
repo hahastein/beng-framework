@@ -55,7 +55,7 @@ class QuestionLogic extends CmsBase
     public function info($code)
     {
 
-        $this->moduleModel->with = ['identify'];
+        $this->moduleModel->with = ['identify.user'];
         if ($this->getUserID()) {
             $this->moduleModel->with['fav'] = function (ActiveQuery $query) {
                 $query->where([
@@ -65,6 +65,8 @@ class QuestionLogic extends CmsBase
             };
         }
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
+
+
 
         return $this->parseDataOne($data);
 
