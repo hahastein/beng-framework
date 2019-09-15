@@ -25,7 +25,7 @@ class FaqIdentifyARModel extends BaseActiveRecord
             'nickname',
             'avatar_head',
             'user_id',
-            'user_extend'
+            'auth_info'
         ]);
     }
 
