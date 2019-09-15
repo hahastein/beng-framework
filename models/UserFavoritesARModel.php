@@ -6,6 +6,7 @@ namespace bengbeng\framework\models;
 use bengbeng\framework\base\BaseActiveRecord;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\models\cms\ArticleARModel;
+use bengbeng\framework\models\cms\QuestionsARModel;
 use yii\db\ActiveQuery;
 
 /**
@@ -36,6 +37,24 @@ class UserFavoritesARModel extends BaseActiveRecord
             'source_id',
             'video_url',
             'cover_image',
+            'createtime'
+        ]);
+    }
+
+    public function getQuestion(){
+        return $this->hasOne(QuestionsARModel::className(),['question_id'=>'object_id'])->select([
+            'question_id',
+            'url_code',
+            'title',
+            'content',
+            'user_id',
+            'cate_id',
+            'fav_count',
+            'view_count',
+            'reply_count',
+            'share_count',
+            'is_reply',
+            'show_img',
             'createtime'
         ]);
     }
@@ -71,6 +90,20 @@ class UserFavoritesARModel extends BaseActiveRecord
             }])->where([
                 self::tableName().'.user_id' =>$user_id,
                 self::tableName().'.module' => Enum::MODULE_TYPE_ARTICLE
+            ])->asArray();
+        });
+    }
+
+    public function findByQuestion($user_id){
+
+        return self::dataSet(function (ActiveQuery $query) use($user_id){
+            $query->joinWith(['question' => function(ActiveQuery $query) use ($user_id){
+
+                $query->with(['user','identify.user']);
+
+            }])->where([
+                self::tableName().'.user_id' =>$user_id,
+                self::tableName().'.module' => Enum::MODULE_TYPE_FAQS
             ])->asArray();
         });
     }
