@@ -92,6 +92,7 @@ class QuestionsARModel extends BaseActiveRecord
 
 
     public function findAllByNoReply($cate_id = 0){
+        $this->with = ['images'];
         if($cate_id > 0){
             return $this->findByAll([
                 'cate_id' => $cate_id,
@@ -184,7 +185,7 @@ class QuestionsARModel extends BaseActiveRecord
                 $this->with = [];
             }
 
-            $this->with = array_merge($this->with, ['user', 'images']);
+            $this->with = array_merge($this->with, ['user']);
 
             $query->with($this->with);
 
