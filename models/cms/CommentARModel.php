@@ -46,6 +46,7 @@ class CommentARModel extends BaseActiveRecord
             'view_count',
             'comment_count',
             'share_count',
+            'fav_count',
             'source_id',
             'video_url',
             'cover_image',
