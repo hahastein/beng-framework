@@ -5,6 +5,7 @@ namespace bengbeng\framework\models\cms;
 
 
 use bengbeng\framework\base\BaseActiveRecord;
+use bengbeng\framework\models\UserARModel;
 
 /**
  * Class FaqIdentifyARModel
@@ -18,4 +19,14 @@ class FaqIdentifyARModel extends BaseActiveRecord
     {
         return '{{%cms_faq_identify}}';
     }
+
+    public function getUser(){
+        return $this->hasOne(UserARModel::className(),['user_id'=>'user_id'])->select([
+            'nickname',
+            'avatar_head',
+            'user_id',
+            'user_extend'
+        ]);
+    }
+
 }
