@@ -5,6 +5,7 @@ namespace bengbeng\framework\models;
 
 
 use bengbeng\framework\base\BaseActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * Class UserGroupARModel
@@ -46,6 +47,17 @@ class UserGroupARModel extends BaseActiveRecord
             'im_group_id' => $imID,
             'create_user_id' => $userID
         ]);
+    }
+
+    public function findAllByUserID($userID){
+        return self::dataSet(function (ActiveQuery $query) use($userID){
+
+            $query->where([
+                'create_user_id' => $userID
+            ]);
+
+            $query->asArray();
+        });
     }
 
     public function findInfoByName($name){

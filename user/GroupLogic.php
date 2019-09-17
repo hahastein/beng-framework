@@ -135,6 +135,12 @@ class GroupLogic extends UserBase
         }
     }
 
+    public function my(){
+        $myID = $this->getUserID();
+
+        return $this->groupModel->findAllByUserID($myID);
+    }
+
     /**
      * 组装post数据
      */
