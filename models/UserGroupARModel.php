@@ -60,6 +60,17 @@ class UserGroupARModel extends BaseActiveRecord
         });
     }
 
+    public function findAllByMode($mode = 10) {
+        return self::dataSet(function (ActiveQuery $query) use($mode){
+
+            $query->where([
+                'mode' => $mode
+            ]);
+
+            $query->asArray();
+        });
+    }
+
     public function findInfoByName($name){
         return self::info([
             'group_name' => $name
