@@ -246,6 +246,7 @@ class QuestionLogic extends CmsBase
             $answerModel->content = $content;
             if($isIdentify){
                 $answerModel->is_identify = 1;
+                $answerModel->group_id = $this->getUserID();
             }
             $answerModel->user_id = $this->getUserID();
             $answerModel->status = 10;
