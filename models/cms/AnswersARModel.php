@@ -38,7 +38,8 @@ class AnswersARModel extends BaseActiveRecord
             'nickname',
             'avatar_head',
             'user_id',
-            'unionid'
+            'unionid',
+            'auth_info'
         ]);
     }
 
