@@ -69,7 +69,7 @@ class QuestionLogic extends CmsBase
             };
         }
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
-
+        $user_id = $data['user_id'];
 
         foreach ($data['identify'] as $key => $identify){
             if($identify['user']){
@@ -81,8 +81,9 @@ class QuestionLogic extends CmsBase
             unset($data['identify'][$key]['user_id'],$data['identify'][$key]['question_id']);
         }
 
-
-        return $this->parseDataOne($data);
+        $data = $this->parseDataOne($data);
+        $data['user_id'] = $user_id;
+        return $data;
 
     }
 
