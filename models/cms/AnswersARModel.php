@@ -51,7 +51,8 @@ class AnswersARModel extends BaseActiveRecord
     public function findAllByQuestionID($question_id = 0){
         return $this->findByAll([
             'question_id' => $question_id,
-            'is_identify' => 0
+            'is_identify' => 0,
+            'group_id' => 0
         ]);
 
     }
