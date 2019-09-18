@@ -208,7 +208,11 @@ class QuestionLogic extends CmsBase
 
             //是否是自己的贴子
             if($this->getUserID() == $questionModel->user_id){
-                $identify_user_id = UserUtil::getCache($c_unionid)->userID;
+                if(!empty($c_unionid) && $cUnionCacheInfo = UserUtil::getCache($c_unionid)){
+
+                    $identify_user_id = $cUnionCacheInfo->userID?$cUnionCacheInfo->userID:0;
+
+                }
 
                 if(!empty($c_unionid) && $identify_user_id){
                     $groupID = $identify_user_id;
