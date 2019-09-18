@@ -210,13 +210,13 @@ class QuestionLogic extends CmsBase
             if($this->getUserID() == $questionModel->user_id){
                 if(!empty($c_unionid) && $cUnionCacheInfo = UserUtil::getCache($c_unionid)){
 
-                    $identify_user_id = $cUnionCacheInfo->userID?$cUnionCacheInfo->userID:0;
+                    $groupID = $cUnionCacheInfo->userID?$cUnionCacheInfo->userID:0;
 
                 }
 
-                if(!empty($c_unionid) && $identify_user_id){
-                    $groupID = $identify_user_id;
-                }
+//                if(!empty($c_unionid) && $identify_user_id){
+//                    $groupID = $identify_user_id;
+//                }
             }else{
 
                 $userModel = new UserARModel();
