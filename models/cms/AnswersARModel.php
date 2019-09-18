@@ -17,6 +17,7 @@ use yii\db\ActiveQuery;
  * @property string $user_id 用户ID
  * @property integer $status 状态 10正常0删除1违规
  * @property bool $is_comment 是否可以评论
+ * @property bool $is_identify 认证用户发布
  * @property integer $replytime 回复时间
  * @package bengbeng\framework\models\cms
  */

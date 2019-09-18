@@ -8,7 +8,10 @@ use bengbeng\framework\components\handles\UploadHandle;
 use bengbeng\framework\components\helpers\StringHelpers;
 use bengbeng\framework\models\cms\AnswersARModel;
 use bengbeng\framework\models\cms\QuestionsARModel;
+use bengbeng\framework\models\UserARModel;
 use bengbeng\framework\system\System;
+use bengbeng\framework\models\cms\FaqIdentifyARModel;
+use bengbeng\framework\user\User;
 use yii\db\ActiveQuery;
 use yii\db\Exception;
 
@@ -212,12 +215,38 @@ class QuestionLogic extends CmsBase
                 }
             }
 
+            //是否是认证用户
+            $isIdentify = false;
+            $userModel = new UserARModel();
+            $userInfo = $userModel->findOneByUserId($this->getUserID());
+            if($userInfo['auth_type'] == 21 && !empty($userInfo['auth_info'])){
+                $isIdentify = true;
+                //写入问答的认证表
 
+                $faqIdentify = new FaqIdentifyARModel();
+                if(!$faqIdentify::find()->where([
+                    'question_id' => $this->questionID,
+                    'user_id' => $this->getUserID(),
+                    'unionid' => $userInfo['unionid']
+                ])->exists()){
+                    $faqIdentify->question_id = $this->questionID;
+                    $faqIdentify->user_id = $this->getUserID();
+                    $faqIdentify->unionid = $userInfo['unionid'];
+
+                    if(!$faqIdentify->save()){
+                        throw new Exception('回复失败[20080]。创建认证用户关联失败');
+                    }
+                }
+
+            }
 
             //写入回复数据
             $answerModel = new AnswersARModel();
             $answerModel->question_id = $this->questionID;
             $answerModel->content = $content;
+            if($isIdentify){
+                $answerModel->is_identify = 1;
+            }
             $answerModel->user_id = $this->getUserID();
             $answerModel->status = 10;
             $answerModel->replytime = time();

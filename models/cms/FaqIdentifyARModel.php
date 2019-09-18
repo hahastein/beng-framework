@@ -11,6 +11,7 @@ use bengbeng\framework\models\UserARModel;
  * Class FaqIdentifyARModel
  * @property integer $question_id
  * @property integer $user_id
+ * @property string $unionid
  * @package bengbeng\framework\models\cms
  */
 class FaqIdentifyARModel extends BaseActiveRecord
