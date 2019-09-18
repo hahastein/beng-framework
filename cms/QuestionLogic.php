@@ -12,6 +12,7 @@ use bengbeng\framework\models\UserARModel;
 use bengbeng\framework\system\System;
 use bengbeng\framework\models\cms\FaqIdentifyARModel;
 use bengbeng\framework\user\User;
+use bengbeng\framework\user\UserUtil;
 use yii\db\ActiveQuery;
 use yii\db\Exception;
 
@@ -187,6 +188,9 @@ class QuestionLogic extends CmsBase
             $content = \Yii::$app->request->post('content', '');
         }
 
+        $c_unionid = \Yii::$app->request->post('c_unionid', '');
+
+
         $transaction = \Yii::$app->db->beginTransaction();
         try{
             if(!$questionModel = $this->moduleModel->findInfoByQuestionID($this->questionID)){
@@ -196,6 +200,48 @@ class QuestionLogic extends CmsBase
             if(empty($content) || strlen($content)<5){
                 throw new Exception('回复失败，内容长度不够');
             }
+
+            //组ID
+            $groupID = 0;
+            //是否是认证用户
+            $isIdentify = false;
+
+            //是否是自己的贴子
+            if($this->getUserID() == $questionModel->user_id){
+                $identify_user_id = UserUtil::getCache($c_unionid)->userID;
+
+                if(!empty($c_unionid) && $identify_user_id){
+                    $groupID = $identify_user_id;
+                }
+            }else{
+
+                $userModel = new UserARModel();
+                $userInfo = $userModel->findOneByUserId($this->getUserID());
+                if($userInfo['auth_type'] == 21 && !empty($userInfo['auth_info'])){
+                    $isIdentify = true;
+                    //写入问答的认证表
+                    $groupID = $this->getUserID();
+                    $faqIdentify = new FaqIdentifyARModel();
+                    if(!$faqIdentify::find()->where([
+                        'question_id' => $this->questionID,
+                        'user_id' => $this->getUserID(),
+                        'unionid' => $userInfo['unionid']
+                    ])->exists()){
+                        $faqIdentify->question_id = $this->questionID;
+                        $faqIdentify->user_id = $this->getUserID();
+                        $faqIdentify->unionid = $userInfo['unionid'];
+
+                        if(!$faqIdentify->save()){
+                            throw new Exception('回复失败[20080]。创建认证用户关联失败');
+                        }
+                    }
+
+                }
+
+
+            }
+
+
 
             $upload = new UploadHandle([
                 'maxSize' => 5,
@@ -215,30 +261,6 @@ class QuestionLogic extends CmsBase
                 }
             }
 
-            //是否是认证用户
-            $isIdentify = false;
-            $userModel = new UserARModel();
-            $userInfo = $userModel->findOneByUserId($this->getUserID());
-            if($userInfo['auth_type'] == 21 && !empty($userInfo['auth_info'])){
-                $isIdentify = true;
-                //写入问答的认证表
-
-                $faqIdentify = new FaqIdentifyARModel();
-                if(!$faqIdentify::find()->where([
-                    'question_id' => $this->questionID,
-                    'user_id' => $this->getUserID(),
-                    'unionid' => $userInfo['unionid']
-                ])->exists()){
-                    $faqIdentify->question_id = $this->questionID;
-                    $faqIdentify->user_id = $this->getUserID();
-                    $faqIdentify->unionid = $userInfo['unionid'];
-
-                    if(!$faqIdentify->save()){
-                        throw new Exception('回复失败[20080]。创建认证用户关联失败');
-                    }
-                }
-
-            }
 
             //写入回复数据
             $answerModel = new AnswersARModel();
@@ -246,8 +268,9 @@ class QuestionLogic extends CmsBase
             $answerModel->content = $content;
             if($isIdentify){
                 $answerModel->is_identify = 1;
-                $answerModel->group_id = $this->getUserID();
             }
+            $answerModel->group_id = $groupID;
+
             $answerModel->user_id = $this->getUserID();
             $answerModel->status = 10;
             $answerModel->replytime = time();
