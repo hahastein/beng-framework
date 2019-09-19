@@ -182,7 +182,7 @@ class AddressLogic extends UserBase
                 'address_id','address','city','name','phone', 'area_name' => 'city_name'
             ]);
 
-            var_dump($this->saveParams);die;
+//            var_dump($this->saveParams);die;
             if(isset($this->saveParams['address_id'])){
                 $this->addressID = $this->saveParams['address_id'];
                 unset($this->saveParams['address_id']);
