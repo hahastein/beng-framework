@@ -162,7 +162,21 @@ class AddressLogic extends UserBase
                 $this->addressID = time();
             }
             if ($this->moduleModel->save()) {
-                return $this->addressID > 0 ? $this->addressID : \Yii::$app->db->lastInsertID;
+
+                $address_Id = $this->addressID > 0 ? $this->addressID : \Yii::$app->db->lastInsertID;
+                if($this->saveParams['is_default']){
+                    $this->moduleModel->dataUpdate(function (ActiveOperate $operate) use ($address_Id){
+                        $operate->where([
+                            'and',
+                            ['user_id' => $this->getUserID()],
+                            ['<>','address_id', $address_Id]
+                        ]);
+                        $operate->params(['is_default' => 0]);
+                    });
+                }
+
+
+                return $address_Id;
             } else {
                 $this->error = "数据变更失败";
                 return false;
