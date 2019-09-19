@@ -179,7 +179,7 @@ class AddressLogic extends UserBase
     private function getPost(){
         if(\Yii::$app->request->isPost){
             $this->saveParams = \Yii::$app->Beng->PostData([
-                'address_id','address','city','name','phone'
+                'address_id','address','city','name','phone', 'city_name' => 'area_name'
             ]);
             if(isset($this->saveParams['address_id'])){
                 $this->addressID = $this->saveParams['address_id'];

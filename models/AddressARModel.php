@@ -20,6 +20,7 @@ use yii\db\ActiveRecord;
  * @property string $city
  * @property string $name
  * @property integer $phone
+ * @property string $area_name
  * @property integer $addtime
  * @property  bool $is_default
 
@@ -43,6 +44,7 @@ class AddressARModel extends BaseActiveRecord
 //            ['user_id', 'required', 'on'=> ['insert', 'modify'], 'message' => '用户不正确'],
             ['address', 'required', 'on'=> ['insert', 'modify'], 'message' => '填写收获地址'],
             ['city', 'required', 'on'=> ['insert', 'modify'], 'message' => '填写收获地址所在城市'],
+            ['city_name', 'required', 'on'=> ['insert', 'modify'], 'message' => '填写收获地址所在城市'],
             ['name', 'string', 'min' => 2, 'max' => 10, 'on'=> ['insert', 'modify'], 'message' => '填写收货人'],
             ['phone', 'filter', 'filter'=> 'trim', 'on'=> ['insert', 'modify']],
             ['phone', 'required', 'on'=> ['insert', 'modify'], 'message' => '填写收货人手机号'],
@@ -54,8 +56,8 @@ class AddressARModel extends BaseActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['insert'] = ['user_id', 'address', 'city', 'name', 'phone', 'is_default'];
-        $scenarios['modify'] = ['address', 'city', 'name', 'phone', 'is_default'];
+        $scenarios['insert'] = ['user_id', 'address', 'city', 'name', 'city_name', 'phone', 'is_default'];
+        $scenarios['modify'] = ['address', 'city', 'name', 'city_name','phone', 'is_default'];
         return $scenarios;
     }
 
