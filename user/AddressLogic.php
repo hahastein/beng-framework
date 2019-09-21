@@ -169,7 +169,7 @@ class AddressLogic extends UserBase
                         $operate->where([
                             'and',
                             ['user_id' => $this->getUserID()],
-                            ['<>','address_ids', $address_Id]
+                            ['<>','address_id', $address_Id]
                         ]);
                         $operate->params(['is_default' => 0]);
                     });
