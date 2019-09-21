@@ -158,9 +158,9 @@ class AddressLogic extends UserBase
 //var_dump($this->saveParams);die;
         if($this->moduleModel->load($this->saveParams, '')){
             $this->moduleModel->is_default = (int)$this->saveParams['is_default'];
-            if ($this->addressID === 0) {
-                $this->addressID = time();
-            }
+//            if ($this->addressID === 0) {
+//                $this->addressID = time();
+//            }
             if ($this->moduleModel->save()) {
 
                 $address_Id = $this->addressID > 0 ? $this->addressID : \Yii::$app->db->lastInsertID;
