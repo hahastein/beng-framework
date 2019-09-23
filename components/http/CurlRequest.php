@@ -75,7 +75,9 @@ class CurlRequest extends BaseRequest implements RequestInterface
             $this->requestUrl($url);
             $this->requestHeader($header);
             $this->requestSSLVerify();
-            $this->requestPostData($data);
+            if($data && count($data)>0){
+                $this->requestPostData($data);
+            }
 
             $result = curl_exec($this->curl);
             if (false === $result) {
