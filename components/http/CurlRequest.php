@@ -56,7 +56,9 @@ class CurlRequest extends BaseRequest implements RequestInterface
             $request[] = $key . ':' . $item;
         }
 
-        curl_setopt($this->curl, CURLOPT_HTTPHEADER,$request);
+        if($request && count($request)>0){
+            curl_setopt($this->curl, CURLOPT_HTTPHEADER,$request);
+        }
     }
 
     /**
