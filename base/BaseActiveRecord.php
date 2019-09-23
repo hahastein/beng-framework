@@ -107,7 +107,7 @@ class BaseActiveRecord extends ActiveRecord
             ];
 
             if($this->pageIndex > 0){
-                $pageParam['page'] = $page>0?$page-1:$page;
+                $pageParam['page'] = $this->pageIndex>0?$this->pageIndex-1:$this->pageIndex;
             }
 
 
