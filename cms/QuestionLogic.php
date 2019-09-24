@@ -34,7 +34,10 @@ class QuestionLogic extends CmsBase
             'title',
             'content',
             'user_id',
+            'nickname',
+            'avatar_head',
             'cate_id',
+            'cate_name',
             'fav_count',
             'view_count',
             'reply_count',
@@ -326,6 +329,11 @@ class QuestionLogic extends CmsBase
         }else{
             $item['fav'] = 0;
         }
+        if(!isset($item['user']) || !$item['user']){
+            $item['user']['nickname'] = $item['nickname'];
+            $item['user']['avatar_head'] = $item['avatar_head'];
+        }
+
         return $item;
     }
 }
