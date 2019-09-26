@@ -57,4 +57,23 @@ class NIMGroup extends NIMBase
         $result = $this->httpUtil->request($url, $data, $this->httpHeader);
         return $this->checkReturn($result);
     }
+
+
+    /**
+     * 群组功能（高级群）-群信息与成员列表查询
+     * @param  array $tids [群tid列表，如[\"3083\",\"3084"]]
+     * @param  bool $ope   [true表示带上群成员列表，false表示不带群成员列表，只返回群信息]
+     * @return bool $result
+     */
+    public function queryGroup($tids, $ope=true){
+        $url = $this->imUrl('query', self::URL_MODE_TEAM);
+        $data= array(
+            'tids' => json_encode($tids),
+            'ope' => $ope?'1':'0'
+        );
+
+        $this->checkSumHeader();
+        $result = $this->httpUtil->request($url, $data, $this->httpHeader);
+        return $this->checkReturn($result);
+    }
 }
