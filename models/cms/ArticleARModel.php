@@ -9,6 +9,7 @@ use bengbeng\framework\cms\Cms;
 use bengbeng\framework\models\CategoryARModel;
 use bengbeng\framework\models\UserFavoritesARModel;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * CMS-文章模型
@@ -87,8 +88,8 @@ class ArticleARModel extends BaseActiveRecord
             $query->where($whereParams);
             $query->andWhere(['module' => $this->module]);
             $query->orderBy([
-                'orderby' => SORT_DESC,
-                'updatetime' => SORT_DESC
+                'orderby' => [new Expression('orderby=0,orderby')],
+//                'updatetime' => SORT_DESC
             ]);
             $query->asArray();
         });
