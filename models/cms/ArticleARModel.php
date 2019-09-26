@@ -87,10 +87,7 @@ class ArticleARModel extends BaseActiveRecord
             }
             $query->where($whereParams);
             $query->andWhere(['module' => $this->module]);
-            $query->orderBy([
-                'orderby' => [new Expression('orderby=0,orderby')],
-//                'updatetime' => SORT_DESC
-            ]);
+            $query->orderBy([new Expression('orderby=0,orderby')]);
             $query->asArray();
         });
 
