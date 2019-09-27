@@ -74,6 +74,6 @@ class NIMGroup extends NIMBase
 
         $this->checkSumHeader();
         $result = $this->httpUtil->request($url, $data, $this->httpHeader);
-        return $this->checkReturn($result);
+        return $result;
     }
 }
