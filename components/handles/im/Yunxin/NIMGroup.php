@@ -27,7 +27,7 @@ class NIMGroup extends NIMBase
         $data= array(
             'tname' => $tname,
             'owner' => $owner,
-            'members' => json_encode($members),
+            'members' => $members?json_encode($members):'',
             'announcement' => $announcement,
             'intro' => $intro,
             'icon' => $icon,
