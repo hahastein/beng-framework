@@ -39,11 +39,6 @@ class AnswerLogic extends CmsBase
             $item['content'] = '此内容被删除';
         }
 
-//        if(!isset($item['user']) || !$item['user']){
-//            $item['user']['nickname'] = $item['nickname'];
-//            $item['user']['avatar_head'] = $item['avatar_head'];
-//        }
-
         unset($item['status']);
 
         return $item;
