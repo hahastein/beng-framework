@@ -72,6 +72,7 @@ class QuestionLogic extends CmsBase
             };
         }
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
+        var_dump($data);die;
         $user_id = $data['user_id'];
 
         foreach ($data['identify'] as $key => $identify){
