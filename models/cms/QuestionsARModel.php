@@ -92,9 +92,7 @@ class QuestionsARModel extends BaseActiveRecord
             ]);
         }else{
             return $this->findByAll([
-                'or',[
-                        '>', 'cate_id', 0,
-                    ],['mode' => 0]
+                'or',['>', 'cate_id', 0,],['mode' => 0]
             ]);
         }
 
@@ -124,7 +122,11 @@ class QuestionsARModel extends BaseActiveRecord
 
     public function findAllByKeyword($keyword){
         $this->with = ['identify.user'];
-        return $this->findByAll(['like', 'title', $keyword]);
+        return $this->findByAll([
+            'and',
+            ['like', 'title', $keyword],
+            ['or',['>', 'cate_id', 0,],['mode' => 0]]
+        ]);
     }
 
     public function findInfoByQuestionID($id){
