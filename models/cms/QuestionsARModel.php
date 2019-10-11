@@ -83,11 +83,18 @@ class QuestionsARModel extends BaseActiveRecord
         $this->with = ['identify.user'];
         if($cate_id > 0){
             return $this->findByAll([
-                'cate_id' => $cate_id
+                'or',
+                [
+                    'cate_id' => $cate_id,
+                    'mode' => 0
+                ]
+
             ]);
         }else{
             return $this->findByAll([
-                '>', 'cate_id', 0
+                'or',[
+                        '>', 'cate_id', 0,
+                    ],['mode' => 0]
             ]);
         }
 
