@@ -86,7 +86,9 @@ class QuestionsARModel extends BaseActiveRecord
                 'cate_id' => $cate_id
             ]);
         }else{
-            return $this->findByAll();
+            return $this->findByAll([
+                '>', 'cate_id', 0
+            ]);
         }
 
     }
