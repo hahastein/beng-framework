@@ -123,6 +123,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function findAllByKeyword($keyword){
+        $this->with = ['identify.user'];
         return $this->findByAll(['like', 'title', $keyword]);
     }
 
