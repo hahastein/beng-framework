@@ -104,14 +104,12 @@ class QuestionsARModel extends BaseActiveRecord
         if($cate_id > 0){
             return $this->findByAll([
                 'cate_id' => $cate_id,
-                'reply_count' => 0,
-                'status' => 20
-            ]);
+                'reply_count' => 0
+            ], 20);
         }else{
             return $this->findByAll([
-                'reply_count' => 0,
-                'status' => 20
-            ]);
+                'reply_count' => 0
+            ], 20);
         }
 
     }
@@ -190,8 +188,8 @@ class QuestionsARModel extends BaseActiveRecord
         });
     }
 
-    private function findByAll($where = false){
-        return self::dataSet(function (ActiveQuery $query) use ($where){
+    private function findByAll($where = false, $status = Enum::SYSTEM_STATUS_SUCCESS){
+        return self::dataSet(function (ActiveQuery $query) use ($where, $status){
             if($this->showField){
                 $query->select($this->showField);
             }
@@ -204,18 +202,11 @@ class QuestionsARModel extends BaseActiveRecord
 
             $query->with($this->with);
 
-            if($where && isset($where['status'])){
-//                $query->where($where);
-            }else{
-                $where['status'] =  Enum::SYSTEM_STATUS_SUCCESS;
-//                $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
+            $query->where(['status' => $status]);
 
+            if($where){
+                $query->andWhere($where);
             }
-
-            $query->where($where);
-//            if($where){
-//                $query->andWhere($where);
-//            }
 
             $query->orderBy(['updatetime' => SORT_DESC]);
 
