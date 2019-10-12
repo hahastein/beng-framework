@@ -75,16 +75,17 @@ class QuestionLogic extends CmsBase
 //        var_dump($data);die;
         $user_id = $data['user_id'];
 
-        foreach ($data['identify'] as $key => $identify){
-            if($identify['user']){
-                $auth_info = json_decode($identify['user']['auth_info'],true);
-                $identify['doctor_name'] = $auth_info['doctorname'];
-                unset($identify['user']);
-                $data['identify'][$key] = $identify;
+        if(isset($data['identify'])) {
+            foreach ($data['identify'] as $key => $identify) {
+                if ($identify['user']) {
+                    $auth_info = json_decode($identify['user']['auth_info'], true);
+                    $identify['doctor_name'] = $auth_info['doctorname'];
+                    unset($identify['user']);
+                    $data['identify'][$key] = $identify;
+                }
+                unset($data['identify'][$key]['user_id'], $data['identify'][$key]['question_id']);
             }
-            unset($data['identify'][$key]['user_id'],$data['identify'][$key]['question_id']);
         }
-
         $data = $this->parseDataOne($data);
         $data['user_id'] = $user_id;
         return $data;
