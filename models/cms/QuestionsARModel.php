@@ -204,11 +204,18 @@ class QuestionsARModel extends BaseActiveRecord
 
             $query->with($this->with);
 
-            $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
+            if($where && isset($where['status'])){
+//                $query->where($where);
+            }else{
+                $where['status'] =  Enum::SYSTEM_STATUS_SUCCESS;
+//                $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
 
-            if($where){
-                $query->andWhere($where);
             }
+
+            $query->where($where);
+//            if($where){
+//                $query->andWhere($where);
+//            }
 
             $query->orderBy(['updatetime' => SORT_DESC]);
 
