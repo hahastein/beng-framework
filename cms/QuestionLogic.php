@@ -228,27 +228,29 @@ class QuestionLogic extends CmsBase
 
                 $userModel = new UserARModel();
                 $userInfo = $userModel->findOneByUserId($this->getUserID());
-                if($userInfo['auth_type'] == 21 && !empty($userInfo['auth_info'])){
-                    $isIdentify = true;
-                    //写入问答的认证表
-                    $groupID = $this->getUserID();
-                    $faqIdentify = new FaqIdentifyARModel();
-                    if(!$faqIdentify::find()->where([
-                        'question_id' => $this->questionID,
-                        'user_id' => $this->getUserID(),
-                        'unionid' => $userInfo['unionid']
-                    ])->exists()){
-                        $faqIdentify->question_id = $this->questionID;
-                        $faqIdentify->user_id = $this->getUserID();
-                        $faqIdentify->unionid = $userInfo['unionid'];
+                if($c_unionid == $userInfo['unionid']) {
+                    if ($userInfo['auth_type'] == 21 && !empty($userInfo['auth_info'])) {
+                        $isIdentify = true;
+                        //写入问答的认证表
 
-                        if(!$faqIdentify->save()){
-                            throw new Exception('回复失败[20080]。创建认证用户关联失败');
+                        $groupID = $this->getUserID();
+                        $faqIdentify = new FaqIdentifyARModel();
+                        if (!$faqIdentify::find()->where([
+                            'question_id' => $this->questionID,
+                            'user_id' => $this->getUserID(),
+                            'unionid' => $userInfo['unionid']
+                        ])->exists()) {
+                            $faqIdentify->question_id = $this->questionID;
+                            $faqIdentify->user_id = $this->getUserID();
+                            $faqIdentify->unionid = $userInfo['unionid'];
+
+                            if (!$faqIdentify->save()) {
+                                throw new Exception('回复失败[20080]。创建认证用户关联失败');
+                            }
                         }
+
                     }
-
                 }
-
 
             }
 
