@@ -199,6 +199,7 @@ class QuestionLogic extends CmsBase
 
         $transaction = \Yii::$app->db->beginTransaction();
         try{
+            $this->moduleModel->showField = '';
             if(!$questionModel = $this->moduleModel->findInfoByQuestionID($this->questionID)){
                 throw new Exception('问题不存在或者已经已经关闭');
             }
