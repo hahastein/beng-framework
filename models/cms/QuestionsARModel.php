@@ -177,7 +177,7 @@ class QuestionsARModel extends BaseActiveRecord
                 $query->select($this->showField);
             }
 
-            $query->where(['status' => Enum::SYSTEM_STATUS_SUCCESS]);
+            $query->where(['in', 'status', [Enum::SYSTEM_STATUS_SUCCESS, 20]]);
 
             $query->andWhere([
                 'question_id' => $id,
