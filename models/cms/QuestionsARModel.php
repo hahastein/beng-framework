@@ -115,7 +115,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function findAllByUserID($user_id){
-        return $this->findByAll([
+        return $this->findByMyAll([
             'user_id' => $user_id
         ]);
     }
@@ -213,4 +213,32 @@ class QuestionsARModel extends BaseActiveRecord
             $query->asArray();
         });
     }
+
+
+    private function findByMyAll($where = false){
+        return self::dataSet(function (ActiveQuery $query) use ($where){
+            if($this->showField){
+                $query->select($this->showField);
+            }
+
+            if(!$this->with){
+                $this->with = [];
+            }
+
+            $this->with = array_merge($this->with, ['user']);
+
+            $query->with($this->with);
+
+            $query->where(['in', 'status', [10,20]]);
+
+            if($where){
+                $query->andWhere($where);
+            }
+
+            $query->orderBy(['updatetime' => SORT_DESC]);
+
+            $query->asArray();
+        });
+    }
+
 }
