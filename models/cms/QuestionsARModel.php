@@ -200,13 +200,13 @@ class QuestionsARModel extends BaseActiveRecord
 
 //            $this->with = array_merge($this->with, ['user']);
 
-            $query->with($this->with);
-
-            $query->where(['status' => $status]);
-
-            if($where){
-                $query->andWhere($where);
-            }
+//            $query->with($this->with);
+//
+//            $query->where(['status' => $status]);
+//
+//            if($where){
+//                $query->andWhere($where);
+//            }
 
             $query->orderBy(['updatetime' => SORT_DESC]);
 
