@@ -80,7 +80,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function findAllByCateID($cate_id = 0){
-//        $this->with = ['identify.user'];
+        $this->with = ['identify.user'];
         if($cate_id > 0){
             return $this->findByAll([
                 'or',
@@ -198,17 +198,17 @@ class QuestionsARModel extends BaseActiveRecord
                 $this->with = [];
             }
 
-//            $this->with = array_merge($this->with, ['user']);
+            $this->with = array_merge($this->with, ['user']);
 
-//            $query->with($this->with);
-//
-//            $query->where(['status' => $status]);
-//
-//            if($where){
-//                $query->andWhere($where);
-//            }
+            $query->with($this->with);
 
-//            $query->orderBy(['updatetime' => SORT_DESC]);
+            $query->where(['status' => $status]);
+
+            if($where){
+                $query->andWhere($where);
+            }
+
+            $query->orderBy(['updatetime' => SORT_DESC]);
 
             $query->asArray();
         });
