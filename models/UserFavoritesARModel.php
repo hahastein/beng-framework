@@ -48,6 +48,8 @@ class UserFavoritesARModel extends BaseActiveRecord
             'title',
             'content',
             'user_id',
+            'nickname',
+            'avatar_head',
             'cate_id',
             'fav_count',
             'view_count',
