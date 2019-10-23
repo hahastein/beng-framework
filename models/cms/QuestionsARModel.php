@@ -204,9 +204,9 @@ class QuestionsARModel extends BaseActiveRecord
 
             $query->where(['status' => $status]);
 
-            if($where){
-                $query->andWhere($where);
-            }
+//            if($where){
+//                $query->andWhere($where);
+//            }
 
             $query->orderBy(['updatetime' => SORT_DESC]);
 
