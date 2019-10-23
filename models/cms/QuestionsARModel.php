@@ -208,7 +208,7 @@ class QuestionsARModel extends BaseActiveRecord
 //                $query->andWhere($where);
 //            }
 
-            $query->orderBy(['updatetime' => SORT_DESC]);
+//            $query->orderBy(['updatetime' => SORT_DESC]);
 
             $query->asArray();
         });
