@@ -51,7 +51,7 @@ class QuestionLogic extends CmsBase
     public function all()
     {
         $data = $this->moduleModel->findAllByCateID();
-        return $this->parseDataAll($data);
+        return $data;
     }
 
     public function noReply(){
