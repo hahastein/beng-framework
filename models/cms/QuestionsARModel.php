@@ -210,6 +210,8 @@ class QuestionsARModel extends BaseActiveRecord
 
             $query->orderBy(['updatetime' => SORT_DESC]);
 
+            var_dump($query->createCommand()->getRawSql());die;
+
             $query->asArray();
         });
     }
