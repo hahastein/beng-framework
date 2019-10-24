@@ -31,7 +31,7 @@ class WalletLogic extends UserBase
      * @return int|string
      */
     public function isCheckin(){
-        return $this->moduleModel->isExistTodayInfo();
+        return $this->moduleModel->isExistTodayInfo($this->getUserID());
     }
 
     public function signGetPoints(){
