@@ -104,6 +104,11 @@ class QuestionLogic extends CmsBase
 
     }
 
+    public function celebrityReply(){
+
+    }
+
+
     public function search($keyword){
         $questionData = $this->moduleModel->findAllByKeyword($keyword);
         return $this->parseDataAll($questionData);
