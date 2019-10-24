@@ -31,7 +31,7 @@ class FaqIdentifyARModel extends BaseActiveRecord
     }
 
     public function getQuestion(){
-        return $this->hasOne(UserARModel::className(),['question_id'=>'question_id']);
+        return $this->hasOne(QuestionsARModel::className(),['question_id'=>'question_id']);
     }
 
 }
