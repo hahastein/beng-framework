@@ -33,7 +33,7 @@ class WalletRecordARModel extends BaseActiveRecord
         $start = mktime(0,0,0,date('m'),date('d'),date('Y'));
         $end = mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1;
 
-        return self::find()->where(['user_id' => $user_id])->andFilterWhere(['between', 'createtime', $start, $end])->count();
+        return self::find()->where(['user_id' => $user_id])->andWhere(['between', 'createtime', $start, $end])->count();
     }
 
     public function findByUserIDAndMode($userID, $mode){
