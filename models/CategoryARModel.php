@@ -39,6 +39,14 @@ class CategoryARModel extends BaseActiveRecord
         return '{{%cms_category}}';
     }
 
+    /**
+     * Cate信息
+     * @return ActiveQuery
+     */
+    public function getMaster(){
+        return $this->hasOne(CategoryARModel::className(),['cate_id'=>'relation_cateid']);
+    }
+
     public function findAllByNewly($version){
 
         return $this->dataSet(function (ActiveQuery $query) use ($version){
