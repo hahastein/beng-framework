@@ -42,7 +42,7 @@ use yii\db\Expression;
 class ArticleARModel extends BaseActiveRecord
 {
 
-    public $module = 0;
+//    public $module = 0;
 
     public static function tableName()
     {
@@ -86,7 +86,7 @@ class ArticleARModel extends BaseActiveRecord
                 $whereParams['cate_id'] = $cate_id;
             }
             $query->where($whereParams);
-            $query->andWhere(['module' => $this->module]);
+            $query->andWhere(['module' => $this->module?$this->module:0]);
             $query->orderBy([new Expression('orderby=0,orderby')]);
             $query->asArray();
         });
@@ -99,7 +99,7 @@ class ArticleARModel extends BaseActiveRecord
             $whereParams = ['post_status' => Cms::ARTICLE_STATUS_REVIEWED];
             $query->where($whereParams);
             $query->andWhere(['like', 'title', $keyword]);
-            $query->andWhere(['module' => $this->module]);
+            $query->andWhere(['module' => $this->module?$this->module:0]);
             $query->orderBy([new Expression('orderby=0,orderby')]);
             $query->asArray();
         });
@@ -114,7 +114,7 @@ class ArticleARModel extends BaseActiveRecord
             ];
 
             $query->where($whereParams);
-            $query->andWhere(['module' => $this->module]);
+            $query->andWhere(['module' => $this->module?$this->module:0]);
             $query->orderBy([
                 'orderby' => SORT_DESC,
                 'updatetime' => SORT_DESC
