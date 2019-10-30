@@ -30,6 +30,14 @@ class UserGroupARModel extends BaseActiveRecord
     }
 
     /**
+     * Cate信息
+     * @return ActiveQuery
+     */
+    public function getCate(){
+        return $this->hasOne(CategoryARModel::className(),['cate_id'=>'cate_id']);
+    }
+
+    /**
      * 关联Im的Token信息
      * @return ActiveQuery
      */
