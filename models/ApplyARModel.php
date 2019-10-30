@@ -25,6 +25,16 @@ class ApplyARModel extends BaseActiveRecord
         return '{{%apply}}';
     }
 
+    public function getUser(){
+        return $this->hasOne(UserARModel::className(),['user_id'=>'user_id'])->select([
+            'nickname',
+            'avatar_head',
+            'user_id',
+            'unionid',
+            'auth_info'
+        ]);
+    }
+
     public function findByAll(){
 
     }
