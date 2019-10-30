@@ -8,6 +8,7 @@ use bengbeng\framework\base\BaseActiveRecord;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\cms\Cms;
 use bengbeng\framework\models\AttachmentARModel;
+use bengbeng\framework\models\CategoryARModel;
 use bengbeng\framework\models\UserARModel;
 use bengbeng\framework\models\UserFavoritesARModel;
 use yii\db\ActiveQuery;
@@ -56,6 +57,13 @@ class QuestionsARModel extends BaseActiveRecord
             'nickname',
             'avatar_head',
             'user_id'
+        ]);
+    }
+
+    public function getCate(){
+        return $this->hasOne(CategoryARModel::className(),['cate_id'=>'cate_id'])->select([
+            'cate_id',
+            'cate_name'
         ]);
     }
 
