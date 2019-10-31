@@ -103,7 +103,7 @@ class DropZone extends Widget
 
     private function loadEventHandlers(){
         if(empty($this->eventHandlers['complete']) && !empty($this->url)){
-            $this->eventHandlers['complete'] = 'function(data){$.complete.upload(data,'.$this->name.')}';
+            $this->eventHandlers['complete'] = 'function(data){$.complete.upload(data,"'.$this->name.'")}';
         }
     }
 
