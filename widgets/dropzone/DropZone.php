@@ -20,6 +20,8 @@ class DropZone extends Widget
     public $name = '';
     public $url;
     public $options = [];
+    public $defaultImages = [];
+
     public $eventHandlers = [];
 
     protected $dropzoneName = 'dropzone';
@@ -94,6 +96,27 @@ class DropZone extends Widget
     {
         $options = Json::encode($this->options);
         $this->getView()->registerJs($this->dropzoneName . ' = new Dropzone("#' . $this->id . '", ' . $options . ');',\yii\web\View::POS_END);
+    }
+
+    protected function loadDefaultImage(){
+
+        if($this->defaultImages && count($this->defaultImages) > 0){
+            $js_default = '';
+            foreach ($this->defaultImages as $image){
+                $image_path = $image['obj_url'];
+                $image_path_split = explode('/', $image_path);
+                $image_name = $image_path_split[count($image_path_split)-1];
+                $mockFile = [
+                    'name' => $image_name,
+                    'size' => 0
+                ];
+                $mockFile = json_encode($mockFile);
+                $js_default .= $this->dropzoneName.'.options.addedfile.call('.$this->dropzoneName.', '.$mockFile.');'.$this->dropzoneName.'.options.thumbnail.call('.$this->dropzoneName.', '.$mockFile.', "'.$image_path.'");';
+            }
+            $this->getView()->registerJs($js_default,\yii\web\View::POS_END);
+
+        }
+
     }
 
 
