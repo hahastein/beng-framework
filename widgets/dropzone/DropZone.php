@@ -82,6 +82,8 @@ class DropZone extends Widget
         $this->registerAssets();
         $this->createDropzone();
 
+        $this->loadDefaultImage();
+
         foreach ($this->eventHandlers as $event => $handler) {
             $handler = new \yii\web\JsExpression($handler);
             $this->getView()->registerJs(
