@@ -113,7 +113,7 @@ class DropZone extends Widget
                     'accepted' => true
                 ];
                 $mockFile = json_encode($mockFile);
-                $js_default .= $this->dropzoneName.'.emit("addedfile", '.$mockFile.');'.$this->dropzoneName.'.emit("thumbnail", '.$mockFile.',"'.$image_path.'");'.$this->dropzoneName.'.emit("complete" ,"'.$image_path.'");';
+                $js_default .= $this->dropzoneName.'.emit("addedfile", '.$mockFile.');'.$this->dropzoneName.'.emit("thumbnail", '.$mockFile.',"'.$image_path.'");'.$this->dropzoneName.'.emit("complete" ,'.$mockFile.');';
             }
             $this->getView()->registerJs($js_default,\yii\web\View::POS_END);
 
