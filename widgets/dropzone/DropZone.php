@@ -103,7 +103,11 @@ class DropZone extends Widget
 
     private function loadEventHandlers(){
         if(empty($this->eventHandlers['complete']) && !empty($this->url)){
-            $this->eventHandlers['complete'] = 'function(data){$.complete.upload(data,"'.$this->name.'")}';
+            $isSingle = $this->options['maxFiles']==1?1:0;
+            $this->eventHandlers['complete'] = 'function(data){$.complete.upload(data,'.$isSingle.',"'.$this->name.'")}';
+        }
+        if(empty($this->eventHandlers['removedfile']) && !empty($this->url)){
+            $this->eventHandlers['removedfile'] = 'function(data){$.complete.removeUpload(file)}';
         }
     }
 
