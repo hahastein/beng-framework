@@ -110,10 +110,10 @@ class DropZone extends Widget
                 $image_name = $image_path_split[count($image_path_split)-1];
                 $mockFile = [
                     'name' => $image_name,
-                    'size' => 0
+                    'accepted' => true
                 ];
                 $mockFile = json_encode($mockFile);
-                $js_default .= $this->dropzoneName.'.options.addedfile.call('.$this->dropzoneName.', '.$mockFile.');'.$this->dropzoneName.'.options.thumbnail.call('.$this->dropzoneName.', '.$mockFile.', "'.$image_path.'");';
+                $js_default .= $this->dropzoneName.'.emit("addedfile", '.$mockFile.');'.$this->dropzoneName.'.emit("thumbnail", '.$mockFile.',"'.$image_path.'");'.$this->dropzoneName.'.emit("complete" ,"'.$image_path.'");';
             }
             $this->getView()->registerJs($js_default,\yii\web\View::POS_END);
 
