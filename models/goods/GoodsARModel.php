@@ -70,7 +70,7 @@ class GoodsARModel extends BaseActiveRecord
             'goods_id', 'limit_num','buy_count',
             'spell_price','spell_integral',
             'spell_pay_mode', 'spell_name',
-            'spell_desc', 'spell_start_time', 'spell_end_time', 'finish_expire', 'status'
+            'spell_desc', 'limit_user_count', 'spell_start_time', 'spell_end_time', 'finish_expire', 'status'
         ]);
     }
 
