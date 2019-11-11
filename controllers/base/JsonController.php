@@ -37,6 +37,7 @@ class JsonController extends Controller{
     protected $outputMessage;
 
     const CODE_SUCCESS = 10;
+    const CODE_SUCCESS_CUSTOM = 200;
     const CODE_ERROR_403 = 403;
     const CODE_ERROR_4031 = 4031;
     const CODE_ERROR_404 = 404;
@@ -144,7 +145,7 @@ class JsonController extends Controller{
             }
         }
 
-        if($this->outputCode != self::CODE_SUCCESS && $this->outputCode != self::CODE_ERROR_CUSTOM){
+        if(($this->outputCode != self::CODE_SUCCESS || $this->outputCode != self::CODE_SUCCESS_CUSTOM) && $this->outputCode != self::CODE_ERROR_CUSTOM){
             $output['message'] = $this->changeCodeToString();
         }else{
             if($this->outputMessage){
