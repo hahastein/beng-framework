@@ -145,7 +145,7 @@ class JsonController extends Controller{
             }
         }
 
-        if(($this->outputCode != self::CODE_SUCCESS || $this->outputCode != self::CODE_SUCCESS_CUSTOM) && $this->outputCode != self::CODE_ERROR_CUSTOM){
+        if($this->outputCode != self::CODE_SUCCESS && $this->outputCode != self::CODE_SUCCESS_CUSTOM && $this->outputCode != self::CODE_ERROR_CUSTOM){
             $output['message'] = $this->changeCodeToString();
         }else{
             if($this->outputMessage){
