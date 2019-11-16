@@ -243,10 +243,24 @@ class QuestionLogic extends CmsBase
                 if($c_unionid == $userInfo['unionid']) {
                     if ($userInfo['auth_type'] == 21 && !empty($userInfo['auth_info'])) {
                         $isIdentify = true;
+
+                        $faqIdentify = new FaqIdentifyARModel();
+                        //将追问的内容挂入到医生组下
+                        if ($faqIdentify::find()->where([
+                            'question_id' => $this->questionID,
+                        ])->count() == 0) {
+
+
+                            AnswersARModel::updateAll([
+                                'group_id' => $this->getUserID()
+                            ], [
+                                'question_id' => $this->questionID,
+                            ]);
+                        }
+
                         //写入问答的认证表
 
                         $groupID = $this->getUserID();
-                        $faqIdentify = new FaqIdentifyARModel();
                         if (!$faqIdentify::find()->where([
                             'question_id' => $this->questionID,
                             'user_id' => $this->getUserID(),
