@@ -59,7 +59,7 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($data);
     }
 
-    public function info($code, $isImage=false)
+    public function info($code)
     {
 
         $this->moduleModel->with = ['identify.user'];
@@ -76,7 +76,7 @@ class QuestionLogic extends CmsBase
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
 //        var_dump($data);die;
 
-        if(!$isImage || $this->getUserID() != $data['user_id']){
+        if(!$this->getUser()->isAuth && $this->getUserID() != $data['user_id']){
             unset($data['images']);
         }
 
