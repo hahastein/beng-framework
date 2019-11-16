@@ -59,7 +59,7 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($data);
     }
 
-    public function info($code)
+    public function info($code, $isImage=false)
     {
 
         $this->moduleModel->with = ['identify.user'];
@@ -70,9 +70,20 @@ class QuestionLogic extends CmsBase
                     'user_id' => $this->getUserID()
                 ]);
             };
+//            $isImage = true;
         }
+
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
 //        var_dump($data);die;
+
+        if(!$isImage && $this->getUserID() == $data['user_id']){
+            $isImage = true;
+        }
+
+        if(!$isImage){
+            unset($data['images']);
+        }
+
         $user_id = $data['user_id'];
 
         if(isset($data['identify'])) {
