@@ -21,7 +21,7 @@ class OrderLogic extends UserBase
      */
     public function unfilledCount(){
         return OrdersARModel::find()->where([
-            'user_id' => $this->getUserID(),
+            'buyer_id' => $this->getUserID(),
             'order_state' => 20,
             'delete_state' => 0,
             'refund_state' => 0
