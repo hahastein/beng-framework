@@ -74,7 +74,7 @@ class QuestionLogic extends CmsBase
         }
 
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
-//        var_dump($data);die;
+        var_dump($this->getUser());die;
 
         if(!$this->getUser()->isAuth && $this->getUserID() != $data['user_id']){
             unset($data['images']);
