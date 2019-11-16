@@ -248,10 +248,7 @@ class QuestionLogic extends CmsBase
 
                         $faqIdentify = new FaqIdentifyARModel();
                         //将追问的内容挂入到医生组下
-                        if (!$faqIdentify::find()->where([
-                            'question_id' => $this->questionID,
-                        ])->count()) {
-
+                        if ($questionModel->status == 20) {
 
                             AnswersARModel::updateAll(
                                 ['group_id' => $groupID],
