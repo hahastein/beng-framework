@@ -112,12 +112,10 @@ class QuestionsARModel extends BaseActiveRecord
         if($cate_id > 0){
             return $this->findByAll([
                 'cate_id' => $cate_id,
-                'reply_count' => 0
+//                'reply_count' => 0
             ], 20);
         }else{
-            return $this->findByAll([
-                'reply_count' => 0
-            ], 20);
+            return $this->findByAll(false, 20);
         }
 
     }
