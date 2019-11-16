@@ -13,6 +13,7 @@ use bengbeng\framework\base\Bootstrap;
  * @property AccountLogic $account
  * @property FriendLogic $friend
  * @property GroupLogic $group
+ * @property OrderLogic $order
  * @property WalletLogic $wallet
  * @property FavoritesLogic $favorites
  */
