@@ -319,7 +319,7 @@ class QuestionLogic extends CmsBase
 
             $questionModel->reply_count = $questionModel->reply_count+1;
             $questionModel->updatetime = $questionModel->replytime = time();
-            if($questionModel->status == 20){
+            if($isIdentify && $questionModel->status == 20){
                 $questionModel->status = 10;
             }
 
