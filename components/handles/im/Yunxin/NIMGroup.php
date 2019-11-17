@@ -108,4 +108,28 @@ class NIMGroup extends NIMBase
         $result = $this->httpUtil->request($url, $data, $this->httpHeader);
         return $result;
     }
+
+
+    /**
+     * 群组功能（高级群）-拉人入群
+     * @param  $tid       [云信服务器产生，群唯一标识，创建群时会返回，最大长度128字节]
+     * @param  $owner       [群主用户帐号，最大长度32字节]
+     * @param  $members     [["aaa","bbb"](JsonArray对应的accid，如果解析出错会报414)，长度最大1024字节]
+     * @param  $magree      [管理后台建群时，0不需要被邀请人同意加入群，1需要被邀请人同意才可以加入群。其它会返回414。]
+     * @param  $msg      [邀请内容]
+     * @return $result      [返回array数组对象]
+     */
+    public function addIntoGroup($tid,$owner,$members,$magree='0',$msg='请您入伙'){
+        $url = $this->imUrl('add', self::URL_MODE_TEAM);
+        $data= array(
+            'tid' => $tid,
+            'owner' => $owner,
+            'members' => json_encode($members),
+            'magree' => $magree,
+            'msg' => $msg
+        );
+        $this->checkSumHeader();
+        $result = $this->httpUtil->request($url, $data, $this->httpHeader);
+        return $result;
+    }
 }
