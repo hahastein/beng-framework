@@ -10,6 +10,7 @@ namespace bengbeng\framework\models;
 
 use bengbeng\framework\base\BaseActiveRecord;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * 类别模型.
@@ -61,6 +62,7 @@ class CategoryARModel extends BaseActiveRecord
                     '>', 'updatetime', $version
                 ]);
             }
+            $query->orderBy(new Expression('cate_order=0,cate_order'));
             $query->asArray();
         });
     }
