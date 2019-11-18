@@ -108,6 +108,17 @@ class QuestionLogic extends CmsBase
 
         if($this->getUserID()){
             $data = $this->moduleModel->findAllByUserID($this->getUserID());
+            if(isset($data['identify'])) {
+                foreach ($data['identify'] as $key => $identify) {
+                    if ($identify['user']) {
+                        $auth_info = json_decode($identify['user']['auth_info'], true);
+                        $identify['doctor_name'] = $auth_info['doctorname'];
+                        unset($identify['user']);
+                        $data['identify'][$key] = $identify;
+                    }
+                    unset($data['identify'][$key]['user_id'], $data['identify'][$key]['question_id']);
+                }
+            }
             return $this->parseDataAll($data);
         }else{
             return false;

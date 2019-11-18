@@ -121,6 +121,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function findAllByUserID($user_id){
+        $this->with = ['identify.user'];
         return $this->findByMyAll([
             'user_id' => $user_id
         ]);
