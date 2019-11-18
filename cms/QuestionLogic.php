@@ -298,6 +298,8 @@ class QuestionLogic extends CmsBase
                 throw new Exception('回复失败[20080]。回答写入失败');
             }
 
+            $answer_id = \Yii::$app->db->lastInsertID;
+
             //更新问题表的回复总数及最后回复时间
 
             $questionModel->reply_count = $questionModel->reply_count+1;
@@ -311,7 +313,7 @@ class QuestionLogic extends CmsBase
             }
 
             $upload = new UploadHandle([
-                'maxSize' => 5,
+                'maxSize' => 1,
                 'driverConfig'=>[
                     'savePath' => 'upload/answer'
                 ]
@@ -323,7 +325,7 @@ class QuestionLogic extends CmsBase
                 $uploadResult = $upload->save(false);
 
                 //写入图片
-                if($uploadResult && !(new System())->attachment->save($uploadResult, \Yii::$app->db->lastInsertID, Enum::MODULE_TYPE_FAQS_REPLAY)){
+                if($uploadResult && !(new System())->attachment->save($uploadResult, $answer_id, Enum::MODULE_TYPE_FAQS_REPLAY)){
                     throw new Exception('回复失败[20081]。图片写入失败');
                 }
             }
