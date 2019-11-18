@@ -22,10 +22,10 @@ class CacheHandle
 
         if($cache) {
             $cacheData = $cache->get($name);
+            var_dump($cacheData);die;
 
             if (!$cacheData && $callback) {
                 $cacheData = call_user_func($callback);
-                var_dump($cacheData);die;
                 $cache->set($name, $cacheData);
             }
 
