@@ -43,6 +43,7 @@ class QuestionLogic extends CmsBase
             'reply_count',
             'share_count',
             'is_reply',
+            'status',
             'show_img',
             'createtime'
         ];
