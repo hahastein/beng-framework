@@ -288,7 +288,7 @@ class QuestionLogic extends CmsBase
                 ]
             ]);
 
-            if($upload->getFileCount() > 5){
+            if($upload->getFileCount() > 1){
                 throw new Exception('图片不能超过5张哦');
             }else{
                 $uploadResult = $upload->save(false);
