@@ -281,27 +281,6 @@ class QuestionLogic extends CmsBase
 
             }
 
-
-
-            $upload = new UploadHandle([
-                'maxSize' => 5,
-                'driverConfig'=>[
-                    'savePath' => 'upload/answer'
-                ]
-            ]);
-
-            if($upload->getFileCount() > 1){
-                throw new Exception('图片不能超过5张哦');
-            }else{
-                $uploadResult = $upload->save(false);
-
-                //写入图片
-                if($uploadResult && !(new System())->attachment->save($uploadResult, $this->questionID, Enum::MODULE_TYPE_FAQS_REPLAY)){
-                    throw new Exception('回复失败[20081]。图片写入失败');
-                }
-            }
-
-
             //写入回复数据
             $answerModel = new AnswersARModel();
             $answerModel->question_id = $this->questionID;
@@ -329,6 +308,24 @@ class QuestionLogic extends CmsBase
 
             if(!$questionModel->save()){
                 throw new Exception('回复失败[20082]。更新主表失败');
+            }
+
+            $upload = new UploadHandle([
+                'maxSize' => 5,
+                'driverConfig'=>[
+                    'savePath' => 'upload/answer'
+                ]
+            ]);
+
+            if($upload->getFileCount() > 1){
+                throw new Exception('回复的图片只能上传1张');
+            }else{
+                $uploadResult = $upload->save(false);
+
+                //写入图片
+                if($uploadResult && !(new System())->attachment->save($uploadResult, \Yii::$app->db->lastInsertID, Enum::MODULE_TYPE_FAQS_REPLAY)){
+                    throw new Exception('回复失败[20081]。图片写入失败');
+                }
             }
 
             $transaction->commit();
