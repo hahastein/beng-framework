@@ -25,6 +25,7 @@ class CacheHandle
 
             if (!$cacheData && $callback) {
                 $cacheData = call_user_func($callback);
+                var_dump($cacheData);die;
                 $cache->set($name, $cacheData);
             }
 
