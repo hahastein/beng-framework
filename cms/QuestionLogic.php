@@ -80,7 +80,7 @@ class QuestionLogic extends CmsBase
 //        $userInfo = new
 
 //        var_dump($this->getUser());die;
-        if(!$this->getUser()->isAuth && $this->getUserID() != $data['user_id']){
+        if(($this->getUser() && !$this->getUser()->isAuth) && $this->getUserID() != $data['user_id']){
             unset($data['images']);
         }
 
