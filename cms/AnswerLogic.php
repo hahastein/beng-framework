@@ -15,8 +15,13 @@ class AnswerLogic extends CmsBase
         $this->moduleModel = new AnswersARModel();
     }
 
-    public function all($identify_user_id = false)
+    public function all($identify_user_id = false, $isImage = false)
     {
+
+        if($isImage){
+            $this->moduleModel->with = ['images'];
+        }
+
         if($identify_user_id){
             $answerData = $this->moduleModel->findAllByQuestionAndUserID($this->questionID, $identify_user_id);
         }else{

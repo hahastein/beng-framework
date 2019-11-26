@@ -95,7 +95,7 @@ class AnswersARModel extends BaseActiveRecord
                 $this->with = [];
             }
 
-            $this->with = array_merge($this->with, ['user', 'images']);
+            $this->with = array_merge($this->with, ['user']);
 
             $query->with($this->with);
 
