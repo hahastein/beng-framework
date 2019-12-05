@@ -18,6 +18,10 @@ class JsonController extends Controller{
     public $sign;
     public $debug;
     public $unionID;
+    public $ver;
+    public $os;
+    public $uuid;
+
 
     protected $requestParams;
     protected $nullData;
@@ -54,6 +58,10 @@ class JsonController extends Controller{
 
         $this->token = Yii::$app->getRequest()->getHeaders()->get('token');//获取验证token
         $this->sign = Yii::$app->getRequest()->getHeaders()->get('sign');//签名
+        $this->ver = Yii::$app->getRequest()->getHeaders()->get('ver');
+        $this->os = Yii::$app->getRequest()->getHeaders()->get('os');
+        $this->uuid = Yii::$app->getRequest()->getHeaders()->get('ver');
+
         $this->debug = NullHelper::arrayKey($this->requestParams, 'debug');//调试模式
         $this->unionID = NullHelper::arrayKey($this->requestParams, 'unionid');//用户唯一标识
 
