@@ -105,6 +105,7 @@ class QuestionsARModel extends BaseActiveRecord
             $this->orderBy = new Expression('FIELD(cate_id, '.implode(',', $tags).') DESC');
 
         }
+        var_dump($this->orderBy);die;
         return $this->findByAll();
 
     }
