@@ -63,6 +63,8 @@ class QuestionLogic extends CmsBase
             'url_code',
             'title',
             'user_id',
+            'nickname',
+            'avatar_head',
             'cate_id',
             'cate_name',
             'view_count',
