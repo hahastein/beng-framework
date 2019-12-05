@@ -99,6 +99,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
     public function findAllByTags($tags = []){
+        $this->with = ['identify.user'];
 
         if(count($tags) > 0){
             $tags[] = 0;
