@@ -24,6 +24,7 @@ class UserProperty
     public $userState;
     public $imToken;
     public $imID;
+    public $tags;
 
     public function __construct($cacheData)
     {
@@ -43,6 +44,13 @@ class UserProperty
         if(isset($cacheData['imToken'])){
             $this->imID = $cacheData['imToken']['unionid'];
             $this->imToken = $cacheData['imToken']['im_token'];
+        }
+
+        if(isset($cacheData['user_extend'])){
+            if(!is_array($cacheData['user_extend'])){
+                $cacheData['user_extend'] = json_decode($cacheData['user_extend'], true);
+            }
+            $this->tags = $cacheData['user_extend']['tags'];
         }
     }
 }
