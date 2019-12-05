@@ -12,6 +12,7 @@ use bengbeng\framework\models\CategoryARModel;
 use bengbeng\framework\models\UserARModel;
 use bengbeng\framework\models\UserFavoritesARModel;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * Class QuestionsARModel
@@ -94,6 +95,13 @@ class QuestionsARModel extends BaseActiveRecord
         }else{
             return $this->findByAll();
         }
+
+    }
+
+    public function findAllByTags($tags = []){
+
+        $this->orderBy = new Expression('FIELD(cate_id, '.implode(',', $tags).')');
+        return $this->findByAll();
 
     }
 
@@ -206,7 +214,11 @@ class QuestionsARModel extends BaseActiveRecord
                 $query->andWhere($where);
             }
 
-            $query->orderBy(['updatetime' => SORT_DESC]);
+            if($this->orderBy){
+                $query->orderBy($this->orderBy);
+            }else{
+                $query->orderBy(['updatetime' => SORT_DESC]);
+            }
 
 //            var_dump($query->createCommand()->getRawSql());die;
 
