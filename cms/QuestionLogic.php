@@ -58,7 +58,19 @@ class QuestionLogic extends CmsBase
         $relationID = CategoryARModel::find()->select('cate_id')->where(['in', 'relation_cateid', $this->getUser()->tags])->andWhere(['module' => 20])->asArray()->all();
         $relationID = array_flip(array_flip(array_column($relationID, 'cate_id')));
 //        var_dump($relationID);die;
-
+        $this->moduleModel->showField = [
+            'question_id',
+            'url_code',
+            'title',
+            'user_id',
+            'cate_id',
+            'cate_name',
+            'view_count',
+            'is_reply',
+            'status',
+            'show_img',
+            'createtime'
+        ];
         $data = $this->moduleModel->findAllByTags($relationID);
         return $this->parseDataAll($data);
     }
