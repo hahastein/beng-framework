@@ -51,7 +51,7 @@ class QuestionLogic extends CmsBase
 
     public function all()
     {
-        var_dump($this->getUser()->unionID);
+        var_dump($this->getUser());die;
 
         $data = $this->moduleModel->findAllByCateID();
         return $this->parseDataAll($data);
