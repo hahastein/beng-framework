@@ -51,7 +51,7 @@ class QuestionLogic extends CmsBase
 
     public function all()
     {
-        var_dump(json_decode('{"tags":["35","20","22","25","26","29","32"]}',true));die;
+        var_dump(json_decode('{"tags":["35","20","22","25","26","29","32"]}',false));die;
 
         $data = $this->moduleModel->findAllByCateID();
         return $this->parseDataAll($data);
