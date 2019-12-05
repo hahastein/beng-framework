@@ -100,7 +100,11 @@ class QuestionsARModel extends BaseActiveRecord
 
     public function findAllByTags($tags = []){
 
-        $this->orderBy = new Expression('FIELD(cate_id, '.implode(',', $tags).')');
+        if(count($tags) > 0){
+            $tags[] = 0;
+            $this->orderBy = new Expression('FIELD(cate_id, '.implode(',', $tags).') DESC');
+
+        }
         return $this->findByAll();
 
     }
