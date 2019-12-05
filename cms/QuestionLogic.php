@@ -6,6 +6,7 @@ namespace bengbeng\framework\cms;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\handles\UploadHandle;
 use bengbeng\framework\components\helpers\StringHelpers;
+use bengbeng\framework\models\CategoryARModel;
 use bengbeng\framework\models\cms\AnswersARModel;
 use bengbeng\framework\models\cms\QuestionsARModel;
 use bengbeng\framework\models\UserARModel;
@@ -51,9 +52,13 @@ class QuestionLogic extends CmsBase
 
     public function all()
     {
-//        var_dump($this->getUser());die;
 
-        $data = $this->moduleModel->findAllByCateID();
+        //转换cateID
+
+        $relationID = CategoryARModel::find()->where(['in', 'relation_cateid', $this->getUser()->tags])->andWhere(['module' => 20])->asArray()->all();
+        var_dump($relationID);die;
+
+        $data = $this->moduleModel->findAllByTags();
         return $this->parseDataAll($data);
     }
 
