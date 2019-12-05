@@ -34,9 +34,10 @@ class WalletLogic extends UserBase
         return $this->moduleModel->isExistTodayInfo($this->getUserID());
     }
 
-    public function signGetPoints(){
+    public function signGetPoints($points = 20){
         if(!$this->isCheckin()){
-            return $this->income(20, self::WALLET_MODE_POINTS, 'sign', '签到增加');
+
+            return $this->income($points, self::WALLET_MODE_POINTS, 'sign', '签到增加');
         }else{
             $this->error = '今日已签到，不能重复签到';
             return false;
