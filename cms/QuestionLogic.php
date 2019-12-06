@@ -53,11 +53,12 @@ class QuestionLogic extends CmsBase
     public function all()
     {
 
+        var_dump($this->getUser());die;
+
         //转换cateID
 
         $relationID = CategoryARModel::find()->select('cate_id')->where(['in', 'relation_cateid', $this->getUser()->tags])->andWhere(['module' => 20])->asArray()->all();
         $relationID = array_flip(array_flip(array_column($relationID, 'cate_id')));
-//        var_dump($relationID);die;
         $this->moduleModel->showField = [
             'question_id',
             'url_code',
