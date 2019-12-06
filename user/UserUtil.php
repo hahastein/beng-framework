@@ -32,6 +32,20 @@ class UserUtil
         }
     }
 
+    public static function resetCache($unionID){
+        $cacheName = Enum::CACHE_USER_DATA.$unionID;
+        $cache = \Yii::$app->cache;
+        $cache->delete($cacheName);
+        return self::getCache($unionID);
+
+    }
+
+    public static function removeCache($unionID){
+        $cacheName = Enum::CACHE_USER_DATA.$unionID;
+        $cache = \Yii::$app->cache;
+        return $cache->delete($cacheName);
+    }
+
     public static function getUserIDByImID($imID){
         if($token = (new UserTokenARModel())->findByImID($imID)){
             return $token['user_id'];
