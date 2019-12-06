@@ -53,7 +53,7 @@ class QuestionLogic extends CmsBase
     public function all()
     {
 
-//        var_dump($this->getUser());die;
+        var_dump($this->getUser());die;
 
         //转换cateID
 
