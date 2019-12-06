@@ -29,11 +29,11 @@ class WalletRecordARModel extends BaseActiveRecord
         return '{{%wallet_record}}';
     }
 
-    public function isExistTodayInfo($user_id){
+    public function isExistTodayInfo($user_id, $tools){
         $start = mktime(0,0,0,date('m'),date('d'),date('Y'));
         $end = mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1;
 
-        return self::find()->where(['user_id' => $user_id])->andWhere(['between', 'createtime', $start, $end])->count();
+        return self::find()->where(['user_id' => $user_id, 'tools' => $tools])->andWhere(['between', 'createtime', $start, $end])->count();
     }
 
     public function findByUserIDAndMode($userID, $mode){
