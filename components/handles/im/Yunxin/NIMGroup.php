@@ -117,7 +117,7 @@ class NIMGroup extends NIMBase
      * @param  $members     [["aaa","bbb"](JsonArray对应的accid，如果解析出错会报414)，长度最大1024字节]
      * @param  $magree      [管理后台建群时，0不需要被邀请人同意加入群，1需要被邀请人同意才可以加入群。其它会返回414。]
      * @param  $msg      [邀请内容]
-     * @return $result      [返回array数组对象]
+     * @return bool $result
      */
     public function addIntoGroup($tid,$owner,$members,$magree='0',$msg='请您入伙'){
         $url = $this->imUrl('add', self::URL_MODE_TEAM);
@@ -130,6 +130,8 @@ class NIMGroup extends NIMBase
         );
         $this->checkSumHeader();
         $result = $this->httpUtil->request($url, $data, $this->httpHeader);
-        return $result;
+//        return $result;
+        return $this->checkReturn($result);
+
     }
 }
