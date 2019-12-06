@@ -55,7 +55,7 @@ class WalletLogic extends UserBase
         }
     }
 
-    public function income($currency, $mode, $tools, $tools_desc = ''){
+    public function income($currency, $mode, $tools, $tools_desc = '', $user_id=0, $nickname = ''){
 
         $transaction = \Yii::$app->db->beginTransaction();
         try{
@@ -71,8 +71,8 @@ class WalletLogic extends UserBase
             }
 
             //写入日志
-            $this->moduleModel->user_id = $this->getUserID();
-            $this->moduleModel->username = $this->user->nickname;
+            $this->moduleModel->user_id = $user_id>0?$user_id:$this->getUserID();
+            $this->moduleModel->username = empty($nickname)?$this->user->nickname:$nickname;
             $this->moduleModel->coin = $currency;
             $this->moduleModel->org_coin = $orgCurrency;
             $this->moduleModel->mode = $mode;
