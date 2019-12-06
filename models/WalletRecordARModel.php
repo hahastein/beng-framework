@@ -46,4 +46,16 @@ class WalletRecordARModel extends BaseActiveRecord
             $query->asArray();
         });
     }
+
+    public function findByTodayTotal($userID, $tools, $mode){
+        $start_time=strtotime(date("Y-m-d",time()));
+        $end_time=$start_time+86400;
+
+        return self::find()->where([
+            'type' => 1,
+            'user_id' => $userID,
+            'tools' => $tools,
+            'mode' => $mode
+        ])->andWhere(['between', 'createtime', $start_time, $end_time])->max('coin');
+    }
 }

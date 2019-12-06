@@ -34,10 +34,21 @@ class WalletLogic extends UserBase
         return $this->moduleModel->isExistTodayInfo($this->getUserID());
     }
 
+    public function isMaxSetting($maxPoints=0, $tools){
+        $curDayTotal = $this->moduleModel->findByTodayTotal($this->getUserID(), $tools, self::WALLET_MODE_POINTS);
+
+        if($curDayTotal >= $maxPoints){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+
     public function signGetPoints($points = 20){
         if(!$this->isCheckin()){
 
-            return $this->income($points, self::WALLET_MODE_POINTS, 'sign', '签到增加');
+            return $this->income($points, self::WALLET_MODE_POINTS, 'intUserSign', '签到成功');
         }else{
             $this->error = '今日已签到，不能重复签到';
             return false;
