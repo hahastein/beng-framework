@@ -57,24 +57,30 @@ class QuestionLogic extends CmsBase
 
         //转换cateID
 
-        $relationID = CategoryARModel::find()->select('cate_id')->where(['in', 'relation_cateid', $this->getUser()->tags])->andWhere(['module' => 20])->asArray()->all();
-        $relationID = array_flip(array_flip(array_column($relationID, 'cate_id')));
-        $this->moduleModel->showField = [
-            'question_id',
-            'url_code',
-            'title',
-            'user_id',
-            'nickname',
-            'avatar_head',
-            'cate_id',
-            'cate_name',
-            'view_count',
-            'is_reply',
-            'status',
-            'show_img',
-            'createtime'
-        ];
-        $data = $this->moduleModel->findAllByTags($relationID);
+        if($this->getUser()){
+            $relationID = CategoryARModel::find()->select('cate_id')->where(['in', 'relation_cateid', $this->getUser()->tags])->andWhere(['module' => 20])->asArray()->all();
+            $relationID = array_flip(array_flip(array_column($relationID, 'cate_id')));
+            $this->moduleModel->showField = [
+                'question_id',
+                'url_code',
+                'title',
+                'user_id',
+                'nickname',
+                'avatar_head',
+                'cate_id',
+                'cate_name',
+                'view_count',
+                'is_reply',
+                'status',
+                'show_img',
+                'createtime'
+            ];
+            $data = $this->moduleModel->findAllByTags($relationID);
+        }else{
+            $data = $this->moduleModel->findAllByCateID();
+
+        }
+
         return $this->parseDataAll($data);
     }
 
