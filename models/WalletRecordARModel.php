@@ -43,6 +43,7 @@ class WalletRecordARModel extends BaseActiveRecord
                 'user_id' => $userID,
                 'mode' => $mode
             ]);
+            $query->orderBy(['createtime' => SORT_DESC]);
             $query->asArray();
         });
     }
