@@ -37,7 +37,7 @@ class WalletLogic extends UserBase
     public function isMaxSetting($maxPoints, $tools){
         $curDayTotal = $this->moduleModel->findByTodayTotal($this->getUserID(), $tools, self::WALLET_MODE_POINTS);
 
-        if($curDayTotal >= $maxPoints){
+        if($curDayTotal >= $maxPoints && $maxPoints > 0){
             return false;
         }else{
             return true;
