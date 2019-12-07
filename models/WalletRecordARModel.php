@@ -57,6 +57,6 @@ class WalletRecordARModel extends BaseActiveRecord
             'user_id' => $userID,
             'tools' => $tools,
             'mode' => $mode
-        ])->andWhere(['between', 'createtime', $start_time, $end_time])->max('coin');
+        ])->andWhere(['between', 'createtime', $start_time, $end_time])->sum('coin');
     }
 }
