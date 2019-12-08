@@ -61,8 +61,9 @@ class WalletLogic extends UserBase
         $transaction = \Yii::$app->db->beginTransaction();
         try{
 
+            $user_id = $user_id>0?$user_id:$this->getUserID();
             //获取当前积分
-            $wallet = $this->getWallet();
+            $wallet = $this->getWallet($user_id);
             if($mode == self::WALLET_MODE_BALANCE){
                 $orgCurrency = $wallet->balance;
             }else if($mode == self::WALLET_MODE_VIRTUAL_COIN){
@@ -72,7 +73,7 @@ class WalletLogic extends UserBase
             }
 
             //写入日志
-            $this->moduleModel->user_id = $user_id>0?$user_id:$this->getUserID();
+            $this->moduleModel->user_id = $user_id;
             $this->moduleModel->username = empty($nickname)?$this->user->nickname:$nickname;
             $this->moduleModel->coin = $currency;
             $this->moduleModel->org_coin = $orgCurrency;
@@ -113,10 +114,12 @@ class WalletLogic extends UserBase
 
     /**
      * 获取钱包数据
+     * @param int $user_id
      * @return WalletProperty
      */
-    public function getWallet(){
-        return new WalletProperty($this->userModel->findWalletByUserID($this->getUserID()));
+    public function getWallet($user_id = 0){
+        $user_id = $user_id == 0?$this->getUserID():$user_id;
+        return new WalletProperty($this->userModel->findWalletByUserID($user_id));
     }
 
     /**
