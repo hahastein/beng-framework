@@ -121,6 +121,10 @@ class UserHandle{
             $insert['user_extend'] = $user_extend;
         }
 
+        if($referee = NullHelper::arrayKey($params, 'referee')){
+            $insert['referee'] = $referee;
+        }
+
         $trans = Yii::$app->db->beginTransaction();
         try{
             $userModel->setAttributes($insert, false);
