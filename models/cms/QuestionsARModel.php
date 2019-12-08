@@ -103,7 +103,7 @@ class QuestionsARModel extends BaseActiveRecord
 
         if(count($tags) > 0){
             $tags[] = 0;
-            $this->orderBy = new Expression('FIELD(cate_id, '.implode(',', $tags).') DESC');
+            $this->orderBy = new Expression('FIELD(cate_id, '.implode(',', $tags).') DESC, rand_show DESC');
 
         }
 //        var_dump($this->findByAll());die;
