@@ -85,8 +85,8 @@ class WalletLogic extends UserBase
             if($this->moduleModel->save()){
 
                 $currency = $currency + $orgCurrency;
-                if($this->userModel->dataUpdate(function (ActiveOperate $operate) use ($currency){
-                    $operate->where(['user_id' => $this->getUserID()]);
+                if($this->userModel->dataUpdate(function (ActiveOperate $operate) use ($currency, $user_id){
+                    $operate->where(['user_id' => $user_id]);
                     $operate->params(['points' => $currency]);
                 })){
                     $transaction->commit();
