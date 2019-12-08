@@ -117,6 +117,10 @@ class UserHandle{
             $insert['nickname'] = '用户' . $createTime;
         }
 
+        if($user_extend = NullHelper::arrayKey($params, 'user_extend')){
+            $insert['user_extend'] = $user_extend;
+        }
+
         $trans = Yii::$app->db->beginTransaction();
         try{
             $userModel->setAttributes($insert, false);
