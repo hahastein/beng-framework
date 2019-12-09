@@ -57,7 +57,7 @@ class QuestionLogic extends CmsBase
 
         //转换cateID
 
-        if($this->getUser()){
+        if($this->getUser() && $this->getUser()->tags){
             $relationID = CategoryARModel::find()->select('cate_id')->where(['in', 'relation_cateid', $this->getUser()->tags])->andWhere(['module' => 20])->asArray()->all();
             $relationID = array_flip(array_flip(array_column($relationID, 'cate_id')));
             $this->moduleModel->showField = [
