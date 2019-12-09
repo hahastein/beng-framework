@@ -119,4 +119,12 @@ class FriendLogic extends UserBase
             return false;
         }
     }
+
+    public function getFriends(){
+
+    }
+
+    public function friendCount(){
+        return UserRelationARModel::find()->where(['send_user_id' => $this->getUserID()])->orWhere(['accept_user_id' => $this->getUserID()])->count();
+    }
 }
