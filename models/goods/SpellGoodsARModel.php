@@ -26,4 +26,8 @@ class SpellGoodsARModel extends BaseActiveRecord
     {
         return "{{%shop_goods_spell}}";
     }
+
+    public function getGoods(){
+        return $this->hasMany(GoodsARModel::className(),['goods_id'=>'goods_id']);
+    }
 }
