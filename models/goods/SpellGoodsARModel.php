@@ -28,6 +28,6 @@ class SpellGoodsARModel extends BaseActiveRecord
     }
 
     public function getGoods(){
-        return $this->hasMany(GoodsARModel::className(),['goods_id'=>'goods_id']);
+        return $this->hasOne(GoodsARModel::className(),['goods_id'=>'goods_id']);
     }
 }
