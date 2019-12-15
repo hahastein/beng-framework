@@ -5,6 +5,7 @@ namespace bengbeng\framework\models\cms;
 
 
 use bengbeng\framework\base\BaseActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * 名人表(包含名人，专家，明星等信息)
@@ -30,5 +31,13 @@ class CelebrityARModel extends BaseActiveRecord
     public static function tableName()
     {
         return '{{%cms_celebrity}}';
+    }
+
+    public function findByModeUser(){
+        return $this->dataSet(function (ActiveQuery $query){
+            $query->select($this->showField);
+            $query->where();
+            $query->asArray();
+        });
     }
 }

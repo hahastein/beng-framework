@@ -40,6 +40,13 @@ class BaseActiveRecord extends ActiveRecord
         }
     }
 
+
+    public function lists(){
+
+
+
+    }
+
     public function info($where = false){
         return self::dataOne(function (ActiveQuery $query) use($where){
             $query->where($where);

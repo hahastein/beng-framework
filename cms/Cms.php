@@ -20,6 +20,9 @@ class Cms extends Bootstrap
     const ARTICLE_STATUS_REVIEWING = 0;
     const ARTICLE_STATUS_VIOLATION = 2;
 
+    const CELEBRITY_MODE_SYSTEM = 0;
+    const CELEBRITY_MODE_USER = 10;
+
     public function init()
     {
         parent::init();
