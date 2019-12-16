@@ -40,9 +40,18 @@ class BaseActiveRecord extends ActiveRecord
         }
     }
 
-
+    /**
+     * 公共调用列表
+     */
     public function lists(){
-//        self::find()->
+        $this->filter();
+    }
+
+    /**
+     * 筛选条件
+     */
+    public function filter(){
+
     }
 
     public function info($where = false){
