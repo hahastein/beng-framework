@@ -42,9 +42,7 @@ class BaseActiveRecord extends ActiveRecord
 
 
     public function lists(){
-
-
-
+//        self::find()->
     }
 
     public function info($where = false){
