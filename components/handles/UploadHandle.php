@@ -111,7 +111,9 @@ class UploadHandle
             /* 获取上传文件后缀，允许上传无后缀文件 */
             $file['ext'] = pathinfo($file['name'], PATHINFO_EXTENSION);
 
-            if ($this->uploader->upload($file, false)) {
+            $replace = $this->driverConfig['replace'];
+
+            if ($this->uploader->upload($file, $replace)) {
 
                 if(empty($this->domain)){
                     $successUpload['originPath'] = '/'.$this->uploader->getUploadOriginPath();
