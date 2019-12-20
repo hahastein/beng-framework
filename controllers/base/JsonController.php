@@ -40,6 +40,20 @@ class JsonController extends Controller{
 
     protected $outputMessage;
 
+    /**
+     * 签名使用的前缀配置
+     * @var string
+     */
+    protected $sign_front = '';
+
+    /**
+     * 签名使用的后缀配置
+     * @var string
+     */
+    protected $sign_back = '';
+
+
+
     const CODE_SUCCESS = 10;
     const CODE_SUCCESS_CUSTOM = 200;
     const CODE_ERROR_403 = 403;
@@ -162,6 +176,31 @@ class JsonController extends Controller{
         }
 
         return $output;
+    }
+
+    /**
+     * 接口签名
+     * @param array $param 原始参数
+     * @return string 返回加密后的字符串
+     */
+    public function createSign($param){
+
+        // 1. 对加密数组进行字典排序
+        foreach ($param as $key=>$value){
+            if(!empty($value)){
+                $arr[$key] = $key;
+            }
+        }
+        sort($arr);
+
+        $str = "";
+        foreach ($arr as $k => $v) {
+            $str = $str.$arr[$k].'='.$param[$v].'&';
+        }
+
+        //通过Md5加密并转化为大写 大写获得签名
+        $rest_str = $this->sign_front . $str . $this->sign_back;
+        return strtoupper(md5($rest_str));
     }
 
     /**

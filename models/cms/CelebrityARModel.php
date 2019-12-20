@@ -35,15 +35,16 @@ use yii\db\ActiveQuery;
  */
 class CelebrityARModel extends BaseActiveRecord
 {
-    public static function tableName()
-    {
+    public static function tableName() {
         return '{{%cms_celebrity}}';
     }
 
-    public function findByModeUser(){
+    public function findByModeUser() {
         return $this->dataSet(function (ActiveQuery $query){
             $query->select($this->showField);
-            $query->where();
+            $query->where([
+
+            ]);
             $query->asArray();
         });
     }
