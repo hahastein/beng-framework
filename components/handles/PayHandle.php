@@ -12,7 +12,8 @@ use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\plugins\alipay\AlipayTradeAppPayRequest;
 use bengbeng\framework\components\plugins\alipay\AopClient;
-use bengbeng\framework\models\OrderARModel;
+use bengbeng\framework\models\order\OrdersARModel;
+//use bengbeng\framework\models\OrderARModel;
 use EasyWeChat\Factory;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 
@@ -170,7 +171,7 @@ class PayHandle
                             call_user_func($closure, $out_trade_no, $total_fee, $transaction_id);
                         } elseif ($message['result_code'] === 'FAIL') {
                             //支付失败
-                            $orderModel = new OrderARModel();
+                            $orderModel = new OrdersARModel();
                             $orderModel->dataUpdate(function (ActiveOperate $operate) use($out_trade_no, $transaction_id){
                                 $operate->where([
                                     'order_sn' => $out_trade_no
