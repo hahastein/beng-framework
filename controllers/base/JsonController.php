@@ -197,11 +197,11 @@ class JsonController extends Controller{
         foreach ($arr as $k => $v) {
             $str = $str.$arr[$k].'='.$param[$v].'&';
         }
-
-        var_dump('md5-front: '.$str);
-
         //通过Md5加密并转化为大写 大写获得签名
         $rest_str = $this->sign_front . $str . $this->sign_back;
+
+        var_dump('md5-front: '.$rest_str);
+
         return strtoupper(md5($rest_str));
     }
 
