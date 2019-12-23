@@ -72,6 +72,10 @@ class QuestionsARModel extends BaseActiveRecord
         return $this->hasMany(FaqIdentifyARModel::className(),['question_id' => 'question_id']);
     }
 
+    public function getCelebrity(){
+        return $this->hasOne(CelebrityARModel::className(),['celebrity_id' => 'celebrity_id']);
+    }
+
     public function getFav(){
         return $this->hasOne(UserFavoritesARModel::className(),['object_id' => 'question_id']);
     }
