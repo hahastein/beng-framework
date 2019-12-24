@@ -61,6 +61,7 @@ class JsonController extends Controller{
     const CODE_ERROR_404 = 404;
     const CODE_ERROR_4001 = 4001;
     const CODE_ERROR_4002 = 4002;
+    const CODE_ERROR_4003 = 4003;
     const CODE_ERROR_CUSTOM = 400;
 
     public function init()
@@ -218,6 +219,8 @@ class JsonController extends Controller{
                 return '参数问题，请检查传入参数';
             case self::CODE_ERROR_4002:
                 return '未登录';
+            case self::CODE_ERROR_4003:
+                return '您还不是专家，请申请成为专家';
             default:
                 return '没有定义类型，请联系管理员';
         }
