@@ -437,6 +437,8 @@ class QuestionLogic extends CmsBase
             unset($item['lastAnswer']);
         }
 
+        $item['level'] = '主任医师';
+
         return $item;
     }
 }
