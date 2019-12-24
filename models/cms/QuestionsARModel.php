@@ -47,6 +47,10 @@ class QuestionsARModel extends BaseActiveRecord
         return $this->hasMany(AnswersARModel::className(),['question_id'=>'question_id']);
     }
 
+    public function getLastAnswer(){
+        return $this->hasOne(AnswersARModel::className(),['question_id'=>'question_id'])->orderBy(['answer_id' => SORT_DESC])->limit(1);
+    }
+
     public function getImages(){
         return $this->hasMany(AttachmentARModel::className(),['object_id'=>'question_id'])->where(['att_type' => Enum::MODULE_TYPE_FAQS])->select([
             'object_id', 'obj_url', 'is_default'
