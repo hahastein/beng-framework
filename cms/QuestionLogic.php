@@ -58,7 +58,7 @@ class QuestionLogic extends CmsBase
 
         //转换cateID
 
-        if($this->getUser() && $this->getUser()->tags){
+        if ($this->getUser() && $this->getUser()->tags) {
             $relationID = CategoryARModel::find()->select('cate_id')->where(['in', 'relation_cateid', $this->getUser()->tags])->andWhere(['module' => 20])->asArray()->all();
             $relationID = array_flip(array_flip(array_column($relationID, 'cate_id')));
             $this->moduleModel->showField = [
@@ -77,7 +77,7 @@ class QuestionLogic extends CmsBase
                 'createtime'
             ];
             $data = $this->moduleModel->findAllByTags($relationID);
-        }else{
+        } else {
             $data = $this->moduleModel->findAllByCateID();
 
         }
@@ -85,18 +85,19 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($data);
     }
 
-    public function noReply($field, $image_type = 'more'){
-        if(!empty($field)){
+    public function noReply($field, $image_type = 'more')
+    {
+        if (!empty($field)) {
             $this->moduleModel->showField = $field;
         }
 
-        if($image_type == 'one'){
+        if ($image_type == 'one') {
             $this->moduleModel->with = ['image'];
-        }else if($image_type == 'more'){
+        } else if ($image_type == 'more') {
             $this->moduleModel->with = ['images'];
         }
-        $this->moduleModel->with['lastAnswer'] = function (ActiveQuery $query){
-            $query->select(['answer_id', 'content']);
+        $this->moduleModel->with['lastAnswer'] = function (ActiveQuery $query) {
+            $query->select(['answer_id', 'question_id', 'content']);
         };
 
         $data = $this->moduleModel->findAllByNoReply();
@@ -123,13 +124,13 @@ class QuestionLogic extends CmsBase
 //        $userInfo = new
 
 //        var_dump($this->getUser());die;
-        if(!$this->getUser() || (!$this->getUser()->isAuth && $this->getUserID() != $data['user_id'])){
+        if (!$this->getUser() || (!$this->getUser()->isAuth && $this->getUserID() != $data['user_id'])) {
             unset($data['images']);
         }
 
         $user_id = $data['user_id'];
 
-        if(isset($data['identify'])) {
+        if (isset($data['identify'])) {
             foreach ($data['identify'] as $key => $identify) {
                 if ($identify['user']) {
                     $auth_info = json_decode($identify['user']['auth_info'], true);
@@ -149,85 +150,89 @@ class QuestionLogic extends CmsBase
     public function my()
     {
 
-        if($this->getUserID()){
+        if ($this->getUserID()) {
             $data = $this->moduleModel->findAllByUserID($this->getUserID());
             return $this->parseDataAll($data);
-        }else{
+        } else {
             return false;
         }
 
     }
 
-    public function celebrityReply(){
+    public function celebrityReply()
+    {
 
     }
 
 
-    public function search($keyword){
+    public function search($keyword)
+    {
         $questionData = $this->moduleModel->findAllByKeyword($keyword);
         return $this->parseDataAll($questionData);
     }
 
-    public function postOnlyExtend($extend = []){
+    public function postOnlyExtend($extend = [])
+    {
         return $this->post(null, null, $extend);
     }
 
 
-    public function post($title = null, $content = null, $extend = []){
-        if(!$content){
+    public function post($title = null, $content = null, $extend = [])
+    {
+        if (!$content) {
             $content = \Yii::$app->request->post('content', '');
         }
 
-        if(!$title){
+        if (!$title) {
             $title = \Yii::$app->request->post('title', '');
         }
 
         $transaction = \Yii::$app->db->beginTransaction();
-        try{
+        try {
 
-            if(empty($content) || strlen($content)<5){
+            if (empty($content) || strlen($content) < 5) {
                 throw new Exception('回复失败，内容长度不够');
             }
 
-            if(empty($title)){
-                if(strlen($content)>20){
-                    $title = mb_substr($content,0,20);
-                }else{
+            if (empty($title)) {
+                if (strlen($content) > 20) {
+                    $title = mb_substr($content, 0, 20);
+                } else {
                     $title = $content;
                 }
             }
 
-            $this->moduleModel->url_code = 'Q_'.StringHelpers::genRandomString(12);
+            $this->moduleModel->url_code = 'Q_' . StringHelpers::genRandomString(12);
 
             $this->moduleModel->title = $title;
             $this->moduleModel->content = $content;
             $this->moduleModel->user_id = $this->getUserID();
             $this->moduleModel->createtime = $this->moduleModel->updatetime = time();
 
-            foreach ($extend as $key => $item){
+            foreach ($extend as $key => $item) {
                 $this->moduleModel->$key = $item;
             }
 
-            if(!$this->moduleModel->save()){
+            if (!$this->moduleModel->save()) {
                 throw new Exception('发布失败');
             }
 
 
             $upload = new UploadHandle([
                 'maxSize' => 5,
-                'driverConfig'=>[
+                'driverConfig' => [
                     'savePath' => 'upload/question'
                 ]
             ]);
 
-            if($upload->getFileCount() > 5){
+            if ($upload->getFileCount() > 5) {
                 throw new Exception('图片不能超过5张哦');
-            }else{
+            } else {
                 $uploadResult = $upload->save(false);
 
                 $system = new System();
                 //写入图片
-                if($uploadResult && !$system->attachment->save($uploadResult, \Yii::$app->db->lastInsertID, Enum::MODULE_TYPE_FAQS)){
+                if ($uploadResult && !$system->attachment->save($uploadResult, \Yii::$app->db->lastInsertID, Enum::MODULE_TYPE_FAQS)) {
                     throw new Exception('回复失败[20081]。图片写入失败');
                 }
             }
@@ -235,7 +240,7 @@ class QuestionLogic extends CmsBase
             $transaction->commit();
             return true;
 
-        }catch (Exception $ex){
+        } catch (Exception $ex) {
             $transaction->rollBack();
             $this->error = $ex->getMessage();
             return false;
@@ -248,8 +253,9 @@ class QuestionLogic extends CmsBase
      * @param string|null $content
      * @return bool
      */
-    public function reply($content = null){
-        if(!$content){
+    public function reply($content = null)
+    {
+        if (!$content) {
             $content = \Yii::$app->request->post('content', '');
         }
 
@@ -257,13 +263,13 @@ class QuestionLogic extends CmsBase
 
 
         $transaction = \Yii::$app->db->beginTransaction();
-        try{
+        try {
             $this->moduleModel->showField = '';
-            if(!$questionModel = $this->moduleModel->findInfoByQuestionID($this->questionID)){
+            if (!$questionModel = $this->moduleModel->findInfoByQuestionID($this->questionID)) {
                 throw new Exception('问题不存在或者已经已经关闭');
             }
 
-            if(empty($content) || strlen($content)<5){
+            if (empty($content) || strlen($content) < 5) {
                 throw new Exception('回复失败，内容长度不够');
             }
 
@@ -273,21 +279,21 @@ class QuestionLogic extends CmsBase
             $isIdentify = false;
 
             //是否是自己的贴子
-            if($this->getUserID() == $questionModel->user_id){
-                if(!empty($c_unionid) && $cUnionCacheInfo = UserUtil::getCache($c_unionid)){
+            if ($this->getUserID() == $questionModel->user_id) {
+                if (!empty($c_unionid) && $cUnionCacheInfo = UserUtil::getCache($c_unionid)) {
 
-                    $groupID = $cUnionCacheInfo->userID?$cUnionCacheInfo->userID:0;
+                    $groupID = $cUnionCacheInfo->userID ? $cUnionCacheInfo->userID : 0;
 
                 }
 
 //                if(!empty($c_unionid) && $identify_user_id){
 //                    $groupID = $identify_user_id;
 //                }
-            }else{
+            } else {
 
                 $userModel = new UserARModel();
                 $userInfo = $userModel->findOneByUserId($this->getUserID());
-                if($c_unionid == $userInfo['unionid']) {
+                if ($c_unionid == $userInfo['unionid']) {
                     if ($userInfo['auth_type'] == 21 && !empty($userInfo['auth_info'])) {
                         $isIdentify = true;
 
@@ -328,7 +334,7 @@ class QuestionLogic extends CmsBase
             $answerModel = new AnswersARModel();
             $answerModel->question_id = $this->questionID;
             $answerModel->content = $content;
-            if($isIdentify){
+            if ($isIdentify) {
                 $answerModel->is_identify = 1;
             }
             $answerModel->group_id = $groupID;
@@ -337,7 +343,7 @@ class QuestionLogic extends CmsBase
             $answerModel->status = 10;
             $answerModel->replytime = time();
 
-            if(!$answerModel->save()){
+            if (!$answerModel->save()) {
                 throw new Exception('回复失败[20080]。回答写入失败');
             }
 
@@ -345,30 +351,30 @@ class QuestionLogic extends CmsBase
 
             //更新问题表的回复总数及最后回复时间
 
-            $questionModel->reply_count = $questionModel->reply_count+1;
+            $questionModel->reply_count = $questionModel->reply_count + 1;
             $questionModel->updatetime = $questionModel->replytime = time();
-            if($isIdentify && $questionModel->status == 20){
+            if ($isIdentify && $questionModel->status == 20) {
                 $questionModel->status = 10;
             }
 
-            if(!$questionModel->save()){
+            if (!$questionModel->save()) {
                 throw new Exception('回复失败[20082]。更新主表失败');
             }
 
             $upload = new UploadHandle([
                 'maxSize' => 1,
-                'driverConfig'=>[
+                'driverConfig' => [
                     'savePath' => 'upload/answer'
                 ]
             ]);
 
-            if($upload->getFileCount() > 1){
+            if ($upload->getFileCount() > 1) {
                 throw new Exception('回复的图片只能上传1张');
-            }else{
+            } else {
                 $uploadResult = $upload->save(false);
 
                 //写入图片
-                if($uploadResult && !(new System())->attachment->save($uploadResult, $answer_id, Enum::MODULE_TYPE_FAQS_REPLAY)){
+                if ($uploadResult && !(new System())->attachment->save($uploadResult, $answer_id, Enum::MODULE_TYPE_FAQS_REPLAY)) {
                     throw new Exception('回复失败[20081]。图片写入失败');
                 }
             }
@@ -378,8 +384,7 @@ class QuestionLogic extends CmsBase
 //            var_dump($result[0]['originPath']);die;
 
 
-
-        }catch (Exception $ex){
+        } catch (Exception $ex) {
 
             $transaction->rollBack();
             $this->error = $ex->getMessage();
@@ -392,7 +397,8 @@ class QuestionLogic extends CmsBase
      * @param $code
      * @return bool
      */
-    public function exists($code){
+    public function exists($code)
+    {
         return $this->moduleModel->exists($this->questionID, $code);
     }
 
@@ -400,28 +406,28 @@ class QuestionLogic extends CmsBase
     {
         $item = parent::parseDataOne($item);
         //如果url_code存在则生成H5地址
-        if(isset($item['url_code'])){
+        if (isset($item['url_code'])) {
             $item['h5_url'] = \Yii::getAlias('@hybridUrl') . '/faq/' . $item['url_code'];
             unset($item['url_code']);
         }
-        if(isset($item['fav'])){
+        if (isset($item['fav'])) {
             $item['fav'] = 1;
-        }else{
+        } else {
             $item['fav'] = 0;
         }
 
         StructureHandle::NicknameAndAvatar($item);
         unset($item['nickname'], $item['avatar_head']);
 
-        if(isset($item['image'])){
+        if (isset($item['image'])) {
             StructureHandle::Image($item['image'], 'one');
-        }else{
+        } else {
             unset($item['image']);
         }
 
-        if(isset($item['images'])){
+        if (isset($item['images'])) {
             StructureHandle::Image($item['images'], 'more');
-        }else{
+        } else {
             unset($item['images']);
         }
 
