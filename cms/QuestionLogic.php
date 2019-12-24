@@ -410,6 +410,10 @@ class QuestionLogic extends CmsBase
         StructureHandle::NicknameAndAvatar($item);
         unset($item['nickname'], $item['avatar_head']);
 
+        if(is_null($item['image'])){
+            unset($item['image']);
+        }
+
         if(isset($item['image'])){
             StructureHandle::Image($item['image'], 'one');
         }
