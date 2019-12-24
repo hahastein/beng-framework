@@ -416,6 +416,9 @@ class QuestionLogic extends CmsBase
             unset($item['image']);
         }
 
+        unset($item['image1']);
+
+
         if(isset($item['images'])){
             StructureHandle::Image($item['images'], 'more');
         }
