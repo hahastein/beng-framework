@@ -36,7 +36,7 @@ class StructureHandle
         return $sex_team[$sex];
     }
 
-    public static function Image($image, $type = 'one'){
+    public static function Image(&$image, $type = 'one'){
 
         if($type == 'one'){
             $image = $image['obj_url'];
