@@ -411,11 +411,9 @@ class QuestionLogic extends CmsBase
         unset($item['nickname'], $item['avatar_head']);
 
         if(isset($item['image'])){
-            if(is_null($item['image'])){
-                unset($item['image']);
-            }else{
-                StructureHandle::Image($item['image'], 'one');
-            }
+            StructureHandle::Image($item['image'], 'one');
+        }else{
+            unset($item['image']);
         }
 
         if(isset($item['images'])){
