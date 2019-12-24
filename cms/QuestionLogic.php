@@ -95,9 +95,7 @@ class QuestionLogic extends CmsBase
         }else if($image_type == 'more'){
             $this->moduleModel->with = ['images'];
         }
-        $this->moduleModel->with[] = ['lastAnswer' => function(ActiveQuery $query){
-            $query->select(['answer_id', 'content']);
-        }];
+        $this->moduleModel->with[] = ['lastAnswer'];
 
         $data = $this->moduleModel->findAllByNoReply();
         return $this->parseDataAll($data);
