@@ -431,6 +431,12 @@ class QuestionLogic extends CmsBase
             unset($item['images']);
         }
 
+        if(isset($item['lastAnswer'])){
+            $item['lastAnswer'] = $item['lastAnswer']['content'];
+        }else{
+            unset($item['lastAnswer']);
+        }
+
         return $item;
     }
 }
