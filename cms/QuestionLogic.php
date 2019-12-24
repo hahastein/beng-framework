@@ -84,7 +84,10 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($data);
     }
 
-    public function noReply(){
+    public function noReply($field){
+        if(!empty($field)){
+            $this->moduleModel->showField = $field;
+        }
         $data = $this->moduleModel->findAllByNoReply();
         return $this->parseDataAll($data);
     }
