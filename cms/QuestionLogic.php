@@ -4,6 +4,7 @@
 namespace bengbeng\framework\cms;
 
 use bengbeng\framework\base\Enum;
+use bengbeng\framework\components\handles\StructureHandle;
 use bengbeng\framework\components\handles\UploadHandle;
 use bengbeng\framework\components\helpers\StringHelpers;
 use bengbeng\framework\models\CategoryARModel;
@@ -388,17 +389,19 @@ class QuestionLogic extends CmsBase
     protected function parseDataOne($item)
     {
         $item = parent::parseDataOne($item);
-        //生成H5地址
-        $item['h5_url'] = \Yii::getAlias('@hybridUrl') . '/faq/' . $item['url_code'];
+        //如果url_code存在则生成H5地址
+        if(isset($item['url_code'])){
+            $item['h5_url'] = \Yii::getAlias('@hybridUrl') . '/faq/' . $item['url_code'];
+            unset($item['url_code']);
+        }
         if(isset($item['fav'])){
             $item['fav'] = 1;
         }else{
             $item['fav'] = 0;
         }
-        if(!isset($item['user']) || !$item['user']){
-            $item['user']['nickname'] = $item['nickname'];
-            $item['user']['avatar_head'] = $item['avatar_head'];
-        }
+
+        StructureHandle::NicknameAndAvatar($item);
+        unset($item['nickname'], $item['avatar_head']);
 
         return $item;
     }
