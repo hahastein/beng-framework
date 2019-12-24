@@ -85,10 +85,17 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($data);
     }
 
-    public function noReply($field){
+    public function noReply($field, $image_type = 'more'){
         if(!empty($field)){
             $this->moduleModel->showField = $field;
         }
+
+        if($image_type == 'one'){
+            $this->moduleModel->with = ['image'];
+        }else if($image_type == 'more'){
+            $this->moduleModel->with = ['images'];
+        }
+
         $data = $this->moduleModel->findAllByNoReply();
         return $this->parseDataAll($data);
     }

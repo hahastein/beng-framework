@@ -53,6 +53,12 @@ class QuestionsARModel extends BaseActiveRecord
         ]);
     }
 
+    public function getImage(){
+        return $this->hasOne(AttachmentARModel::className(),['object_id'=>'question_id'])->where(['att_type' => Enum::MODULE_TYPE_FAQS])->select([
+            'object_id', 'obj_url', 'is_default'
+        ])->orderBy(['is_default' => SORT_DESC])->limit(1);
+    }
+
     public function getUser(){
         return $this->hasOne(UserARModel::className(),['user_id'=>'user_id'])->select([
             'nickname',
@@ -117,7 +123,6 @@ class QuestionsARModel extends BaseActiveRecord
 
 
     public function findAllByNoReply($cate_id = 0){
-        $this->with = ['images'];
         if($cate_id > 0){
             return $this->findByAll([
                 'cate_id' => $cate_id,
