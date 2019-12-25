@@ -21,8 +21,7 @@ use yii\db\Exception;
 class BaseOrderHandle
 {
 
-    private $order_fields;
-    private $user_id;
+    private $nickname;
     private $store_id;
     private $store_name;
     private $is_trans;
@@ -30,6 +29,7 @@ class BaseOrderHandle
     private $orderSn;
     private $orderID;
     private $paySn;
+    private $mode;
 
     private $orderModel;
 
@@ -37,6 +37,8 @@ class BaseOrderHandle
         $this->orderModel = new OrdersARModel();
         $this->is_trans = false;
         $this->store_id = 0;
+        $this->nickname = '';
+        $this->mode = 0;
         $this->store_name = '';
     }
 
@@ -52,12 +54,13 @@ class BaseOrderHandle
             $trans = Yii::$app->db->beginTransaction();
         }
         try{
-            $this->orderSn = self::makeOrderSn($this->user_id, $this->store_id);
-            $this->paySn = self::makePaySn($this->user_id, $this->store_id);
+            $this->orderSn = self::makeOrderSn($this->user_id, $this->store_id, $this->mode);
+            $this->paySn = self::makePaySn($this->user_id, $this->store_id, $this->mode);
 
             $this->order_fields['order_sn'] = $this->orderSn;
             $this->order_fields['order_pay_sn'] = $this->paySn;
             $this->order_fields['buyer_id'] = $this->getUserId();
+            $this->order_fields['buyer_name'] = $this->nickname;
             $this->order_fields['add_time'] = time();
             if(!isset($this->order_fields['payment_code'])){
                 $this->order_fields['payment_code'] = Enum::PAY_TYPE_NOPAY;
@@ -95,9 +98,10 @@ class BaseOrderHandle
     /**
      * @param int $userID
      * @param int $storeID
+     * @param int $mode
      * @return string
      */
-    public function makeOrderSn($userID, $storeID = 0){
+    public function makeOrderSn($userID, $storeID = 0, $mode = 0){
         static $num;
         if (empty($num)) {
             $num = 1;
@@ -107,20 +111,20 @@ class BaseOrderHandle
         $pay_id_1 = mt_rand(1000, 9999);
         $pay_id_2 = mt_rand(1000, 9999);
         $pay_id = $pay_id_1.$pay_id_2;
-        $pay_id = (int)$pay_id + $userID;
+        $pay_id = (int)$pay_id + $userID + $mode;
         if($storeID>0){
-            $pay_id = $pay_id + $storeID;
+            $pay_id = $pay_id + $storeID + $mode;
         }
         $pay_id = $pay_id + time();
 
         return (date('y', time()) % 9 + 1) . sprintf('%013d', $pay_id) . sprintf('%02d', $num);
     }
 
-    public function makePaySn($userID, $storeID = 0){
+    public function makePaySn($userID, $storeID = 0, $mode = 0){
         return mt_rand(10, 99)
             . sprintf('%010d', time() - 946656000)
             . sprintf('%03d', (float)microtime() * 1000)
-            . sprintf('%03d', (int)$userID % 1000);
+            . sprintf('%03d', ((int)$userID + $storeID + $mode) % 1000);
     }
 
     /**
@@ -164,6 +168,14 @@ class BaseOrderHandle
     }
 
     /**
+     * @param mixed $nickname
+     */
+    public function setNickname($nickname)
+    {
+        $this->nickname = $nickname;
+    }
+
+    /**
      * @param mixed $store_id
      */
     public function setStoreId($store_id)
@@ -193,5 +205,13 @@ class BaseOrderHandle
     public function setIsTrans($is_trans)
     {
         $this->is_trans = $is_trans;
+    }
+
+    /**
+     * @param mixed $mode
+     */
+    public function setMode($mode)
+    {
+        $this->mode = $mode;
     }
 }
