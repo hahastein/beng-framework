@@ -26,18 +26,27 @@ class Enum
     // 支付类型0线下1支付宝2微信3银联4苹果支付
     const PAY_TYPE_NOPAY = -1;
     const PAY_TYPE_OFFLINE = 0;
-    const PAY_TYPE_ALIPAY = 1;
-    const PAY_TYPE_WXPAY = 2;
-    const PAY_TYPE_UNIONPAY = 3;
-    const PAY_TYPE_APPLEPAY = 4;
+    const PAY_TYPE_ALIPAY = 11;
+    const PAY_TYPE_WXPAY = 10;
+    const PAY_TYPE_UNIONPAY = 12;
+    const PAY_TYPE_APPLEPAY = 13;
+    const PAY_TYPE_POINT = 20;
+    const PAY_TYPE_BALANCE = 30;
 
-    //订单状态0未支付1已支付2退款中3退款完成4取消订单5异常订单
-    const ORDER_STATUS_NOPAY = 0;
-    const ORDER_STATUS_PAY_FINISH = 1;
-    const ORDER_STATUS_REFUND = 2;
-    const ORDER_STATUS_REFUND_FINISH = 3;
-    const ORDER_STATUS_CANCEL = 4;
+    //订单状态0取消订单5异常订单10未支付(待付款)20已支付(待发货)30已发货(待收货)40已收货(订单完成)50待拼团
+    const ORDER_STATUS_CANCEL = 0;
     const ORDER_STATUS_EXCEPTION = 5;
+    const ORDER_STATUS_NOPAY = 10;
+    const ORDER_STATUS_WAIT_DELIVER = 20;
+    const ORDER_STATUS_WAIT_RECEIVE = 30;
+    const ORDER_STATUS_FINISH = 40;
+    const ORDER_STATUS_WAIT_SPELL = 50;
+
+    //退款状态0无退款1部分退款2全部退款
+    const ORDER_REFUND_NO = 0;
+    const ORDER_REFUND_PART = 1;
+    const ORDER_REFUND_ALL = 2;
+
 
     //设备类型来源
     const DRIVER_TYPE_IOS = 10;
