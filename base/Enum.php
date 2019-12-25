@@ -77,8 +77,8 @@ class Enum
     const EVALUATE_TYPE_ARTICLE = 30;
 
     //支付
-    const PAYMENT_TYPE_WEIXIN = 2;
-    const PAYMENT_TYPE_ALIPAY = 1;
+    const PAYMENT_TYPE_WEIXIN = 10;
+    const PAYMENT_TYPE_ALIPAY = 11;
 
     //关注
     const FOLLOW_TYPE_EVALUATE = 7;
