@@ -23,8 +23,8 @@ class Enum
 
     const BIND_TYPE_USER = 10;
 
-    // 支付类型0线下1支付宝2微信3银联4苹果支付
-    const PAY_TYPE_NOPAY = -1;
+    // 支付类型0未支付40线下支付11支付宝10微信12银联13苹果支付20积分30余额
+    const PAY_TYPE_NOPAY = 0;
     const PAY_TYPE_OFFLINE = 0;
     const PAY_TYPE_ALIPAY = 11;
     const PAY_TYPE_WXPAY = 10;
