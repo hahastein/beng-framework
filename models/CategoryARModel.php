@@ -62,7 +62,10 @@ class CategoryARModel extends BaseActiveRecord
                     '>', 'updatetime', $version
                 ]);
             }
-            $query->orderBy(new Expression('cate_order=0,cate_order'));
+            $query->orderBy([
+                'module' => SORT_ASC,
+                'parent_id' => SORT_ASC,
+                new Expression('cate_order=0,cate_order')]);
             $query->asArray();
         });
     }
