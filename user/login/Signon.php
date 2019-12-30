@@ -11,5 +11,17 @@ namespace bengbeng\framework\user\login;
  */
 class Signon
 {
+    public function __construct()
+    {
+        //处理基础逻辑
+
+
+        $this->init();
+    }
+
+    public function init(){
+
+    }
+
 
 }
