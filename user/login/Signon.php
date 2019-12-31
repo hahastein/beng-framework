@@ -41,7 +41,11 @@ class Signon
     }
 
     public function login(\Closure $closure){
-        print_r($closure);die;
+        print_r($closure);
+
+        call_user_func($closure, []);
+
+        die;
 
         if($user = $this->driver->login()){
             return $user;
