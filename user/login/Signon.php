@@ -19,6 +19,7 @@ class Signon
     private $driver;
 
     private $error;
+    private $code;
 
     public function __construct($mode = 0)
     {
@@ -54,6 +55,11 @@ class Signon
 
     public function getError(){
         return $this->driver->getError();
+    }
+
+    public function getCode()
+    {
+        return $this->driver->getCode();
     }
 
 
