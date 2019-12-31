@@ -56,7 +56,7 @@ class SmsSignonLogic extends SignonAbstract
                     throw new \Exception('无此用户，请先注册');
                 }
                 $userInfo = [];
-                $userInfo['phone_num'] = $this->phone_num;
+                $userInfo['phone'] = $this->phone_num;
                 $userInfo['user_state'] = 10;
 
                 if($this->saveUserParams){
