@@ -37,7 +37,7 @@ class SmsSignonLogic extends SignonAbstract
             }
 
             //获取用户信息
-            $this->userModel->showField = 'user_id,unionid, username, nickname,wx_bind, avatar_head, user_extend, user_sex, gps_lng, gps_lat, user_state';
+            $this->userModel->showField = 'user_id, unionid, username, nickname, wx_bind, avatar_head, user_extend, user_sex, gps_lng, gps_lat, user_state';
             $userInfo = $this->userModel->findByMobilenumber($this->phone_num);
 
             if($userInfo){
@@ -61,6 +61,10 @@ class SmsSignonLogic extends SignonAbstract
                 $this->saveUser();
                 //返回执行码
 
+            }
+
+            if($this->endLoginCallback){
+                call_user_func($this->endLoginCallback, $userInfo);
             }
 
             //登录成功直接返回用户信息

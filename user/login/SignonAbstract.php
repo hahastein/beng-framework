@@ -18,8 +18,10 @@ abstract class SignonAbstract
 
     protected $saveCall;
 
-    public $isAutoReg;
-    public $notCheckSms;
+    protected $isAutoReg;
+    protected $notCheckSms;
+
+    protected $endLoginCallback;
 
 
     public function __construct()
@@ -87,6 +89,12 @@ abstract class SignonAbstract
     public function setConfig($config){
         //设置登录配置
         $this->settingConfig($config);
+    }
+
+    public function setEndLoginCallback($callback){
+
+        $this->endLoginCallback = $callback;
+
     }
 
     private function settingConfig($config){
