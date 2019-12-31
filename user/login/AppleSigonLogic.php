@@ -12,7 +12,7 @@ class AppleSigonLogic extends SignonAbstract
     public function init()
     {
         parent::init();
-        $this->code = \Yii::$app->request->post('code', '');
+        $this->code = \Yii::$app->request->post('apple_code', '');
 
     }
 
