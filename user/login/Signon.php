@@ -21,6 +21,7 @@ class Signon
     public function __construct($mode = 0)
     {
         //处理基础逻辑
+        $mode = empty($mode)?0:$mode;
         $this->loginMode = (string)$mode;
         //转换类型
         $this->change();
