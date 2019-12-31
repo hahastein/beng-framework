@@ -4,6 +4,8 @@
 namespace bengbeng\framework\user\login;
 
 
+use bengbeng\framework\base\Enum;
+use bengbeng\framework\components\handles\UserHandle;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
 
@@ -53,6 +55,7 @@ abstract class SignonAbstract
         $trans = \Yii::$app->db->beginTransaction();
         try {
 
+            UserHandle::register([], Enum::REG_TYPE_APP);
 
             if($this->saveCall){
 

@@ -18,7 +18,8 @@ class Enum
     const LOGIN_TYPE_ACCOUNT = 40;
 
     //注册类型
-    const REG_TYPE_MOBILE = 10;
+    const REG_TYPE_APP = 10;
+    const REG_TYPE_MOBILE = 20;
     const REG_TYPE_WEIXIN = 30;
 
     const BIND_TYPE_USER = 10;

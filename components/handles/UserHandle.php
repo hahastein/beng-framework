@@ -63,7 +63,7 @@ class UserHandle{
      * @return array
      * @throws \Exception
      */
-    public static function register($params, $regType = Enum::REG_TYPE_MOBILE){
+    public static function register($params, $regType = Enum::REG_TYPE_APP){
 
         $userModel = new UserARModel();
 
@@ -71,9 +71,9 @@ class UserHandle{
         $createTime = time();
         //生成ID标识
         $userUnionID = $createTime;
-        if($regType == Enum::REG_TYPE_MOBILE){
+        if($regType == Enum::REG_TYPE_APP){
             $insert  = [
-                'login_type' => Enum::REG_TYPE_MOBILE,
+                'login_type' => Enum::REG_TYPE_APP,
                 'username' => 'App用户'.$userUnionID,
                 'phone_num' => $params['phone'],
                 'phone_bind' => 1,
@@ -131,7 +131,7 @@ class UserHandle{
             if($userModel->save()){
                 $userID = Yii::$app->db->getLastInsertID();
                 //更新用户的unionid
-                $unionID = $userID . '1|' . str_replace('.', '|', uniqid(md5(microtime(true)),true));
+                $unionID = $userID . '|' . date('Y', time()). '|' . str_replace('.', '|', uniqid(md5(microtime(true)),true));
 //                var_dump($unionID);
                 $unionID = sha1($unionID);
 //                var_dump($unionID);die;
