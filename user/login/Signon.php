@@ -18,6 +18,8 @@ class Signon
      */
     private $driver;
 
+    private $error;
+
     public function __construct($mode = 0)
     {
         //处理基础逻辑
@@ -43,8 +45,12 @@ class Signon
         if($this->driver->login()){
 
         }else{
-            var_dump($this->driver->);
+            var_dump($this->driver->getError());
         }
+    }
+
+    public function getError(){
+        return $this->driver->getError();
     }
 
 
