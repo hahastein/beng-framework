@@ -56,8 +56,8 @@ class WxSignonLogic extends SignonAbstract
 
                 $params['openid'] = $wxInfo['openid'];
                 $params['unioncode'] = $wxInfo['unionid'];
-                $params['avatar'] = $wxInfo['avatar'];
-                $params['sex'] = $wxInfo['sex'];
+                $params['avatar_head'] = $wxInfo['avatar'];
+                $params['user_sex'] = $wxInfo['sex'];
                 $params['nickname'] = $wxInfo['nickname'];
                 $this->code = 4101;
                 $this->returnData = $params;
