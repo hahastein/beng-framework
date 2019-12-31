@@ -19,7 +19,7 @@ abstract class SignonAbstract
 
     protected $isAutoReg;
 
-    public function __construct($config)
+    public function __construct($config = [])
     {
         //设置登录配置
         $this->settingConfig($config);
