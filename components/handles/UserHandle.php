@@ -185,7 +185,7 @@ class UserHandle{
 
             $userInfo = $userModel->info(['phone_num' => $params['phone']]);
 
-            if($userInfo && ($userInfo['wx_bind'] == 1 || !empty($userInfo['apple_user_id']))){
+            if($userInfo){
 
                 if($mode == 20){
                     if($userInfo['wx_bind'] == 1){
