@@ -48,29 +48,28 @@ class SmsSignonLogic extends SignonAbstract
                 }else if($userInfo['user_state'] == 10){
                     $this->code = 4100;
                     throw new \Exception('用户未补全信息，请补全信息');
-                }else{
-                    //登录成功直接返回用户信息
-                    $this->parseUserInfo($userInfo);
                 }
-
-
             }else{
                 //如果设置为不是自动登录，则提示
                 if(!$this->isAutoReg){
                     throw new \Exception('无此用户，请先注册');
                 }
 
+                $userInfo['phone_num'] = $this->phone_num;
                 //自动注册并返回
                 $this->saveUser();
                 //返回执行码
 
             }
 
+            //登录成功直接返回用户信息
+            $this->parseUserInfo($userInfo);
+
             //更改短信状态
             SmsHandle::status($this->phone_num, $this->sms_code);
 
 
-            return true;
+            return $userInfo;
 
 
         }catch (\Exception $ex){
