@@ -58,6 +58,7 @@ class WxSignonLogic extends SignonAbstract
                 $params['sex'] = $wxInfo['sex'];
                 $params['nickname'] = $wxInfo['nickname'];
                 $this->code = 4101;
+                $this->returnData = $params;
                 throw new \Exception('用户未绑定手机，请去绑定手机');
             }
 

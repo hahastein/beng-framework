@@ -60,6 +60,10 @@ class Signon
         return $this->driver->getCode();
     }
 
+    public function getReturnData(){
+        return $this->driver->getReturnData();
+    }
+
     public function setConfig($config){
         $this->driver->setConfig($config);
     }

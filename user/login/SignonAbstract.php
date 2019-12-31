@@ -15,6 +15,7 @@ abstract class SignonAbstract
 
     protected $error;
     protected $code;
+    protected $returnData;
 
     protected $model;
     protected $userModel;
@@ -93,6 +94,10 @@ abstract class SignonAbstract
 
     public function getCode(){
         return $this->code;
+    }
+
+    public function getReturnData(){
+        return $this->returnData;
     }
 
     public function setConfig($config){
