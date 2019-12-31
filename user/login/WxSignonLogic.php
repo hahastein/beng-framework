@@ -17,6 +17,7 @@ class WxSignonLogic extends SignonAbstract
 
         $this->code = \Yii::$app->request->post('code', '');
         //转换微信GET的问题
+//        \Yii::$app->request->setParams();
 
 //        $this->userModel->setScenario('wx');
 
