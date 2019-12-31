@@ -40,12 +40,7 @@ class Signon
 
     }
 
-    public function login(\Closure $closure){
-//        print_r($closure);
-
-        call_user_func($closure, []);
-
-        die;
+    public function login(){
 
         if($user = $this->driver->login()){
             return $user;
@@ -70,6 +65,8 @@ class Signon
     }
 
     public function setEndLoginCallback(\Closure $closure){
+
+        call_user_func($closure, []);
         $this->driver->setEndLoginCallback($closure);
     }
 
