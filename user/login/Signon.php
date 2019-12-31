@@ -18,9 +18,6 @@ class Signon
      */
     private $driver;
 
-    private $error;
-    private $code;
-
     public function __construct($mode = 0)
     {
         //处理基础逻辑
