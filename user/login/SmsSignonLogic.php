@@ -63,9 +63,10 @@ class SmsSignonLogic extends SignonAbstract
 
             }
 
-//            if($this->endLoginCallback){
-//                $this->endLoginCallback($userInfo);
-//            }
+            if($this->endLoginCallback){
+                call_user_func($this->endLoginCallback, []);die;
+
+            }
 
             //登录成功直接返回用户信息
             $this->parseUserInfo($userInfo);
