@@ -64,6 +64,7 @@ class SmsSignonLogic extends SignonAbstract
             }
 
             if($this->endLoginCallback){
+                var_dump($this->endLoginCallback);die;
                 $this->endLoginCallback($userInfo);
             }
 
