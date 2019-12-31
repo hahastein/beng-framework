@@ -30,7 +30,7 @@ class SmsSignonLogic extends SignonAbstract
                 throw new \Exception('手机号和短信验证码未填写');
             }
             //检查短信安全性
-            if(!SmsHandle::validateSmsCode([
+            if($this->notCheckSms && !SmsHandle::validateSmsCode([
                 'phone_num' => $this->phone_num, 'code' => $this->sms_code
             ])){
                 throw new \Exception('验证码错误');
