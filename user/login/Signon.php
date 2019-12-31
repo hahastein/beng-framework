@@ -14,6 +14,11 @@ class Signon
     private $loginMode;
 
     /**
+     * @var array $config
+     */
+    public $config = [];
+
+    /**
      * @var SignonAbstract $driver
      */
     private $driver;
@@ -32,17 +37,16 @@ class Signon
 
         $class = '\\bengbeng\\framework\\user\\login\\'.$this->loginMode;
         if(class_exists($class)){
-            $this->driver = new $class();
+            $this->driver = new $class($this->config);
         }else{
             $this->driver = false;
         }
 
     }
 
-    public function login($config = []){
+    public function login(){
 
-        var_dump($config);die;
-        if($user = $this->driver->login($config)){
+        if($user = $this->driver->login()){
             return $user;
         }else{
             return false;
