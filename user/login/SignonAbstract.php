@@ -21,6 +21,9 @@ abstract class SignonAbstract
     protected $isAutoReg;
     protected $notCheckSms;
 
+    /**
+     * @var \Closure $endLoginCallback
+     */
     protected $endLoginCallback;
 
 
