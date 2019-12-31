@@ -93,7 +93,7 @@ abstract class SignonAbstract
             $this->isAutoReg = $config['isAutoReg'];
         }
 
-        var_dump(is_bool($config['checkSms']));die;
+        var_dump($config);die;
 
         $this->notCheckSms = true;
         if(isset($config['checkSms']) && is_bool($config['checkSms'])){
