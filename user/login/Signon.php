@@ -66,8 +66,6 @@ class Signon
     }
 
     public function setEndLoginCallback(\Closure $closure){
-        print_r($closure);die;
-
         $this->driver->setEndLoginCallback($closure);
     }
 
