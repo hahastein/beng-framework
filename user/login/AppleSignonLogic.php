@@ -4,7 +4,7 @@
 namespace bengbeng\framework\user\login;
 
 
-class AppleSigonLogic extends SignonAbstract
+class AppleSignonLogic extends SignonAbstract
 {
 
     public $code;
