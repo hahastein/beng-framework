@@ -54,9 +54,12 @@ class SmsSignonLogic extends SignonAbstract
             }
 
 
+            return true;
+
 
         }catch (\Exception $ex){
-
+            $this->error = $ex->getMessage();
+            return false;
         }
 
     }

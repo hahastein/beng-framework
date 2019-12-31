@@ -10,6 +10,8 @@ use yii\db\Exception;
 abstract class SignonAbstract
 {
 
+    protected $error;
+
     protected $model;
     protected $userModel;
 
@@ -68,6 +70,10 @@ abstract class SignonAbstract
      */
     protected function parseUserInfo(){
 
+    }
+
+    public function getError(){
+        return $this->error;
     }
 
     private function settingConfig($config){
