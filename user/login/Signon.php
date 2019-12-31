@@ -41,7 +41,7 @@ class Signon
     }
 
     public function login(\Closure $closure){
-        print_r($closure);
+//        print_r($closure);
 
         call_user_func($closure, []);
 
