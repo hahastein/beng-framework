@@ -208,7 +208,7 @@ class UserHandle{
 
                 if($userInfo['user_state'] == 10){
                     $isComplete = true;
-                    if($mode == 10){
+                    if($mode == 20){
                         $userInfo->nickname = $params['nickname'];
                         $userInfo->avatar_head = $params['avatar'];
                         $userInfo->user_sex = $params['sex'];
