@@ -43,7 +43,6 @@ class Signon
         if($user = $this->driver->login()){
             return $user;
         }else{
-            $this->error = $this->driver->getError();
             return false;
         }
     }
