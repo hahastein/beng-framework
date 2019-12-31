@@ -17,7 +17,7 @@ class SmsSignonLogic extends SignonAbstract
     {
         parent::init();
         $this->phone_num = $this->phone_num?:\Yii::$app->request->post('phone_num', 0);
-        $this->sms_code = $this->sms_code?:\Yii::$app->request->post('code', 0);
+        $this->sms_code = $this->sms_code?:\Yii::$app->request->post('sms_number', 0);
 
         $this->model = new SmsARModel();
         $this->userModel->setScenario('sms');
