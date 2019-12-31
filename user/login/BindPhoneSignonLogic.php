@@ -82,7 +82,7 @@ class BindPhoneSignonLogic extends SignonAbstract
 
 
             $saveParams = [
-                'phone_num' => $this->phone_num,
+                'phone' => $this->phone_num,
                 'unioncode' => $this->unioncode,
                 'openid' => $this->openid,
                 'apple_code' => $this->apple_code,

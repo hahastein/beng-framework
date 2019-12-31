@@ -98,7 +98,7 @@ class UserHandle{
             $insert  = [
                 'login_type' => Enum::REG_TYPE_APP,
 //                'username' => 'App用户'.$userUnionID,
-                'phone_num' => $params['phone_num'],
+                'phone_num' => $params['phone'],
                 'phone_bind' => 1,
                 'wx_openid' => isset($params['openid'])?:'',
                 'wx_unioncode' => isset($params['unioncode'])?:'',
@@ -183,7 +183,7 @@ class UserHandle{
 
             $userModel = new UserARModel();
 
-            $userInfo = $userModel->info(['phone_num' => $params['phone_num']]);
+            $userInfo = $userModel->info(['phone_num' => $params['phone']]);
 
             if($userInfo && ($userInfo['wx_bind'] == 1 || !empty($userInfo['apple_user_id']))){
 
