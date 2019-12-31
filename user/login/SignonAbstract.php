@@ -5,6 +5,7 @@ namespace bengbeng\framework\user\login;
 
 
 use bengbeng\framework\models\UserARModel;
+use yii\db\Exception;
 
 abstract class SignonAbstract
 {
@@ -34,12 +35,39 @@ abstract class SignonAbstract
 
     abstract function logout();
 
-    public function saveUser(){
+    /**
+     * 保存用户信息基础类
+     * @return bool
+     * @throws Exception
+     */
+    protected function saveUser(){
+
+        $trans = \Yii::$app->db->beginTransaction();
+        try {
 
 
-        if($this->saveCall){
+            if($this->saveCall){
 
+            }
+
+            $trans->commit();
+            return true;
+
+        }catch (Exception $ex){
+
+            $trans->rollBack();
+
+            throw $ex;
         }
+
+
+    }
+
+    /**
+     * 处理返回的用户信息
+     */
+    protected function parseUserInfo(){
+
     }
 
     private function settingConfig($config){

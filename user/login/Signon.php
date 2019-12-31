@@ -11,17 +11,47 @@ namespace bengbeng\framework\user\login;
  */
 class Signon
 {
-    public function __construct()
+    private $loginMode;
+
+    /**
+     * @var SignonAbstract $driver
+     */
+    private $driver;
+
+    public function __construct($mode = 0)
     {
         //处理基础逻辑
-
+        $this->loginMode = (string)$mode;
+        //转换类型
+        $this->change();
 
         $this->init();
     }
 
     public function init(){
 
+        $class = '\\bengbeng\\framework\\user\\login\\'.$this->loginMode;
+        if(class_exists($class)){
+            $this->driver = new $class();
+        }else{
+            $this->driver = false;
+        }
+
     }
 
+
+
+    private function change(){
+
+        $mode = [
+            '0' => 'Sms',
+            '10' => 'Pass',
+            '20' => 'Wx',
+            '25' => 'Apple'
+        ];
+
+        $this->loginMode = $mode[$this->loginMode].'SignonLogic';
+
+    }
 
 }
