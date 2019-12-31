@@ -42,10 +42,11 @@ class Signon
     }
 
     public function login(){
-        if($this->driver->login()){
-
+        if($user = $this->driver->login()){
+            return $user;
         }else{
-            var_dump($this->driver->getError());
+            $this->error = $this->driver->getError();
+            return false;
         }
     }
 
