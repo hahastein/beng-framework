@@ -91,7 +91,7 @@ abstract class SignonAbstract
         $this->settingConfig($config);
     }
 
-    public function setEndLoginCallback($callback){
+    public function setEndLoginCallback(\Closure $callback){
 
         $this->endLoginCallback = $callback;
 

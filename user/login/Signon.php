@@ -64,7 +64,7 @@ class Signon
         $this->driver->setConfig($config);
     }
 
-    public function setEndLoginCallback($callback){
+    public function setEndLoginCallback(\Closure $callback){
         $this->driver->setEndLoginCallback($callback);
     }
 
