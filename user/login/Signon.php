@@ -68,6 +68,10 @@ class Signon
         $this->driver->setEndLoginCallback($closure);
     }
 
+    public function setSaveUserParams($params){
+        $this->driver->setSaveUserParams($params);
+    }
+
     private function change(){
 
         $mode = [

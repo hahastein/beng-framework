@@ -6,6 +6,7 @@ namespace bengbeng\framework\user\login;
 
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\handles\UserHandle;
+use bengbeng\framework\components\helpers\NullHelper;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
 
@@ -28,6 +29,8 @@ abstract class SignonAbstract
      */
     protected $endLoginCallback;
 
+    protected $saveUserParams;
+
 
     public function __construct()
     {
@@ -47,26 +50,26 @@ abstract class SignonAbstract
 
     /**
      * 保存用户信息基础类
-     * @return bool
-     * @throws Exception
+     * @param array $params
+     * @return array
+     * @throws \Exception
      */
-    protected function saveUser(){
+    protected function saveUser($params){
 
-        $trans = \Yii::$app->db->beginTransaction();
+//        $trans = \Yii::$app->db->beginTransaction();
         try {
 
-            UserHandle::register([], Enum::REG_TYPE_APP);
+            return UserHandle::register($params, Enum::REG_TYPE_APP);
 
-            if($this->saveCall){
+//            if($this->saveCall){
+//
+//            }
 
-            }
+//            $trans->commit();
 
-            $trans->commit();
-            return true;
+        }catch (\Exception $ex){
 
-        }catch (Exception $ex){
-
-            $trans->rollBack();
+//            $trans->rollBack();
 
             throw $ex;
         }
@@ -100,6 +103,12 @@ abstract class SignonAbstract
     public function setEndLoginCallback(\Closure $closure){
 
         $this->endLoginCallback = $closure;
+
+    }
+
+    public function setSaveUserParams($params){
+
+        $this->saveUserParams = $params;
 
     }
 

@@ -55,10 +55,21 @@ class SmsSignonLogic extends SignonAbstract
                 if(!$this->isAutoReg){
                     throw new \Exception('无此用户，请先注册');
                 }
-
+                $userInfo = [];
                 $userInfo['phone_num'] = $this->phone_num;
+                $userInfo['user_state'] = 10;
+
+                if($this->saveUserParams){
+                    foreach ($this->saveUserParams as $key => $value){
+                        $userInfo[$key] = $value;
+                    }
+                }
+
                 //自动注册并返回
-                $this->saveUser();
+                if($this->saveUser($userInfo)){
+                    $this->code = 4100;
+                    throw new \Exception('用户未补全信息，请补全信息');
+                }
                 //返回执行码
 
             }
