@@ -94,7 +94,20 @@ class UserHandle{
                 $insert['phone_bind'] = 1;
             }
         }else{
-            throw new \Exception('没有此创建类型');
+//            throw new \Exception('没有此创建类型');
+            $insert  = [
+                'login_type' => Enum::REG_TYPE_APP,
+//                'username' => 'App用户'.$userUnionID,
+                'phone_num' => $params['phone'],
+                'phone_bind' => 1,
+                'wx_openid' => isset($params['openid'])?:'',
+                'wx_unioncode' => isset($params['unioncode'])?:'',
+                'avatar_head' => isset($params['avatar'])?:'',
+                'user_sex' => isset($params['sex'])?:0,
+//                'nickname' => isset($params['nickname'])?:'用户'.$userUnionID,
+                'wx_bind' => isset($params['unioncode'])?1:0,
+                'apple_user_id' => isset($params['apple_code'])?:''
+            ];
         }
 
         if($user_state = NullHelper::arrayKey($params, 'user_state')){
@@ -157,6 +170,73 @@ class UserHandle{
     public static function autoRegister(){
 
     }
+
+    /**
+     * @param $mode
+     * @param $params
+     * @return array
+     * @throws \Exception
+     */
+    public static function bindRegister($mode, $params, &$isComplete){
+        $isComplete = false;
+        try {
+
+            $userModel = new UserARModel();
+            $userInfo = $userModel->info(['phone_num' => $params['phone_num']]);
+
+            if($userInfo && ($userInfo['wx_bind'] == 1 || !empty($userInfo['apple_user_id']))){
+
+                if($mode == 20){
+                    if($userInfo['wx_bind'] == 1){
+                        throw new \Exception('此手机号已绑定过微信，请更换手机号进行绑定');
+                    }
+
+                    $userInfo->wx_unioncode = $params['unioncode'];
+                    $userInfo->wx_openid = $params['openid'];
+                    $userInfo->wx_bind = 1;
+
+                }else if($mode == 25){
+
+                    if(!empty($userInfo['apple_user_id'])){
+                        throw new \Exception('此手机号已绑定过苹果账号，请更换手机号进行绑定');
+                    }
+
+                    $userInfo->apple_user_id = $params['apple_code'];
+
+                }
+
+                if($userInfo['user_state'] == 10){
+                    $isComplete = true;
+                    if($mode == 10){
+                        $userInfo->nickname = $params['nickname'];
+                        $userInfo->avatar_head = $params['avatar'];
+                        $userInfo->user_sex = $params['sex'];
+
+                    }
+                }
+
+
+                if($userInfo->save()){
+                    return $userInfo->toArray();
+                }else{
+                    throw new \Exception('更新失败');
+                }
+
+
+            }else{
+                //注册新的账号
+                $isComplete = true;
+                $params['user_state'] = 10;
+                return self::register($params, 0);
+
+            }
+
+        }catch (\Exception $ex){
+            throw $ex;
+        }
+
+    }
+
 
     /**
      * 用户绑定信息
