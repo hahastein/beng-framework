@@ -37,6 +37,7 @@ class SmsSignonLogic extends SignonAbstract
             }
 
             //获取用户信息
+            $this->userModel->showField = ['user_id,unionid, username, nickname,wx_bind, avatar_head, user_extend, user_sex, gps_lng, gps_lat, user_state'];
             $userInfo = $this->userModel->findByMobilenumber($this->phone_num);
 
             if($userInfo){
