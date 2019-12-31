@@ -64,10 +64,10 @@ class Signon
         $this->driver->setConfig($config);
     }
 
-    public function setEndLoginCallback(\Closure $callback){
-        print_r($callback);die;
+    public function setEndLoginCallback(\Closure $closure){
+        print_r($closure);die;
 
-        $this->driver->setEndLoginCallback($callback);
+        $this->driver->setEndLoginCallback($closure);
     }
 
     private function change(){
