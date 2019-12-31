@@ -40,7 +40,7 @@ class WxSignonLogic extends SignonAbstract
                 }else if($userInfo['user_state'] == 10){
                     $this->code = 4100;
                     $this->parseUserInfo($userInfo);
-                    $this->code = $userInfo;
+                    $this->returnData = $userInfo;
                     throw new \Exception('用户未补全信息，请补全信息');
                 }
 
