@@ -18,14 +18,12 @@ abstract class SignonAbstract
 
     protected $saveCall;
 
-    protected $isAutoReg;
-    protected $notCheckSms;
+    public $isAutoReg;
+    public $notCheckSms;
 
 
-    public function __construct($config = [])
+    public function __construct()
     {
-        //设置登录配置
-        $this->settingConfig($config);
         //初始化各Model
         $this->userModel = new UserARModel();
         $this->init();
@@ -86,14 +84,17 @@ abstract class SignonAbstract
         return $this->code;
     }
 
+    public function setConfig($config){
+        //设置登录配置
+        $this->settingConfig($config);
+    }
+
     private function settingConfig($config){
 
         $this->isAutoReg = false;
         if(isset($config['isAutoReg']) && is_bool($config['isAutoReg'])){
             $this->isAutoReg = $config['isAutoReg'];
         }
-
-        var_dump($config);die;
 
         $this->notCheckSms = true;
         if(isset($config['checkSms']) && is_bool($config['checkSms'])){
