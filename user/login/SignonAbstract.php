@@ -85,7 +85,7 @@ abstract class SignonAbstract
     protected function parseUserInfo(&$userInfo){
 
 
-        unset($userInfo['$userInfo']);
+        unset($userInfo['user_id']);
     }
 
     public function getError(){

@@ -87,7 +87,9 @@ class SmsSignonLogic extends SignonAbstract
             $this->parseUserInfo($userInfo);
 
             //更改短信状态
-            SmsHandle::status($this->phone_num, $this->sms_code);
+            if($this->notCheckSms){
+                SmsHandle::status($this->phone_num, $this->sms_code);
+            }
 
 
             return $userInfo;
