@@ -48,6 +48,8 @@ class SmsSignonLogic extends SignonAbstract
                     throw new \Exception('用户被禁止登录,请联系管理员');
                 }else if($userInfo['user_state'] == 10){
                     $this->code = 4100;
+                    $this->parseUserInfo($userInfo);
+                    $this->returnData = $userInfo;
                     throw new \Exception('用户未补全信息，请补全信息');
                 }
             }else{
@@ -66,8 +68,11 @@ class SmsSignonLogic extends SignonAbstract
                 }
 
                 //自动注册并返回
-                if($this->saveUser($userInfo)){
+                if($userInfo = $this->saveUser($userInfo)){
                     $this->code = 4100;
+                    $this->returnData = [
+                        'unionid' => $userInfo['unionid']
+                    ];
                     throw new \Exception('用户未补全信息，请补全信息');
                 }
                 //返回执行码
