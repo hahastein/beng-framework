@@ -37,7 +37,7 @@ class BindPhoneSignonLogic extends SignonAbstract
         $this->mode = \Yii::$app->request->post('mode', '');
 
 
-        $openid = \Yii::$app->request->post('openid', '');
+        $this->openid = \Yii::$app->request->post('openid', '');
         $this->unioncode = \Yii::$app->request->post('unioncode', '');
 
         $this->apple_code = \Yii::$app->request->post('apple_code', '');
