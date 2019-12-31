@@ -19,6 +19,8 @@ abstract class SignonAbstract
     protected $saveCall;
 
     protected $isAutoReg;
+    protected $notCheckSms;
+
 
     public function __construct($config = [])
     {
@@ -89,6 +91,10 @@ abstract class SignonAbstract
         $this->isAutoReg = false;
         if(isset($config['isAutoReg']) && is_bool($config['isAutoReg'])){
             $this->isAutoReg = $config['isAutoReg'];
+        }
+        $this->notCheckSms = true;
+        if(isset($config['isAutoReg']) && is_bool($config['isAutoReg'])){
+            $this->notCheckSms = $config['checkSms'];
         }
     }
 
