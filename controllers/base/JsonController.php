@@ -76,7 +76,7 @@ class JsonController extends Controller{
         $this->sign = Yii::$app->getRequest()->getHeaders()->get('sign');//签名
         $this->ver = Yii::$app->getRequest()->getHeaders()->get('ver');
         $this->os = Yii::$app->getRequest()->getHeaders()->get('os');
-        $this->uuid = Yii::$app->getRequest()->getHeaders()->get('ver');
+        $this->uuid = Yii::$app->getRequest()->getHeaders()->get('uuid');
 
         $this->debug = NullHelper::arrayKey($this->requestParams, 'debug');//调试模式
         $this->unionID = NullHelper::arrayKey($this->requestParams, 'unionid');//用户唯一标识
