@@ -80,7 +80,8 @@ class BindPhoneSignonLogic extends SignonAbstract
                 throw new \Exception('此账号被绑定过，请更换第三方登录账号');
             }
 
-            if($userInfo = UserHandle::bindRegister($this->mode,[
+
+            $saveParams = [
                 'phone_num' => $this->phone_num,
                 'unioncode' => $this->unioncode,
                 'openid' => $this->openid,
@@ -88,7 +89,13 @@ class BindPhoneSignonLogic extends SignonAbstract
                 'avatar' => $this->avatar,
                 'nickname' => $this->nickname,
                 'sex' => $this->sex
-            ], $isComplete)){
+            ];
+            if($this->saveUserParams){
+                foreach ($this->saveUserParams as $key => $value){
+                    $saveParams[$key] = $value;
+                }
+            }
+            if($userInfo = UserHandle::bindRegister($this->mode,$saveParams, $isComplete)){
                 if($isComplete){
                     $this->code = 4100;
                     $this->returnData = $userInfo;
