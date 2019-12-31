@@ -11,6 +11,7 @@ abstract class SignonAbstract
 {
 
     protected $error;
+    protected $code;
 
     protected $model;
     protected $userModel;
@@ -67,13 +68,20 @@ abstract class SignonAbstract
 
     /**
      * 处理返回的用户信息
+     * @param $userInfo
      */
-    protected function parseUserInfo(){
+    protected function parseUserInfo(&$userInfo){
 
+
+        unset($userInfo['$userInfo']);
     }
 
     public function getError(){
         return $this->error;
+    }
+
+    public function getCode(){
+        return $this->code;
     }
 
     private function settingConfig($config){

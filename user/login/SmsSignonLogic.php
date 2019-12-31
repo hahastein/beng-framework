@@ -38,20 +38,36 @@ class SmsSignonLogic extends SignonAbstract
 
             //获取用户信息
             $userInfo = $this->userModel->findByMobilenumber($this->phone_num);
-            if(!$userInfo && !$this->isAutoReg){
-                throw new \Exception('用户信息错误');
-            }
 
             if($userInfo){
+                $userInfo = $userInfo->toArray();
+
                 //验证状态码
-                //登录成功直接返回用户信息
+                if($userInfo['user_state'] === 0){
+                    throw new \Exception('用户被禁止登录,请联系管理员');
+                }else if($userInfo['user_state'] == 10){
+                    $this->code = 4100;
+                    throw new \Exception('用户未补全信息，请补全信息');
+                }else{
+                    //登录成功直接返回用户信息
+                    $this->parseUserInfo($userInfo);
+                }
+
 
             }else{
-                //自动注册
+                //如果设置为不是自动登录，则提示
+                if(!$this->isAutoReg){
+                    throw new \Exception('无此用户，请先注册');
+                }
+
+                //自动注册并返回
                 $this->saveUser();
                 //返回执行码
 
             }
+
+            //更改短信状态
+            SmsHandle::status($this->phone_num, $this->sms_code);
 
 
             return true;
