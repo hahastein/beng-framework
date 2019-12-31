@@ -119,7 +119,6 @@ abstract class SignonAbstract
 
     private function settingConfig($config){
 
-        var_dump($config);die;
         $this->isAutoReg = false;
         if(isset($config['isAutoReg']) && is_bool($config['isAutoReg'])){
             $this->isAutoReg = $config['isAutoReg'];
