@@ -39,6 +39,10 @@ class Signon
 
     }
 
+    public function login(){
+        $this->driver->login();
+    }
+
 
 
     private function change(){
