@@ -65,8 +65,6 @@ class Signon
     }
 
     public function setConfig($config){
-
-        var_dump($config);die;
         $this->driver->setConfig($config);
     }
 
