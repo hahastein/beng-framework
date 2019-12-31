@@ -182,6 +182,7 @@ class UserHandle{
         try {
 
             $userModel = new UserARModel();
+
             $userInfo = $userModel->info(['phone_num' => $params['phone_num']]);
 
             if($userInfo && ($userInfo['wx_bind'] == 1 || !empty($userInfo['apple_user_id']))){
@@ -217,7 +218,22 @@ class UserHandle{
 
 
                 if($userInfo->save()){
-                    return $userInfo->toArray();
+
+                    $userInfo = $userInfo->toArray();
+
+                    return [
+                        'user_id' => $userInfo['user_id'],
+                        'unionid' => $userInfo['unionid'],
+                        'username' => $userInfo['username'],
+                        'nickname' => $userInfo['nickname'],
+                        'wx_bind' => $userInfo['wx_bind'],
+                        'avatar_head' => $userInfo['avatar_head'],
+                        'user_sex' => $userInfo['user_sex'],
+                        'user_extend' => $userInfo['user_extend'],
+                        'gps_lng' => $userInfo['gps_lng'],
+                        'gps_lat' => $userInfo['gps_lat'],
+                        'user_state' => $userInfo['user_state']
+                    ];
                 }else{
                     throw new \Exception('更新失败');
                 }
