@@ -40,6 +40,8 @@ class Signon
     }
 
     public function login($config = []){
+
+        var_dump($config);die;
         if($user = $this->driver->login($config)){
             return $user;
         }else{
