@@ -82,7 +82,8 @@ class Signon
             '0' => 'Sms',
             '10' => 'Pass',
             '20' => 'Wx',
-            '25' => 'Apple'
+            '25' => 'Apple',
+            '50' => 'BindPhone'
         ];
 
         $this->loginMode = $mode[$this->loginMode].'SignonLogic';
