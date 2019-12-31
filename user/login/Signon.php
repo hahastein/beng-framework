@@ -39,8 +39,8 @@ class Signon
 
     }
 
-    public function login(){
-        if($user = $this->driver->login()){
+    public function login($config = []){
+        if($user = $this->driver->login($config)){
             return $user;
         }else{
             return false;
