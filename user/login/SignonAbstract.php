@@ -6,9 +6,7 @@ namespace bengbeng\framework\user\login;
 
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\handles\UserHandle;
-use bengbeng\framework\components\helpers\NullHelper;
 use bengbeng\framework\models\UserARModel;
-use yii\db\Exception;
 
 abstract class SignonAbstract
 {
@@ -37,6 +35,8 @@ abstract class SignonAbstract
     {
         //初始化各Model
         $this->userModel = new UserARModel();
+        //设置要返回的数据字段
+        $this->userModel->showField = 'user_id, unionid, username, nickname, wx_bind, avatar_head, user_sex, user_extend, gps_lng, gps_lat, user_state';
         $this->init();
     }
 
@@ -84,10 +84,14 @@ abstract class SignonAbstract
      */
     protected function parseUserInfo(&$userInfo){
 
-
+        //移除用户ID
         unset($userInfo['user_id']);
     }
 
+    /**
+     * 返回错误信息
+     * @return string
+     */
     public function getError(){
         return $this->error;
     }
@@ -106,9 +110,7 @@ abstract class SignonAbstract
     }
 
     public function setEndLoginCallback(\Closure $closure){
-
         $this->endLoginCallback = $closure;
-
     }
 
     public function setSaveUserParams($params){

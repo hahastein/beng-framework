@@ -19,8 +19,10 @@ class AppleSignonLogic extends SignonAbstract
     public function login()
     {
         try {
+            if(empty($this->code)){
+                throw new \Exception('苹果第三方CODE不能为空');
+            }
 
-            $this->userModel->showField = 'user_id,unionid, username, nickname,wx_bind, avatar_head, user_sex, user_extend, gps_lng, gps_lat, user_state';
             $userInfo = $this->userModel->info(['apple_user_id' => $this->code]);
 
             if($userInfo){

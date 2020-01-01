@@ -28,7 +28,6 @@ class WxSignonLogic extends SignonAbstract
     {
         try {
             $wxInfo = WeixinHandle::getWxUnionCode();
-            $this->userModel->showField = 'user_id, unionid, username, nickname, wx_bind, avatar_head, user_sex, user_extend, gps_lng, gps_lat, user_state';
             $userInfo = $this->userModel->info(['wx_unioncode' => $wxInfo['unionid']]);
 
             if ($userInfo) {

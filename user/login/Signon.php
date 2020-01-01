@@ -49,8 +49,10 @@ class Signon
         }
     }
 
-
-
+    /**
+     * 返回错误信息
+     * @return string
+     */
     public function getError(){
         return $this->driver->getError();
     }
