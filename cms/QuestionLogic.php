@@ -162,9 +162,9 @@ class QuestionLogic extends CmsBase
                 $query->select($celebrityField);
             }])->where(['question_id' => $data['question_id']])->asArray()->one();
 
-            var_dump($celebrity);die;
             if($celebrity && isset($celebrity['celebrity'])){
                 $celebrity = $celebrity['celebrity'];
+                $data['celebrity_id'] = $celebrity['celebrity_id'];
             }
         }
         //拼接医生信息
