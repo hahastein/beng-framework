@@ -189,7 +189,7 @@ class QuestionsARModel extends BaseActiveRecord
         });
     }
 
-    public function findInfoByQuestionIDAndCode($id, $code=''){
+    public function findInfoByQuestionIDAndCode($id, $code='',$state = 10){
 
         if(!$this->with){
             $this->with = [];
@@ -197,16 +197,12 @@ class QuestionsARModel extends BaseActiveRecord
         $this->with[] = 'user';
 //        $this->with[] = 'images';
 
-        return self::dataOne(function (ActiveQuery $query) use ($id, $code){
+        return self::dataOne(function (ActiveQuery $query) use ($id, $code, $state){
             if($this->showField){
                 $query->select($this->showField);
             }
 
-            $query->where(['in', 'status', [Enum::SYSTEM_STATUS_SUCCESS, 20]]);
-
-            $query->andWhere([
-                'question_id' => $id,
-            ]);
+            $query->where(['status', $state, 'question_id' => $id]);
 
             if(!empty($code)){
                 $query->andWhere([
