@@ -22,6 +22,17 @@ class StructureHandle
 
     }
 
+
+    public static function CelebrityInfo(&$data, $key = 'celebrity'){
+
+        if(isset($data[$key])){
+            unset($data[$key]['celebrity_id']);
+        }
+        unset($data['celebrity_id'],$data['celebrity_name']);
+
+    }
+
+
     /**
      * 性别相互转换
      * @param $sex
