@@ -46,7 +46,7 @@ class AnswerLogic extends CmsBase
 
     protected function parseDataOne($item)
     {
-        $item['replytime'] = date('Y-m-d H:i:s', $item['replytime']);
+//        $item['replytime'] = date('Y-m-d H:i:s', $item['replytime']);
 
         if ($item['status'] == Enum::SYSTEM_STATUS_VIOLATION) {
             $item['content'] = '此内容违规';
