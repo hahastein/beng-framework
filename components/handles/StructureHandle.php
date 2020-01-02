@@ -15,9 +15,11 @@ class StructureHandle
         if(!isset($user[$key])){
             $user[$key]['nickname'] = $user['nickname'];
             $user[$key]['avatar_head'] = $user['avatar_head'];
-        }else{
-            unset($user[$key]['user_id']);
+
+            unset($user['nickname'], $user['avatar_head']);
+
         }
+        unset($user[$key]['user_id']);
 
     }
 

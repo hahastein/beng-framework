@@ -165,6 +165,8 @@ class QuestionLogic extends CmsBase
             $data['celebrity'] = $celebrity;
         }
 
+        //处理用户
+        StructureHandle::NicknameAndAvatar($data);
         return $data;
     }
 
