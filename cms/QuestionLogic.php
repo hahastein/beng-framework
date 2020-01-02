@@ -169,9 +169,10 @@ class QuestionLogic extends CmsBase
         unset($data['celebrity_id'], $data['celebrity_name']);
         if($celebrity){
             $data['celebrity'] = $celebrity;
+            //处理医生
+            StructureHandle::CelebrityInfo($data);
         }
-        //处理医生
-        StructureHandle::CelebrityInfo($data);
+
         //处理用户
         StructureHandle::NicknameAndAvatar($data);
         return $data;
