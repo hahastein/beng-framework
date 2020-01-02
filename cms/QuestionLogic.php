@@ -135,7 +135,7 @@ class QuestionLogic extends CmsBase
         ];
 
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
-        var_dump($data);die;
+//        var_dump($this->questionID);die;
         //判断是否有权限查看图片
         if($user = $this->getUser()){
 
