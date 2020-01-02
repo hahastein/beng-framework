@@ -30,6 +30,10 @@ class FaqIdentifyARModel extends BaseActiveRecord
         ]);
     }
 
+    public function getCelebrity(){
+        return $this->hasOne(CelebrityARModel::className(),['user_id'=>'user_id']);
+    }
+
     public function getQuestion(){
         return $this->hasOne(QuestionsARModel::className(),['question_id'=>'question_id']);
     }

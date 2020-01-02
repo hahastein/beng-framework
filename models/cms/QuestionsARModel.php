@@ -189,13 +189,13 @@ class QuestionsARModel extends BaseActiveRecord
         });
     }
 
-    public function findInfoByQuestionIDAndCode($id, $code){
+    public function findInfoByQuestionIDAndCode($id, $code=''){
 
         if(!$this->with){
             $this->with = [];
         }
         $this->with[] = 'user';
-        $this->with[] = 'images';
+//        $this->with[] = 'images';
 
         return self::dataOne(function (ActiveQuery $query) use ($id, $code){
             if($this->showField){
@@ -206,8 +206,13 @@ class QuestionsARModel extends BaseActiveRecord
 
             $query->andWhere([
                 'question_id' => $id,
-                'url_code' => $code
             ]);
+
+            if(!empty($code)){
+                $query->andWhere([
+                    'url_code' => $code
+                ]);
+            }
 
             $query->asArray();
         });

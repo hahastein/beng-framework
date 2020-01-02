@@ -7,8 +7,10 @@ use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\handles\StructureHandle;
 use bengbeng\framework\components\handles\UploadHandle;
 use bengbeng\framework\components\helpers\StringHelpers;
+use bengbeng\framework\models\AttachmentARModel;
 use bengbeng\framework\models\CategoryARModel;
 use bengbeng\framework\models\cms\AnswersARModel;
+use bengbeng\framework\models\cms\CelebrityARModel;
 use bengbeng\framework\models\cms\QuestionsARModel;
 use bengbeng\framework\models\UserARModel;
 use bengbeng\framework\system\System;
@@ -104,10 +106,71 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($data);
     }
 
-    public function info($code)
+    public function info($code=''){
+
+        //关联是否收藏
+        if ($this->getUserID()) {
+            $this->moduleModel->with['fav'] = function (ActiveQuery $query) {
+                $query->where([
+                    'module' => Enum::MODULE_TYPE_FAQS,
+                    'user_id' => $this->getUserID()
+                ]);
+            };
+//            $isImage = true;
+        }
+
+        $this->moduleModel->showField = [
+            'question_id',
+            'url_code',
+            'content',
+            'user_id',
+            'nickname',
+            'avatar_head',
+            'cate_id',
+            'cate_name',
+            'is_reply',
+            'celebrity_id',
+            'celebrity_name',
+            'createtime'
+        ];
+
+        $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
+        //判断是否有权限查看图片
+        if($user = $this->getUser()){
+
+            if($user->isAuth || $this->getUserID() == $data['user_id']){
+                if($att = AttachmentARModel::find()->select('obj_url, width, height')->where(['att_type' => Enum::MODULE_TYPE_FAQS, 'object_id' => $data['question_id']])->asArray()->all()){
+                    $data['images'] = $att;
+                }
+            }
+
+        }
+
+        //尝试获取V3版之前的医生信息
+        $celebrityField = ['celebrity_id', 'celebrity_name', 'head', 'company', 'certificate', 'department'];
+        if($data['celebrity_id'] > 0){
+            $celebrity = CelebrityARModel::find()->select($celebrityField)->where(['celebrity_id' => $data['celebrity_id']])->asArray()->one();
+        }else{
+            $celebrity = FaqIdentifyARModel::find()->with(['celebrity' => function(ActiveQuery $query) use($celebrityField){
+                $query->select($celebrityField);
+            }])->where(['question_id' => $data['question_id']])->asArray()->one();
+            if($celebrity && isset($celebrity['celebrity'])){
+                $celebrity = $celebrity['celebrity'];
+            }
+        }
+        //拼接医生信息
+        unset($data['celebrity_id'], $data['celebrity_name']);
+        if($celebrity){
+            $data['celebrity'] = $celebrity;
+        }
+
+        return $data;
+    }
+
+    public function infoOld($code)
     {
 
-        $this->moduleModel->with = ['identify.user'];
+        $this->moduleModel->with = ['images', 'identify.user'];
         if ($this->getUserID()) {
             $this->moduleModel->with['fav'] = function (ActiveQuery $query) {
                 $query->where([
