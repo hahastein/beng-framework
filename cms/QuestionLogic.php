@@ -174,7 +174,7 @@ class QuestionLogic extends CmsBase
         }
 
         //处理用户
-        StructureHandle::NicknameAndAvatar($data);
+//        StructureHandle::NicknameAndAvatar($data);
         return $data;
     }
 
