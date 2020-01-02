@@ -189,7 +189,7 @@ class QuestionsARModel extends BaseActiveRecord
         });
     }
 
-    public function findInfoByQuestionIDAndCode($id, $code='',$state = 10){
+    public function findInfoByQuestionIDAndCode($id, $code='', $state = 10){
 
         if(!$this->with){
             $this->with = [];
@@ -202,7 +202,7 @@ class QuestionsARModel extends BaseActiveRecord
                 $query->select($this->showField);
             }
 
-            $query->where(['status', $state, 'question_id' => $id]);
+            $query->where(['status' => $state, 'question_id' => $id]);
 
             if(!empty($code)){
                 $query->andWhere([
