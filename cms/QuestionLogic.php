@@ -330,12 +330,11 @@ class QuestionLogic extends CmsBase
      */
     public function reply($content = null)
     {
+        $mode = \Yii::$app->request->post('mode', 0);
+
         if (!$content) {
             $content = \Yii::$app->request->post('content', '');
         }
-
-        $c_unionid = \Yii::$app->request->post('c_unionid', '');
-
 
         $transaction = \Yii::$app->db->beginTransaction();
         try {
@@ -344,7 +343,7 @@ class QuestionLogic extends CmsBase
                 throw new Exception('问题不存在或者已经已经关闭');
             }
 
-            if (empty($content) || strlen($content) < 5) {
+            if ($mode == 0 && (empty($content) || strlen($content) < 5)) {
                 throw new Exception('回复失败，内容长度不够');
             }
 
@@ -355,53 +354,8 @@ class QuestionLogic extends CmsBase
 
             //是否是自己的贴子
             if ($this->getUserID() == $questionModel->user_id) {
-                if (!empty($c_unionid) && $cUnionCacheInfo = UserUtil::getCache($c_unionid)) {
 
-                    $groupID = $cUnionCacheInfo->userID ? $cUnionCacheInfo->userID : 0;
-
-                }
-
-//                if(!empty($c_unionid) && $identify_user_id){
-//                    $groupID = $identify_user_id;
-//                }
             } else {
-
-                $userModel = new UserARModel();
-                $userInfo = $userModel->findOneByUserId($this->getUserID());
-                if ($c_unionid == $userInfo['unionid']) {
-                    if ($userInfo['auth_type'] == 21 && !empty($userInfo['auth_info'])) {
-                        $isIdentify = true;
-
-                        $groupID = $this->getUserID();
-
-                        $faqIdentify = new FaqIdentifyARModel();
-                        //将追问的内容挂入到医生组下
-                        if ($questionModel->status == 20) {
-
-                            AnswersARModel::updateAll(
-                                ['group_id' => $groupID],
-                                ['question_id' => $this->questionID]
-                            );
-                        }
-
-                        //写入问答的认证表
-
-                        if (!$faqIdentify::find()->where([
-                            'question_id' => $this->questionID,
-                            'user_id' => $this->getUserID(),
-                            'unionid' => $userInfo['unionid']
-                        ])->exists()) {
-                            $faqIdentify->question_id = $this->questionID;
-                            $faqIdentify->user_id = $this->getUserID();
-                            $faqIdentify->unionid = $userInfo['unionid'];
-
-                            if (!$faqIdentify->save()) {
-                                throw new Exception('回复失败[20080]。创建认证用户关联失败');
-                            }
-                        }
-
-                    }
-                }
 
             }
 
