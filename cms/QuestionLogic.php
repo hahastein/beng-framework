@@ -161,6 +161,8 @@ class QuestionLogic extends CmsBase
             $celebrity = FaqIdentifyARModel::find()->with(['celebrity' => function(ActiveQuery $query) use($celebrityField){
                 $query->select($celebrityField);
             }])->where(['question_id' => $data['question_id']])->asArray()->one();
+
+            var_dump($celebrity);die;
             if($celebrity && isset($celebrity['celebrity'])){
                 $celebrity = $celebrity['celebrity'];
             }
