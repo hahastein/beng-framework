@@ -135,6 +135,12 @@ class QuestionLogic extends CmsBase
         ];
 
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
+        //转换收藏
+        if($data['fav']){
+            $data['fav'] = 1;
+        }else{
+            $data['fav'] = 0;
+        }
 //        var_dump($this->questionID);die;
         //判断是否有权限查看图片
         if($user = $this->getUser()){
@@ -164,8 +170,8 @@ class QuestionLogic extends CmsBase
         if($celebrity){
             $data['celebrity'] = $celebrity;
         }
+        //处理医生
         StructureHandle::CelebrityInfo($data);
-
         //处理用户
         StructureHandle::NicknameAndAvatar($data);
         return $data;
