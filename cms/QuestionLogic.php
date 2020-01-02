@@ -136,7 +136,7 @@ class QuestionLogic extends CmsBase
 
         $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
         //转换收藏
-        if($data['fav']){
+        if(isset($data['fav'])){
             $data['fav'] = 1;
         }else{
             $data['fav'] = 0;
