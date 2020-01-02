@@ -28,7 +28,7 @@ class StructureHandle
         if(isset($data[$key])){
             unset($data[$key]['celebrity_id']);
         }
-        unset($data['celebrity_id'],$data['celebrity_name']);
+        unset($data['celebrity_name']);
 
     }
 

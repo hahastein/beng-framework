@@ -166,7 +166,6 @@ class QuestionLogic extends CmsBase
             }
         }
         //拼接医生信息
-        unset($data['celebrity_name']);
         if($celebrity){
             $data['celebrity'] = $celebrity;
             //处理医生
