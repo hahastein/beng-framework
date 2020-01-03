@@ -406,7 +406,7 @@ class QuestionLogic extends CmsBase
 
             $answerModel->group_id = $group_id;
 
-            if(in_array([0,20,30], $mode)){
+            if(in_array($mode, [0,20,30])){
                 $answerModel->answer_type = $mode;
 
             }
