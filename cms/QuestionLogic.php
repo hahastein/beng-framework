@@ -107,7 +107,7 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($data);
     }
 
-    public function info($code=''){
+    public function info($code='', $status = 10){
 
         //关联是否收藏
         if ($this->getUserID()) {
@@ -135,7 +135,7 @@ class QuestionLogic extends CmsBase
             'createtime'
         ];
 
-        $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code);
+        $data = $this->moduleModel->findInfoByQuestionIDAndCode($this->questionID, $code, $status);
 
         var_dump($data);die;
         //转换收藏
