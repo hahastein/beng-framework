@@ -337,6 +337,7 @@ class QuestionLogic extends CmsBase
             }
 
             $group_id = 0;
+            var_dump($this->getUser());die;
             $is_doctor = $this->getUser()->isAuth;
 
             if($identity && $is_doctor){
