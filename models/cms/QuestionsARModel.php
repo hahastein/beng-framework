@@ -202,7 +202,11 @@ class QuestionsARModel extends BaseActiveRecord
                 $query->select($this->showField);
             }
 
-            $query->where(['in' ,'status', $state]);
+            if(is_array($state)){
+                $query->where(['in' ,'status', $state]);
+            }else{
+                $query->where(['status' => $state]);
+            }
 
             $query->andWhere([
                 'question_id' => $id
