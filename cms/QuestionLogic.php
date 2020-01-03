@@ -344,12 +344,15 @@ class QuestionLogic extends CmsBase
 //            var_dump($this->getUser());die;
             $is_doctor = $this->getUser()->isAuth;
 
-            if($identity && $is_doctor){
+            if($identity){
                 //获取医生的DoctorID
-                $celebrity = CelebrityARModel::findOne(['user_id' => $this->getUserID()]);
-
-                if($questionModel->celebrity_id != $celebrity->celebrity_id){
-                    throw new Exception('此问题已被其他医生抢答');
+                if($is_doctor){
+                    $celebrity = CelebrityARModel::findOne(['user_id' => $this->getUserID()]);
+                    if($questionModel->celebrity_id != $celebrity->celebrity_id){
+                        throw new Exception('此问题已被其他医生抢答');
+                    }
+                }else if($questionModel->user_id != $this->getUserID()){
+                    throw new Exception('您不是发起者，不能回复此咨询');
                 }
 
                 $group_id = $this->getUserID();
