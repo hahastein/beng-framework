@@ -19,6 +19,7 @@ use bengbeng\framework\user\User;
 use bengbeng\framework\user\UserUtil;
 use yii\db\ActiveQuery;
 use yii\db\Exception;
+use function GuzzleHttp\Psr7\str;
 
 /**
  * 问题逻辑处理
@@ -397,6 +398,10 @@ class QuestionLogic extends CmsBase
 
             }else{
                 $content = \Yii::$app->request->post('content', '');
+                if(empty($content) || strlen($content) <= 4){
+                    throw new Exception('内容不能为空不能小于4个汉字');
+
+                }
                 $answerModel->content = $content;
             }
 
