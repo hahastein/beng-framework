@@ -336,6 +336,22 @@ class QuestionLogic extends CmsBase
                 throw new Exception('问题不存在或者已经关闭');
             }
 
+            $group_id = 0;
+            $is_doctor = $this->getUser()->isAuth;
+
+            if($identity && $is_doctor){
+
+                if($questionModel->group_id){
+                    if($questionModel->group_id != $this->getUser()){
+                        throw new Exception('此问题已被其他医生抢答');
+                    }
+                    $group_id = $questionModel->group_id;
+                }else{
+                    $group_id = $this->getUser();
+                }
+
+            }
+
             $answerModel = new AnswersARModel();
             $answerModel->question_id = $this->questionID;
 //            if ($isIdentify) {
@@ -383,10 +399,9 @@ class QuestionLogic extends CmsBase
 
             if ($identity) {
                 $answerModel->is_identify = 1;
-                $answerModel->group_id = $this->getUserID();
-
             }
-//            $answerModel->group_id = $groupID;
+
+            $answerModel->group_id = $group_id;
 
             $answerModel->user_id = $this->getUserID();
             $answerModel->status = 10;
