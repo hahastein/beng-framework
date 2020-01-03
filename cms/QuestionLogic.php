@@ -343,6 +343,7 @@ class QuestionLogic extends CmsBase
             $group_id = 0;
 //            var_dump($this->getUser());die;
             $is_doctor = $this->getUser()->isAuth;
+            $is_identity = 0;
 
             if($identity){
                 //获取医生的DoctorID
@@ -352,13 +353,14 @@ class QuestionLogic extends CmsBase
                         throw new Exception('此问题已被其他医生抢答');
                     }
                     $group_id = $this->getUserID();
-
+                    $is_identity = 1;
                 }else {
                     if($questionModel->user_id != $this->getUserID()){
                         throw new Exception('您不是发起者，不能回复此咨询');
                     }
                     $celebrity = CelebrityARModel::findOne(['celebrity_id' => $questionModel->celebrity_id]);
                     $group_id = $celebrity['user_id'];
+                    $is_identity = 0;
                 }
 
 
@@ -413,9 +415,9 @@ class QuestionLogic extends CmsBase
                 $answerModel->content = $content;
             }
 
-            if ($identity) {
-                $answerModel->is_identify = 1;
-            }
+//            if ($identity) {
+                $answerModel->is_identify = $is_identity;
+//            }
 
             $answerModel->group_id = $group_id;
 
