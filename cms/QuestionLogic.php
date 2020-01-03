@@ -323,6 +323,106 @@ class QuestionLogic extends CmsBase
 
     }
 
+    public function singleReply(){
+
+        //0文字10语音20图片
+        $mode = \Yii::$app->request->post('content_mode', 0);
+        $identity = \Yii::$app->request->post('identity', 0);
+
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+
+            if (!$questionModel = $this->moduleModel->findInfoByQuestionID($this->questionID)) {
+                throw new Exception('问题不存在或者已经关闭');
+            }
+
+            $answerModel = new AnswersARModel();
+            $answerModel->question_id = $this->questionID;
+//            if ($isIdentify) {
+//                $answerModel->is_identify = 1;
+//            }
+
+            if($mode == 10 || $mode == 20){
+
+                $upload = new UploadHandle([
+                    'maxSize' => 1,
+//                    'exts' => ['aac'],
+                    'driverConfig' => [
+                        'savePath' => 'upload/answer'
+                    ]
+                ]);
+
+                if ($upload->getFileCount() > 1) {
+                    throw new Exception('回复的图片只能上传1张');
+                } else {
+                    $uploadResult = $upload->save(false);
+
+                    if($uploadResult){
+
+                        $answerModel->file_path = \Yii::getAlias('@resUrl').$uploadResult[0]['originPath'];
+
+                        if($mode == 10){
+                            $audio_time = \Yii::$app->request->post('audio_time', 0);
+
+                            $answerModel->file_att = [
+                                'audio_time' => $audio_time
+                            ];
+                        }
+
+                    }else{
+                        throw new Exception($upload->getError());
+                    }
+
+                }
+                $answerModel->content = '';
+
+            }else{
+                $content = \Yii::$app->request->post('content', '');
+                $answerModel->content = $content;
+            }
+
+            if ($identity) {
+                $answerModel->is_identify = 1;
+                $answerModel->group_id = $this->getUserID();
+
+            }
+//            $answerModel->group_id = $groupID;
+
+            $answerModel->user_id = $this->getUserID();
+            $answerModel->status = 10;
+            $answerModel->replytime = time();
+
+            if (!$answerModel->save()) {
+                throw new Exception('回复失败[20080]。回答写入失败');
+            }
+
+            $answer_id = \Yii::$app->db->lastInsertID;
+
+            //更新问题表的回复总数及最后回复时间
+
+            $questionModel->reply_count = $questionModel->reply_count + 1;
+            $questionModel->updatetime = $questionModel->replytime = time();
+            if ($identity && $questionModel->status == 20) {
+                $questionModel->status = 10;
+                $questionModel->celebrity_replytime = time();
+
+            }
+
+            if (!$questionModel->save()) {
+                throw new Exception('回复失败[20082]。更新主表失败');
+            }
+
+            $transaction->commit();
+            return true;
+
+
+        }catch (\Exception $ex){
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
     /**
      * 回复数据
      * @param string|null $content
