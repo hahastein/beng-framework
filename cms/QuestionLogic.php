@@ -337,7 +337,7 @@ class QuestionLogic extends CmsBase
             }
 
             $group_id = 0;
-            var_dump($this->getUser());die;
+//            var_dump($this->getUser());die;
             $is_doctor = $this->getUser()->isAuth;
 
             if($identity && $is_doctor){
@@ -350,7 +350,7 @@ class QuestionLogic extends CmsBase
                     }
                     $group_id = $questionModel->celebrity_id;
                 }else{
-                    $group_id = $this->getUser();
+                    $group_id = $this->getUserID();
                 }
 
             }
