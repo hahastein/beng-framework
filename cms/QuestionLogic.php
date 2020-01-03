@@ -409,6 +409,11 @@ class QuestionLogic extends CmsBase
 
             $answerModel->group_id = $group_id;
 
+            if(in_array([0,20,30], $mode)){
+                $answerModel->answer_type = $mode;
+
+            }
+
             $answerModel->user_id = $this->getUserID();
             $answerModel->status = 10;
             $answerModel->replytime = time();
