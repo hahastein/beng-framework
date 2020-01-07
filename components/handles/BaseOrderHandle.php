@@ -65,8 +65,9 @@ class BaseOrderHandle
             if(!isset($this->order_fields['payment_code'])){
                 $this->order_fields['payment_code'] = Enum::PAY_TYPE_NOPAY;
             }
-            $this->order_fields['order_state'] = Enum::ORDER_STATUS_NOPAY;
-
+            if(!isset($this->order_fields['order_state'])) {
+                $this->order_fields['order_state'] = Enum::ORDER_STATUS_NOPAY;
+            }
             $this->orderModel->setAttributes($this->order_fields, false);
             if($this->orderModel->save()){
                 if($closure != null){
