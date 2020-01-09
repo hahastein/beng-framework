@@ -372,8 +372,11 @@ class QuestionLogic extends CmsBase
 //                $answerModel->is_identify = 1;
 //            }
 
+            $content = '';
+
             if($mode == 10 || $mode == 20){
 
+                $content = '媒体文件';
                 $upload = new UploadHandle([
                     'maxSize' => 1,
 //                    'exts' => ['aac'],
