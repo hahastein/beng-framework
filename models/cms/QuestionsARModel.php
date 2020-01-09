@@ -255,7 +255,7 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
 
-    private function findByMyAll($where = false){
+    public function findByMyAll($where = false){
         return self::dataSet(function (ActiveQuery $query) use ($where){
             if($this->showField){
                 $query->select($this->showField);
