@@ -452,7 +452,16 @@ class QuestionLogic extends CmsBase
 
             //回调处理
             if($call_back){
-                call_user_func($call_back, $this->questionID);
+                call_user_func($call_back, [
+                    'questeion_id' => $questionModel->question_id,
+                    'title' => $questionModel->title,
+                    'post_user_id' => $questionModel->user_id
+                ],[
+                    'answer_id' => $answer_id,
+                    'last_reply' => $content,
+                    'last_reply_time' => time(),
+                    'reply_user_id' => $this->getUserID()
+                ]);
             }
 
             $transaction->commit();
