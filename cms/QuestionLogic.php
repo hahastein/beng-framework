@@ -327,7 +327,7 @@ class QuestionLogic extends CmsBase
 
     }
 
-    public function singleReply(){
+    public function singleReply(\Closure $call_back = null){
 
         //0文字10语音20图片
         $mode = \Yii::$app->request->post('content_mode', 0);
@@ -448,6 +448,11 @@ class QuestionLogic extends CmsBase
 
             if (!$questionModel->save()) {
                 throw new Exception('回复失败[20082]。更新主表失败');
+            }
+
+            //回调处理
+            if($call_back){
+                call_user_func($call_back, $this->questionID);
             }
 
             $transaction->commit();
