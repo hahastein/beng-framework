@@ -620,9 +620,14 @@ class YunxinHandle
             'to' => $to,
             'attach' => $attach,
             'pushcontent' => $pushcontent,
-            'payload' => json_encode($payload),
+//            'payload' => json_encode($payload),
             'sound' => $sound
         );
+
+        if($payload){
+            $data['payload'] = $payload;
+        }
+
         if($this->RequestType=='curl'){
             $result = $this->postDataCurl($url,$data);
         }else{
