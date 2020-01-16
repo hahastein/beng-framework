@@ -815,13 +815,24 @@ class YunxinHandle
         $data= array(
             'tid' => $tid,
             'owner' => $owner,
-            'tname' => $tname,
-            'announcement' => $announcement,
-            'intro' => $intro,
-            'icon' => $icon,
             'joinmode' => $joinmode,
-            'custom' => $custom
         );
+        if(!empty($tname)){
+            $data['tname'] = $tname;
+        }
+        if(!empty($announcement)){
+            $data['announcement'] = $announcement;
+        }
+        if(!empty($intro)){
+            $data['intro'] = $intro;
+        }
+        if(!empty($icon)){
+            $data['icon'] = $icon;
+        }
+        if(!empty($custom)){
+            $data['custom'] = $custom;
+        }
+
         if($this->RequestType=='curl'){
             $result = $this->postDataCurl($url,$data);
         }else{
