@@ -32,7 +32,7 @@ class GroupLogic extends UserBase
 
     }
 
-    public function createGroup(){
+    public function createGroup($icon = '', $custom = ''){
         $this->getPost();
         $transaction = \Yii::$app->db->beginTransaction();
         try{
@@ -62,7 +62,7 @@ class GroupLogic extends UserBase
 //                }
 //                $result = UserGroupUserARModel::find()->createCommand()->batchInsert(UserGroupUserARModel::tableName(), $key, $insertValues)->execute();
 
-                $result = $this->nim->group->createGroup($this->saveParams['name'], $this->getUser()->imID, $imIDs, '', $this->saveParams['desc'], '','欢迎加入我们的群');
+                $result = $this->nim->group->createGroup($this->saveParams['name'], $this->getUser()->imID, $imIDs, '', $this->saveParams['desc'], $icon,'欢迎加入我们的群', '0', '0', $custom);
                 if($result){
                     $groupData = $this->nim->group->returnData;
                     if(!isset($groupData['tid'])){
