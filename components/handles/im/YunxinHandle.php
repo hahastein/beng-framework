@@ -403,19 +403,37 @@ class YunxinHandle
      * @param  $gender      [用户性别，0表示未知，1表示男，2女表示女，其它会报参数错误]
      * @return $result      [返回array数组对象]
      */
-    public function updateUinfo($accid,$name='',$icon='',$sign='',$email='',$birth='',$mobile='',$gender='0',$ex=''){
+    public function updateUinfo($accid,$name='',$icon='',$sign='',$email='',$birth='',$mobile='',$gender=0,$ex=''){
         $url = 'https://api.netease.im/nimserver/user/updateUinfo.action';
-        $data= array(
-            'accid' => $accid,
-            'name' => $name,
-            'icon' => $icon,
-            'sign' => $sign,
-            'email' => $email,
-            'birth' => $birth,
-            'mobile' => $mobile,
-            'gender' => $gender,
-            'ex' => $ex
-        );
+        $data= [
+            'accid' => $accid
+        ];
+
+        if(!empty($name)){
+            $data['name'] = $name;
+        }
+        if(!empty($icon)){
+            $data['icon'] = $icon;
+        }
+        if(!empty($sign)){
+            $data['sign'] = $sign;
+        }
+        if(!empty($email)){
+            $data['email'] = $email;
+        }
+        if(!empty($birth)){
+            $data['birth'] = $birth;
+        }
+        if(!empty($mobile)){
+            $data['mobile'] = $mobile;
+        }
+        if(!empty($gender)){
+            $data['gender'] = $gender;
+        }
+        if(!empty($ex)){
+            $data['ex'] = $ex;
+        }
+
         if($this->RequestType=='curl'){
             $result = $this->postDataCurl($url,$data);
         }else{
