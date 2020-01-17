@@ -88,10 +88,10 @@ class FriendLogic extends UserBase
             $friend_nickname = '';
             if($mode == 'im'){
 
-                $friendRelation = UserTokenARModel::findOne(['unionid' => $friendUnionID]);
+                $friendToken = UserTokenARModel::findOne(['unionid' => $friendUnionID]);
 
-                if($friendRelation){
-                    $friendCache = UserARModel::find()->where(['user_id' => $friendRelation->user_id])->one();
+                if($friendToken){
+                    $friendCache = UserARModel::find()->where(['user_id' => $friendToken->user_id])->one();
                     $friendID = $friendCache->user_id;
                     $friend_nickname = $friendCache->nickname;
                     $im_id = $friendUnionID;
