@@ -6,7 +6,9 @@ namespace bengbeng\framework\user;
 
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\handles\im\NIMHandle;
+use bengbeng\framework\models\UserARModel;
 use bengbeng\framework\models\UserRelationARModel;
+use bengbeng\framework\models\UserTokenARModel;
 use yii\db\Exception;
 
 /**
@@ -71,25 +73,46 @@ class FriendLogic extends UserBase
     /**
      * 添加好友
      * @param $friendUnionID
+     * @param $mode
      * @return bool|string
      * @throws Exception
      */
-    public function addFriend($friendUnionID){
+    public function addFriend($friendUnionID, $mode = ''){
 
         $transaction = \Yii::$app->db->beginTransaction();
         try{
             $myID = $this->getUserID();
-            $friendCache = UserUtil::getCache($friendUnionID);
 
-            if(!$friendCache){
+            $friendID = 0;
+            $im_id = '';
+            $friend_nickname = '';
+            if($mode == 'im'){
+
+                $friendRelation = UserTokenARModel::findOne(['unionid' => $friendUnionID]);
+
+                if($friendRelation){
+                    $friendCache = UserARModel::find()->where(['user_id' => $friendRelation->user_id])->one();
+                    $friendID = $friendCache->user_id;
+                    $friend_nickname = $friendCache->nickname;
+                    $im_id = $friendUnionID;
+                }
+            }else{
+                $friendCache = UserUtil::getCache($friendUnionID);
+                if($friendCache){
+                    $friendID = $friendCache->userID;
+                    $friend_nickname = $friendCache->nickname;
+                    $im_id = $friendCache->imID;
+                }
+            }
+
+            if($friendID <= 0){
                 throw new Exception('没有找到相关用户');
             }
 
-            $friendID = $friendCache->userID;
 
             $model = $this->userRelationModel->findRelationByTowID($myID, $friendID);
             if ($model) {
-                throw new Exception('您和'.$friendCache->nickname.'已经是好友了');
+                throw new Exception('您和'.$friend_nickname.'已经是好友了');
             }
 
             $this->userRelationModel->send_user_id = $myID;
@@ -100,7 +123,7 @@ class FriendLogic extends UserBase
 
             if ($this->userRelationModel->save()) {
 
-                $result = $this->nim->friend->addFriend($this->getUser()->imID, $friendCache->imID);
+                $result = $this->nim->friend->addFriend($this->getUser()->imID, $im_id);
                 if($result){
                     $returnID = \Yii::$app->db->lastInsertID;
                     $transaction->commit();
