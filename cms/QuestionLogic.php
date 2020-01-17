@@ -344,6 +344,7 @@ class QuestionLogic extends CmsBase
 //            var_dump($this->getUser());die;
             $is_doctor = $this->getUser()->isAuth;
             $is_identity = 0;
+            $celebrity_name = '';
 
             if($identity){
                 //获取医生的DoctorID
@@ -354,6 +355,7 @@ class QuestionLogic extends CmsBase
                     }
                     $group_id = $this->getUserID();
                     $is_identity = 1;
+                    $celebrity_name = $celebrity->celebrity_name;
                 }else {
                     if($questionModel->user_id != $this->getUserID()){
                         throw new Exception('您不是发起者，不能回复此咨询');
@@ -361,6 +363,7 @@ class QuestionLogic extends CmsBase
                     $celebrity = CelebrityARModel::findOne(['celebrity_id' => $questionModel->celebrity_id]);
                     $group_id = $celebrity['user_id'];
                     $is_identity = 0;
+                    $celebrity_name = $celebrity->celebrity_name;
                 }
 
 
@@ -458,12 +461,16 @@ class QuestionLogic extends CmsBase
                 call_user_func($call_back, [
                     'question_id' => $questionModel->question_id,
                     'title' => $questionModel->title,
-                    'post_user_id' => $questionModel->user_id
+                    'post_user_id' => $questionModel->user_id,
+                    'group_id' => $group_id
                 ],[
                     'answer_id' => $answer_id,
                     'last_reply' => $content,
                     'last_reply_time' => time(),
-                    'reply_user_id' => $this->getUserID()
+                    'reply_user_id' => $this->getUserID(),
+                    'reply_user_nickname' => $this->getUser()->nickname,
+                    'reply_auth_name' => $celebrity_name,
+                    'group_id' => $group_id
                 ]);
             }
 
