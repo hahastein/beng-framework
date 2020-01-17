@@ -105,7 +105,7 @@ class AnswersARModel extends BaseActiveRecord
                 $query->where($where);
             }
 
-            $query->orderBy(['replytime' => SORT_ASC]);
+            $query->orderBy(['replytime' => SORT_DESC]);
 
             $query->asArray();
         });
