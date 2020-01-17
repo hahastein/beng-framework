@@ -471,7 +471,7 @@ class QuestionLogic extends CmsBase
                     'reply_user_nickname' => $this->getUser()->nickname,
                     'reply_auth_name' => $celebrity_name,
                     'group_id' => $group_id
-                ]);
+                ],$identity);
             }
 
             $transaction->commit();
