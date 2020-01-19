@@ -345,6 +345,7 @@ class QuestionLogic extends CmsBase
             $is_doctor = $this->getUser()->isAuth;
             $is_identity = 0;
             $celebrity_name = '';
+            $celebrity_id = 0;
 
             $is_celebrity_group = 0;
 
@@ -359,6 +360,7 @@ class QuestionLogic extends CmsBase
                     $group_id = $this->getUserID();
                     $is_identity = 1;
                     $celebrity_name = $celebrity->celebrity_name;
+                    $celebrity_id = $celebrity->celebrity_id;
                 }else {
                     if($questionModel->user_id != $this->getUserID()){
                         throw new Exception('您不是发起者，不能回复此咨询');
@@ -369,6 +371,7 @@ class QuestionLogic extends CmsBase
                         $group_id = $celebrity['user_id'];
                         $is_identity = 0;
                         $celebrity_name = $celebrity->celebrity_name;
+                        $celebrity_id = $celebrity->celebrity_id;
                     }
 
                 }
@@ -455,6 +458,8 @@ class QuestionLogic extends CmsBase
             $questionModel->reply_count = $questionModel->reply_count + 1;
             $questionModel->updatetime = $questionModel->replytime = time();
             if ($identity && $questionModel->status == 20) {
+                $questionModel->celebrity_id = $celebrity_id;
+                $questionModel->celebrity_name = $celebrity_name;
                 $questionModel->status = 10;
                 $questionModel->celebrity_replytime = time();
 
