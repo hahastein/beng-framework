@@ -628,7 +628,11 @@ class QuestionLogic extends CmsBase
             unset($item['lastAnswer']);
         }
 
-        $item['level'] = '主任医师';
+//        $item['level'] = '主任医师';
+        if(isset($item['level_name'])){
+            $item['level'] = $item['level_name'];
+            unset($item['level_name']);
+        }
 
         return $item;
     }
