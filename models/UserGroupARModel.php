@@ -50,11 +50,17 @@ class UserGroupARModel extends BaseActiveRecord
      * @param $userID
      * @return UserGroupARModel|null
      */
-    public function findInfoByGroupID($groupID, $userID){
-        return self::info([
+    public function findInfoByGroupID($groupID, $userID = 0){
+
+        $where = [
             'group_id' => $groupID,
-            'create_user_id' => $userID
-        ]);
+        ];
+
+        if($userID > 0){
+            $where['create_user_id'] = $userID;
+        }
+
+        return self::info($where);
     }
 
     public function findInfoByIMID($imID, $userID){

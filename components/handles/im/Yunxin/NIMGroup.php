@@ -90,6 +90,24 @@ class NIMGroup extends NIMBase
         return $this->checkReturn($result);
     }
 
+    /**
+     * 群组功能（高级群）- 主动退群
+     * @param  $tid       [云信服务器产生，群唯一标识，创建群时会返回，最大长度128字节]
+     * @param  $accid       [退群的accid]
+     * @return bool $result
+     */
+    public function quitGroup($tid,$accid){
+        $url = $this->imUrl('leave', self::URL_MODE_TEAM);
+        $data= array(
+            'tid' => $tid,
+            'accid' => $accid
+        );
+
+        $this->checkSumHeader();
+        $result = $this->httpUtil->request($url, $data, $this->httpHeader);
+        return $this->checkReturn($result);
+    }
+
 
     /**
      * 群组功能（高级群）-群信息与成员列表查询

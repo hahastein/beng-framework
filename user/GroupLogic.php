@@ -135,6 +135,43 @@ class GroupLogic extends UserBase
         }
     }
 
+    public function quit($groupID){
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            $myID = $this->getUserID();
+
+            $groupUser = UserGroupUserARModel::findOne(['group_id' => $groupID, 'user_id' => $myID]);
+
+
+            if (!$groupUser) {
+                throw new \Exception('您还不是群成员');
+            }
+
+            if ($groupUser->delete()) {
+                $result = $this->nim->group->quitGroup($groupID, $this->getUser()->imID);
+                if($result){
+                    $transaction->commit();
+                    return true;
+                }else{
+                    throw new \Exception($this->nim->group->error);
+                }
+
+            } else {
+                throw new \Exception('退出群失败');
+            }
+
+        }catch (\Exception $ex){
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
+        }catch (\Throwable $ex){
+            $transaction->rollBack();
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+
     public function my(){
         $myID = $this->getUserID();
 
