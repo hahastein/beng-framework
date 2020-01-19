@@ -346,7 +346,10 @@ class QuestionLogic extends CmsBase
             $is_identity = 0;
             $celebrity_name = '';
 
+            $is_celebrity_group = 0;
+
             if($identity){
+                $is_celebrity_group = 1;
                 //获取医生的DoctorID
                 if($is_doctor){
                     $celebrity = CelebrityARModel::findOne(['user_id' => $this->getUserID()]);
@@ -435,6 +438,7 @@ class QuestionLogic extends CmsBase
             $answerModel->user_id = $this->getUserID();
             $answerModel->status = 10;
             $answerModel->replytime = time();
+            $answerModel->is_celebrity_group = $is_celebrity_group;
 
             if (!$answerModel->save()) {
                 throw new Exception('回复失败[20080]。回答写入失败');
