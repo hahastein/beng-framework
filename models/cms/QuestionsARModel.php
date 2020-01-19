@@ -127,6 +127,7 @@ class QuestionsARModel extends BaseActiveRecord
 
 
     public function findAllByNoReply($cate_id = 0, $level_id = 0){
+        $where = [];
         if($cate_id > 0){
 
             $where = [
@@ -140,7 +141,10 @@ class QuestionsARModel extends BaseActiveRecord
 
             return $this->findByAll($where, 20);
         }else{
-            return $this->findByAll(false, 20);
+            if($level_id>0){
+                $where['level_id'] = $level_id;
+            }
+            return $this->findByAll($where, 20);
         }
 
     }
