@@ -65,6 +65,15 @@ class AnswersARModel extends BaseActiveRecord
         ]);
 
     }
+
+    public function findAllByCelebrityGroup($question_id, $is_celebrity_group = 0){
+        return $this->findByAll([
+            'question_id' => $question_id,
+            'is_celebrity_group' => $is_celebrity_group,
+//            'is_identify' => 1
+        ]);
+    }
+
     public function findGroupAllByUserID($user_id){
         return self::dataSet(function (ActiveQuery $query) use($user_id){
 

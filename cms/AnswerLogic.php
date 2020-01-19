@@ -15,13 +15,15 @@ class AnswerLogic extends CmsBase
         $this->moduleModel = new AnswersARModel();
     }
 
-    public function all($celebrity_id = 0)
+    public function all($is_celebrity_group = 0)
     {
-        if($celebrity_id){
-            $answerData = $this->moduleModel->findAllByQuestionAndUserID($this->questionID, $celebrity_id);
-        }else{
-            $answerData = $this->moduleModel->findAllByQuestionID($this->questionID);
-        }
+//        if($celebrity_id){
+//            $answerData = $this->moduleModel->findAllByQuestionAndUserID($this->questionID, $celebrity_id);
+//        }else{
+//            $answerData = $this->moduleModel->findAllByQuestionID($this->questionID);
+//        }
+        $answerData = $this->moduleModel->findAllByCelebrityGroup($this->questionID, $is_celebrity_group);
+
         return $this->parseDataAll($answerData);
     }
 
