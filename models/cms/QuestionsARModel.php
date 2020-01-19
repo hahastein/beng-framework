@@ -126,12 +126,19 @@ class QuestionsARModel extends BaseActiveRecord
     }
 
 
-    public function findAllByNoReply($cate_id = 0){
+    public function findAllByNoReply($cate_id = 0, $level_id = 0){
         if($cate_id > 0){
-            return $this->findByAll([
+
+            $where = [
                 'cate_id' => $cate_id,
 //                'reply_count' => 0
-            ], 20);
+            ];
+
+            if($level_id>0){
+                $where['level_id'] = $level_id;
+            }
+
+            return $this->findByAll($where, 20);
         }else{
             return $this->findByAll(false, 20);
         }

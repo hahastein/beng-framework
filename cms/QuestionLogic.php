@@ -89,7 +89,7 @@ class QuestionLogic extends CmsBase
         return $this->parseDataAll($data);
     }
 
-    public function noReply($field, $image_type = 'more')
+    public function noReply($field, $image_type = 'more', $level_id = 0)
     {
         if (!empty($field)) {
             $this->moduleModel->showField = $field;
@@ -104,7 +104,7 @@ class QuestionLogic extends CmsBase
             $query->select(['answer_id', 'question_id', 'content']);
         };
 
-        $data = $this->moduleModel->findAllByNoReply();
+        $data = $this->moduleModel->findAllByNoReply(0, $level_id);
         return $this->parseDataAll($data);
     }
 
