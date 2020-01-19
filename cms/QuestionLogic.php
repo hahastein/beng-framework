@@ -363,10 +363,14 @@ class QuestionLogic extends CmsBase
                     if($questionModel->user_id != $this->getUserID()){
                         throw new Exception('您不是发起者，不能回复此咨询');
                     }
-                    $celebrity = CelebrityARModel::findOne(['celebrity_id' => $questionModel->celebrity_id]);
-                    $group_id = $celebrity['user_id'];
-                    $is_identity = 0;
-                    $celebrity_name = $celebrity->celebrity_name;
+
+                    if($questionModel->celebrity_id > 0){
+                        $celebrity = CelebrityARModel::findOne(['celebrity_id' => $questionModel->celebrity_id]);
+                        $group_id = $celebrity['user_id'];
+                        $is_identity = 0;
+                        $celebrity_name = $celebrity->celebrity_name;
+                    }
+
                 }
 
 
