@@ -62,7 +62,7 @@ class GroupLogic extends UserBase
 //                $tokenAll = \bengbeng\framework\models\UserTokenARModel::findAll(['in', 'unionid', $imIDs]);
 
                 $query = \bengbeng\framework\models\UserTokenARModel::find();
-                $tokenAll = $query->where(['in', 'unionid', $imIDs])->all();
+                $tokenAll = $query->where(['in', 'unionid', $imIDs])->asArray()->all();
 
                 var_dump($tokenAll);die;
 
