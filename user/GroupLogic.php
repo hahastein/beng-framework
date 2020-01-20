@@ -64,7 +64,7 @@ class GroupLogic extends UserBase
                 $query = \bengbeng\framework\models\UserTokenARModel::find();
                 $tokenAll = $query->where(['in', 'unionid', $imIDs]);
 
-                var_dump($query->createCommand()->getRawSql());die;
+                var_dump($tokenAll);die;
 
 
                 $insertValue = [];
