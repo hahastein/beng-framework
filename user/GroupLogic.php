@@ -163,7 +163,7 @@ class GroupLogic extends UserBase
         try{
             $myID = $this->getUserID();
 
-            $group = $this->groupModel->findInfoByGroupID($groupID);
+            $group = $this->groupModel->info(['im_group_id' => $groupID]);
             if (!$group) {
                 throw new \Exception('群信息不存在');
             }
