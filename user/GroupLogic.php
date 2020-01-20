@@ -48,7 +48,6 @@ class GroupLogic extends UserBase
             $imIDs = explode(',',$this->saveParams['ids']);
 
 
-
             $this->groupModel->create_user_id = $myID;
             $this->groupModel->group_name = $this->saveParams['name'];
             $this->groupModel->group_desc = $this->saveParams['desc'];
@@ -64,9 +63,6 @@ class GroupLogic extends UserBase
                 $query = \bengbeng\framework\models\UserTokenARModel::find();
                 $tokenAll = $query->where(['in', 'unionid', $imIDs])->asArray()->all();
 
-                var_dump($tokenAll);die;
-
-
                 $insertValue = [];
                 foreach ($tokenAll as $userToken){
 
@@ -75,6 +71,10 @@ class GroupLogic extends UserBase
                     ];
 
                 }
+
+
+                var_dump($insertValue);die;
+
 
                 if( $num = \Yii::$app->db->createCommand()->batchInsert(UserGroupUserARModel::tableName(), [
                     'group_id','user_id','im_id'
