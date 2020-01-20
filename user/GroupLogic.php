@@ -59,9 +59,12 @@ class GroupLogic extends UserBase
             if ($this->groupModel->save()) {
                 $returnID = \Yii::$app->db->lastInsertID;
 
-                $tokenAll = \bengbeng\framework\models\UserTokenARModel::findAll(['in', 'unionid', $imIDs]);
+//                $tokenAll = \bengbeng\framework\models\UserTokenARModel::findAll(['in', 'unionid', $imIDs]);
 
-                var_dump($imIDs);die;
+                $query = \bengbeng\framework\models\UserTokenARModel::find();
+                $tokenAll = $query->where(['in', 'unionid', $imIDs]);
+
+                var_dump($query->createCommand()->getRawSql());die;
 
 
                 $insertValue = [];
