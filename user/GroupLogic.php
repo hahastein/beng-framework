@@ -61,7 +61,7 @@ class GroupLogic extends UserBase
 
                 $tokenAll = \bengbeng\framework\models\UserTokenARModel::findAll(['in', 'unionid', $imIDs]);
 
-                var_dump($tokenAll);die;
+                var_dump($imIDs);die;
 
 
                 $insertValue = [];
