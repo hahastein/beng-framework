@@ -73,7 +73,7 @@ class GroupLogic extends UserBase
                 }
 
 
-                var_dump($insertValue);die;
+//                var_dump($insertValue);die;
 
 
                 if( $num = \Yii::$app->db->createCommand()->batchInsert(UserGroupUserARModel::tableName(), [
