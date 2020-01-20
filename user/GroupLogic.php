@@ -163,9 +163,12 @@ class GroupLogic extends UserBase
         try{
             $myID = $this->getUserID();
 
-            $groupUser = UserGroupUserARModel::findOne(['group_id' => $groupID, 'user_id' => $myID]);
-
             $group = $this->groupModel->findInfoByGroupID($groupID);
+            if (!$group) {
+                throw new \Exception('群信息不存在');
+            }
+
+            $groupUser = UserGroupUserARModel::findOne(['group_id' => $group->group_id, 'user_id' => $myID]);
 
             if (!$groupUser) {
                 throw new \Exception('您还不是群成员');
