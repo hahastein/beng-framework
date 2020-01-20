@@ -47,7 +47,6 @@ class GroupLogic extends UserBase
             //解析加入的ID
             $imIDs = explode(',',$this->saveParams['ids']);
 
-            var_dump($imIDs);die;
 
 
             $this->groupModel->create_user_id = $myID;
@@ -61,6 +60,9 @@ class GroupLogic extends UserBase
                 $returnID = \Yii::$app->db->lastInsertID;
 
                 $tokenAll = \bengbeng\framework\models\UserTokenARModel::findAll(['in', 'unionid', $imIDs]);
+
+                var_dump($tokenAll);die;
+
 
                 $insertValue = [];
                 foreach ($tokenAll as $userToken){
