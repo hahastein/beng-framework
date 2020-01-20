@@ -8,6 +8,7 @@ use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\components\handles\im\NIMHandle;
 use bengbeng\framework\models\UserGroupARModel;
 use bengbeng\framework\models\UserGroupUserARModel;
+use common\models\UserTokenArModel;
 
 /**
  * 群系统
@@ -43,44 +44,59 @@ class GroupLogic extends UserBase
                 throw new \Exception('群名字已经存在');
             }
 
+            //解析加入的ID
+            $imIDs = explode(',',$this->saveParams['ids']);
+
+
             $this->groupModel->create_user_id = $myID;
             $this->groupModel->group_name = $this->saveParams['name'];
             $this->groupModel->group_desc = $this->saveParams['desc'];
+            $this->groupModel->user_sum = count($imIDs) + 1;
             $this->groupModel->createtime = time();
             $this->groupModel->updatetime = time();
 
             if ($this->groupModel->save()) {
                 $returnID = \Yii::$app->db->lastInsertID;
 
-                //解析加入的ID
-                $imIDs = explode(',',$this->saveParams['ids']);
+                $tokenAll = \bengbeng\framework\models\UserTokenARModel::findAll(['in', 'unionid', $imIDs]);
 
-//                $key = ['group_id', 'user_id'];
-//                $insertValues = [];
-//                foreach ($imIDs as $imID){
-//                    $insertValues[] = [$returnID, $imID];
-//                }
-//                $result = UserGroupUserARModel::find()->createCommand()->batchInsert(UserGroupUserARModel::tableName(), $key, $insertValues)->execute();
+                $insertValue = [];
+                foreach ($tokenAll as $userToken){
 
-                $result = $this->nim->group->createGroup($this->saveParams['name'], $this->getUser()->imID, $imIDs, '', $this->saveParams['desc'], $icon,'欢迎加入我们的群', '0', '0', $custom);
-                if($result){
-                    $groupData = $this->nim->group->returnData;
-                    if(!isset($groupData['tid'])){
-                        throw new \Exception('群创建失败，没有获取到ID');
+                    $insertValue[] = [
+                        $returnID, $userToken['user_id'], $userToken['unionid']
+                    ];
+
+                }
+
+                if( $num = \Yii::$app->db->createCommand()->batchInsert(UserGroupUserARModel::tableName(), [
+                    'group_id','user_id','im_id'
+                ], $insertValue)->execute() ) {
+
+                    $result = $this->nim->group->createGroup($this->saveParams['name'], $this->getUser()->imID, $imIDs, '', $this->saveParams['desc'], $icon, '欢迎加入我们的群', '0', '0', $custom);
+                    if ($result) {
+                        $groupData = $this->nim->group->returnData;
+                        if (!isset($groupData['tid'])) {
+                            throw new \Exception('群创建失败，没有获取到ID');
+                        }
+
+                        if (!$this->groupModel->dataUpdate(function (ActiveOperate $operate) use ($returnID, $groupData) {
+                            $operate->where(['group_id' => $returnID]);
+                            $operate->params([
+                                'im_group_id' => $groupData['tid'],
+//                                'user_sum' =>
+                            ]);
+                        })) {
+                            throw new \Exception('群创建失败，ID更新失败');
+                        }
+                        $transaction->commit();
+                        return $groupData['tid'];
+                    } else {
+                        throw new \Exception($this->nim->group->error);
                     }
-
-                    if(!$this->groupModel->dataUpdate(function (ActiveOperate $operate) use ($returnID, $groupData){
-                        $operate->where(['group_id' => $returnID]);
-                        $operate->params([
-                            'im_group_id' => $groupData['tid']
-                        ]);
-                    })){
-                        throw new \Exception('群创建失败，ID更新失败');
-                    }
-                    $transaction->commit();
-                    return $groupData['tid'];
                 }else{
-                    throw new \Exception($this->nim->group->error);
+                    throw new \Exception('群创建失败，关联数据错误');
+
                 }
 
             } else {
@@ -111,7 +127,7 @@ class GroupLogic extends UserBase
                 throw new \Exception('群不存在');
             }
 
-            if ($model->delete()) {
+            if ($model->delete() && UserGroupUserARModel::deleteAll(['group_id' => $groupID])) {
                 $result = $this->nim->group->removeGroup($model->im_group_id, $this->getUser()->imID);
                 if($result){
                     $transaction->commit();
@@ -142,12 +158,15 @@ class GroupLogic extends UserBase
 
             $groupUser = UserGroupUserARModel::findOne(['group_id' => $groupID, 'user_id' => $myID]);
 
+            $group = $this->groupModel->findInfoByGroupID($groupID);
 
             if (!$groupUser) {
                 throw new \Exception('您还不是群成员');
             }
 
-            if ($groupUser->delete()) {
+            $group->user_sum = $group->user_sum - 1;
+
+            if ($groupUser->delete() && $group->save()) {
                 $result = $this->nim->group->quitGroup($groupID, $this->getUser()->imID);
                 if($result){
                     $transaction->commit();
