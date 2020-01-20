@@ -47,6 +47,8 @@ class GroupLogic extends UserBase
             //解析加入的ID
             $imIDs = explode(',',$this->saveParams['ids']);
 
+            var_dump($imIDs);die;
+
 
             $this->groupModel->create_user_id = $myID;
             $this->groupModel->group_name = $this->saveParams['name'];
