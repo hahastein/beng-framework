@@ -134,9 +134,9 @@ class GroupLogic extends UserBase
                 throw new \Exception('群不存在');
             }
 
-            var_dump($model);die;
+//            var_dump($model);die;
 
-            if ($model->delete() && UserGroupUserARModel::deleteAll(['group_id' => $groupID])) {
+            if ($model->delete() && UserGroupUserARModel::deleteAll(['group_id' => $model->group_id])) {
                 $result = $this->nim->group->removeGroup($model->im_group_id, $this->getUser()->imID);
                 if($result){
                     $transaction->commit();
