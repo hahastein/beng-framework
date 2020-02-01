@@ -97,7 +97,7 @@ class FriendLogic extends UserBase
                     $im_id = $friendUnionID;
                 }
             }else{
-                $friendCache = UserUtil::getCache($friendUnionID);
+                $friendCache = UserUtil::resetCache($friendUnionID);
                 if($friendCache){
                     $friendID = $friendCache->userID;
                     $friend_nickname = $friendCache->nickname;
