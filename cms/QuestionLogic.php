@@ -352,7 +352,7 @@ class QuestionLogic extends CmsBase
             if($identity){
                 $is_celebrity_group = 1;
                 //获取医生的DoctorID
-                if($is_doctor){
+                if($is_doctor && $questionModel->user_id != $this->getUserID()){
                     $celebrity = CelebrityARModel::findOne(['user_id' => $this->getUserID()]);
                     if($questionModel->celebrity_id > 0 && $questionModel->celebrity_id != $celebrity->celebrity_id){
                         throw new Exception('此问题已被其他医生抢答');
