@@ -105,6 +105,8 @@ class FriendLogic extends UserBase
                 }
             }
 
+            var_dump($friendCache);die;
+
             if($friendID <= 0){
                 throw new Exception('没有找到相关用户');
             }
