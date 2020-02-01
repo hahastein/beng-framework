@@ -19,6 +19,7 @@ class UserProperty
     public $nickname;
     public $userSex;
     public $avatarHead;
+    public $intro;
     public $isAuth;
     public $driverUuid;
     public $userState;
@@ -40,6 +41,7 @@ class UserProperty
         $this->wxOpenid = $cacheData['wx_openid'];
         $this->avatarHead = $cacheData['avatar_head'];
         $this->isAuth = $cacheData['is_auth'];
+        $this->intro = $cacheData['intro'];
 
         if(isset($cacheData['imToken'])){
             $this->imID = $cacheData['imToken']['unionid'];
