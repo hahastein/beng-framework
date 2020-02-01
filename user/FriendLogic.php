@@ -103,9 +103,11 @@ class FriendLogic extends UserBase
                     $friend_nickname = $friendCache->nickname;
                     $im_id = $friendCache->imID;
                 }
+
+                var_dump($friendCache);die;
+
             }
 
-            var_dump($friendCache);die;
 
             if($friendID <= 0){
                 throw new Exception('没有找到相关用户');
