@@ -27,7 +27,9 @@ class FSockRequest extends BaseRequest implements RequestInterface
             $request = $this->requestUrl();
             $request .= $this->requestMode(self::REQUEST_MODE_POST);
             $request .= $this->requestContent(strlen($postData));
-            $request .= $this->requestHeader($header);
+            if($header) {
+                $request .= $this->requestHeader($header);
+            }
             $request .= "\r\n";
             $request .= $postData."\r\n";
 
