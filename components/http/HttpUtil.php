@@ -62,7 +62,7 @@ class HttpUtil
         $this->requestClass = new $className($postMode);
     }
 
-    public function request($url, $data, $header){
+    public function request($url, $data = [], $header = false){
         return $this->requestClass->http($url, $data, $header);
     }
 

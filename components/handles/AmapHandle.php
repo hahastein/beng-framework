@@ -12,9 +12,11 @@ class AmapHandle
     public $key;
     public $httpUtil;
 
+    private $result;
+
     public function __construct()
     {
-        $this->key = '';
+        $this->key = '374e60ae54f5edfd0a5e699f14397648';
         $this->httpUtil = new HttpUtil([
             HttpUtil::MODE_KEY_HTTP => HttpUtil::HTTP_REQUEST_CURL
         ]);
@@ -32,11 +34,22 @@ class AmapHandle
          * output（XML/JSON）用于指定返回数据的格式
          */
         $url = "https://restapi.amap.com/v3/geocode/regeo?output=JSON&location={$location}&key={$this->key}&radius=1000&extensions=base";
+        $this->result = $this->httpUtil->request($url);
+        return $this->result;
 
-        $result = $this->httpUtil->request($url, $data, false);
+    }
 
+    public function getCityInfo(){
 
-        return $result;
+        if(isset($this->result['regeocode']['addressComponent'])){
+            $regeo = $this->result['regeocode']['addressComponent'];
 
+            $city = $regeo['city']?$regeo['city']:$regeo['province'];
+            $district = $regeo['district'];
+
+            return $city . ' ' . $district;
+        }else{
+            return '';
+        }
     }
 }
