@@ -35,6 +35,9 @@ class AmapHandle
          */
         $url = "https://restapi.amap.com/v3/geocode/regeo?output=JSON&location={$location}&key={$this->key}&radius=1000&extensions=base";
         $this->result = $this->httpUtil->request($url);
+
+        $this->result = json_decode($this->result, true);
+
         return $this->result;
 
     }
