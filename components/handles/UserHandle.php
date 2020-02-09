@@ -155,9 +155,7 @@ class UserHandle{
 
                 //更新用户的unionid
                 $unionID = $userID . '|' . date('Y', time()). '|' . str_replace('.', '|', uniqid(md5(microtime(true)),true));
-//                var_dump($unionID);
                 $unionID = sha1($unionID);
-//                var_dump($unionID);die;
 
                 if($userModel->updateUnionID($userID, $unionID)){
                     $trans->commit();
