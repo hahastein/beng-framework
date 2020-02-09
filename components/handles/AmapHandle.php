@@ -16,7 +16,7 @@ class AmapHandle
 
     public function __construct()
     {
-        $this->key = '374e60ae54f5edfd0a5e699f14397648';
+        $this->key = isset(\Yii::$app->params['amap']['key'])?\Yii::$app->params['amap']['key']:'';
         $this->httpUtil = new HttpUtil([
             HttpUtil::MODE_KEY_HTTP => HttpUtil::HTTP_REQUEST_CURL
         ]);
