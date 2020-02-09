@@ -12,6 +12,7 @@ use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\helpers\NullHelper;
 use bengbeng\framework\enum\WeixinEnum;
 use bengbeng\framework\models\SmsARModel;
+use bengbeng\framework\models\UserStatisticArModel;
 use Yii;
 use bengbeng\framework\models\UserARModel;
 use yii\db\Exception;
@@ -143,6 +144,15 @@ class UserHandle{
             $userModel->setAttributes($insert, false);
             if($userModel->save()){
                 $userID = Yii::$app->db->getLastInsertID();
+
+                //创建统计表
+                $user_statistic = new UserStatisticArModel();
+                $user_statistic->user_id = $userID;
+
+                if(!$user_statistic->save()){
+                    throw new Exception('创建用户失败[1002]');
+                }
+
                 //更新用户的unionid
                 $unionID = $userID . '|' . date('Y', time()). '|' . str_replace('.', '|', uniqid(md5(microtime(true)),true));
 //                var_dump($unionID);
