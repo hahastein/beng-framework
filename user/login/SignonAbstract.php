@@ -36,7 +36,7 @@ abstract class SignonAbstract
         //初始化各Model
         $this->userModel = new UserARModel();
         //设置要返回的数据字段
-        $this->userModel->showField = 'user_id, unionid, username, nickname, wx_bind, avatar_head, user_sex, user_extend, gps_lng, gps_lat, is_auth, user_state';
+        $this->userModel->showField = 'user_id, unionid, username, nickname, wx_bind, phone_num, avatar_head, user_sex, user_extend, gps_lng, gps_lat, is_auth, user_state';
         $this->init();
     }
 
@@ -83,6 +83,7 @@ abstract class SignonAbstract
      * @param $userInfo
      */
     protected function parseUserInfo(&$userInfo){
+        $userInfo['phone_num'] = substr_replace($userInfo['phone_num'],'******',3,6);
 
         //移除用户ID
         unset($userInfo['user_id']);
