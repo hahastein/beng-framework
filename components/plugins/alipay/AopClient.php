@@ -279,7 +279,7 @@ class AopClient extends Component{
 
     /**
      * 生成用于调用收银台SDK的字符串
-     * @param AlipayTradeAppPayRequest $request SDK接口的请求参数对象
+     * @param $request
      * @return string 
      * @author guofa.tgf
      */
@@ -318,7 +318,7 @@ class AopClient extends Component{
 
     /**
      * 页面提交执行方法
-     * @param AlipayTradeAppPayRequest $request  跳转类接口的request
+     * @param $request
      * @param string $httpmethod  提交方式。两个值可选：post、get
      * @return string
      * @throws \Exception
@@ -437,7 +437,7 @@ class AopClient extends Component{
 	}
 
     /**
-     * @param AlipayTradeAppPayRequest $request
+     * @param $request
      * @param null $authToken
      * @param null $appInfoAuthtoken
      * @return bool|mixed|\SimpleXMLElement
