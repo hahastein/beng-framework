@@ -133,6 +133,7 @@ class QuestionLogic extends CmsBase
             'is_reply',
             'celebrity_id',
             'celebrity_name',
+            'level_name',
             'createtime'
         ];
 
