@@ -11,6 +11,7 @@ namespace bengbeng\framework\components\handles;
 use bengbeng\framework\base\data\ActiveOperate;
 use bengbeng\framework\base\Enum;
 use bengbeng\framework\components\plugins\alipay\AlipayTradeAppPayRequest;
+use bengbeng\framework\components\plugins\alipay\AopCertClient;
 use bengbeng\framework\components\plugins\alipay\AopClient;
 use bengbeng\framework\models\order\OrdersARModel;
 //use bengbeng\framework\models\OrderARModel;
@@ -83,16 +84,28 @@ class PayHandle
     private function configAppByAliPay(){
         try {
 
-            $aop = new AopClient();
 
             $alipayConfig = \Yii::$app->params['Alipay'];
             if (!isset($alipayConfig) || !is_array($alipayConfig)) {
                 throw new \Exception('配置项错误');
             }
+
+            //按配置生成
+            if($alipayConfig['mode'] == 'cert'){
+                $aop = new AopCertClient();
+                $aop->alipayrsaPublicKey = $aop->getPublicKey($alipayConfig['cert']['alipayPath']);//调用getPublicKey从支付宝公钥证书中提取公钥
+                $aop->isCheckAlipayPublicCert = true;//是否校验自动下载的支付宝公钥证书，如果开启校验要保证支付宝根证书在有效期内
+                $aop->appCertSN = $aop->getCertSN($alipayConfig['cert']['appPath']);//调用getCertSN获取证书序列号
+                $aop->alipayRootCertSN = $aop->getRootCertSN($alipayConfig['cert']['rootPath']);//调用getRootCertSN获取支付宝根证书序列号
+            }else{
+                $aop = new AopClient();
+                $aop->alipayrsaPublicKey = $alipayConfig['rsaPublicKey'];
+            }
+
+
             $aop->gatewayUrl = "https://openapi.alipay.com/gateway.do";
             $aop->appId = $alipayConfig['app_id'];
             $aop->rsaPrivateKey = $alipayConfig['rsaPrivateKey'];
-            $aop->alipayrsaPublicKey = $alipayConfig['rsaPublicKey'];
             $aop->format = "json";
             if(isset($alipayConfig['signType'])) {
                 $aop->signType = $alipayConfig['signType'];
