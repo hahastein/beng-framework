@@ -95,11 +95,11 @@ class QuestionLogic extends CmsBase
             $this->moduleModel->showField = $field;
         }
 
-        if ($image_type == 'one') {
-            $this->moduleModel->with = ['image'];
-        } else if ($image_type == 'more') {
-            $this->moduleModel->with = ['images'];
-        }
+//        if ($image_type == 'one') {
+//            $this->moduleModel->with = ['image'];
+//        } else if ($image_type == 'more') {
+//            $this->moduleModel->with = ['images'];
+//        }
         $this->moduleModel->with['lastAnswer'] = function (ActiveQuery $query) {
             $query->select(['answer_id', 'question_id', 'content']);
         };
