@@ -67,6 +67,8 @@ class QuestionsARModel extends BaseActiveRecord
         return $this->hasOne(UserARModel::className(),['user_id'=>'user_id'])->select([
             'nickname',
             'avatar_head',
+            'sex' => 'user_sex',
+            'area' => 'gps_address',
             'user_id'
         ]);
     }
