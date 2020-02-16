@@ -458,7 +458,7 @@ class QuestionLogic extends CmsBase
 
             $questionModel->reply_count = $questionModel->reply_count + 1;
             $questionModel->updatetime = $questionModel->replytime = time();
-            if ($identity && $questionModel->status == 20) {
+            if ($celebrity_id > 0 && $questionModel->status == 20) {
                 $questionModel->celebrity_id = $celebrity_id;
                 $questionModel->celebrity_name = $celebrity_name;
                 $questionModel->status = 10;
