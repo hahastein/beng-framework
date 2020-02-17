@@ -255,6 +255,11 @@ class QuestionsARModel extends BaseActiveRecord
                 $query->andWhere($where);
             }
 
+            $keyword = \Yii::$app->request->post('keyword', '');
+            if(!empty($keyword)){
+                $query->andWhere(['like', 'title', $keyword]);
+            }
+
             if($this->orderBy){
                 $query->orderBy($this->orderBy);
             }else{
