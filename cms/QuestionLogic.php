@@ -341,6 +341,8 @@ class QuestionLogic extends CmsBase
                 throw new Exception('问题不存在或者已经关闭');
             }
 
+            $is_celebrity_first = false;
+
             $group_id = 0;
 //            var_dump($this->getUser());die;
             $is_doctor = $this->getUser()->isAuth;
@@ -355,6 +357,11 @@ class QuestionLogic extends CmsBase
                 $is_celebrity_group = 1;
                 //获取医生的DoctorID
                 if($is_doctor && $questionModel->user_id != $this->getUserID()){
+
+                    if($questionModel->reply_count == 0){
+                        $is_celebrity_first = true;
+                    }
+
                     $celebrity = CelebrityARModel::findOne(['user_id' => $this->getUserID()]);
                     if($questionModel->celebrity_id > 0 && $questionModel->celebrity_id != $celebrity->celebrity_id){
                         throw new Exception('此问题已被其他医生抢答');
@@ -477,7 +484,8 @@ class QuestionLogic extends CmsBase
                     'question_id' => $questionModel->question_id,
                     'title' => $questionModel->title,
                     'post_user_id' => $questionModel->user_id,
-                    'group_id' => $group_id
+                    'group_id' => $group_id,
+                    'celebrity_first' => $is_celebrity_first
                 ],[
                     'answer_id' => $answer_id,
                     'last_reply' => $content,
