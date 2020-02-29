@@ -358,7 +358,7 @@ class QuestionLogic extends CmsBase
                 //获取医生的DoctorID
                 if($is_doctor && $questionModel->user_id != $this->getUserID()){
 
-                    if($questionModel->reply_count == 0){
+                    if($questionModel->celebrity_replytime == 0){
                         $is_celebrity_first = true;
                     }
 
