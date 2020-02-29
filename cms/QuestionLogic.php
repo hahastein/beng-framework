@@ -349,6 +349,7 @@ class QuestionLogic extends CmsBase
             $celebrity_id = 0;
 
             $is_celebrity_group = 0;
+            $celebrity = false;
 
             if($identity){
                 $is_celebrity_group = 1;
@@ -485,7 +486,7 @@ class QuestionLogic extends CmsBase
                     'reply_user_nickname' => $this->getUser()->nickname,
                     'reply_auth_name' => $celebrity_name,
                     'group_id' => $group_id
-                ],$identity);
+                ],$identity, $celebrity, $this->getUser());
             }
 
             $transaction->commit();
