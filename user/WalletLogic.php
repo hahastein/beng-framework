@@ -85,9 +85,16 @@ class WalletLogic extends UserBase
             if($this->moduleModel->save()){
 
                 $currency = $currency + $orgCurrency;
-                if($this->userModel->dataUpdate(function (ActiveOperate $operate) use ($currency, $user_id){
+                if($this->userModel->dataUpdate(function (ActiveOperate $operate) use ($currency, $user_id, $mode){
                     $operate->where(['user_id' => $user_id]);
-                    $operate->params(['points' => $currency]);
+
+                    if($mode == self::WALLET_MODE_BALANCE){
+                        $operate->params(['balance' => $currency]);
+                    }else if($mode == self::WALLET_MODE_VIRTUAL_COIN){
+                        $operate->params(['virtualCoin' => $currency]);
+                    }else {
+                        $operate->params(['points' => $currency]);
+                    }
                 })){
                     $transaction->commit();
                     return true;
