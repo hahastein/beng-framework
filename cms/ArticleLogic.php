@@ -108,7 +108,7 @@ class ArticleLogic extends CmsBase
             $item['app_content'] = unserialize( $item['app_content'] );
         }
         $item['h5_url'] = \Yii::getAlias('@hybridUrl').'/expert/'.$item['url_code'];
-        if(isset($item['video_url'])){
+        if(isset($item['video_url']) && !empty($item['video_url'])){
             $item['video_url'] = \Yii::getAlias('@cdnUrl').'/'.$item['video_url'];
         }
         if(isset($item['fav'])){
