@@ -81,11 +81,12 @@ class UserGroupARModel extends BaseActiveRecord
         });
     }
 
-    public function findAllByMode($mode = 10) {
-        return self::dataSet(function (ActiveQuery $query) use($mode){
+    public function findAllByMode($mode = 10, $status = 10) {
+        return self::dataSet(function (ActiveQuery $query) use($mode, $status){
 
             $query->where([
-                'mode' => $mode
+                'mode' => $mode,
+                'status' => $status,
             ]);
 
             $query->asArray();
