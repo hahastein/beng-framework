@@ -631,7 +631,7 @@ class YunxinHandle
         $url = 'https://api.netease.im/nimserver/msg/sendBatchMsg.action';
         $data= array(
             'fromAccid' => $fromAccid,
-            'toAccids' => $toAccids,
+            'toAccids' => json_encode($toAccids),
             'type' => $type,
             'body' => json_encode($body),
             'option' => json_encode($option),
