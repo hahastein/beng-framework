@@ -618,6 +618,34 @@ class YunxinHandle
     }
 
     /**
+     * 批量发送点对点普通消息
+     * @param $fromAccid
+     * @param $toAccids
+     * @param $type
+     * @param $body
+     * @param array $option
+     * @param string $pushcontent
+     * @return array
+     */
+    public function sendBatchMsg($fromAccid,$toAccids, $type, $body, $option=array("push"=>false,"roam"=>true,"history"=>false,"sendersync"=>true, "route"=>false), $pushcontent=''){
+        $url = 'https://api.netease.im/nimserver/msg/sendBatchMsg.action';
+        $data= array(
+            'fromAccid' => $fromAccid,
+            'toAccids' => $toAccids,
+            'type' => $type,
+            'body' => json_encode($body),
+            'option' => json_encode($option),
+            'pushcontent' => $pushcontent
+        );
+        if($this->RequestType=='curl'){
+            $result = $this->postDataCurl($url,$data);
+        }else{
+            $result = $this->postDataFsockopen($url,$data);
+        }
+        return $result;
+    }
+
+    /**
      * 消息功能-发送自定义系统消息
      * 1.自定义系统通知区别于普通消息，方便开发者进行业务逻辑的通知。
      * 2.目前支持两种类型：点对点类型和群类型（仅限高级群），根据msgType有所区别。
